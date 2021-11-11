@@ -41,6 +41,8 @@
         "tsx": "never"
       }
     ],
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
     "no-unused-vars": "off",
     "spaced-comment": "off",
     "func-names": "off",

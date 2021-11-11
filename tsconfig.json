@@ -10,6 +10,7 @@
     "allowUnusedLabels": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
+    "declaration": true,
     "esModuleInterop": true
   }
 }

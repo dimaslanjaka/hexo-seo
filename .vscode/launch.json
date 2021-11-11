@@ -12,6 +12,15 @@
       },
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo clean && hexo server",
+      "name": "Hexo clean server",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
     }
   ]
 }
