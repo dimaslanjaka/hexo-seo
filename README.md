@@ -1,2 +1,2 @@
 # hexo-seo
-Automated Hexo Seo Optimizer
+Automated Hexo Seo Optimizer (under development)
