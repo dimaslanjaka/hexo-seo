@@ -9,6 +9,9 @@
             "name": "segayuu",
             "url": "https://github.com/segayuu",
             "githubUsername": "segayuu"
+        },
+        {
+            "name": "Dimas Lanjaka"
         }
     ],
     "main": "",
@@ -20,8 +23,6 @@
     },
     "scripts": {},
     "dependencies": {
-        "@types/hexo-bunyan": "*"
-    },
-    "typesPublisherContentHash": "a04b6c59ee01ec9831ba8636ea82abb49edea9692216e0fc7e526ef368bc9760",
-    "typeScriptVersion": "3.6"
+        "@types/hexo-bunyan": "file:../hexo-bunyan"
+    }
 }
