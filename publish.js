@@ -65,17 +65,31 @@ if (typeof version === "object") {
       version.result.build++;
       packages.version = version.toString();
       writeFileSync("./package.json", JSON.stringify(packages, null, 2));
-      console.log("Publishing");
-      exec("npm publish", (err, stdout, stderr) => {
-        console.log("Packages Published Successfully");
+      console.log("Compiling...");
+      exec("tsc -p tsconfig.publish.json", (err, stdout, stderr) => {
+        if (!err) {
+          console.log("Build Typescript Successfully");
+          console.log("Publishing");
+          exec("npm publish", (err, stdout, stderr) => {
+            console.log("Packages Published Successfully");
 
-        // add to git
-        updateChangelog(() => {
-          exec("git add .", (err) => {
-            if (!err)
-              exec(`git commit -m "Update release ${version.toString()}"`);
+            // add to git
+            updateChangelog(() => {
+              exec("git add .", (err) => {
+                if (!err)
+                  exec(`git commit -m "Update release ${version.toString()}"`);
+              });
+            });
           });
-        });
+        } else {
+          console.log("Publish Failed, Rollback version");
+          version.result.build--;
+          packages.version = version.toString();
+          writeFileSync("./package.json", JSON.stringify(packages, null, 2));
+
+          console.log(stderr);
+          throw err;
+        }
       });
     }
     rl.close();
