@@ -4,7 +4,8 @@ import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
 import assign from "object-assign";
-import { defaultSeoOptions } from "src/config";
+import { defaultSeoOptions } from "../config";
+import { isIgnore } from "../utils";
 
 const cache = new Cache();
 
@@ -13,6 +14,7 @@ export default async function (this: Hexo, str: any, data: Hexo.View) {
   let options: defaultSeoOptions["js"] = {
     exclude: ["*.min.js"]
   };
+
   if (typeof hexo.config.seo.js === "boolean") {
     if (!hexo.config.seo.js) return str;
   } else if (typeof hexo.config.seo.js == "object") {
@@ -21,6 +23,8 @@ export default async function (this: Hexo, str: any, data: Hexo.View) {
 
   const path0 = data.path;
   //console.log(`minifying ${path0}`);
+  if (typeof options == "object" && isIgnore(path0, options.exclude))
+    return str;
 
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {

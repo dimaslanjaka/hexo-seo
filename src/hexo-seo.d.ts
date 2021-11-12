@@ -3,8 +3,3 @@
 
 // Definitions by: DimasLanjaka <https://github.com/dimaslanjaka>
 declare module "hexo-seo" {}
-
-/**
- * Is development mode ?
- */
-declare const isDev: boolean;

@@ -22,11 +22,20 @@ if (typeof hexo !== "undefined") {
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     // dont run compiled script on development
     hexo.log.debug("hexo-seo running on production mode");
-    require("./dist/src/index");
+    const index = require("./dist/src/index");
+    if (typeof index === "function") {
+      index(hexo);
+    } else if (typeof index.default == "function") {
+      index.default(hexo);
+    } else if (typeof index.hexoSeo == "function") {
+      index.hexoSeo(hexo);
+    } else {
+      hexo.log.error("Cannot find compiled hexo-seo plugin");
+    }
   } else {
     // only run this plugin with hexo instance declared
     hexo.log.debug("hexo-seo running on development mode");
     require("ts-node").register({ project: "tsconfig.json" });
-    require("./src/index").default(hexo);
+    require("./src/hexo-seo").default(hexo);
   }
 }

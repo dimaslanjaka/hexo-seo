@@ -7,8 +7,8 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
     "postinstall": "npx tsc -p tsconfig.json",
-    "dev": "tsc --watch",
-    "ts:defs": "tsc --declaration --outDir ./dist/types --emitDeclarationOnly",
+    "ts:build": "npx tsc && npm run ts:defs && npm run ts:cjs && npm run ts:es",
+    "ts:defs": "tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "tsc -p tsconfigs/es.tsconfig.json"
   },
@@ -22,9 +22,10 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "hexo": "^5.4.0",
+    "clean-css": "^5.2.2",
     "hexo-log": "^3.0.0",
     "md5-file": "^5.0.0",
+    "micromatch": "^4.0.4",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
@@ -34,6 +35,7 @@
     "underscore": "^1.13.1"
   },
   "devDependencies": {
+    "@types/clean-css": "^4.2.5",
     "@types/hexo": "file:packages/@types/hexo",
     "@types/hexo-log": "file:packages/@types/hexo-log",
     "@types/object-assign": "^4.0.30",

@@ -1,42 +1,20 @@
+/* ONLY FOR VSCODE */
 {
   "compilerOptions": {
-    "target": "es2015",
-    "declaration": true,
-    "stripInternal": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "hexo-seo": [
-        "src/index.ts"
-      ]
-    },
-    "rootDirs": [
-      "src"
-    ],
+    "baseUrl": "./src", // This must be specified if "paths" is.
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./dist",
     //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "sourceRoot": "./",
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "experimentalDecorators": true
+    "declaration": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "dist"
   ],
   "include": [
-    "src",
-    "packages"
-  ],
-  "typeAcquisition": {
-    "enable": true
-  }
+    "src/**/*",
+    "packages/**/*"
+  ]
 }

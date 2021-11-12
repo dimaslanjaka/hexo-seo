@@ -1,6 +1,11 @@
 import Hexo from "hexo";
+import HexoConfig from "hexo/HexoConfig";
 import assign from "object-assign";
 import { MinifyOptions } from "terser";
+
+interface seoOptions extends HexoConfig {
+  seo?: defaultSeoOptions;
+}
 
 export interface defaultSeoOptions {
   /**
@@ -51,6 +56,8 @@ export default function (hexo: Hexo) {
       exclude: ["*.min.css"]
     }
   };
-  if (typeof hexo.config.seo !== "object") return defaultOpt;
-  return assign(defaultOpt, hexo.config.seo);
+  const config: seoOptions = hexo.config;
+  const seo: defaultSeoOptions = config.seo;
+  if (typeof seo !== "object") return defaultOpt;
+  return assign(defaultOpt, seo);
 }
