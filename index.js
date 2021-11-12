@@ -4,22 +4,29 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global hexo */
-//require("ts-node").register(require("./tsconfig.json"));
 
 const path = require("path");
 const fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
+
+// --development
+const arg = typeof argv["development"] == "boolean" && argv["development"];
 
 // set NODE_ENV = "development"
-const env = process.env.NODE_ENV || "production";
+const env = process.env.NODE_ENV.toString().toLowerCase() === "development";
 
-if (
-  env.toString().toLowerCase() === "development" &&
-  fs.existsSync(path.join(__dirname, "dist"))
-) {
-  // dont run compiled script on development
-  require("./dist/index");
-} else if (typeof hexo !== "undefined") {
-  // only run this plugin with hexo instance declared
-  require("ts-node").register({ project: "tsconfig.json" });
-  require("./src/index").default(hexo);
+// define is development
+const isDev = arg || env;
+
+if (typeof hexo !== "undefined") {
+  if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
+    // dont run compiled script on development
+    hexo.log.debug("hexo-seo running on production mode");
+    require("./dist/src/index");
+  } else {
+    // only run this plugin with hexo instance declared
+    hexo.log.debug("hexo-seo running on development mode");
+    require("ts-node").register({ project: "tsconfig.json" });
+    require("./src/index").default(hexo);
+  }
 }

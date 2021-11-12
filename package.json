@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "lint-and-fix": "eslint . --ext .ts,.json --fix"
+    "lint-and-fix": "eslint . --ext .ts,.json --fix",
+    "postinstall": "npx tsc -p tsconfig.json",
+    "dev": "tsc --watch"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [],
@@ -21,6 +23,7 @@
     "hexo-log": "^3.0.0",
     "md5-file": "^5.0.0",
     "minimatch": "^3.0.4",
+    "minimist": "^1.2.5",
     "moment": "^2.29.1",
     "object-assign": "^4.1.1",
     "terser": "^5.9.0",
