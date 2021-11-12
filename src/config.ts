@@ -3,7 +3,7 @@ import HexoConfig from "hexo/HexoConfig";
 import assign from "object-assign";
 import { MinifyOptions } from "terser";
 
-interface seoOptions extends HexoConfig {
+export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
 }
 

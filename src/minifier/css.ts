@@ -7,15 +7,16 @@ import { isIgnore } from "../utils";
 import log from "../log";
 import pkg from "../../package.json";
 
-export default async function (str: string, data: Hexo.View) {
-  const options: defaultSeoOptions["css"] = this.config.css;
+export default async function (this: Hexo, str: string, data: Hexo.View) {
+  const hexo: Hexo = this;
+  const options: defaultSeoOptions["css"] = hexo.config.css;
   const path0 = data.path;
   const exclude = typeof options == "object" ? options.exclude : [];
 
-  log.log(`start minifying ${path0}`);
+  log.log(`start minifying ${path0.replace(hexo.base_dir, "")}`, exclude);
 
   if (path0 && exclude && exclude.length > 0) {
-    log.log(isIgnore(path0, exclude), path0, exclude);
+    log.log("[exclude]", isIgnore(path0, exclude), path0, exclude);
     if (isIgnore(path0, exclude)) return str;
   }
 
