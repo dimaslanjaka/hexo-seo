@@ -1,7 +1,7 @@
 "use strict";
 
 import CleanCSS from "clean-css";
-import { defaultSeoOptions } from "config";
+import { defaultSeoOptions } from "../config";
 import Hexo from "hexo";
 import { isIgnore } from "../utils";
 import log from "../log";
@@ -12,7 +12,10 @@ export default async function (str: string, data: Hexo.View) {
   const path0 = data.path;
   const exclude = typeof options == "object" ? options.exclude : [];
 
-  if (path0 && exclude && exclude.length) {
+  log.log(`start minifying ${path0}`);
+
+  if (path0 && exclude && exclude.length > 0) {
+    log.log(isIgnore(path0, exclude), path0, exclude);
     if (isIgnore(path0, exclude)) return str;
   }
 
