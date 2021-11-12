@@ -1,10 +1,27 @@
 import md5File from "md5-file";
 
+/**
+ * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
+ * - Reduce CPU Usage
+ * - Reduce Resource Usage
+ */
 export default class {
+  /**
+   * Storage object for storing
+   */
   caches = {};
 
+  /**
+   * Identifier Hash for cache
+   */
   md5Cache = {};
 
+  /**
+   * Set cache
+   * @param key
+   * @param value
+   * @returns
+   */
   set(key: string, value: any) {
     return this.setCache(key, value);
   }
