@@ -13,5 +13,8 @@
     "resolveJsonModule": true,
     "declaration": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "dist"
+  ]
 }
