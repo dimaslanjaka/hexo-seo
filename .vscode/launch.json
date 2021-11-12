@@ -5,8 +5,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "cd ../../ && hexo server",
-      "name": "Hexo server",
+      "command": "cd ../../ && hexo server --development",
+      "name": "[DEV] server",
       "env": {
         "NODE_ENV": "development"
       },
@@ -14,10 +14,28 @@
       "type": "node-terminal"
     },
     {
-      "command": "cd ../../ && hexo clean && hexo server",
-      "name": "Hexo clean server",
+      "command": "cd ../../ && hexo clean && hexo server --development",
+      "name": "[DEV] clean server",
       "env": {
         "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo server",
+      "name": "[PROD] server",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo clean && hexo server",
+      "name": "[PROD] clean server",
+      "env": {
+        "NODE_ENV": "production"
       },
       "request": "launch",
       "type": "node-terminal"

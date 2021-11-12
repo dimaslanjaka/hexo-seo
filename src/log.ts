@@ -1,6 +1,9 @@
 import log from "hexo-log";
+import { Console } from "inspector";
 
-export default log({
+const logger: Console = <any>log({
   debug: false,
   silent: false
 });
+
+export default logger;

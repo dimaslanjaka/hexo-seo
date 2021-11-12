@@ -9,9 +9,17 @@
 const path = require("path");
 const fs = require("fs");
 
-if (fs.existsSync(path.join(__dirname, "dist"))) {
+// set NODE_ENV = "development"
+const env = process.env.NODE_ENV || "production";
+
+if (
+  env.toString().toLowerCase() === "development" &&
+  fs.existsSync(path.join(__dirname, "dist"))
+) {
+  // dont run compiled script on development
   require("./dist/index");
-} else {
+} else if (typeof hexo !== "undefined") {
+  // only run this plugin with hexo instance declared
   require("ts-node").register({ project: "tsconfig.json" });
   require("./src/index").default(hexo);
 }
