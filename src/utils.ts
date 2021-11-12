@@ -9,8 +9,12 @@ import md5File from "md5-file";
 import { Stream } from "stream";
 import underscore from "underscore";
 
-const md5Cache = {};
-const fileCache = {};
+export interface Objek extends Object {
+  [key: string]: any;
+}
+
+const md5Cache: Objek = {};
+const fileCache: Objek = {};
 
 export const isIgnore = underscore.memoize(
   (path0: string, exclude: string | string[]) => {
@@ -26,8 +30,8 @@ export const isIgnore = underscore.memoize(
 );
 
 export function streamToString(stream: Stream) {
-  return new BPromise((resolve, reject) => {
-    const chunks = [];
+  return new BPromise((resolve, _reject) => {
+    const chunks: Objek = [];
     stream.on("data", (chunk) => {
       chunks.push(chunk.toString());
     });

@@ -1,18 +1,33 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src", // This must be specified if "paths" is.
+    "target": "es2015",
+    "declaration": true,
+    "stripInternal": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
     "paths": {
-      "jquery": [
-        "node_modules/jquery/dist/jquery"
-      ] // This mapping is relative to "baseUrl"
+      "hexo-seo": [
+        "src/index.ts"
+      ]
     },
+    "rootDirs": [
+      "src"
+    ],
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./dist",
-    "declarationDir": "./dist/@types",
+    //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
-    "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "sourceRoot": "./",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true
   },
   "exclude": [
     "dist"
@@ -20,5 +35,8 @@
   "include": [
     "src",
     "packages"
-  ]
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
 }

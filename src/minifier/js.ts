@@ -1,16 +1,24 @@
-import Hexo = require("hexo");
+import Hexo from "hexo";
 import { minify, MinifyOptions } from "terser";
-import { readFile, resolveFile } from "../fm";
 import log from "../log";
 import pkg from "../../package.json";
-import { parse as JSONparse } from "../json";
 import Cache from "../cache";
+import assign from "object-assign";
+import { defaultSeoOptions } from "src/config";
 
 const cache = new Cache();
 
-export default async function (str: any, data: Hexo.View) {
+export default async function (this: Hexo, str: any, data: Hexo.View) {
   const hexo: Hexo = this;
-  //const options = hexo.config.seo;
+  let options: defaultSeoOptions["js"] = {
+    exclude: ["*.min.js"]
+  };
+  if (typeof hexo.config.seo.js === "boolean") {
+    if (!hexo.config.seo.js) return str;
+  } else if (typeof hexo.config.seo.js == "object") {
+    options = assign(options, hexo.config.seo.js);
+  }
+
   const path0 = data.path;
   //console.log(`minifying ${path0}`);
 
@@ -32,7 +40,7 @@ export default async function (str: any, data: Hexo.View) {
 
     try {
       const result = await minify(str, minifyOptions);
-      if (result.code.length > 0) {
+      if (result.code && result.code.length > 0) {
         const saved = (
           ((str.length - result.code.length) / str.length) *
           100
@@ -44,6 +52,7 @@ export default async function (str: any, data: Hexo.View) {
         cache.setCache(path0, str);
       }
     } catch (e) {
+      log.error(`Minifying ${path0} error`, e);
       // minify error, return original js
       return str;
     }

@@ -1,6 +1,6 @@
 /* global hexo */
 
-"use strict";
+("use strict");
 
 import Hexo from "hexo";
 import jsmin from "./minifier/js";

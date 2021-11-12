@@ -7,7 +7,10 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
     "postinstall": "npx tsc -p tsconfig.json",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "ts:defs": "tsc --declaration --outDir ./dist/types --emitDeclarationOnly",
+    "ts:cjs": "tsc -p tsconfigs/cjs.tsconfig.json",
+    "ts:es": "tsc -p tsconfigs/es.tsconfig.json"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [],

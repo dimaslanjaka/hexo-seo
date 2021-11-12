@@ -1,4 +1,5 @@
 import md5File from "md5-file";
+import { Objek } from "./utils";
 
 /**
  * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
@@ -9,12 +10,12 @@ export default class {
   /**
    * Storage object for storing
    */
-  caches = {};
+  caches: Objek = {};
 
   /**
    * Identifier Hash for cache
    */
-  md5Cache = {};
+  md5Cache: Objek = {};
 
   /**
    * Set cache

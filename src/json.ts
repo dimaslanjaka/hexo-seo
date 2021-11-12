@@ -12,4 +12,6 @@ export function parse(json: string, fallback?: any) {
   }
 }
 
-export function stringify(object: object) {}
+export function stringify(object: object) {
+  return JSON.stringify(object);
+}
