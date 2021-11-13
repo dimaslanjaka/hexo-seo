@@ -26,6 +26,7 @@ export interface defaultSeoOptions {
    */
   img?: boolean | imgOptions;
   html?: boolean | htmlMinifyOptions;
+  host?: string[];
 }
 
 const getConfig = memoize(function (hexo: Hexo): {
@@ -54,7 +55,8 @@ const getConfig = memoize(function (hexo: Hexo): {
       minifyJS: true,
       minifyCSS: true
     },
-    img: { default: source.img.fallback.public, onerror: "serverside" }
+    img: { default: source.img.fallback.public, onerror: "serverside" },
+    host: ["webmanajemen.com", "web-manajemen.blogspot.com"]
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;

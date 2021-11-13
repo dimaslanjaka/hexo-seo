@@ -37,13 +37,34 @@ const parseUrl = (url: string) => {
 const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
   const config = getConfig(hexo);
   const hexoConfig = hexo.config;
-  const siteHost = parseUrl(hexoConfig.url).hostname;
+  let siteHost = parseUrl(hexoConfig.url).hostname;
   const hyperlinks = $("a");
-  for (let index = 0; index < hyperlinks.length; index++) {
-    const hyperlink = hyperlinks[index];
-    const href = parseUrl($(hyperlink).attr("href"));
-    if (typeof href.hostname == "string") {
-      logger.log(href.hostname, siteHost);
+  if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
+    siteHost = siteHost.trim();
+    for (let index = 0; index < hyperlinks.length; index++) {
+      const hyperlink = hyperlinks[index];
+      const href = parseUrl($(hyperlink).attr("href"));
+      if (typeof href.hostname == "string") {
+        logger.log({ [href.hostname]: $(hyperlink).attr("href") }, siteHost);
+        const hyperlinkHost = href.hostname.trim();
+        let attr = [];
+        if (hyperlinkHost.length > 0) {
+          if (hyperlinkHost == siteHost || hyperlinkHost.includes(siteHost)) {
+            // internal link
+            attr = attr.concat(["internal", "follow", "bookmark"]);
+          } else {
+            attr = attr.concat([
+              "nofollow",
+              "noopener",
+              "noreferer",
+              "noreferrer"
+            ]);
+          }
+        } else {
+          attr = attr.concat(["internal", "follow", "bookmark"]);
+        }
+        $(hyperlink).attr("rel", attr.join(" "));
+      }
     }
   }
   return $;
