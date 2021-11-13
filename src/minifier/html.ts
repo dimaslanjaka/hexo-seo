@@ -1,15 +1,20 @@
 "use strict";
-import { minify } from "html-minifier-terser";
-import micromatch from "micromatch";
+import { minify, Options as htmlMinifyOptions } from "html-minifier-terser";
 import Hexo from "hexo";
+import { memoize } from "underscore";
+import { isIgnore } from "../utils";
 
-export default async function (str: string, data: Hexo.View) {
-  const options = this.config.html;
+export interface MinifyOptions extends htmlMinifyOptions {
+  exclude: string[];
+}
+
+const minHtml = memoize(async function (str: string, data: Hexo.View) {
+  const options: MinifyOptions = this.config.html;
   const path = data.path;
   const exclude = options.exclude;
 
   if (path && exclude && exclude.length) {
-    if (micromatch.isMatch(path, exclude)) return str;
+    if (isIgnore(path, exclude)) return str;
   }
 
   try {
@@ -17,4 +22,6 @@ export default async function (str: string, data: Hexo.View) {
   } catch (err) {
     throw new Error(`Path: ${path}\n${err}`);
   }
-}
+});
+
+export default minHtml;
