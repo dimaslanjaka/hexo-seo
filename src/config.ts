@@ -54,7 +54,7 @@ const getConfig = memoize(function (hexo: Hexo): {
       minifyJS: true,
       minifyCSS: true
     },
-    img: { default: source.img.fallback.public }
+    img: { default: source.img.fallback.public, onerror: "serverside" }
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;

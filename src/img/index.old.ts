@@ -22,6 +22,7 @@ export interface imgOptions {
    * default image fallback
    */
   default?: string | Buffer;
+  onerror?: "serverside" | "clientside";
 }
 
 export default async function (this: Hexo) {

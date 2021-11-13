@@ -29,20 +29,25 @@ const minHtml = memoize(async function (
     if (isIgnore(path, exclude)) return str;
   }
 
-  try {
+  const processHtml = async (str: string) => {
     // parse html start
     let $ = cheerio.load(str);
     // check image start
-    $ = seoImage($, hexo);
+    $ = await seoImage($, hexo);
     $ = fixMeta($, hexo);
     // set modified html
     str = $.html();
     // minifying html start
     str = await minify(str, options);
+    return str;
+  };
+
+  /*try {
+    str = await processHtml(str);
   } catch (err) {
     throw new Error(`Path: ${path}\n${err}`);
-  }
-
+  }*/
+  str = await processHtml(str);
   return str;
 });
 
