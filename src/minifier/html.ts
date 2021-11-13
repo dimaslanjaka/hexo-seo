@@ -36,6 +36,7 @@ const minHtml = memoize(async function (
     // check image start
     $ = await seoImage($, hexo);
     $ = fixMeta($, hexo);
+    // filter external links and optimize seo
     $ = fixHyperlinks($, hexo);
     // set modified html
     str = $.html();

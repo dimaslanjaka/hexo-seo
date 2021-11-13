@@ -3,6 +3,8 @@ import Hexo from "hexo";
 import getConfig from "../config";
 import parseUrl from "url-parse";
 import logger from "../log";
+import { memoize } from "underscore";
+import sanitizeFilename from "sanitize-filename";
 
 /**
  * Remove item from array
@@ -61,7 +63,7 @@ function isExternal(url: parseUrl, hexo: Hexo): boolean {
  * @param anchor
  * @returns
  */
-function extractRel(anchor: Cheerio<Element>) {
+const extractRel = memoize(function (anchor: Cheerio<Element>) {
   const original = anchor.attr("rel");
   if (original && original.length > 0) {
     return original.split(/\s/).filter(function (el) {
@@ -69,7 +71,7 @@ function extractRel(anchor: Cheerio<Element>) {
     });
   }
   return [];
-}
+});
 
 const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
   const config = getConfig(hexo);
@@ -81,9 +83,9 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
     for (let index = 0; index < hyperlinks.length; index++) {
       const hyperlink = $(hyperlinks[index]);
       const href = parseUrl(hyperlink.attr("href"));
-      let attr = extractRel(hyperlink);
+      // external links rel
       if (typeof href.hostname == "string") {
-        //logger.log({ [href.hostname]: $(hyperlink).attr("href") }, siteHost);
+        let attr = extractRel(hyperlink);
         const hyperlinkHost = href.hostname.trim();
         /**
          * filter by global hexo site url host
@@ -119,6 +121,12 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
           //logger.log(href.hostname, isInternal, attr);
           hyperlink.attr("rel", attr.join(" ").trim());
         }
+      }
+      // fix anchor title
+      const a_title = hyperlink.attr("title");
+      if (a_title && a_title.trim().length < 1) {
+        const a_text = sanitizeFilename(hyperlink.text());
+        hyperlink.attr("title", a_text);
       }
     }
   }

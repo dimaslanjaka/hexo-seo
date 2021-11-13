@@ -12,3 +12,11 @@ Using NPM Repository (Production)
 ```shell
 npm i hexo-seo
 ```
+
+# Features
+
+- Auto add anchor title (if not exists)
+- Auto determine anchor external link and nofollow them
+- Auto replace broken images
+- CSS JS HTML minifier
+- Auto add alternate and title of images
