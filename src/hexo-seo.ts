@@ -5,7 +5,7 @@ import Hexo from "hexo";
 import jsmin from "./minifier/js";
 import cssmin from "./minifier/css";
 import minimist from "minimist";
-import getConfig, { seoOptions } from "./config";
+import getConfig from "./config";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -21,10 +21,7 @@ const env =
 export const isDev = arg || env;
 
 export default function (hexo: Hexo) {
-  const config: seoOptions = hexo.config;
-  if (typeof config.seo != "object") {
-    config.seo = getConfig(hexo);
-  }
+  hexo.config.seo = getConfig(hexo);
 
   hexo.extend.filter.register("after_render:js", jsmin);
   hexo.extend.filter.register("after_render:css", cssmin);

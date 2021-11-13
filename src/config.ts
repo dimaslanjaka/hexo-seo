@@ -44,6 +44,14 @@ export interface defaultSeoOptions {
          * exclude image patterns from optimization
          */
         exclude?: string[];
+        /**
+         * replace broken images with default ones
+         */
+        broken?: boolean | { string: string }[];
+        /**
+         * default image fallback
+         */
+        default?: string;
       };
 }
 
