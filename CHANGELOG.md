@@ -33,3 +33,9 @@
 - e0c092b : +html-minifier-terser
 - 5a569f7 : +cache strategy
 - 58cf87d : fix
+
+## [0.0.6] 2021-11-13T16:42:16
+- dd98cdc : fix broken images
+- 2ecb818 : add router as hexo middleware
+- fac45e3 : +image alt and title optimized
+- 58cf87d : fix
