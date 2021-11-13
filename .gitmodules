@@ -1,0 +1,4 @@
+[submodule "packages/js-prototypes"]
+	path = packages/js-prototypes
+	url = https://github.com/dimaslanjaka/js-prototypes.git
+	branch = master
