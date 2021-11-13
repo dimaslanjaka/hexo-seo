@@ -60,9 +60,9 @@ const getConfig = memoize(function (hexo: Hexo): {
       minifyCSS: true
     },
     img: { default: source.img.fallback.public, onerror: "serverside" },
-    host: ["webmanajemen.com", "web-manajemen.blogspot.com"],
+    host: ["webmanajemen.com"],
     links: {
-      allow: ["webmanajemen.com", "web-manajemen.blogspot.com"]
+      allow: ["webmanajemen.com"]
     }
   };
   const config: seoOptions = hexo.config;
