@@ -4,17 +4,27 @@ import { dump } from "../utils";
 import logger from "../log";
 import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
+import schemaArticles from "./schema/article";
 
 const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
   const config = getConfig(hexo);
+  const buildSchema = new schemaArticles({ pretty: true });
+  buildSchema.setTitle($("title").text());
+  buildSchema.setArticleBody($("body").text());
+  buildSchema.setAuthor(data);
+  $("head").append(
+    `<script type="application/ld+json">${buildSchema}</script>`
+  );
+  /*
   const metas = $("meta");
   const properties = [
+    "description",
     "article:author",
-    "og:title",
-    "og:description",
     "article:title",
     "article:tag",
-    "og:image"
+    "og:image",
+    "og:title",
+    "og:description"
   ];
   metas.each((i, el) => {
     const meta = $(el);
@@ -29,7 +39,7 @@ const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
         }
       }
     }
-  });
+  });*/
   return $;
 };
 
