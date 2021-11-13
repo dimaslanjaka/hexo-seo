@@ -49,3 +49,8 @@
 ## [0.0.8] 2021-11-13T19:12:53
 - edb6a20 : -postinstall
 - 58cf87d : fix
+
+## [0.0.9] 2021-11-13T21:13:59
+- 8acb930 : update
+- a879b12 : fix hexo-seo
+- 58cf87d : fix
