@@ -29,6 +29,7 @@
     "file-type": "^16.5.3",
     "hexo-log": "^3.0.0",
     "html-minifier-terser": "^6.0.2",
+    "js-prototypes": "file:packages/js-prototypes",
     "md5-file": "^5.0.0",
     "micromatch": "^4.0.4",
     "minimatch": "^3.0.4",
