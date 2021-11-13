@@ -21,7 +21,7 @@ export interface imgOptions {
   /**
    * default image fallback
    */
-  default?: string;
+  default?: string | Buffer;
 }
 
 export default async function (this: Hexo) {

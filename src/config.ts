@@ -6,6 +6,7 @@ import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
 import { memoize } from "underscore";
+import source from "../source";
 
 export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
@@ -52,7 +53,8 @@ const getConfig = memoize(function (hexo: Hexo): {
       removeStyleLinkTypeAttributes: true,
       minifyJS: true,
       minifyCSS: true
-    }
+    },
+    img: { default: source.img.fallback.public }
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;
