@@ -23,3 +23,13 @@
 - 1427c71 : fix development mode
 - d581a15 : fix eslint
 - 58cf87d : fix
+
+## [0.0.5] 2021-11-13T13:42:12
+- aa480af : +cache strategy
+- f5874b6 : fix typestrong
+- 31a0a19 : +html minifier and some improvitations
+- bbbc9e8 : +cache strategy
+- 5723615 : +image seo optimizer (init)
+- e0c092b : +html-minifier-terser
+- 5a569f7 : +cache strategy
+- 58cf87d : fix
