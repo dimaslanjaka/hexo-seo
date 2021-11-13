@@ -1,6 +1,6 @@
 /* ONLY FOR VSCODE */
 {
-  "extends": "packages/js-prototypes/tsconfig.json",
+  "extends": "./packages/js-prototypes/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
@@ -11,6 +11,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
+    "checkJs": false,
     "skipLibCheck": true
   },
   "exclude": [
@@ -18,7 +19,6 @@
   ],
   "include": [
     "src/**/*",
-    "packages/**/*",
     "source/**/*"
   ]
 }
