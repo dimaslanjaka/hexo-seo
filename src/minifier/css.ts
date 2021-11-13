@@ -8,6 +8,10 @@ import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
 
+export type cssMinifyOptions = CleanCSS.Options & {
+  exclude?: string[];
+};
+
 const cache = new Cache();
 
 export default async function (this: Hexo, str: string, data: Hexo.View) {
@@ -17,16 +21,12 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
   if (isChanged) {
     // if original file is changed, re-minify js
     const hexo: Hexo = this;
-    let options: defaultSeoOptions["css"] = getConfig(hexo).css;
+    const options = getConfig(hexo).css;
     const exclude = typeof options == "object" ? options.exclude : [];
 
     if (path0 && exclude && exclude.length > 0) {
       log.debug("[exclude]", isIgnore(path0, exclude), path0, exclude);
       if (isIgnore(path0, exclude)) return str;
-    }
-
-    if (typeof options === "boolean") {
-      options = {};
     }
 
     if (typeof options == "object") {

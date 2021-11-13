@@ -1,8 +1,10 @@
 import Hexo from "hexo";
 import HexoConfig from "hexo/HexoConfig";
 import assign from "object-assign";
-import { MinifyOptions as jsMinifyOptions } from "terser";
+import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
+import { cssMinifyOptions } from "./minifier/css";
+import { imgOptions } from "./img";
 
 export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
@@ -12,52 +14,24 @@ export interface defaultSeoOptions {
   /**
    * Optimize js
    */
-  js?:
-    | boolean
-    | {
-        /**
-         * exclude js patterns from minifying
-         */
-        exclude?: string[];
-        /**
-         * Minify options by terser
-         */
-        options?: jsMinifyOptions;
-      };
+  js?: boolean | jsMinifyOptions;
   /**
    * Optimize css
    */
-  css?:
-    | boolean
-    | {
-        /**
-         * exclude css patterns from minifying
-         */
-        exclude?: string[];
-      };
+  css?: boolean | cssMinifyOptions;
   /**
    * Optimize image
    */
-  img?:
-    | boolean
-    | {
-        /**
-         * exclude image patterns from optimization
-         */
-        exclude?: string[];
-        /**
-         * replace broken images with default ones
-         */
-        broken?: boolean | { string: string }[];
-        /**
-         * default image fallback
-         */
-        default?: string;
-      };
+  img?: boolean | imgOptions;
   html?: boolean | htmlMinifyOptions;
 }
 
-export default function (hexo: Hexo) {
+export default function (hexo: Hexo): {
+  js: jsMinifyOptions;
+  css: cssMinifyOptions;
+  img: imgOptions;
+  html: htmlMinifyOptions;
+} {
   const defaultOpt: defaultSeoOptions = {
     js: {
       exclude: ["*.min.js"]
@@ -81,6 +55,6 @@ export default function (hexo: Hexo) {
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;
-  if (typeof seo !== "object") return defaultOpt;
-  return assign(defaultOpt, seo);
+  if (typeof seo !== "object") return <any>defaultOpt;
+  return <any>assign(defaultOpt, seo);
 }

@@ -3,6 +3,7 @@ import { minify, Options as htmlMinifyOptions } from "html-minifier-terser";
 import Hexo from "hexo";
 import { memoize } from "underscore";
 import { isIgnore } from "../utils";
+import getConfig from "../config";
 
 export interface MinifyOptions extends htmlMinifyOptions {
   /**
@@ -12,7 +13,7 @@ export interface MinifyOptions extends htmlMinifyOptions {
 }
 
 const minHtml = memoize(async function (str: string, data: Hexo.View) {
-  const options: MinifyOptions = this.config.html;
+  const options: MinifyOptions = getConfig(this).html;
   const path = data.path;
   const exclude = options.exclude;
 

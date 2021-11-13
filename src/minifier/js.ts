@@ -7,6 +7,13 @@ import assign from "object-assign";
 import { defaultSeoOptions } from "../config";
 import { isIgnore } from "../utils";
 
+export interface jsMinifyOptions extends MinifyOptions {
+  /**
+   * exclude js patterns from minifying
+   */
+  exclude: string[];
+}
+
 const cache = new Cache();
 
 export default async function (this: Hexo, str: any, data: Hexo.View) {

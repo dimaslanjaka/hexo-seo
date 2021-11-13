@@ -9,6 +9,21 @@ import imageBroken from "./broken";
 import { Stream } from "stream";
 import { memoize } from "underscore";
 
+export interface imgOptions {
+  /**
+   * exclude image patterns from optimization
+   */
+  exclude?: string[];
+  /**
+   * replace broken images with default ones
+   */
+  broken?: boolean | { string: string }[];
+  /**
+   * default image fallback
+   */
+  default?: string;
+}
+
 export default async function (this: Hexo) {
   const hexo = this;
   const route = hexo.route;
