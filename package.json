@@ -39,7 +39,6 @@
     "js-prototypes": "file:packages/js-prototypes",
     "jsdom": "^18.1.0",
     "md5-file": "^5.0.0",
-    "micromatch": "^4.0.4",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",

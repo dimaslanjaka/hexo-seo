@@ -53,15 +53,16 @@ const isFirst = [];
  */
 export const dump = function (filename: string, ...obj: any) {
   const hash = sanitizeFilename(filename).toString();
-  const loc = path.join(__dirname, "../tmp", hash, filename);
+  const loc = path.join(__dirname, "../tmp", hash);
   if (!fs.existsSync(path.dirname(loc))) {
-    fs.mkdirSync(path.dirname(loc));
+    fs.mkdirSync(path.dirname(loc), { recursive: true });
   }
 
   if (isFirst.length === 0) {
     rimraf(loc, function (err) {
       logger.log(loc, "deleted", err ? "fail" : "success");
     });
+    isFirst.push("rimraf", loc);
     return dump(filename, obj);
   }
 
@@ -70,7 +71,8 @@ export const dump = function (filename: string, ...obj: any) {
     //fs.writeFileSync(loc, utils.inspect(obj));
     let buildLog = "";
     for (let index = 0; index < obj.length; index++) {
-      buildLog += utils.inspect(obj[index]) + "\n\n";
+      buildLog +=
+        utils.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
     }
     fs.writeFileSync(loc, buildLog);
 
