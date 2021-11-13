@@ -39,3 +39,9 @@
 - 2ecb818 : add router as hexo middleware
 - fac45e3 : +image alt and title optimized
 - 58cf87d : fix
+
+## [0.0.7] 2021-11-13T18:28:21
+- bb98990 : fix external link nofollow
+- 2454023 : add nofollow external link
+- 02f465d : add external link filtering
+- 58cf87d : fix
