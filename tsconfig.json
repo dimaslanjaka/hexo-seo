@@ -1,5 +1,6 @@
 /* ONLY FOR VSCODE */
 {
+  //"extends": "./tsconfig.build.json",
   "compilerOptions": {
     "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
@@ -8,10 +9,12 @@
     //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
     "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
   "exclude": [
-    "dist"
+    "**/dist/**"
   ],
   "include": [
     "src/**/*",

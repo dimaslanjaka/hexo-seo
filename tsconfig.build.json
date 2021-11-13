@@ -27,6 +27,8 @@
     "sourceRoot": "./",
     "inlineSourceMap": true,
     "inlineSources": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true
   },
   "exclude": [

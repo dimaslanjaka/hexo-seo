@@ -6,11 +6,11 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
-    "postinstall": "npx tsc -p tsconfig.json",
-    "ts:build": "npx tsc && npm run ts:defs && npm run ts:cjs && npm run ts:es",
-    "ts:defs": "tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
-    "ts:cjs": "tsc -p tsconfigs/cjs.tsconfig.json",
-    "ts:es": "tsc -p tsconfigs/es.tsconfig.json"
+    "ts:normal": "npx tsc -p tsconfig.json",
+    "ts:build": "npx tsc -p tsconfig.build.json && npm run ts:defs && npm run ts:cjs && npm run ts:es",
+    "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
+    "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
+    "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [],
@@ -44,8 +44,7 @@
     "serve-static": "^1.14.1",
     "terser": "^5.9.0",
     "ts-node": "^10.4.0",
-    "underscore": "^1.13.1",
-    "url-exist": "^3.0.0"
+    "underscore": "^1.13.1"
   },
   "devDependencies": {
     "@types/clean-css": "^4.2.5",
