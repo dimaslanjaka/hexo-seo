@@ -2,8 +2,10 @@
 
 "use strict";
 import Hexo from "hexo";
-import jsmin from "./minifier/js";
-import cssmin from "./minifier/css";
+import seoJs from "./minifier/js";
+import seoCss from "./minifier/css";
+import seoImage from "./img";
+import seoHtml from "./minifier/html";
 import minimist from "minimist";
 import getConfig from "./config";
 
@@ -23,6 +25,8 @@ export const isDev = arg || env;
 export default function (hexo: Hexo) {
   hexo.config.seo = getConfig(hexo);
 
-  hexo.extend.filter.register("after_render:js", jsmin);
-  hexo.extend.filter.register("after_render:css", cssmin);
+  hexo.extend.filter.register("after_render:js", seoJs);
+  hexo.extend.filter.register("after_render:css", seoCss);
+  hexo.extend.filter.register("after_render:html", seoHtml);
+  //hexo.extend.filter.register("after_generate", seoImage);
 }
