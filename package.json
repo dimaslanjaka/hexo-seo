@@ -3,6 +3,13 @@
   "version": "0.0.8",
   "description": "Automated Hexo Seo Optimizer",
   "main": "index.js",
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "test.js",
+    "*.md"
+  ],
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
@@ -29,6 +36,7 @@
     "file-type": "^16.5.3",
     "hexo-log": "^3.0.0",
     "html-minifier-terser": "^6.0.2",
+    "js-prototypes": "file:packages/js-prototypes",
     "jsdom": "^18.1.0",
     "md5-file": "^5.0.0",
     "micromatch": "^4.0.4",
