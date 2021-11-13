@@ -45,3 +45,7 @@
 - 2454023 : add nofollow external link
 - 02f465d : add external link filtering
 - 58cf87d : fix
+
+## [0.0.8] 2021-11-13T19:12:53
+- edb6a20 : -postinstall
+- 58cf87d : fix
