@@ -10,25 +10,25 @@ import { isIgnore } from "../utils";
 const cache = new Cache();
 
 export default async function (this: Hexo, str: any, data: Hexo.View) {
-  const hexo: Hexo = this;
-  let options: defaultSeoOptions["js"] = {
-    exclude: ["*.min.js"]
-  };
-
-  if (typeof hexo.config.seo.js === "boolean") {
-    if (!hexo.config.seo.js) return str;
-  } else if (typeof hexo.config.seo.js == "object") {
-    options = assign(options, hexo.config.seo.js);
-  }
-
   const path0 = data.path;
-  //console.log(`minifying ${path0}`);
-  if (typeof options == "object" && isIgnore(path0, options.exclude))
-    return str;
 
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {
     // if original file is changed, re-minify js
+    const hexo: Hexo = this;
+    let options: defaultSeoOptions["js"] = {
+      exclude: ["*.min.js"]
+    };
+
+    if (typeof hexo.config.seo.js === "boolean") {
+      if (!hexo.config.seo.js) return str;
+    } else if (typeof hexo.config.seo.js == "object") {
+      options = assign(options, hexo.config.seo.js);
+    }
+    //console.log(`minifying ${path0}`);
+    if (typeof options == "object" && isIgnore(path0, options.exclude))
+      return str;
+
     const minifyOptions: MinifyOptions = {
       mangle: {
         toplevel: true, // to mangle names declared in the top level scope.

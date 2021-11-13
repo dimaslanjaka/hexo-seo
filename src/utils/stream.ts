@@ -48,7 +48,14 @@ export function streamToString(stream: Stream) {
   });
 }
 
-export function streamToArray(stream: Stream, done) {
+export function streamToArray(
+  stream: Stream,
+  done?: {
+    (arg0: any, arg1: string[]): void;
+    (error: any): void | PromiseLike<void>;
+    (arg0: any, arg1: string[]): any;
+  }
+) {
   if (!stream) {
     // no arguments, meaning stream = this
     stream = this;
@@ -58,7 +65,7 @@ export function streamToArray(stream: Stream, done) {
     stream = this;
   }
 
-  let deferred: Promise<any>;
+  let deferred: Promise<string[]>;
   if (!isReadableStream(stream)) deferred = Promise.resolve([]);
   else
     deferred = new Promise(function (resolve, reject) {

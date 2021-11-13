@@ -1,7 +1,8 @@
 import Hexo from "hexo";
 import HexoConfig from "hexo/HexoConfig";
 import assign from "object-assign";
-import { MinifyOptions } from "terser";
+import { MinifyOptions as jsMinifyOptions } from "terser";
+import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 
 export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
@@ -21,7 +22,7 @@ export interface defaultSeoOptions {
         /**
          * Minify options by terser
          */
-        options?: MinifyOptions;
+        options?: jsMinifyOptions;
       };
   /**
    * Optimize css
@@ -53,6 +54,7 @@ export interface defaultSeoOptions {
          */
         default?: string;
       };
+  html?: boolean | htmlMinifyOptions;
 }
 
 export default function (hexo: Hexo) {
@@ -62,6 +64,19 @@ export default function (hexo: Hexo) {
     },
     css: {
       exclude: ["*.min.css"]
+    },
+    html: {
+      exclude: [],
+      collapseBooleanAttributes: true,
+      collapseWhitespace: true,
+      // Ignore '<!-- more -->' https://hexo.io/docs/tag-plugins#Post-Excerpt
+      ignoreCustomComments: [/^\s*more/],
+      removeComments: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      minifyJS: true,
+      minifyCSS: true
     }
   };
   const config: seoOptions = hexo.config;

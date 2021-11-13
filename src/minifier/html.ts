@@ -5,6 +5,9 @@ import { memoize } from "underscore";
 import { isIgnore } from "../utils";
 
 export interface MinifyOptions extends htmlMinifyOptions {
+  /**
+   * Array of exclude patterns to exclude from minifying
+   */
   exclude: string[];
 }
 
