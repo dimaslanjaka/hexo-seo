@@ -1,6 +1,6 @@
 {
   "name": "hexo-seo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Automated Hexo Seo Optimizer",
   "main": "index.js",
   "scripts": {

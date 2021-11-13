@@ -13,3 +13,13 @@
 - ef68201 : switch typescript ts-node to -dev
 - 1e3f89c : fix publish compiler
 - 5496ecf : fix global variable mangled by terser
+
+## [0.0.4] 2021-11-13T11:23:28
+- c3f1a9b : initialize image broker
+- 3ee24bf : update css optimizer
+- 8fc7dee : fix streamer
+- 4045da7 : +css optimizer
+- e5bdec7 : try build package declaration
+- 1427c71 : fix development mode
+- d581a15 : fix eslint
+- 58cf87d : fix
