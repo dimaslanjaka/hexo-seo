@@ -34,12 +34,56 @@ const parseUrl = (url: string) => {
   }
 };
 
+/**
+ * Remove item from array
+ * @param arr
+ * @param value
+ * @returns
+ */
+function removeItem<T>(arr: Array<T>, value: T): Array<T> {
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+
 export interface hyperlinkOptions {
   /**
    * Allow external link to be dofollowed
    * insert hostname or full url
    */
   allow?: string[];
+}
+
+/**
+ * is url external link
+ * @param url
+ * @param hexo
+ * @returns
+ */
+function isExternal(
+  url: string | URL | HTMLAnchorElement,
+  hexo: Hexo
+): boolean {
+  const site = parseUrl(hexo.config.url);
+  const cases = parseUrl(url.toString());
+  return true;
+}
+
+/**
+ * Extract rels from anchor
+ * @param anchor
+ * @returns
+ */
+function extractRel(anchor) {
+  const original = $(anchor).attr("rel");
+  if (original && original.length > 0) {
+    return original.split(/\s/).filter(function (el) {
+      return el != null || el.trim().length > 0;
+    });
+  }
+  return [];
 }
 
 const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
@@ -53,11 +97,17 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
       const hyperlink = hyperlinks[index];
       const href = parseUrl($(hyperlink).attr("href"));
       if (typeof href.hostname == "string") {
-        logger.log({ [href.hostname]: $(hyperlink).attr("href") }, siteHost);
+        //logger.log({ [href.hostname]: $(hyperlink).attr("href") }, siteHost);
         const hyperlinkHost = href.hostname.trim();
-        let attr = [];
+        let attr = extractRel(hyperlink),
+          isInternal: boolean;
+
         if (hyperlinkHost.length > 0) {
-          if (hyperlinkHost == siteHost || hyperlinkHost.includes(siteHost)) {
+          /**
+           * filter by global hexo site url host
+           */
+          isInternal = isExternal(href, hexo);
+          if (isInternal) {
             // internal link
             attr = attr.concat(["internal", "follow", "bookmark"]);
           } else {
@@ -71,10 +121,7 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
         } else {
           attr = attr.concat(["internal", "follow", "bookmark"]);
         }
-        const original = $(hyperlink).attr("rel");
-        if (original && original.length > 0) {
-          attr = attr.concat(original.split(" "));
-        }
+        logger.log(hyperlinkHost, siteHost, isInternal, config.links);
         $(hyperlink).attr(
           "rel",
           attr
