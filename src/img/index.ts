@@ -54,7 +54,7 @@ export default async function ($: CheerioAPI, hexo: Hexo) {
     // fix image alt and title
     const img_alt = $(img).attr("alt");
     const img_title = $(img).attr("title");
-    const img_rel = $(img).attr("rel");
+    const img_itemprop = $(img).attr("itemprop");
 
     //logger.log("alt", alt);
     if (!img_alt || img_alt.trim().length === 0) {
@@ -63,34 +63,44 @@ export default async function ($: CheerioAPI, hexo: Hexo) {
     if (!img_title || img_title.trim().length === 0) {
       $(img).attr("title", sanitizeFilename(title));
     }
-    if (!img_rel || img_rel.trim().length === 0) {
-      $(img).attr("rel", "image");
+    if (!img_itemprop || img_itemprop.trim().length === 0) {
+      $(img).attr("itemprop", "image");
     }
 
-    if (config.onerror == "clientside") {
-      const img_onerror = $(img).attr("onerror");
-      if (!img_onerror || img_onerror.trim().length === 0) {
-        // to avoid image error, and fix endless loop onerror images
-        //const imgBuf = getBuffer(config.default, hexo);
-        //const base64 = await imageBuffer2base64(imgBuf);
-        $(img).attr(
-          "onerror",
-          "this.onerror=null;this.src='" + config.default + "';"
-        );
-      }
-    } else {
-      const img_src = $(img).attr("src");
-      //logger.log("original image", img_src);
-      if (img_src && img_src.length > 0) {
-        const check = await checkUrl(img_src);
-        if (!check) {
-          const new_img_src = config.default.toString();
-          //logger.log("default img", img_src);
-          logger.debug("%s is broken, replaced with %s", img_src, new_img_src);
-          $(img).attr("src", new_img_src);
+    const img_src = $(img).attr("src");
+    if (img_src) {
+      // check if image is external
+      const isExternal = /^https?:\/\//gs.test(img_src);
+      if (isExternal) {
+        if (config.onerror == "clientside") {
+          const img_onerror = $(img).attr("onerror");
+          if (!img_onerror /*|| img_onerror.trim().length === 0*/) {
+            // to avoid image error, and fix endless loop onerror images
+            //const imgBuf = getBuffer(config.default, hexo);
+            //const base64 = await imageBuffer2base64(imgBuf);
+            $(img).attr(
+              "onerror",
+              "this.onerror=null;this.src='" + config.default + "';"
+            );
+          }
+        } else {
+          //logger.log("original image", img_src);
+          if (img_src.length > 0) {
+            const check = await checkUrl(img_src);
+            if (!check) {
+              const new_img_src = config.default.toString();
+              //logger.log("default img", img_src);
+              logger.debug(
+                "%s is broken, replaced with %s",
+                img_src,
+                new_img_src
+              );
+              $(img).attr("src", new_img_src);
+            }
+          }
+          $(img).attr("src-original", img_src);
         }
       }
-      $(img).attr("src-original", img_src);
     }
     //const src = $(img).attr("src");
 

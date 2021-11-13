@@ -1,10 +1,1 @@
-[
-  {
-    "title": "curl",
-    "value": "src/__test__/curl.ts"
-  },
-  {
-    "title": "curl check",
-    "value": "src/__test__/curl-check.ts"
-  }
-]
+[{"value":"/media/dimaslanjaka/DATA/Repositories/gh-pages/packages/hexo-seo/src/__test__/curl-check.ts","title":"curl-check"},{"value":"/media/dimaslanjaka/DATA/Repositories/gh-pages/packages/hexo-seo/src/__test__/curl.ts","title":"curl"},{"value":"/media/dimaslanjaka/DATA/Repositories/gh-pages/packages/hexo-seo/src/__test__/jsdom-create.ts","title":"Create DOM with JSDOM"}]

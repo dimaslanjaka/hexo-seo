@@ -7,6 +7,7 @@ import getConfig from "../config";
 import seoImage from "../img";
 import cheerio from "cheerio";
 import fixMeta from "../html/meta";
+import fixHyperlinks from "../html/hyperlink";
 
 export interface MinifyOptions extends htmlMinifyOptions {
   /**
@@ -35,6 +36,7 @@ const minHtml = memoize(async function (
     // check image start
     $ = await seoImage($, hexo);
     $ = fixMeta($, hexo);
+    $ = fixHyperlinks($, hexo);
     // set modified html
     str = $.html();
     // minifying html start
