@@ -1,25 +1,29 @@
 {
-  "name": "hexo-is",
-  "version": "1.0.1",
-  "description": "Determine whether hexo is",
+  "name": "hexo-author",
+  "version": "1.0.0",
+  "description": "Hexo get author information",
   "main": "index.js",
-  "types": "index.d.ts",
+  "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "hexo",
+    "author"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dimaslanjaka/hexo-seo.git",
-    "directory": "src/hexo/hexo-is"
+    "directory": "src/hexo/hexo-author"
   },
   "author": {
     "email": "dimaslanjaka@gmail.com",
     "name": "Dimas Lanjaka",
     "url": "https://github.com/dimaslanjaka"
   },
-  "license": "ISC",
+  "types": "index.d.ts",
   "dependencies": {
+    "hexo-is": "^1.0.0",
     "hexo-log": "^3.0.0"
   }
 }

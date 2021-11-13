@@ -14,6 +14,7 @@ const hexoIs = function (hexo: Hexo | Hexo.View) {
     return validate(hexo["page"]);
   }
   log.error("%s hexo instance not found", pkg.name);
+  return null;
 };
 
 function validate(pathx: any) {

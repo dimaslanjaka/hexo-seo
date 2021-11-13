@@ -21,7 +21,7 @@ const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
     const property = meta.attr("property");
     const content = meta.attr("content");
     if (property) {
-      logger.log(property, data.path, hexoIs(data));
+      //logger.log(property, data.path, hexoIs(data).archive);
       if (property == "article:author") {
         if (content.toLowerCase().includes("object")) {
           logger.log("invalid meta", property, content);
