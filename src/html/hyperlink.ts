@@ -34,6 +34,14 @@ const parseUrl = (url: string) => {
   }
 };
 
+export interface hyperlinkOptions {
+  /**
+   * Allow external link to be dofollowed
+   * insert hostname or full url
+   */
+  allow?: string[];
+}
+
 const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
   const config = getConfig(hexo);
   const hexoConfig = hexo.config;
@@ -63,11 +71,27 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
         } else {
           attr = attr.concat(["internal", "follow", "bookmark"]);
         }
-        $(hyperlink).attr("rel", attr.join(" "));
+        const original = $(hyperlink).attr("rel");
+        if (original && original.length > 0) {
+          attr = attr.concat(original.split(" "));
+        }
+        $(hyperlink).attr(
+          "rel",
+          attr
+            // trim
+            .map((str) => {
+              return str.trim();
+            })
+            // remove duplicates
+            .filter(function (val, ind) {
+              return attr.indexOf(val) == ind;
+            })
+            .join(" ")
+        );
       }
     }
   }
   return $;
 };
 
-export = fixHyperlinks;
+export default fixHyperlinks;

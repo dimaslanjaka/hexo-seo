@@ -7,6 +7,7 @@ import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
 import { memoize } from "underscore";
 import source from "../source";
+import { hyperlinkOptions } from "./html/hyperlink";
 
 export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
@@ -27,6 +28,7 @@ export interface defaultSeoOptions {
   img?: boolean | imgOptions;
   html?: boolean | htmlMinifyOptions;
   host?: string[];
+  links?: hyperlinkOptions;
 }
 
 const getConfig = memoize(function (hexo: Hexo): {
@@ -56,7 +58,10 @@ const getConfig = memoize(function (hexo: Hexo): {
       minifyCSS: true
     },
     img: { default: source.img.fallback.public, onerror: "serverside" },
-    host: ["webmanajemen.com", "web-manajemen.blogspot.com"]
+    host: ["webmanajemen.com", "web-manajemen.blogspot.com"],
+    links: {
+      allow: ["webmanajemen.com", "web-manajemen.blogspot.com"]
+    }
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;
