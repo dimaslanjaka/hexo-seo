@@ -4,7 +4,6 @@
 import Hexo from "hexo";
 import seoJs from "./minifier/js";
 import seoCss from "./minifier/css";
-import seoImage from "./img";
 import seoHtml from "./minifier/html";
 import minimist from "minimist";
 import getConfig from "./config";

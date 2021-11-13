@@ -1,80 +1,22 @@
-import Hexo from "hexo";
+import { load as CheerioLoad, Node } from "cheerio";
+import sanitizeFilename from "sanitize-filename";
 import logger from "../log";
-import getConfig from "../config";
-import minimatch from "minimatch";
-import { isIgnore, dump } from "../utils";
-import { streamToArray } from "../utils/stream";
-import cheerio from "cheerio";
-import imageBroken from "./broken";
-import { Stream } from "stream";
-import { memoize } from "underscore";
 
-export interface imgOptions {
-  /**
-   * exclude image patterns from optimization
-   */
-  exclude?: string[];
-  /**
-   * replace broken images with default ones
-   */
-  broken?: boolean | { string: string }[];
-  /**
-   * default image fallback
-   */
-  default?: string;
-}
-
-export default async function (this: Hexo) {
-  const hexo = this;
-  const route = hexo.route;
-  const options = getConfig(hexo).img;
-  // Filter routes to select all html files.
-  const routes = route.list().filter(function (path0) {
-    let choose = minimatch(path0, "**/*.{htm,html}", { nocase: true });
-    if (typeof options == "object" && typeof options.exclude != "undefined") {
-      choose = choose && !isIgnore(path0, options.exclude);
+export default function (str: string | Node | Node[] | Buffer) {
+  const $ = CheerioLoad(str);
+  const title = $("title").text();
+  $("img").map(function (i, img) {
+    // fix image alt and title
+    const img_alt = $(img).attr("alt");
+    const img_title = $(img).attr("title");
+    //logger.log("alt", alt);
+    if (!img_alt || img_alt.trim().length === 0) {
+      $(img).attr("alt", sanitizeFilename(title));
     }
-    if (typeof hexo.config.skip_render != "undefined") {
-      // _config.yml skip_render https://hexo.io/docs/configuration.html#Directory
-      choose = choose && !isIgnore(path0, hexo.config.skip_render);
+    if (!img_title || img_title.trim().length === 0) {
+      $(img).attr("title", sanitizeFilename(title));
     }
-    return choose;
+    //const src = $(img).attr("src");
   });
-
-  const processor = (stream: Stream) => {
-    streamToArray(stream)
-      .then((arr) => {
-        return arr.join("");
-      })
-      .then((str) => {
-        try {
-          //dump("after_generate.txt", str);
-          //logger.log(typeof str, "str");
-          const $ = cheerio.load(str);
-          const title = $("title").text();
-          $("img").map(function (i, img) {
-            // fix image alt
-            const alt = $(img).attr("alt");
-            if (!alt || alt.trim().length === 0) {
-              $(img).attr("alt", title);
-            }
-            //const src = $(img).attr("src");
-          });
-        } catch (e) {
-          logger.error(e);
-        }
-
-        return str;
-      });
-  };
-
-  /*return bPromise.map(routes, (path0) => {
-    const stream = route.get(path0);
-    return processor(stream);
-  });*/
-
-  return routes.map((path0, index, arr) => {
-    const stream = route.get(path0);
-    return processor(stream);
-  });
+  return $.html();
 }

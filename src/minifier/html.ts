@@ -4,6 +4,7 @@ import Hexo from "hexo";
 import { memoize } from "underscore";
 import { isIgnore } from "../utils";
 import getConfig from "../config";
+import seoImage from "../img";
 
 export interface MinifyOptions extends htmlMinifyOptions {
   /**
@@ -22,6 +23,9 @@ const minHtml = memoize(async function (str: string, data: Hexo.View) {
   }
 
   try {
+    // check image start
+    str = seoImage(str);
+    // minifying html start
     return await minify(str, options);
   } catch (err) {
     throw new Error(`Path: ${path}\n${err}`);

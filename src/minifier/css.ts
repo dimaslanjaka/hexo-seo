@@ -7,6 +7,7 @@ import { isIgnore } from "../utils";
 import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
+import * as chalk from "chalk";
 
 export type cssMinifyOptions = CleanCSS.Options & {
   exclude?: string[];
@@ -40,7 +41,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
         str = styles;
         cache.set(path0, str);
       } catch (err) {
-        log.log("%d(CSS) %s failed", pkg.name, path0);
+        log.log("%d(CSS) %s %s", pkg.name, path0 + chalk.redBright("failed"));
         log.error(err);
       }
     }

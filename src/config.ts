@@ -4,7 +4,7 @@ import assign from "object-assign";
 import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
-import { imgOptions } from "./img";
+import { imgOptions } from "./img/index.old";
 import { memoize } from "underscore";
 
 export interface seoOptions extends HexoConfig {
