@@ -1,38 +1,8 @@
-import { CheerioAPI } from "cheerio";
+import { Cheerio, CheerioAPI, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
-import { JSDOM } from "jsdom";
+import parseUrl from "url-parse";
 import logger from "../log";
-
-const dom = new JSDOM("<!doctype html><html><body></body></html>");
-const document = dom.window.document;
-
-const parseUrl = (url: string) => {
-  const parsedUrl: URL = {
-    hash: "",
-    host: "",
-    hostname: "",
-    href: "",
-    origin: "",
-    password: "",
-    pathname: "",
-    port: "",
-    protocol: "",
-    search: "",
-    searchParams: undefined,
-    username: "",
-    toJSON: function (): string {
-      throw new Error("Function not implemented.");
-    }
-  };
-  try {
-    return new URL(url);
-  } catch (e) {
-    const a = document.createElement("a");
-    a.href = url;
-    return a;
-  }
-};
 
 /**
  * Remove item from array
@@ -62,12 +32,27 @@ export interface hyperlinkOptions {
  * @param hexo
  * @returns
  */
-function isExternal(
-  url: string | URL | HTMLAnchorElement,
-  hexo: Hexo
-): boolean {
-  const site = parseUrl(hexo.config.url);
-  const cases = parseUrl(url.toString());
+function isExternal(url: parseUrl, hexo: Hexo): boolean {
+  const site =
+    typeof parseUrl(hexo.config.url).hostname == "string"
+      ? parseUrl(hexo.config.url).hostname
+      : null;
+  const cases = typeof url.hostname == "string" ? url.hostname.trim() : null;
+  const config = getConfig(hexo);
+  const allowed = Array.isArray(config.links.allow) ? config.links.allow : [];
+  const hosts = config.host;
+
+  // if url hostname empty, its internal
+  if (!cases) return false;
+  // if url hostname same with site hostname, its internal
+  if (cases == site) return false;
+  // if arrays contains url hostname, its internal and allowed to follow
+  if (hosts.includes(cases) || allowed.includes(cases)) return false;
+
+  /*if (cases.includes("manajemen")) {
+    logger.log({ site: site, cases: cases, allowed: allowed, hosts: hosts });
+  }*/
+
   return true;
 }
 
@@ -76,8 +61,8 @@ function isExternal(
  * @param anchor
  * @returns
  */
-function extractRel(anchor) {
-  const original = $(anchor).attr("rel");
+function extractRel(anchor: Cheerio<Element>) {
+  const original = anchor.attr("rel");
   if (original && original.length > 0) {
     return original.split(/\s/).filter(function (el) {
       return el != null || el.trim().length > 0;
@@ -94,37 +79,33 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
   if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
     siteHost = siteHost.trim();
     for (let index = 0; index < hyperlinks.length; index++) {
-      const hyperlink = hyperlinks[index];
-      const href = parseUrl($(hyperlink).attr("href"));
+      const hyperlink = $(hyperlinks[index]);
+      const href = parseUrl(hyperlink.attr("href"));
+      let attr = extractRel(hyperlink);
       if (typeof href.hostname == "string") {
         //logger.log({ [href.hostname]: $(hyperlink).attr("href") }, siteHost);
         const hyperlinkHost = href.hostname.trim();
-        let attr = extractRel(hyperlink),
-          isInternal: boolean;
+        /**
+         * filter by global hexo site url host
+         */
+        const isInternal = !isExternal(href, hexo);
+        const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
+        const internalArr = ["internal", "follow", "bookmark"];
 
         if (hyperlinkHost.length > 0) {
-          /**
-           * filter by global hexo site url host
-           */
-          isInternal = isExternal(href, hexo);
           if (isInternal) {
             // internal link
-            attr = attr.concat(["internal", "follow", "bookmark"]);
+            attr = attr.concat(internalArr).filter(function (el) {
+              return !externalArr.includes(el);
+            });
           } else {
-            attr = attr.concat([
-              "nofollow",
-              "noopener",
-              "noreferer",
-              "noreferrer"
-            ]);
+            attr = attr.concat(externalArr).filter(function (el) {
+              return !internalArr.includes(el);
+            });
           }
-        } else {
-          attr = attr.concat(["internal", "follow", "bookmark"]);
-        }
-        logger.log(hyperlinkHost, siteHost, isInternal, config.links);
-        $(hyperlink).attr(
-          "rel",
-          attr
+
+          // filter attributes
+          attr = attr
             // trim
             .map((str) => {
               return str.trim();
@@ -132,9 +113,12 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
             // remove duplicates
             .filter(function (val, ind) {
               return attr.indexOf(val) == ind;
-            })
-            .join(" ")
-        );
+            });
+
+          //logger.log(hyperlinkHost, siteHost, isInternal, config.links);
+          //logger.log(href.hostname, isInternal, attr);
+          hyperlink.attr("rel", attr.join(" ").trim());
+        }
       }
     }
   }
