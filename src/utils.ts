@@ -56,9 +56,11 @@ export function extractSimplePageData(data: HexoSeo) {
   delete data._content;
   delete data.content;
   delete data.site;
+  return data;
 }
 
-const isFirst = [];
+let isFirst = true;
+
 /**
  * Dump large objects
  * @param filename
@@ -67,15 +69,16 @@ const isFirst = [];
 export const dump = function (filename: string, ...obj: any) {
   const hash = sanitizeFilename(filename).toString().replace(/\s+/, "-");
   const loc = path.join(__dirname, "../tmp", hash);
-  if (!fs.existsSync(path.dirname(loc))) {
-    fs.mkdirSync(path.dirname(loc), { recursive: true });
-  }
 
-  if (isFirst.length === 0) {
+  if (isFirst) {
     rimraf(loc, function (err) {
       logger.log(loc, "deleted", err ? "fail" : "success");
     });
-    isFirst.push("rimraf", loc);
+    isFirst = false;
+  }
+
+  if (!fs.existsSync(path.dirname(loc))) {
+    fs.mkdirSync(path.dirname(loc), { recursive: true });
   }
 
   let buildLog = "";

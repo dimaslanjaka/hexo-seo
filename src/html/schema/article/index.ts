@@ -184,7 +184,7 @@ class articleSchema {
   }
 
   /**
-   * Set title
+   * Set schema article title
    * @param title
    */
   setTitle(title: string) {
@@ -192,8 +192,13 @@ class articleSchema {
     this.schema.keywords = title;
   }
 
+  /**
+   * Set schema article body/content
+   * @param articleBody
+   */
   setArticleBody(articleBody: string) {
     this.schema.wordcount = articleBody.trim().length.toString();
+    this.schema.articleBody = articleBody.trim();
   }
 
   toString() {

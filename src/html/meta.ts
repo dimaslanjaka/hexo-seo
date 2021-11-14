@@ -44,41 +44,22 @@ const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
     }
     if (author) buildSchema.setAuthor(author);
 
-    dump(schemaData.title + "data.txt", extractSimplePageData(data));
+    //dump(schemaData.title + "data.txt", extractSimplePageData(schemaData));
   }
 
   if (writeSchema) {
-    buildSchema.setArticleBody($("body").text());
+    let bodyArticle: string;
+    if ($("article").text().length > 0) {
+      bodyArticle = $("article").text();
+    } else {
+      bodyArticle = $("body").text();
+    }
+    buildSchema.setArticleBody(bodyArticle);
     buildSchema.setImage($);
     $("head").append(
       `<script type="application/ld+json">${buildSchema}</script>`
     );
   }
-  /*
-  const metas = $("meta");
-  const properties = [
-    "description",
-    "article:author",
-    "article:title",
-    "article:tag",
-    "og:image",
-    "og:title",
-    "og:description"
-  ];
-  metas.each((i, el) => {
-    const meta = $(el);
-    const property = meta.attr("property");
-    const content = meta.attr("content");
-    if (property) {
-      //logger.log(property, data.path, hexoIs(data).archive);
-      if (property == "article:author") {
-        if (content.toLowerCase().includes("object")) {
-          logger.log("invalid meta", property, content);
-          //dump("meta.txt", hexo);
-        }
-      }
-    }
-  });*/
   return $;
 };
 
