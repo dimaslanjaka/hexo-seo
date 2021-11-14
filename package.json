@@ -21,7 +21,12 @@
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json"
   },
   "repository": "dimaslanjaka/hexo-seo",
-  "keywords": [],
+  "keywords": [
+    "hexo",
+    "search engine optimization",
+    "auto",
+    "seo"
+  ],
   "author": {
     "email": "dimaslanjaka@gmail.com",
     "name": "Dimas Lanjaka",
