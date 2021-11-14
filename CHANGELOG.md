@@ -54,3 +54,7 @@
 - 8acb930 : update
 - a879b12 : fix hexo-seo
 - 58cf87d : fix
+
+## [0.0.10] 2021-11-15T00:57:29
+- a879b12 : fix hexo-seo
+- 58cf87d : fix

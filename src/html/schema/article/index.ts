@@ -230,7 +230,6 @@ class articleSchema {
    */
   setTitle(title: string) {
     this.schema.headline = title;
-    this.schema.keywords = title;
   }
 
   /**

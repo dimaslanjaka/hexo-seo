@@ -1,6 +1,6 @@
 {
   "name": "hexo-seo",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Automated Hexo Seo Optimizer",
   "main": "index.js",
   "files": [
@@ -8,7 +8,8 @@
     "src",
     "index.js",
     "test.js",
-    "*.md"
+    "*.md",
+    "images"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",

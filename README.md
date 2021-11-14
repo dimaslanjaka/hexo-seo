@@ -20,3 +20,5 @@ npm i hexo-seo
 - Auto replace broken images
 - CSS JS HTML minifier
 - Auto add alternate and title of images
+
+![](./images/rich-snippets-result.png)
