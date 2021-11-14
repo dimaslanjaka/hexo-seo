@@ -13,7 +13,9 @@ const argv = require("minimist")(process.argv.slice(2));
 const arg = typeof argv["development"] == "boolean" && argv["development"];
 
 // set NODE_ENV = "development"
-const env = process.env.NODE_ENV.toString().toLowerCase() === "development";
+const env =
+  process.env.NODE_ENV &&
+  process.env.NODE_ENV.toString().toLowerCase() === "development";
 
 // define is development
 const isDev = arg || env;
