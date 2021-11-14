@@ -94,8 +94,12 @@ class articleSchema {
     this.hexo = options.hexo;
   }
 
+  setUrl(url: string) {
+    if (url) this.schema.url = url;
+  }
+
   setDescription(description: string) {
-    this.schema.alternativeHeadline = description;
+    this.schema.alternativeHeadline = this.schema.description = description;
   }
 
   setImage($: string | CheerioAPI) {
@@ -135,7 +139,10 @@ class articleSchema {
       // try search author names
       authorName = author["name"] || author["config"]["name"] || "Google";
     }
-    this.schema.author.name = this.schema.editor = authorName;
+    this.schema.author.name =
+      this.schema.publisher.name =
+      this.schema.editor =
+        authorName;
 
     // determine author image
     let authorImage =
@@ -147,7 +154,7 @@ class articleSchema {
         authorImage = author["config"]["image"];
       }
     }
-    this.schema.author.image = authorImage;
+    this.schema.author.image = this.schema.publisher.logo.url = authorImage;
 
     // determine author url
     let authorUrl = "https://webmanajemen.com";

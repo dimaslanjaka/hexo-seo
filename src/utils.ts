@@ -13,6 +13,7 @@ import utils from "util";
 import { MD5 } from "crypto-js";
 import logger from "./log";
 import sanitizeFilename from "sanitize-filename";
+import { HexoSeo } from "./html/schema/article";
 
 export interface Objek extends Object {
   [key: string]: any;
@@ -45,6 +46,18 @@ export const isIgnore = underscore.memoize(
   }
 );
 
+/**
+ * Simplify object data
+ * @param data
+ */
+export function extractSimplePageData(data: HexoSeo) {
+  delete data._raw;
+  delete data.raw;
+  delete data._content;
+  delete data.content;
+  delete data.site;
+}
+
 const isFirst = [];
 /**
  * Dump large objects
@@ -52,7 +65,7 @@ const isFirst = [];
  * @param obj
  */
 export const dump = function (filename: string, ...obj: any) {
-  const hash = sanitizeFilename(filename).toString();
+  const hash = sanitizeFilename(filename).toString().replace(/\s+/, "-");
   const loc = path.join(__dirname, "../tmp", hash);
   if (!fs.existsSync(path.dirname(loc))) {
     fs.mkdirSync(path.dirname(loc), { recursive: true });
@@ -63,19 +76,14 @@ export const dump = function (filename: string, ...obj: any) {
       logger.log(loc, "deleted", err ? "fail" : "success");
     });
     isFirst.push("rimraf", loc);
-    return dump(filename, obj);
   }
 
-  if (typeof isFirst[hash] == "undefined") {
-    isFirst[hash] = true;
-    //fs.writeFileSync(loc, utils.inspect(obj));
-    let buildLog = "";
-    for (let index = 0; index < obj.length; index++) {
-      buildLog +=
-        utils.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
-    }
-    fs.writeFileSync(loc, buildLog);
-
-    console.log(`dump results saved to ${path.resolve(loc)}`);
+  let buildLog = "";
+  for (let index = 0; index < obj.length; index++) {
+    buildLog +=
+      utils.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
   }
+  fs.writeFileSync(loc, buildLog);
+
+  console.log(`dump results saved to ${path.resolve(loc)}`);
 };

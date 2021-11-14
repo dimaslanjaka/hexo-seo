@@ -1,0 +1,14 @@
+mixin a_with_current(href, content)
+  - var url = url_for(href)
+  if (href == config.root && (is_home() || is_post())) || is_current(href)
+    a.sidebar-nav-item.active(href=url)
+      = content
+  else
+    a.sidebar-nav-item(href=url)
+      = content
+
+mixin social_icon(type, website, icon)
+  if ((config.social && config.social[type]) || (theme.social && theme.social[type]))
+    a(href=website + ((config.social && config.social[type]) || (theme.social && theme.social[type])), target="_blank")
+      i.fa(class=icon)
+

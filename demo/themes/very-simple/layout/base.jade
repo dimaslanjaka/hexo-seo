@@ -1,0 +1,113 @@
+if page.title
+  - var current_title = page.title
+else
+  - var current_title = config.title
+
+if (config.root != '/')
+  - var root = config.root
+else
+  - var root = ''
+
+if config.feed
+  case config.feed.type
+    when "rss2"
+      - var feed_type='application/rss+xml'
+    when "atom"
+    default
+      - var feed_type='application/atom+xml'
+
+if config.very_simple
+    - for (var key in config.very_simple) { theme[key] = config.very_simple[key]; }
+
+include _partial/helpers
+
+doctype html
+html
+  head
+    meta(http-equiv="content-type", content="text/html; charset=utf-8")
+    meta(content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0", name="viewport")
+    meta(content="yes", name="apple-mobile-web-app-capable")
+    meta(content="black-translucent", name="apple-mobile-web-app-status-bar-style")
+    meta(content="telephone=no", name="format-detection")
+    meta(name="description", content=config.description)
+    block title
+    link(rel='stylesheet', type='text/css', href=root + '/css/normalize.css')
+    link(rel='stylesheet', type='text/css', href=root + '/css/highlight.css')
+    link(rel='stylesheet', type='text/css', href=root + '/css/very-simple.css')
+    link(rel='stylesheet', type='text/css', href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css")
+    link(rel='Shortcut Icon', type='image/x-icon',href=url_for('favicon.ico'))
+    if config.feed
+      link(rel='alternate', type=feed_type, href=url_for(config.feed.path))
+      
+    if theme.google_adsense_page_level_ads
+      script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+      script.  
+         (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "#{theme.google_adsense_page_level_ads}",
+          enable_page_level_ads: true
+          });
+
+  body
+
+    // include the sidebar
+    // include ./includes/sidebar.jade
+
+    // Blog title and subtitle
+    header: .container.header
+      a#logo.title(href=url_for('.'))= config.title
+      span.subtitle= config.subtitle
+      label#toggle-menu(for="menu", onclick)
+        i.fa.fa-bars
+
+    // use checkbox hack for toggle nav-bar on small screens
+    input#menu(type="checkbox")
+
+    // Navigation Links
+    nav#nav
+      .container
+        each nav, name in theme.menu
+          +a_with_current(nav, __(name))
+
+    #header-margin-bar
+
+    block main
+
+    footer#footer
+      .container
+        .bar
+          .social
+            +social_icon('email', "mailto:", "fa-envelope-o")
+            +social_icon('twitter', 'http://twitter.com/', 'fa-twitter')
+            +social_icon('weibo', 'http://weibo.com/', 'fa-weibo')
+            +social_icon('github', 'https://github.com/', 'fa-github')
+            +social_icon('googleplus', 'https://plus.google.com/', 'fa-google-plus')
+            +social_icon('rss', "", "fa-rss")
+
+          .footer
+            - var year = date(new Date(), 'YYYY');
+            = '© ' + year + ' '
+            a(href='/', rel='nofollow')= config.author
+            = '. Powered by '
+            a(rel='nofollow', target='_blank', href='https://hexo.io') Hexo
+            = '. Theme '
+            a(target='_blank', href='https://github.com/lotabout/very-simple') very-simple
+            |.
+
+    if theme.fancybox
+      link(rel='stylesheet', type='text/css', href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css")
+      script(src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js")
+      script(src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js")
+
+      script.
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+        
+   if theme.google_analytics
+    script.
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','#{theme.google_analytics}');ga('send','pageview');

@@ -21,6 +21,7 @@
     "hexo-generator-sitemap": "^2.0.0",
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-pug": "^2.0.0",
+    "hexo-renderer-sass": "^0.4.0",
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-seo": "file:..",
     "hexo-server": "^2.0.0",

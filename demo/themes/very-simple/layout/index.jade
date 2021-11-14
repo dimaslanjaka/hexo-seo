@@ -1,0 +1,41 @@
+extends base
+- var current_title = page.title || tag.name || category.name || site.title
+
+block title
+  title= (config.title ? (config.subtitle ? config.title + " | " + config.subtitle : config.title) : "")
+
+block main
+
+  article
+    #index-main.container.entries
+      for post in page.posts.toArray()
+        .post-entry
+          .post-time= post.date.format(config.date_format)
+          .post-desc
+            .post-title
+              if post.link
+                  a(href=url_for(post.link),target="_blank", itemprop="url")= post.title
+              else
+                  a(href=url_for(post.path))= post.title
+
+            .post-content
+              if post.description
+                != post.description
+              else if post.excerpt
+                != post.excerpt
+              else if post.content
+                - var br = post.content.indexOf('</p>')
+                if br < 0
+                  != post.content
+                else
+                  != post.content.substring(0, br + 4)
+
+            .post-meta
+              if (post.tags && post.tags.length)
+                .post-tags
+                  != list_tags(post.tags, {show_count: false, class: 'post-tag', style:'none', separator:'/'})
+              if (post.categories && post.categories.length)
+                .post-categories
+                  != list_categories(post.categories, {show_count: false, class: 'post-category', style: 'none', separator: '>'})
+
+  include _partial/paginator.jade

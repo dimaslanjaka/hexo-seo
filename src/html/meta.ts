@@ -1,11 +1,12 @@
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
-import { dump } from "../utils";
+import { dump, extractSimplePageData } from "../utils";
 import getConfig from "../config";
 import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 
-const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: HexoSeo) {
+const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
+  const hexo = this;
   const config = getConfig(hexo);
   const buildSchema = new schemaArticles({ pretty: true, hexo: data });
   const whereHexo = hexoIs2(data);
@@ -16,8 +17,14 @@ const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: HexoSeo) {
     let schemaData = data;
     if (data["page"]) schemaData = data["page"];
 
+    if (typeof schemaData.path == "string") {
+      const buildUrl = data["url"] || schemaData["path"];
+      buildSchema.setUrl(buildUrl);
+    }
+
     // set schema title
-    if (schemaData.title) buildSchema.setTitle(schemaData.title);
+    if (typeof schemaData.title == "string")
+      buildSchema.setTitle(schemaData.title);
     // set schema description
     let description: string;
     if (schemaData["subtitle"]) {
@@ -36,7 +43,8 @@ const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: HexoSeo) {
       author = schemaData["author"];
     }
     if (author) buildSchema.setAuthor(author);
-    //dump("data-post.txt", data);
+
+    dump(schemaData.title + "data.txt", extractSimplePageData(data));
   }
 
   if (writeSchema) {
