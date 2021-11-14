@@ -23,10 +23,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var fs = __importStar(require("fs"));
 var path_1 = __importDefault(require("path"));
+/**
+ * Default image fallback if no image exists and not set on _config.yml
+ */
+var imgfallback = path_1.default.join(__dirname, "img", "no-image.png");
+if (!fs.existsSync(imgfallback)) {
+    imgfallback = path_1.default.join(__dirname, "../../source/img", "no-image.png");
+}
 module.exports = {
     img: {
         fallback: {
-            buffer: fs.readFileSync(path_1.default.join(__dirname, "img", "no-image.png")),
+            buffer: fs.readFileSync(imgfallback),
             public: "/hexo-seo/img/no-image.png"
         }
     }

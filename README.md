@@ -22,3 +22,12 @@ npm i hexo-seo
 - Auto add alternate and title of images
 
 ![](./images/rich-snippets-result.png)
+
+# Troubleshoot
+
+- node_libcurl binding not found
+```sh
+sudo apt-get install libcurl4-openssl-dev -y
+rm -rf node_modules
+npm install node-libcurl --build-from-source
+```
