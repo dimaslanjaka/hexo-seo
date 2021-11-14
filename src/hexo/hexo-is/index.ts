@@ -29,11 +29,13 @@ const hexoIs = function (hexo: Hexo | Hexo.View) {
   }
   */
 
+  /*
   if (typeof hexo["extend"] != "undefined") {
     const filter = hexo["extend"]["filter"];
     //filter.register("after_render:html", dumper);
     //hexoIsDump(filter["store"]["_after_html_render"], "filter");
   }
+  */
 };
 
 function dumper() {

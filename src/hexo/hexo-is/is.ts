@@ -95,7 +95,18 @@ export const tag = isTagHelper;
  * @returns
  */
 export default function (hexo: any) {
-  //console.log(hexo instanceof Hexo);
+  const obj = {
+    current: false,
+    home: false,
+    post: false,
+    page: false,
+    archive: false,
+    year: false,
+    month: false,
+    category: false,
+    tag: false
+  };
+  if (typeof hexo["page"] == "undefined") return obj;
   return {
     current: current.bind(hexo)(),
     home: home.bind(hexo)(),
