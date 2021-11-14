@@ -26,9 +26,22 @@ export interface defaultSeoOptions {
    * Optimize image
    */
   img?: boolean | imgOptions;
+  /**
+   * Minimize html
+   */
   html?: boolean | htmlMinifyOptions;
+  /**
+   * Blog hostname
+   */
   host?: string[];
+  /**
+   * Nofollow links
+   */
   links?: hyperlinkOptions;
+  /**
+   * Generate schema article
+   */
+  schema?: boolean;
 }
 
 const getConfig = memoize(function (hexo: Hexo): {
@@ -37,7 +50,7 @@ const getConfig = memoize(function (hexo: Hexo): {
   img: imgOptions;
   html: htmlMinifyOptions;
   links: hyperlinkOptions;
-  host: string[];
+  host: defaultSeoOptions["host"];
 } {
   const defaultOpt: defaultSeoOptions = {
     js: {
@@ -63,7 +76,8 @@ const getConfig = memoize(function (hexo: Hexo): {
     host: ["webmanajemen.com"],
     links: {
       allow: ["webmanajemen.com"]
-    }
+    },
+    schema: true
   };
   const config: seoOptions = hexo.config;
   const seo: defaultSeoOptions = config.seo;

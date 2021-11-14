@@ -9,6 +9,7 @@ import { isDev } from "../hexo-seo";
 const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
   const hexo: Hexo = this;
   const config = getConfig(hexo);
+  console.log(config);
   const buildSchema = new schemaArticles({ pretty: isDev, hexo: data });
   const whereHexo = hexoIs2(data);
   let writeSchema = false;
