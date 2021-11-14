@@ -1,6 +1,6 @@
 {
   "name": "hexo-is",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Determine whether hexo is",
   "main": "index.js",
   "types": "index.d.ts",
@@ -22,6 +22,7 @@
     "url": "https://github.com/dimaslanjaka/hexo-seo.git",
     "directory": "src/hexo/hexo-is"
   },
+  "homepage": "https://github.com/dimaslanjaka/hexo-seo/tree/master/src/hexo/hexo-is#readme",
   "author": {
     "email": "dimaslanjaka@gmail.com",
     "name": "Dimas Lanjaka",

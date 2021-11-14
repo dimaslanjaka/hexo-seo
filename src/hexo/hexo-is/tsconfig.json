@@ -3,7 +3,7 @@
     "module": "CommonJS",
     "target": "ES5",
     "rootDir": "./",
-    "outDir": "../../../dist",
+    "outDir": "../../../dist/src/hexo/hexo-is",
     "declaration": true,
     "removeComments": false,
     "esModuleInterop": true,
