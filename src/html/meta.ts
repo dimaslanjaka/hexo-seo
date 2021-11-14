@@ -4,14 +4,21 @@ import { dump } from "../utils";
 import logger from "../log";
 import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
+import hexoIs2 from "../hexo/hexo-is/is";
 import schemaArticles from "./schema/article";
 
 const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
   const config = getConfig(hexo);
-  const buildSchema = new schemaArticles({ pretty: true });
+  const whereHexo = hexoIs(data);
+  if (!whereHexo.archive && !whereHexo.category && !whereHexo.tag) {
+    console.log(hexoIs2(data));
+  }
+
+  /*const buildSchema = new schemaArticles({ pretty: true, hexo: data });
   buildSchema.setTitle($("title").text());
   buildSchema.setArticleBody($("body").text());
-  buildSchema.setAuthor(data);
+  buildSchema.setAuthor(null);
+  buildSchema.setImage($);
   $("head").append(
     `<script type="application/ld+json">${buildSchema}</script>`
   );

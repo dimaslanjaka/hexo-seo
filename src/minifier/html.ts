@@ -35,10 +35,10 @@ const minHtml = memoize(async function (
     let $ = cheerio.load(str);
     // check image start
     $ = await seoImage($, hexo);
-    // fix meta
-    $ = fixMeta($, hexo, data);
     // filter external links and optimize seo
     $ = fixHyperlinks($, hexo);
+    // fix meta
+    $ = fixMeta($, hexo, data);
     // set modified html
     str = $.html();
     // minifying html start

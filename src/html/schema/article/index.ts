@@ -1,3 +1,4 @@
+import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 
 const mainSchema = {
@@ -74,27 +75,65 @@ export type SchemaAuthor = {
 
 export interface SchemaArticleOptions {
   pretty?: boolean;
+  hexo: Hexo | Hexo.View;
 }
 
 class articleSchema {
   schema = mainSchema;
-  options: SchemaArticleOptions = {};
+  options: SchemaArticleOptions;
+  hexo: Hexo | Hexo.View;
   constructor(options?: SchemaArticleOptions) {
-    this.options = options || {};
+    this.options = options;
+    this.hexo = options.hexo;
   }
+
+  setImage($: string | CheerioAPI) {
+    if (typeof $ === "string") {
+      this.schema.image = $;
+      return;
+    }
+
+    const images = $("img");
+    for (let index = 0; index < images.length; index++) {
+      const image = $(images[index]);
+      const img = image.attr("src");
+      if (img && img.length > 0) {
+        if (/^\/|http?s/gs.test(img)) {
+          this.schema.image = img;
+          return;
+        }
+      }
+    }
+  }
+
   /**
    * Set author
    * @param author Author Options
    */
-  setAuthor(author: SchemaAuthor | Hexo | Hexo.View) {
-    if (author["author"]) author = author["author"];
-    console.log(author);
-    this.schema.author.name = this.schema.editor = author["name"] || "Google";
+  setAuthor(author: SchemaAuthor) {
+    let authorName: string;
+    if (typeof author["author"] == "object") author = author["author"];
+
+    //console.log(author);
+
+    if (typeof author == "string") {
+      // if author option is string as default hexo
+      authorName = author;
+    } else {
+      // try search author names
+      authorName = author["name"] || author["config"]["name"] || "Google";
+    }
+    this.schema.author.name = this.schema.editor = authorName;
     this.schema.author.image =
       author["image"] ||
+      author["config"]["image"] ||
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
     this.schema.author.sameAs =
-      author["url"] || author["sameAs"] || "https://google.com";
+      author["url"] ||
+      author["config"]["url"] ||
+      author["config"]["link"] ||
+      author["sameAs"] ||
+      "https://google.com";
   }
 
   /**
