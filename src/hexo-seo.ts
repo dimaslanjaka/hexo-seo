@@ -9,7 +9,6 @@ import minimist from "minimist";
 import getConfig from "./config";
 import serveStatic from "serve-static";
 import path from "path";
-import testAfterRenderHtml from "./hexo/hexo-is/test/after_render_html";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -38,5 +37,5 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:html", seoHtml);
   //hexo.extend.filter.register("after_generate", seoImage);
   //hexo.extend.filter.register("after_generate", testAfterGenerate);
-  hexo.extend.filter.register("after_render:html", testAfterRenderHtml);
+  //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);
 }

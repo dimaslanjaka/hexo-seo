@@ -66,25 +66,36 @@ const mainSchema = {
     "You can paste your entire post in here, and yes it can get really really long."
 };
 
-export type SchemaAuthor = {
+export type SchemaAuthor = ObjectConstructor & {
   image: string;
   name: string;
   sameAs?: string;
   url?: string;
 };
 
+export type HexoSeo = Hexo &
+  Hexo.View &
+  Hexo.Locals.Category &
+  Hexo.Locals.Page &
+  Hexo.Locals.Post &
+  Hexo.Locals.Tag;
+
 export interface SchemaArticleOptions {
   pretty?: boolean;
-  hexo: Hexo | Hexo.View;
+  hexo: HexoSeo;
 }
 
 class articleSchema {
   schema = mainSchema;
   options: SchemaArticleOptions;
-  hexo: Hexo | Hexo.View;
+  hexo: HexoSeo;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;
+  }
+
+  setDescription(description: string) {
+    this.schema.alternativeHeadline = description;
   }
 
   setImage($: string | CheerioAPI) {
@@ -111,11 +122,12 @@ class articleSchema {
    * @param author Author Options
    */
   setAuthor(author: SchemaAuthor) {
-    let authorName: string;
     if (typeof author["author"] == "object") author = author["author"];
 
     //console.log(author);
 
+    // determine author name
+    let authorName: string;
     if (typeof author == "string") {
       // if author option is string as default hexo
       authorName = author;
@@ -124,16 +136,44 @@ class articleSchema {
       authorName = author["name"] || author["config"]["name"] || "Google";
     }
     this.schema.author.name = this.schema.editor = authorName;
-    this.schema.author.image =
-      author["image"] ||
-      author["config"]["image"] ||
+
+    // determine author image
+    let authorImage =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
-    this.schema.author.sameAs =
-      author["url"] ||
-      author["config"]["url"] ||
-      author["config"]["link"] ||
-      author["sameAs"] ||
-      "https://google.com";
+    if (author["image"]) {
+      authorImage = author["image"];
+    } else if (author["config"]) {
+      if (author["config"]["image"]) {
+        authorImage = author["config"]["image"];
+      }
+    }
+    this.schema.author.image = authorImage;
+
+    // determine author url
+    let authorUrl = "https://webmanajemen.com";
+    if (author["url"]) {
+      authorUrl = author["url"];
+    } else if (author["sameAs"]) {
+      authorUrl = author["sameAs"];
+    } else if (typeof this.hexo.config == "object") {
+      if (typeof this.hexo.config.author == "object") {
+        const propertyAuhorSearch = ["link", "url", "web", "website"];
+        for (const key in propertyAuhorSearch) {
+          if (Object.prototype.hasOwnProperty.call(propertyAuhorSearch, key)) {
+            if (typeof propertyAuhorSearch[key] == "string") {
+              authorUrl = propertyAuhorSearch[key];
+              break;
+            } else if (Array.isArray(propertyAuhorSearch[key])) {
+              if (typeof propertyAuhorSearch[key][0] == "string") {
+                authorUrl = propertyAuhorSearch[key];
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    this.schema.author.sameAs = authorUrl;
   }
 
   /**

@@ -1,21 +1,51 @@
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
+import { dump } from "../utils";
 import getConfig from "../config";
 import hexoIs2 from "../hexo/hexo-is";
+import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 
-const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
+const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: HexoSeo) {
   const config = getConfig(hexo);
+  const buildSchema = new schemaArticles({ pretty: true, hexo: data });
   const whereHexo = hexoIs2(data);
-  console.log(whereHexo);
+  let writeSchema = false;
+  if (whereHexo.post) {
+    writeSchema = true;
 
-  /*const buildSchema = new schemaArticles({ pretty: true, hexo: data });
-  buildSchema.setTitle($("title").text());
-  buildSchema.setArticleBody($("body").text());
-  buildSchema.setAuthor(null);
-  buildSchema.setImage($);
-  $("head").append(
-    `<script type="application/ld+json">${buildSchema}</script>`
-  );
+    let schemaData = data;
+    if (data["page"]) schemaData = data["page"];
+
+    // set schema title
+    if (schemaData.title) buildSchema.setTitle(schemaData.title);
+    // set schema description
+    let description: string;
+    if (schemaData["subtitle"]) {
+      description = schemaData["subtitle"];
+    } else if (schemaData["description"]) {
+      description = schemaData["description"];
+    } else if (schemaData["desc"]) {
+      description = schemaData["desc"];
+    } else if (schemaData.title) {
+      description = schemaData.title;
+    }
+    if (description) buildSchema.setDescription(description);
+    // set schema author
+    let author: SchemaAuthor;
+    if (schemaData["author"]) {
+      author = schemaData["author"];
+    }
+    if (author) buildSchema.setAuthor(author);
+    //dump("data-post.txt", data);
+  }
+
+  if (writeSchema) {
+    buildSchema.setArticleBody($("body").text());
+    buildSchema.setImage($);
+    $("head").append(
+      `<script type="application/ld+json">${buildSchema}</script>`
+    );
+  }
   /*
   const metas = $("meta");
   const properties = [

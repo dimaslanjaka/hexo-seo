@@ -8,6 +8,7 @@ import seoImage from "../img";
 import cheerio from "cheerio";
 import fixMeta from "../html/meta";
 import fixHyperlinks from "../html/hyperlink";
+import { HexoSeo } from "../html/schema/article";
 
 export interface MinifyOptions extends htmlMinifyOptions {
   /**
@@ -19,7 +20,7 @@ export interface MinifyOptions extends htmlMinifyOptions {
 const minHtml = memoize(async function (
   this: Hexo,
   str: string,
-  data: Hexo.View
+  data: HexoSeo
 ) {
   const hexo = this;
   const options: MinifyOptions = getConfig(hexo).html;
@@ -38,7 +39,7 @@ const minHtml = memoize(async function (
     // filter external links and optimize seo
     $ = fixHyperlinks($, hexo);
     // fix meta
-    //$ = fixMeta($, hexo, data);
+    $ = fixMeta($, hexo, data);
     // set modified html
     str = $.html();
     // minifying html start
