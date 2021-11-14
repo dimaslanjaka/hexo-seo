@@ -58,3 +58,8 @@
 ## [0.0.10] 2021-11-15T00:57:29
 - a879b12 : fix hexo-seo
 - 58cf87d : fix
+
+## [1.0.11] 2021-11-15T02:27:41
+- 2d50158 : fix undefined NODE_ENV [anoying]
+- a879b12 : fix hexo-seo
+- 58cf87d : fix
