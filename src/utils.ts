@@ -76,6 +76,6 @@ export const dump = function (filename: string, ...obj: any) {
     }
     fs.writeFileSync(loc, buildLog);
 
-    console.log(`dump results saved to ${loc}`);
+    console.log(`dump results saved to ${path.resolve(loc)}`);
   }
 };

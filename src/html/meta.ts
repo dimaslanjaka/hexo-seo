@@ -1,18 +1,12 @@
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
-import { dump } from "../utils";
-import logger from "../log";
 import getConfig from "../config";
-import hexoIs from "../hexo/hexo-is";
-import hexoIs2 from "../hexo/hexo-is/is";
-import schemaArticles from "./schema/article";
+import hexoIs2 from "../hexo/hexo-is";
 
 const fixMeta = function ($: CheerioAPI, hexo: Hexo, data: Hexo.View) {
   const config = getConfig(hexo);
-  const whereHexo = hexoIs(data);
-  if (!whereHexo.archive && !whereHexo.category && !whereHexo.tag) {
-    console.log(hexoIs2(data));
-  }
+  const whereHexo = hexoIs2(data);
+  console.log(whereHexo);
 
   /*const buildSchema = new schemaArticles({ pretty: true, hexo: data });
   buildSchema.setTitle($("title").text());

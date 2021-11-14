@@ -5,6 +5,7 @@ import * as fs from "fs";
 import util from "util";
 import path from "path";
 import is from "./is";
+import { memoize } from "underscore";
 const log = hexoLog({
   debug: false,
   silent: false
@@ -20,7 +21,7 @@ const log = hexoLog({
  * @returns
  */
 const hexoIs = function (hexo: Hexo | Hexo.View) {
-  return is(hexo);
+  return memoize(is(hexo));
 };
 
 /**

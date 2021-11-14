@@ -2,8 +2,6 @@
 
 "use strict";
 
-import Hexo from "hexo";
-
 function isCurrentHelper(path = "/", strict: any) {
   const currentPath = this.path.replace(/^[^/].*/, "/$&");
 
