@@ -9,7 +9,6 @@ import minimist from "minimist";
 import getConfig from "./config";
 import serveStatic from "serve-static";
 import path from "path";
-import hexoIs from "./hexo/hexo-is";
 import testAfterGenerate from "./hexo/hexo-is/test/after_generate";
 
 const argv = minimist(process.argv.slice(2));

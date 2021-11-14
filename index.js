@@ -35,7 +35,9 @@ if (typeof hexo !== "undefined") {
   } else {
     // only run this plugin with hexo instance declared
     hexo.log.debug("hexo-seo running on development mode");
-    require("ts-node").register({ project: "tsconfig.json" });
+    require("ts-node").register({
+      project: path.resolve(path.join(__dirname, "tsconfig.json"))
+    });
     require("./src/hexo-seo").default(hexo);
   }
 }

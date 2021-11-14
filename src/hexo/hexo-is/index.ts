@@ -33,11 +33,11 @@ let dumped = false;
  * Dump variable to file
  * @param toDump
  */
-export function hexoIsDump(toDump: any) {
+export function hexoIsDump(toDump: any, name = "") {
   if (dumped) return;
   dumped = true;
-  const dump = util.inspect(toDump);
-  const loc = path.join("tmp/hexo-is/dump.txt");
+  const dump = util.inspect(toDump, { showHidden: true, depth: null });
+  const loc = path.join("tmp/hexo-is/dump" + name + ".txt");
   if (!fs.existsSync(path.dirname(loc))) {
     fs.mkdirSync(path.dirname(loc), { recursive: true });
   }

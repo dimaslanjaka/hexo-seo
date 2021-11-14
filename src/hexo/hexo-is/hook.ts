@@ -1,21 +1,24 @@
-import { copyFileSync, existsSync, readdirSync } from "fs";
+import { copyFileSync, existsSync, readdirSync, readFileSync } from "fs";
 import minimatch from "minimatch";
 import path from "path";
-import tsconfig from "./tsconfig.json";
 
-const outDir = tsconfig.compilerOptions.outDir;
-const readDir = readdirSync(__dirname).filter((file) => {
-  return matchPatternList(file, tsconfig.include, { matchBase: true });
-});
+const locts = path.join(__dirname, "tsconfig.json");
 
-const toProcess = [];
-if (existsSync(outDir)) {
-  readDir.forEach((file) => {
-    const toCopy = path.join(__dirname, file);
-    const destCopy = path.resolve(path.join(outDir, file));
-    //console.log(toCopy, destCopy);
-    copyFileSync(toCopy, destCopy);
+if (existsSync(locts)) {
+  const tsconfig = JSON.parse(readFileSync(locts).toString());
+  const outDir = tsconfig.compilerOptions.outDir;
+  const readDir = readdirSync(__dirname).filter((file) => {
+    return matchPatternList(file, tsconfig.include, { matchBase: true });
   });
+
+  if (existsSync(outDir)) {
+    readDir.forEach((file) => {
+      const toCopy = path.join(__dirname, file);
+      const destCopy = path.resolve(path.join(outDir, file));
+      //console.log(toCopy, destCopy);
+      copyFileSync(toCopy, destCopy);
+    });
+  }
 }
 
 /**
