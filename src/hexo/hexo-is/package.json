@@ -1,6 +1,6 @@
 {
   "name": "hexo-is",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Determine whether hexo is",
   "main": "index.js",
   "types": "index.d.ts",
@@ -31,8 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "hexo-log": "^3.0.0",
-    "minimatch": "^3.0.4",
-    "underscore": "^1.13.1"
+    "minimatch": "^3.0.4"
   },
   "devDependencies": {
     "ts-node": "^10.4.0",

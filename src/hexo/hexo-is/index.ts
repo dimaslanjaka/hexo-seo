@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params */
 import Hexo from "hexo";
 import hexoLog from "hexo-log";
 import pkg from "./package.json";
@@ -5,7 +6,6 @@ import * as fs from "fs";
 import util from "util";
 import path from "path";
 import is from "./is";
-import { memoize } from "underscore";
 const log = hexoLog({
   debug: false,
   silent: false
@@ -21,21 +21,31 @@ const log = hexoLog({
  * @returns
  */
 const hexoIs = function (hexo: Hexo | Hexo.View) {
-  return memoize(is(hexo));
+  if (typeof hexo["page"] != "undefined") return is(hexo);
+
+  /*
+  if (typeof hexo["locals"] != "undefined") {
+    hexoIsDump(hexo["locals"]["page"], "locals");
+  }
+  */
+
+  if (typeof hexo["extend"] != "undefined") {
+    const filter = hexo["extend"]["filter"];
+    //filter.register("after_render:html", dumper);
+    //hexoIsDump(filter["store"]["_after_html_render"], "filter");
+  }
 };
 
-/**
- * indicator dump only once per session
- */
-let dumped = false;
+function dumper() {
+  hexoIsDump(arguments, "arg");
+}
 
 /**
  * Dump variable to file
  * @param toDump
  */
 export function hexoIsDump(toDump: any, name = "") {
-  if (dumped) return;
-  dumped = true;
+  if (name.length > 0) name = "-" + name;
   const dump = util.inspect(toDump, { showHidden: true, depth: null });
   const loc = path.join("tmp/hexo-is/dump" + name + ".txt");
   if (!fs.existsSync(path.dirname(loc))) {
