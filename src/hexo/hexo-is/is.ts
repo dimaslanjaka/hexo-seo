@@ -104,7 +104,8 @@ export default function (hexo: any) {
     year: false,
     month: false,
     category: false,
-    tag: false
+    tag: false,
+    message: "try using second argument"
   };
   if (typeof hexo["page"] == "undefined") return obj;
   return {
