@@ -1,1 +1,1 @@
-export { default as hexoSeo } from "./hexo-seo";
+export { default as hexoSeoCore } from "./hexo-seo";

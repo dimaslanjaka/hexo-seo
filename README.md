@@ -28,6 +28,7 @@ npm i hexo-seo
 - node_libcurl binding not found
 ```sh
 sudo apt-get install libcurl4-openssl-dev -y
+# run below codes only if above package already installed
 rm -rf node_modules
 npm install node-libcurl --build-from-source
 ```

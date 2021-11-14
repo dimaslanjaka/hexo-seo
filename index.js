@@ -19,18 +19,22 @@ const env =
 
 // define is development
 const isDev = arg || env;
+const tsConfig = path.join(__dirname, "tsconfig.json");
 
 if (typeof hexo !== "undefined") {
+  require("ts-node").register({
+    project: tsConfig
+  });
+  require("./src/hexo-seo").default(hexo);
+}
+
+function dynamicMethod() {
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     // dont run compiled script on development
     hexo.log.debug("hexo-seo running on production mode");
     const index = require("./dist/src/index");
-    if (typeof index === "function") {
-      index(hexo);
-    } else if (typeof index.default == "function") {
-      index.default(hexo);
-    } else if (typeof index.hexoSeo == "function") {
-      index.hexoSeo(hexo);
+    if (typeof index.hexoSeoCore == "function") {
+      index.hexoSeoCore(hexo);
     } else {
       hexo.log.error("Cannot find compiled hexo-seo plugin");
     }
@@ -38,7 +42,7 @@ if (typeof hexo !== "undefined") {
     // only run this plugin with hexo instance declared
     hexo.log.debug("hexo-seo running on development mode");
     require("ts-node").register({
-      project: path.resolve(path.join(__dirname, "tsconfig.json"))
+      project: tsConfig
     });
     require("./src/hexo-seo").default(hexo);
   }

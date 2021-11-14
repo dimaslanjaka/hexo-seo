@@ -23,7 +23,8 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     // if original file is changed, re-minify js
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;
-    const exclude = typeof options == "object" ? options.exclude : [];
+    console.log(options);
+    const exclude = typeof options.exclude == "object" ? options.exclude : [];
 
     if (path0 && exclude && exclude.length > 0) {
       log.debug("[exclude]", isIgnore(path0, exclude), path0, exclude);

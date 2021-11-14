@@ -29,8 +29,8 @@
       "type": "node-terminal"
     },
     {
-      "command": "cd ../../ && hexo clean && hexo server",
-      "name": "[PROD] clean server",
+      "command": "cd ../../ && hexo server --debug",
+      "name": "[PROD-DEBUG] server",
       "request": "launch",
       "type": "node-terminal"
     }
