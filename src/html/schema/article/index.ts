@@ -94,6 +94,44 @@ class articleSchema {
     this.hexo = options.hexo;
   }
 
+  /**
+   * Set custom property and value
+   * @param key
+   * @param value
+   */
+  set(key: string, value: any) {
+    this.schema[key] = value;
+  }
+
+  /**
+   * Set breadcrumbs by tags and categories
+   * @param tags
+   */
+  setBreadcrumbs(
+    tags: {
+      item: any;
+      name: any;
+    }[]
+  ) {
+    const build: typeof this.schema.mainEntityOfPage.mainEntity.itemListElement =
+      [];
+    for (let index = 0; index < tags.length; index++) {
+      const template = {
+        "@type": "ListItem",
+        position: 0,
+        name: "Books",
+        item: "https://example.com/books"
+      };
+      const tag = tags[index];
+      template.position = index + 1;
+      template.name = tag.name;
+      template.item = tag.item;
+      build.push(template);
+    }
+
+    this.schema.mainEntityOfPage.mainEntity.itemListElement = build;
+  }
+
   setUrl(url: string) {
     if (url) this.schema.url = url;
   }
@@ -112,13 +150,16 @@ class articleSchema {
     for (let index = 0; index < images.length; index++) {
       const image = $(images[index]);
       const img = image.attr("src");
-      if (img && img.length > 0) {
+      if (img && img.trim().startsWith("#") && img.trim().length > 0) {
         if (/^\/|http?s/gs.test(img)) {
           this.schema.image = img;
           return;
         }
       }
     }
+
+    this.schema.image =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png";
   }
 
   /**

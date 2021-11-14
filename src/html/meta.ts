@@ -6,7 +6,7 @@ import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 
 const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
-  const hexo = this;
+  const hexo: Hexo = this;
   const config = getConfig(hexo);
   const buildSchema = new schemaArticles({ pretty: true, hexo: data });
   const whereHexo = hexoIs2(data);
@@ -43,6 +43,45 @@ const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
       author = schemaData["author"];
     }
     if (author) buildSchema.setAuthor(author);
+
+    // prepare keywords
+    const keywords = [];
+    // prepare breadcrumbs
+    const schemaBreadcrumbs = [];
+    // prepare genres data
+    const genres = [];
+
+    // build breadcrumb
+    if (schemaData.tags && schemaData.tags.length > 0) {
+      schemaData.tags.forEach((tag, index, tags) => {
+        genres.push(tag["name"]);
+        keywords.push(tag["name"]);
+        const o = { item: tag["permalink"], name: tag["name"] };
+        schemaBreadcrumbs.push(<any>o);
+      });
+    }
+
+    if (schemaData.categories && schemaData.categories.length > 0) {
+      schemaData.categories.forEach((category) => {
+        keywords.push(category["name"]);
+        genres.push(category["name"]);
+        const o = { item: category["permalink"], name: category["name"] };
+        schemaBreadcrumbs.push(<any>o);
+      });
+    }
+
+    buildSchema.set("genre", genres.join(", "));
+
+    if (data["url"]) {
+      schemaBreadcrumbs.push({
+        item: data["url"] || schemaData["path"],
+        name: schemaData["title"] || data["title"] || hexo.config.url
+      });
+    }
+
+    if (schemaBreadcrumbs.length > 0) {
+      buildSchema.setBreadcrumbs(schemaBreadcrumbs);
+    }
 
     //dump(schemaData.title + "data.txt", extractSimplePageData(schemaData));
   }
