@@ -69,3 +69,8 @@
 - 7df4125 : update missconfigurable options  Mon Nov 15 22:27:48 2021 +0700
 - a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+
+## [1.0.13] 2021-11-15T23:32:28
+- df4a56c : fix missing dependency  Mon Nov 15 23:32:07 2021 +0700
+- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
+- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
