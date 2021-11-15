@@ -63,3 +63,9 @@
 - 2d50158 : fix undefined NODE_ENV [anoying]
 - a879b12 : fix hexo-seo
 - 58cf87d : fix
+
+## [1.0.12] 2021-11-15T22:35:35
+- bed0722 : fix missing files  Mon Nov 15 22:35:07 2021 +0700
+- 7df4125 : update missconfigurable options  Mon Nov 15 22:27:48 2021 +0700
+- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
+- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
