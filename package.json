@@ -7,6 +7,7 @@
     "dist",
     "src",
     "index.js",
+    "packages",
     "test.js",
     "*.md",
     "images"
@@ -19,7 +20,7 @@
     "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "copy-files": "copyfiles -u 1 source/**/* dist/source/",
+    "copy-files": "copyfiles -u 1 source/**/*.{html,css,js} lib/source/",
     "build": "rm -rf dist && tsc && npm run copy-files"
   },
   "repository": "dimaslanjaka/hexo-seo",
