@@ -45,5 +45,6 @@ declare const getConfig: (hexo: Hexo) => {
     html: htmlMinifyOptions;
     links: hyperlinkOptions;
     host: defaultSeoOptions["host"];
+    schema: boolean;
 };
 export default getConfig;

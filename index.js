@@ -22,13 +22,6 @@ const isDev = arg || env;
 const tsConfig = path.join(__dirname, "tsconfig.json");
 
 if (typeof hexo !== "undefined") {
-  require("ts-node").register({
-    project: tsConfig
-  });
-  require("./src/hexo-seo").default(hexo);
-}
-
-function dynamicMethod() {
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     // dont run compiled script on development
     hexo.log.debug("hexo-seo running on production mode");
@@ -42,7 +35,8 @@ function dynamicMethod() {
     // only run this plugin with hexo instance declared
     hexo.log.debug("hexo-seo running on development mode");
     require("ts-node").register({
-      project: tsConfig
+      projectSearchDir: __dirname.toString(),
+      project: "tsconfig.json"
     });
     require("./src/hexo-seo").default(hexo);
   }

@@ -10,7 +10,8 @@ var hexo_seo_1 = require("../hexo-seo");
 var fixMeta = function ($, data) {
     var hexo = this;
     var config = (0, config_1.default)(hexo);
-    console.log(config);
+    if (!config.schema)
+        return $;
     var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
     var whereHexo = (0, hexo_is_1.default)(data);
     var writeSchema = false;

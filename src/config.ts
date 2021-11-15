@@ -51,6 +51,7 @@ const getConfig = memoize(function (hexo: Hexo): {
   html: htmlMinifyOptions;
   links: hyperlinkOptions;
   host: defaultSeoOptions["host"];
+  schema: boolean;
 } {
   const defaultOpt: defaultSeoOptions = {
     js: {

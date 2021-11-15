@@ -132,14 +132,29 @@ var articleSchema = /** @class */ (function () {
             author = author["author"];
         //console.log(author);
         // determine author name
-        var authorName;
+        var authorName = "Google";
         if (typeof author == "string") {
             // if author option is string as default hexo
             authorName = author;
         }
         else {
             // try search author names
-            authorName = author["name"] || author["config"]["name"] || "Google";
+            authorName = author["name"] || author["nick"] || author["nickname"];
+            if (!authorName && typeof this.hexo.config.author != "undefined") {
+                if (typeof this.hexo.config.author == "string") {
+                    authorName = this.hexo.config.author;
+                }
+                else if (typeof this.hexo.config.author == "object") {
+                    var findAuthorKey = ["name", "nick", "nickname"];
+                    for (var key in findAuthorKey) {
+                        if (Object.prototype.hasOwnProperty.call(findAuthorKey, key)) {
+                            if (typeof this.hexo.config.author[key] == "string")
+                                authorName = this.hexo.config.author[key];
+                        }
+                    }
+                }
+            }
+            //author["config"]
         }
         this.schema.author.name =
             this.schema.publisher.name =
