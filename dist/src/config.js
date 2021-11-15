@@ -36,8 +36,14 @@ var getConfig = (0, underscore_1.memoize)(function (hexo) {
     };
     var config = hexo.config;
     var seo = config.seo;
-    if (typeof seo !== "object")
+    if (typeof seo === "undefined")
         return defaultOpt;
+    if (typeof seo.css === "boolean")
+        delete seo.css;
+    if (typeof seo.js === "boolean")
+        delete seo.js;
+    if (typeof seo.html === "boolean")
+        delete seo.html;
     seo = (0, object_assign_1.default)(defaultOpt, seo);
     //console.log(seo);
     return seo;

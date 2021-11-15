@@ -19,7 +19,6 @@ const env =
 
 // define is development
 const isDev = arg || env;
-const tsConfig = path.join(__dirname, "tsconfig.json");
 
 if (typeof hexo !== "undefined") {
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {

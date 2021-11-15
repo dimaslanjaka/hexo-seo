@@ -10,8 +10,6 @@ import Hexo from "hexo";
 import * as fs from "fs";
 import rimraf from "rimraf";
 import utils from "util";
-import { MD5 } from "crypto-js";
-import logger from "./log";
 import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
 import { isDev } from "./hexo-seo";
