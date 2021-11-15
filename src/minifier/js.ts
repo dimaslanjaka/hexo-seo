@@ -4,7 +4,7 @@ import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
 import assign from "object-assign";
-import { defaultSeoOptions } from "../config";
+import getConfig, { defaultSeoOptions } from "../config";
 import { isIgnore } from "../utils";
 
 export interface jsMinifyOptions extends MinifyOptions {
@@ -18,7 +18,9 @@ const cache = new Cache();
 
 export default async function (this: Hexo, str: any, data: Hexo.View) {
   const path0 = data.path;
-
+  const options = getConfig(hexo).js;
+  // if option js is false, return original content
+  if (typeof options == "boolean" && !options) return str;
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {
     // if original file is changed, re-minify js

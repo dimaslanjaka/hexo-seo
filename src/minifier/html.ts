@@ -24,6 +24,8 @@ const minHtml = memoize(async function (
 ) {
   const hexo = this;
   const options: MinifyOptions = getConfig(hexo).html;
+  // if option html is false, return original content
+  if (typeof options == "boolean" && !options) return str;
   const path = data.path;
   const exclude = options.exclude;
 

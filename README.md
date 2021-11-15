@@ -26,11 +26,15 @@ npm i hexo-seo
 # Troubleshoot
 
 - node_libcurl binding not found
-```sh
+```shell
 sudo apt-get install libcurl4-openssl-dev -y
 # run below codes only if above package already installed
 rm -rf node_modules
 npm install node-libcurl --build-from-source
+```
+-   Fixes
+```shell
+export NODE_OPTIONS=--max_old_space_size=4096
 ```
 
 ## Project with this package

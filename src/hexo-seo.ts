@@ -24,7 +24,8 @@ const env =
 export const isDev = arg || env;
 
 export default function (hexo: Hexo) {
-  hexo.config.seo = getConfig(hexo);
+  // hexo.config.seo = getConfig(hexo);
+  if (typeof hexo.config.seo == "undefined") return;
   hexo.extend.filter.register("server_middleware", function (app) {
     // Main routes
     app.use(

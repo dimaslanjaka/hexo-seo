@@ -48,15 +48,22 @@ export const isIgnore = underscore.memoize(
 );
 
 /**
- * Simplify object data
+ * Simplify object data / delete object key
  * @param data
  */
-export function extractSimplePageData(data: HexoSeo) {
+export function extractSimplePageData(data: HexoSeo, additional = []) {
   delete data._raw;
   delete data.raw;
   delete data._content;
   delete data.content;
   delete data.site;
+  if (additional.length > 0) {
+    for (const key in additional) {
+      if (Object.prototype.hasOwnProperty.call(additional, key)) {
+        if (data[key]) delete data[key];
+      }
+    }
+  }
   return data;
 }
 
@@ -69,13 +76,11 @@ let isFirst = true;
  */
 export const dump = function (filename: string, ...obj: any) {
   if (!isDev) return;
-  const hash = sanitizeFilename(filename).toString().replace(/\s+/, "-");
+  const hash = sanitizeFilename(filename).toString().replace(/\s/g, "-");
   const loc = path.join(__dirname, "../tmp", hash);
 
   if (isFirst) {
-    rimraf(loc, function (err) {
-      logger.log(loc, "deleted", err ? "fail" : "success");
-    });
+    rimraf.sync(loc);
     isFirst = false;
   }
 
