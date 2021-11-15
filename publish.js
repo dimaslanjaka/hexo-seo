@@ -18,7 +18,7 @@ const { join } = require("path");
 
 function updateChangelog(callback) {
   exec(
-    'git log --reflog --pretty=format:"%h : %s" --not --remotes',
+    'git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes',
     (err, stdout, stderr) => {
       const std = stdout
         .split("\n")
