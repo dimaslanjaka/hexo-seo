@@ -32,3 +32,7 @@ sudo apt-get install libcurl4-openssl-dev -y
 rm -rf node_modules
 npm install node-libcurl --build-from-source
 ```
+
+## Project with this package
+<a href="https://github.com/dimaslanjaka/dimaslanjaka.github.io/tree/compiler" alt="github">Github <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20px" height="20px" /></a> |
+[dimaslanjaka.github.io](https://dimaslanjaka.github.io)
