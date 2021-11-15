@@ -57,11 +57,8 @@ export function extractSimplePageData(data: HexoSeo, additional = []) {
   delete data._content;
   delete data.content;
   delete data.site;
-  if (additional.length > 0) {
-    for (const key in additional) {
-      delete data[key];
-    }
-  }
+  delete data.more;
+  delete data.excerpt;
   return data;
 }
 

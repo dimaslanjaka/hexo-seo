@@ -81,9 +81,11 @@ const getConfig = memoize(function (hexo: Hexo): {
     schema: true
   };
   const config: seoOptions = hexo.config;
-  const seo: defaultSeoOptions = config.seo;
+  let seo: defaultSeoOptions = config.seo;
   if (typeof seo !== "object") return <any>defaultOpt;
-  return <any>assign(defaultOpt, seo);
+  seo = assign(defaultOpt, seo);
+  //console.log(seo);
+  return <any>seo;
 });
 
 export default getConfig;

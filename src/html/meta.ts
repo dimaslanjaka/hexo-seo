@@ -85,10 +85,7 @@ const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
       buildSchema.setBreadcrumbs(schemaBreadcrumbs);
     }
 
-    dump(
-      schemaData.title + "data.txt",
-      extractSimplePageData(schemaData, ["more", "excerpt"])
-    );
+    dump(schemaData.title + "data.txt", extractSimplePageData(schemaData));
   }
 
   if (writeSchema) {
