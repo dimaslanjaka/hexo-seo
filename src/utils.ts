@@ -59,9 +59,7 @@ export function extractSimplePageData(data: HexoSeo, additional = []) {
   delete data.site;
   if (additional.length > 0) {
     for (const key in additional) {
-      if (Object.prototype.hasOwnProperty.call(additional, key)) {
-        if (data[key]) delete data[key];
-      }
+      delete data[key];
     }
   }
   return data;
