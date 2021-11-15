@@ -33,6 +33,7 @@ var rimraf_1 = __importDefault(require("rimraf"));
 var util_1 = __importDefault(require("util"));
 var log_1 = __importDefault(require("./log"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
+var hexo_seo_1 = require("./hexo-seo");
 var md5Cache = {};
 var fileCache = {};
 /**
@@ -83,6 +84,8 @@ var dump = function (filename) {
     for (var _i = 1; _i < arguments.length; _i++) {
         obj[_i - 1] = arguments[_i];
     }
+    if (!hexo_seo_1.isDev)
+        return;
     var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s+/, "-");
     var loc = path_1.default.join(__dirname, "../tmp", hash);
     if (isFirst) {

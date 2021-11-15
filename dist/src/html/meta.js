@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = require("../utils");
 var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
@@ -83,7 +84,7 @@ var fixMeta = function ($, data) {
         if (schemaBreadcrumbs_1.length > 0) {
             buildSchema.setBreadcrumbs(schemaBreadcrumbs_1);
         }
-        //dump(schemaData.title + "data.txt", extractSimplePageData(schemaData));
+        (0, utils_1.dump)(schemaData.title + "data.txt", (0, utils_1.extractSimplePageData)(schemaData));
     }
     if (writeSchema) {
         var bodyArticle = void 0;

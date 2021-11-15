@@ -14,6 +14,7 @@ import { MD5 } from "crypto-js";
 import logger from "./log";
 import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
+import { isDev } from "./hexo-seo";
 
 export interface Objek extends Object {
   [key: string]: any;
@@ -67,6 +68,7 @@ let isFirst = true;
  * @param obj
  */
 export const dump = function (filename: string, ...obj: any) {
+  if (!isDev) return;
   const hash = sanitizeFilename(filename).toString().replace(/\s+/, "-");
   const loc = path.join(__dirname, "../tmp", hash);
 
