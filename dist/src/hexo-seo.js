@@ -9,7 +9,6 @@ var js_1 = __importDefault(require("./minifier/js"));
 var css_1 = __importDefault(require("./minifier/css"));
 var html_1 = __importDefault(require("./minifier/html"));
 var minimist_1 = __importDefault(require("minimist"));
-var config_1 = __importDefault(require("./config"));
 var serve_static_1 = __importDefault(require("serve-static"));
 var path_1 = __importDefault(require("path"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
@@ -21,7 +20,9 @@ var env = process.env.NODE_ENV &&
 // define is development
 exports.isDev = arg || env;
 function default_1(hexo) {
-    hexo.config.seo = (0, config_1.default)(hexo);
+    // hexo.config.seo = getConfig(hexo);
+    if (typeof hexo.config.seo == "undefined")
+        return;
     hexo.extend.filter.register("server_middleware", function (app) {
         // Main routes
         app.use(hexo.config.root + "hexo-seo/", (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));

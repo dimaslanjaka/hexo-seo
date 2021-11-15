@@ -38,6 +38,8 @@ var getConfig = (0, underscore_1.memoize)(function (hexo) {
     var seo = config.seo;
     if (typeof seo !== "object")
         return defaultOpt;
-    return (0, object_assign_1.default)(defaultOpt, seo);
+    seo = (0, object_assign_1.default)(defaultOpt, seo);
+    //console.log(seo);
+    return seo;
 });
 exports.default = getConfig;

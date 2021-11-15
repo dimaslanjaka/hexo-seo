@@ -56,6 +56,9 @@ var minHtml = (0, underscore_1.memoize)(function (str, data) {
                 case 0:
                     hexo = this;
                     options = (0, config_1.default)(hexo).html;
+                    // if option html is false, return original content
+                    if (typeof options == "boolean" && !options)
+                        return [2 /*return*/, str];
                     path = data.path;
                     exclude = options.exclude;
                     if (path && exclude && exclude.length) {

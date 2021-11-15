@@ -44,21 +44,26 @@ var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache_1 = __importDefault(require("../cache"));
 var object_assign_1 = __importDefault(require("object-assign"));
+var config_1 = __importDefault(require("../config"));
 var utils_1 = require("../utils");
 var cache = new cache_1.default();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, isChanged, hexo_1, options, minifyOptions, result, saved, e_1;
+        var path0, options, isChanged, hexo_1, options_1, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     path0 = data.path;
+                    options = (0, config_1.default)(this).js;
+                    // if option js is false, return original content
+                    if (typeof options == "boolean" && !options)
+                        return [2 /*return*/, str];
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
                     hexo_1 = this;
-                    options = {
+                    options_1 = {
                         exclude: ["*.min.js"]
                     };
                     if (typeof hexo_1.config.seo.js === "boolean") {
@@ -66,10 +71,10 @@ function default_1(str, data) {
                             return [2 /*return*/, str];
                     }
                     else if (typeof hexo_1.config.seo.js == "object") {
-                        options = (0, object_assign_1.default)(options, hexo_1.config.seo.js);
+                        options_1 = (0, object_assign_1.default)(options_1, hexo_1.config.seo.js);
                     }
                     //console.log(`minifying ${path0}`);
-                    if (typeof options == "object" && (0, utils_1.isIgnore)(path0, options.exclude))
+                    if (typeof options_1 == "object" && (0, utils_1.isIgnore)(path0, options_1.exclude))
                         return [2 /*return*/, str];
                     minifyOptions = {
                         mangle: {

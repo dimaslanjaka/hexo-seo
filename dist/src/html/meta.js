@@ -10,8 +10,8 @@ var article_1 = __importDefault(require("./schema/article"));
 var hexo_seo_1 = require("../hexo-seo");
 var fixMeta = function ($, data) {
     var hexo = this;
-    var config = (0, config_1.default)(hexo);
-    if (!config.schema)
+    var config = (0, config_1.default)(hexo).schema;
+    if (!config)
         return $;
     var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
     var whereHexo = (0, hexo_is_1.default)(data);

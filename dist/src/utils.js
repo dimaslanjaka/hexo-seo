@@ -31,7 +31,6 @@ var path_1 = __importDefault(require("path"));
 var fs = __importStar(require("fs"));
 var rimraf_1 = __importDefault(require("rimraf"));
 var util_1 = __importDefault(require("util"));
-var log_1 = __importDefault(require("./log"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 var hexo_seo_1 = require("./hexo-seo");
 var md5Cache = {};
@@ -61,15 +60,18 @@ exports.isIgnore = underscore_1.default.memoize(function (path0, exclude, hexo) 
     return false;
 });
 /**
- * Simplify object data
+ * Simplify object data / delete object key
  * @param data
  */
-function extractSimplePageData(data) {
+function extractSimplePageData(data, additional) {
+    if (additional === void 0) { additional = []; }
     delete data._raw;
     delete data.raw;
     delete data._content;
     delete data.content;
     delete data.site;
+    delete data.more;
+    delete data.excerpt;
     return data;
 }
 exports.extractSimplePageData = extractSimplePageData;
@@ -86,12 +88,10 @@ var dump = function (filename) {
     }
     if (!hexo_seo_1.isDev)
         return;
-    var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s+/, "-");
+    var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s/g, "-");
     var loc = path_1.default.join(__dirname, "../tmp", hash);
     if (isFirst) {
-        (0, rimraf_1.default)(loc, function (err) {
-            log_1.default.log(loc, "deleted", err ? "fail" : "success");
-        });
+        rimraf_1.default.sync(loc);
         isFirst = false;
     }
     if (!fs.existsSync(path_1.default.dirname(loc))) {

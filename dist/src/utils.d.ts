@@ -8,10 +8,10 @@ export interface Objek extends Object {
  */
 export declare const isIgnore: (path0: string, exclude: string | string[], hexo?: Hexo) => boolean;
 /**
- * Simplify object data
+ * Simplify object data / delete object key
  * @param data
  */
-export declare function extractSimplePageData(data: HexoSeo): HexoSeo;
+export declare function extractSimplePageData(data: HexoSeo, additional?: any[]): HexoSeo;
 /**
  * Dump large objects
  * @param filename

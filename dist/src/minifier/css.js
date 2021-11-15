@@ -79,6 +79,9 @@ function default_1(str, data) {
                     if (!isChanged) return [3 /*break*/, 6];
                     hexo_1 = this;
                     options = (0, config_1.default)(hexo_1).css;
+                    // if option css is false, return original content
+                    if (typeof options == "boolean" && !options)
+                        return [2 /*return*/, str];
                     exclude = typeof options.exclude == "object" ? options.exclude : [];
                     if (path0 && exclude && exclude.length > 0) {
                         log_1.default.debug("[exclude]", (0, utils_1.isIgnore)(path0, exclude), path0, exclude);
