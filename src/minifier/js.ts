@@ -18,7 +18,7 @@ const cache = new Cache();
 
 export default async function (this: Hexo, str: any, data: Hexo.View) {
   const path0 = data.path;
-  const options = getConfig(hexo).js;
+  const options = getConfig(this).js;
   // if option js is false, return original content
   if (typeof options == "boolean" && !options) return str;
   const isChanged = await cache.isFileChanged(path0);
