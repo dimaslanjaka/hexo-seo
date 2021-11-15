@@ -82,7 +82,10 @@ const getConfig = memoize(function (hexo: Hexo): {
   };
   const config: seoOptions = hexo.config;
   let seo: defaultSeoOptions = config.seo;
-  if (typeof seo !== "object") return <any>defaultOpt;
+  if (typeof seo === "undefined") return <any>defaultOpt;
+  if (typeof seo.css === "boolean") delete seo.css;
+  if (typeof seo.js === "boolean") delete seo.js;
+  if (typeof seo.html === "boolean") delete seo.html;
   seo = assign(defaultOpt, seo);
   //console.log(seo);
   return <any>seo;

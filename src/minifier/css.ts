@@ -7,9 +7,10 @@ import { isIgnore } from "../utils";
 import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
-import * as chalk from "chalk";
+import chalk from "chalk";
 
 export type cssMinifyOptions = CleanCSS.Options & {
+  enable?: boolean;
   exclude?: string[];
 };
 
