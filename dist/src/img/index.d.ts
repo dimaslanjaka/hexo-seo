@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 /**

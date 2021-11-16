@@ -60,9 +60,11 @@ var env = process.env.NODE_ENV &&
 exports.isDev = arg || env;
 function default_1(hexo) {
     var _this = this;
-    hexo.config.seo = (0, config_1.default)(hexo);
-    if (typeof hexo.config.seo == "undefined")
+    if (typeof hexo.config.seo == "undefined") {
+        console.error("ERROR", "seo options not found");
         return;
+    }
+    hexo.config.seo = (0, config_1.default)(hexo);
     hexo.extend.filter.register("server_middleware", function (app) {
         // Main routes
         app.use(hexo.config.root + "hexo-seo/", (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
