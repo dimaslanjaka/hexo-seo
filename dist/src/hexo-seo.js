@@ -61,20 +61,28 @@ var env = process.env.NODE_ENV &&
 exports.isDev = arg || env;
 function default_1(hexo) {
     var _this = this;
+    // return if hexo-seo configuration unavailable
     if (typeof hexo.config.seo == "undefined") {
         console.error("ERROR", "seo options not found");
         return;
     }
+    // bind configuration
     hexo.config.seo = (0, config_1.default)(hexo);
+    // register source to hexo middleware
+    // hexo-seo available in server http://localhost:4000/hexo-seo
     hexo.extend.filter.register("server_middleware", function (app) {
         // Main routes
         app.use(hexo.config.root + "hexo-seo/", (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
     });
+    // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);
+    // minify css
     hexo.extend.filter.register("after_render:css", css_1.default);
+    // bind hexo instance
     var anchorfix = hyperlink_1.default.bind(hexo);
     var metafix = meta_1.default.bind(hexo);
     var imagefix = img_1.default.bind(hexo);
+    // fix seo function
     var fixSeoHtml = function (str, data) { return __awaiter(_this, void 0, void 0, function () {
         var $;
         return __generator(this, function (_a) {
@@ -97,7 +105,7 @@ function default_1(hexo) {
         });
     }); };
     hexo.extend.filter.register("after_render:html", fixSeoHtml);
-    //hexo.extend.filter.register("after_generate", seoImage);
+    //hexo.extend.filter.register("after_generate", minHtml);
     //hexo.extend.filter.register("after_generate", testAfterGenerate);
     //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);
 }

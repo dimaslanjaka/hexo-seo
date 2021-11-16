@@ -1,6 +1,10 @@
 # hexo-seo
 Automated Hexo Seo Optimizer (under development)
 
+[![npm version](https://badge.fury.io/js/hexo-seo.svg)](https://badge.fury.io/js/hexo-seo)
+[![Npm package yearly downloads](https://badgen.net/npm/dy/hexo-seo)](https://npmjs.com/package/hexo-seo)
+[![Minimum node.js version](https://badgen.net/npm/node/hexo-seo)](https://npmjs.com/package/hexo-seo)
+
 > this plugin builded with typescript
 
 # Installation
@@ -41,3 +45,4 @@ export NODE_OPTIONS=--max_old_space_size=4096
 
 <a href="https://github.com/dimaslanjaka/dimaslanjaka.github.io/tree/compiler" alt="github">Github <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20px" height="20px" /></a> |
 [dimaslanjaka.github.io](https://dimaslanjaka.github.io)
+

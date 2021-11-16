@@ -42,14 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var html_minifier_terser_1 = require("html-minifier-terser");
 var utils_1 = require("../utils");
 var config_1 = __importDefault(require("../config"));
-var img_1 = __importDefault(require("../img"));
-var cheerio_1 = __importDefault(require("cheerio"));
-var meta_1 = __importDefault(require("../html/meta"));
-var hyperlink_1 = __importDefault(require("../html/hyperlink"));
 var minHtml = function (str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var hexo, options, path, exclude, processHtml;
-        var _this = this;
+        var hexo, options, path, exclude, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -64,39 +59,17 @@ var minHtml = function (str, data) {
                         if ((0, utils_1.isIgnore)(path, exclude))
                             return [2 /*return*/, str];
                     }
-                    processHtml = function (str) { return __awaiter(_this, void 0, void 0, function () {
-                        var $;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    $ = cheerio_1.default.load(str);
-                                    return [4 /*yield*/, img_1.default.bind(this)($, hexo)];
-                                case 1:
-                                    // check image start
-                                    $ = _a.sent();
-                                    // filter external links and optimize seo
-                                    $ = hyperlink_1.default.bind(this)($, hexo);
-                                    // fix meta
-                                    $ = meta_1.default.bind(this)($, data);
-                                    // set modified html
-                                    str = $.html();
-                                    return [4 /*yield*/, (0, html_minifier_terser_1.minify)(str, options)];
-                                case 2:
-                                    // minifying html start
-                                    str = _a.sent();
-                                    return [2 /*return*/, str];
-                            }
-                        });
-                    }); };
-                    return [4 /*yield*/, processHtml(str)];
+                    _a.label = 1;
                 case 1:
-                    /*try {
-                      str = await processHtml(str);
-                    } catch (err) {
-                      throw new Error(`Path: ${path}\n${err}`);
-                    }*/
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, (0, html_minifier_terser_1.minify)(str, options)];
+                case 2:
                     str = _a.sent();
-                    return [2 /*return*/, str];
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_1 = _a.sent();
+                    throw new Error("Path: " + path + "\n" + err_1);
+                case 4: return [2 /*return*/, str];
             }
         });
     });
