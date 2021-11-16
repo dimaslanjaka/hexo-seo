@@ -91,10 +91,12 @@ function default_1(hexo) {
             if (!img_itemprop || img_itemprop.trim().length === 0) {
                 img.attr("itemprop", "image");
             }
-            if (img.attr("src") &&
-                img.attr("src").length > 0 &&
-                /^https?:\/\//gs.test(img.attr("src")))
+            var img_src = img.attr("src");
+            if (img_src &&
+                img_src.trim().length > 0 &&
+                /^https?:\/\//gs.test(img_src)) {
                 images.push(img);
+            }
         });
         var fixBrokenImg = function (img) {
             var img_src = img.attr("src");

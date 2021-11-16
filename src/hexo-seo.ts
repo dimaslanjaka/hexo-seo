@@ -106,12 +106,14 @@ export default function (hexo: Hexo) {
         if (!img_itemprop || img_itemprop.trim().length === 0) {
           img.attr("itemprop", "image");
         }
+        const img_src = img.attr("src");
         if (
-          img.attr("src") &&
-          img.attr("src").length > 0 &&
-          /^https?:\/\//gs.test(img.attr("src"))
-        )
+          img_src &&
+          img_src.trim().length > 0 &&
+          /^https?:\/\//gs.test(img_src)
+        ) {
           images.push(img);
+        }
       });
 
       const fixBrokenImg = function (img: Cheerio<Element>) {
