@@ -3,5 +3,9 @@
 const hexoSeoInit = require("./dist/src");
 
 if (typeof hexo !== "undefined") {
-  hexoSeoInit(hexo);
+  try {
+    hexoSeoInit(hexo);
+  } catch (e) {
+    throw new Error(e);
+  }
 }

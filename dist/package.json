@@ -2,7 +2,7 @@
     "name": "hexo-seo",
     "version": "1.0.17",
     "description": "Automated Hexo Seo Optimizer",
-    "main": "dist/src/index.js",
+    "main": "index.js",
     "files": [
         "dist",
         "src",
