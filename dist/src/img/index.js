@@ -77,11 +77,11 @@ var getBuffer = function (src, hexo) {
         var base_dir = hexo.base_dir;
         var source_dir = hexo.source_dir;
         var find = src;
-        if (!fs_1.existsSync(src)) {
-            if (fs_1.existsSync(path_1.default.join(source_dir, src))) {
+        if (!(0, fs_1.existsSync)(src)) {
+            if ((0, fs_1.existsSync)(path_1.default.join(source_dir, src))) {
                 find = path_1.default.join(source_dir, src);
             }
-            else if (fs_1.existsSync(path_1.default.join(base_dir, src))) {
+            else if ((0, fs_1.existsSync)(path_1.default.join(base_dir, src))) {
                 find = path_1.default.join(base_dir, src);
             }
         }
@@ -115,7 +115,7 @@ function default_1($, hexo) {
             switch (_a.label) {
                 case 0:
                     title = $("title").text();
-                    config = config_1.default(hexo).img;
+                    config = (0, config_1.default)(hexo).img;
                     imgs = $("img");
                     index = 0;
                     _a.label = 1;
@@ -127,10 +127,10 @@ function default_1($, hexo) {
                     img_itemprop = $(img).attr("itemprop");
                     //logger.log("alt", alt);
                     if (!img_alt || img_alt.trim().length === 0) {
-                        $(img).attr("alt", sanitize_filename_1.default(title));
+                        $(img).attr("alt", (0, sanitize_filename_1.default)(title));
                     }
                     if (!img_title || img_title.trim().length === 0) {
-                        $(img).attr("title", sanitize_filename_1.default(title));
+                        $(img).attr("title", (0, sanitize_filename_1.default)(title));
                     }
                     if (!img_itemprop || img_itemprop.trim().length === 0) {
                         $(img).attr("itemprop", "image");
@@ -150,7 +150,7 @@ function default_1($, hexo) {
                     return [3 /*break*/, 5];
                 case 2:
                     if (!(img_src.length > 0)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, check_1.default(img_src)];
+                    return [4 /*yield*/, (0, check_1.default)(img_src)];
                 case 3:
                     check = _a.sent();
                     if (!check) {

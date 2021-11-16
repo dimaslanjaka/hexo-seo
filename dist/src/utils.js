@@ -47,12 +47,12 @@ var isIgnore = function (path0, exclude, hexo) {
                 var fromBase = path_1.default.join(hexo.base_dir, excludePattern);
                 var fromSource = path_1.default.join(hexo.source_dir, excludePattern);
                 //log.log([path0, fromBase, fromSource, excludePattern]);
-                if (minimatch_1.default(path0, fromSource))
+                if ((0, minimatch_1.default)(path0, fromSource))
                     return true;
-                if (minimatch_1.default(path0, fromBase))
+                if ((0, minimatch_1.default)(path0, fromBase))
                     return true;
             }
-            if (minimatch_1.default(path0, excludePattern))
+            if ((0, minimatch_1.default)(path0, excludePattern))
                 return true;
         }
     }
@@ -88,7 +88,7 @@ var dump = function (filename) {
     }
     if (!hexo_seo_1.isDev)
         return;
-    var hash = sanitize_filename_1.default(filename).toString().replace(/\s/g, "-");
+    var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s/g, "-");
     var loc = path_1.default.join(__dirname, "../tmp", hash);
     if (isFirst) {
         rimraf_1.default.sync(loc);

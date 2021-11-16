@@ -43,7 +43,7 @@ var getConfig = function (hexo) {
         delete seo.js;
     if (typeof seo.html === "boolean")
         delete seo.html;
-    seo = object_assign_1.default(defaultOpt, seo);
+    seo = (0, object_assign_1.default)(defaultOpt, seo);
     //console.log(seo);
     return seo;
 };

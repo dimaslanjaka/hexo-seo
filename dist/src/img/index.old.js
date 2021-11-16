@@ -51,20 +51,20 @@ function default_1() {
         return __generator(this, function (_a) {
             hexo = this;
             route = hexo.route;
-            options = config_1.default(hexo).img;
+            options = (0, config_1.default)(hexo).img;
             routes = route.list().filter(function (path0) {
-                var choose = minimatch_1.default(path0, "**/*.{htm,html}", { nocase: true });
+                var choose = (0, minimatch_1.default)(path0, "**/*.{htm,html}", { nocase: true });
                 if (typeof options == "object" && typeof options.exclude != "undefined") {
-                    choose = choose && !utils_1.isIgnore(path0, options.exclude);
+                    choose = choose && !(0, utils_1.isIgnore)(path0, options.exclude);
                 }
                 if (typeof hexo.config.skip_render != "undefined") {
                     // _config.yml skip_render https://hexo.io/docs/configuration.html#Directory
-                    choose = choose && !utils_1.isIgnore(path0, hexo.config.skip_render);
+                    choose = choose && !(0, utils_1.isIgnore)(path0, hexo.config.skip_render);
                 }
                 return choose;
             });
             processor = function (stream) {
-                stream_1.streamToArray(stream)
+                (0, stream_1.streamToArray)(stream)
                     .then(function (arr) {
                     return arr.join("");
                 })

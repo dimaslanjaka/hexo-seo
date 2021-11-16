@@ -4,12 +4,14 @@
 import Hexo from "hexo";
 import seoJs from "./minifier/js";
 import seoCss from "./minifier/css";
-import seoHtml from "./minifier/html";
+import cheerio from "cheerio";
 import minimist from "minimist";
 import getConfig from "./config";
 import serveStatic from "serve-static";
 import path from "path";
 import fixMeta from "./html/meta";
+import { HexoSeo } from "./html/schema/article";
+import fixHyperlinks from "./html/hyperlink";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -36,7 +38,22 @@ export default function (hexo: Hexo) {
   });
   hexo.extend.filter.register("after_render:js", seoJs);
   hexo.extend.filter.register("after_render:css", seoCss);
-  hexo.extend.filter.register("after_render:html", fixMeta);
+
+  const fixSeoHtml = async (str: string, data: HexoSeo) => {
+    // parse html start
+    let $ = cheerio.load(str);
+    // check image start
+    //$ = await seoImage.bind(this)($, hexo);
+    // filter external links and optimize seo
+    $ = fixHyperlinks.bind(this)($, hexo);
+    // fix meta
+    $ = fixMeta.bind(this)($, data);
+    // set modified html
+    str = $.html();
+    return str;
+  };
+
+  hexo.extend.filter.register("after_render:html", fixSeoHtml);
   //hexo.extend.filter.register("after_generate", seoImage);
   //hexo.extend.filter.register("after_generate", testAfterGenerate);
   //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);

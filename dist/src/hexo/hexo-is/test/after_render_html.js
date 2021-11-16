@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable prefer-rest-params */
 var __1 = __importDefault(require(".."));
 function default_1(content, data) {
-    var is = __1.default(data);
+    var is = (0, __1.default)(data);
     console.log(is);
     //hexoIsDump(arguments, "after_render_html_args");
 }

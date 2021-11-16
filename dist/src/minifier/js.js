@@ -54,7 +54,7 @@ function default_1(str, data) {
             switch (_a.label) {
                 case 0:
                     path0 = data.path;
-                    options = config_1.default(this).js;
+                    options = (0, config_1.default)(this).js;
                     // if option js is false, return original content
                     if (typeof options == "boolean" && !options)
                         return [2 /*return*/, str];
@@ -71,10 +71,10 @@ function default_1(str, data) {
                             return [2 /*return*/, str];
                     }
                     else if (typeof hexo_1.config.seo.js == "object") {
-                        options_1 = object_assign_1.default(options_1, hexo_1.config.seo.js);
+                        options_1 = (0, object_assign_1.default)(options_1, hexo_1.config.seo.js);
                     }
                     //console.log(`minifying ${path0}`);
-                    if (typeof options_1 == "object" && utils_1.isIgnore(path0, options_1.exclude))
+                    if (typeof options_1 == "object" && (0, utils_1.isIgnore)(path0, options_1.exclude))
                         return [2 /*return*/, str];
                     minifyOptions = {
                         mangle: {
@@ -91,7 +91,7 @@ function default_1(str, data) {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, terser_1.minify(str, minifyOptions)];
+                    return [4 /*yield*/, (0, terser_1.minify)(str, minifyOptions)];
                 case 3:
                     result = _a.sent();
                     if (result.code && result.code.length > 0) {

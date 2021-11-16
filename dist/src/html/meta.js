@@ -10,18 +10,18 @@ var article_1 = __importDefault(require("./schema/article"));
 var hexo_seo_1 = require("../hexo-seo");
 var fixMeta = function (content, data) {
     var hexo = this;
-    var config = config_1.default(hexo).schema;
+    var config = (0, config_1.default)(hexo).schema;
     var $;
-    if (!config)
-        return content;
     if (typeof content == "string") {
         $ = cheerio_1.default.load(content);
     }
     else {
         $ = content;
     }
+    if (!config)
+        return $;
     var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
-    var whereHexo = hexo_is_1.default(data);
+    var whereHexo = (0, hexo_is_1.default)(data);
     var writeSchema = false;
     if (whereHexo.post) {
         writeSchema = true;
@@ -106,6 +106,6 @@ var fixMeta = function (content, data) {
         buildSchema.setImage($);
         $("head").append("<script type=\"application/ld+json\">" + buildSchema + "</script>");
     }
-    return $.html();
+    return $;
 };
 exports.default = fixMeta;

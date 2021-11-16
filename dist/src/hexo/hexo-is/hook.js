@@ -7,18 +7,18 @@ var fs_1 = require("fs");
 var minimatch_1 = __importDefault(require("minimatch"));
 var path_1 = __importDefault(require("path"));
 var locts = path_1.default.join(__dirname, "tsconfig.json");
-if (fs_1.existsSync(locts)) {
-    var tsconfig_1 = JSON.parse(fs_1.readFileSync(locts).toString());
+if ((0, fs_1.existsSync)(locts)) {
+    var tsconfig_1 = JSON.parse((0, fs_1.readFileSync)(locts).toString());
     var outDir_1 = tsconfig_1.compilerOptions.outDir;
-    var readDir = fs_1.readdirSync(__dirname).filter(function (file) {
+    var readDir = (0, fs_1.readdirSync)(__dirname).filter(function (file) {
         return matchPatternList(file, tsconfig_1.include, { matchBase: true });
     });
-    if (fs_1.existsSync(outDir_1)) {
+    if ((0, fs_1.existsSync)(outDir_1)) {
         readDir.forEach(function (file) {
             var toCopy = path_1.default.join(__dirname, file);
             var destCopy = path_1.default.resolve(path_1.default.join(outDir_1, file));
             //console.log(toCopy, destCopy);
-            fs_1.copyFileSync(toCopy, destCopy);
+            (0, fs_1.copyFileSync)(toCopy, destCopy);
         });
     }
 }
@@ -31,6 +31,6 @@ if (fs_1.existsSync(locts)) {
  */
 function matchPatternList(path, patternList, options) {
     return patternList.some(function (pattern) {
-        return minimatch_1.default(path, pattern, options);
+        return (0, minimatch_1.default)(path, pattern, options);
     });
 }
