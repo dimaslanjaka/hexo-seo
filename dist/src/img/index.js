@@ -120,6 +120,7 @@ var seoImage = function (
                     title = $("title").text();
                     config = (0, config_1.default)(hexo).img;
                     imgs = $("img");
+                    if (!imgs.length) return [3 /*break*/, 6];
                     index = 0;
                     _a.label = 1;
                 case 1:
