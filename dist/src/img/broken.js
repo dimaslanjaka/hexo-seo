@@ -9,6 +9,8 @@ var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
 var check_1 = __importDefault(require("../curl/check"));
 var bluebird_1 = __importDefault(require("bluebird"));
+var cache_1 = __importDefault(require("../cache"));
+var cache = new cache_1.default();
 /**
  * is local image
  */
@@ -24,48 +26,60 @@ exports.isLocalImage = isLocalImage;
  * @param img
  */
 function default_1(content, data) {
-    var $ = cheerio_1.default.load(content);
-    var config = (0, config_1.default)(this).img;
-    var title = data.title;
-    var images = [];
-    $("img").each(function (i, el) {
-        var img = $(el);
-        var img_alt = img.attr("alt");
-        var img_title = img.attr("title");
-        var img_itemprop = img.attr("itemprop");
-        if (!img_alt || img_alt.trim().length === 0) {
-            img.attr("alt", title);
-        }
-        if (!img_title || img_title.trim().length === 0) {
-            img.attr("title", title);
-        }
-        if (!img_itemprop || img_itemprop.trim().length === 0) {
-            img.attr("itemprop", "image");
-        }
-        var img_src = img.attr("src");
-        if (img_src &&
-            img_src.trim().length > 0 &&
-            /^https?:\/\//gs.test(img_src)) {
-            images.push(img);
-        }
-    });
-    var fixBrokenImg = function (img) {
-        var img_src = img.attr("src");
-        return (0, check_1.default)(img_src).then(function (isWorking) {
-            var new_img_src = config.default.toString();
-            if (!isWorking) {
-                img.attr("src", new_img_src);
-                img.attr("src-original", img_src);
-                log_1.default.log("%s is broken, replaced with %s", img_src, new_img_src);
+    var path0 = data.path;
+    var isChanged = cache.isFileChanged(path0);
+    if (isChanged) {
+        var $_1 = cheerio_1.default.load(content);
+        var config_2 = (0, config_1.default)(this).img;
+        var title_1 = data.title;
+        var images_1 = [];
+        $_1("img").each(function (i, el) {
+            var img = $_1(el);
+            var img_alt = img.attr("alt");
+            var img_title = img.attr("title");
+            var img_itemprop = img.attr("itemprop");
+            if (!img_alt || img_alt.trim().length === 0) {
+                img.attr("alt", title_1);
             }
-            return img;
+            if (!img_title || img_title.trim().length === 0) {
+                img.attr("title", title_1);
+            }
+            if (!img_itemprop || img_itemprop.trim().length === 0) {
+                img.attr("itemprop", "image");
+            }
+            var img_src = img.attr("src");
+            if (img_src &&
+                img_src.trim().length > 0 &&
+                /^https?:\/\//gs.test(img_src)) {
+                images_1.push(img);
+            }
         });
-    };
-    return bluebird_1.default.all(images)
-        .map(fixBrokenImg)
-        .catch(function () { })
-        .then(function () {
-        return $.html();
-    });
+        var fixBrokenImg = function (img) {
+            var img_src = img.attr("src");
+            return (0, check_1.default)(img_src).then(function (isWorking) {
+                var new_img_src = config_2.default.toString();
+                if (!isWorking) {
+                    img.attr("src", new_img_src);
+                    img.attr("src-original", img_src);
+                    log_1.default.log("%s is broken, replaced with %s", img_src, new_img_src);
+                }
+                return img;
+            });
+        };
+        return bluebird_1.default.all(images_1)
+            .map(fixBrokenImg)
+            .catch(function () { })
+            .then(function () {
+            content = $_1.html();
+            cache.setCache(path0, content);
+            return content;
+        });
+    }
+    else {
+        var gCache = cache.getCache(path0);
+        return bluebird_1.default.any(gCache).then(function (content) {
+            return content;
+        });
+    }
 }
 exports.default = default_1;
