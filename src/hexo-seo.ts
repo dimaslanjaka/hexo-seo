@@ -42,15 +42,17 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:js", seoJs);
   hexo.extend.filter.register("after_render:css", seoCss);
 
+  const anchorfix = fixHyperlinks.bind(hexo);
+  const metafix = fixMeta.bind(hexo);
   const fixSeoHtml = async (str: string, data: HexoSeo) => {
     // parse html start
     let $ = cheerio.load(str);
     // check image start
     //$ = await seoImage.bind(this)($, hexo);
     // filter external links and optimize seo
-    $ = fixHyperlinks.bind(this)($, hexo);
+    $ = anchorfix($, hexo);
     // fix meta
-    $ = fixMeta.bind(this)($, data);
+    $ = metafix($, data);
     // set modified html
     str = $.html();
     return str;

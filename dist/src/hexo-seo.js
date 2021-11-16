@@ -71,6 +71,8 @@ function default_1(hexo) {
     });
     hexo.extend.filter.register("after_render:js", js_1.default);
     hexo.extend.filter.register("after_render:css", css_1.default);
+    var anchorfix = hyperlink_1.default.bind(hexo);
+    var metafix = meta_1.default.bind(hexo);
     var fixSeoHtml = function (str, data) { return __awaiter(_this, void 0, void 0, function () {
         var $;
         return __generator(this, function (_a) {
@@ -78,9 +80,9 @@ function default_1(hexo) {
             // check image start
             //$ = await seoImage.bind(this)($, hexo);
             // filter external links and optimize seo
-            $ = hyperlink_1.default.bind(this)($, hexo);
+            $ = anchorfix($, hexo);
             // fix meta
-            $ = meta_1.default.bind(this)($, data);
+            $ = metafix($, data);
             // set modified html
             str = $.html();
             return [2 /*return*/, str];
