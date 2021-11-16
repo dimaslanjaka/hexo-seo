@@ -50,35 +50,35 @@ const seoImage = async function ($: CheerioAPI, hexo: Hexo) {
   //await Promise.all($("img").map(processImg));
   const imgs = $("img");
   for (let index = 0; index < imgs.length; index++) {
-    const img = imgs[index];
+    const img = $(imgs[index]);
     // fix image alt and title
-    const img_alt = $(img).attr("alt");
-    const img_title = $(img).attr("title");
-    const img_itemprop = $(img).attr("itemprop");
+    const img_alt = img.attr("alt");
+    const img_title = img.attr("title");
+    const img_itemprop = img.attr("itemprop");
 
     //logger.log("alt", alt);
     if (!img_alt || img_alt.trim().length === 0) {
-      $(img).attr("alt", sanitizeFilename(title));
+      img.attr("alt", sanitizeFilename(title));
     }
     if (!img_title || img_title.trim().length === 0) {
-      $(img).attr("title", sanitizeFilename(title));
+      img.attr("title", sanitizeFilename(title));
     }
     if (!img_itemprop || img_itemprop.trim().length === 0) {
-      $(img).attr("itemprop", "image");
+      img.attr("itemprop", "image");
     }
 
-    const img_src = $(img).attr("src");
+    const img_src = img.attr("src");
     if (img_src) {
       // check if image is external
       const isExternal = /^https?:\/\//gs.test(img_src);
       if (isExternal) {
         if (config.onerror == "clientside") {
-          const img_onerror = $(img).attr("onerror");
+          const img_onerror = img.attr("onerror");
           if (!img_onerror /*|| img_onerror.trim().length === 0*/) {
             // to avoid image error, and fix endless loop onerror images
             //const imgBuf = getBuffer(config.default, hexo);
             //const base64 = await imageBuffer2base64(imgBuf);
-            $(img).attr(
+            img.attr(
               "onerror",
               "this.onerror=null;this.src='" + config.default + "';"
             );
@@ -95,14 +95,14 @@ const seoImage = async function ($: CheerioAPI, hexo: Hexo) {
                 img_src,
                 new_img_src
               );
-              $(img).attr("src", new_img_src);
+              img.attr("src", new_img_src);
             }
           }
-          $(img).attr("src-original", img_src);
+          img.attr("src-original", img_src);
         }
       }
     }
-    //const src = $(img).attr("src");
+    //const src = img.attr("src");
 
     //return $;
   }

@@ -121,31 +121,31 @@ var seoImage = function ($, hexo) {
                     _a.label = 1;
                 case 1:
                     if (!(index < imgs.length)) return [3 /*break*/, 6];
-                    img = imgs[index];
-                    img_alt = $(img).attr("alt");
-                    img_title = $(img).attr("title");
-                    img_itemprop = $(img).attr("itemprop");
+                    img = $(imgs[index]);
+                    img_alt = img.attr("alt");
+                    img_title = img.attr("title");
+                    img_itemprop = img.attr("itemprop");
                     //logger.log("alt", alt);
                     if (!img_alt || img_alt.trim().length === 0) {
-                        $(img).attr("alt", (0, sanitize_filename_1.default)(title));
+                        img.attr("alt", (0, sanitize_filename_1.default)(title));
                     }
                     if (!img_title || img_title.trim().length === 0) {
-                        $(img).attr("title", (0, sanitize_filename_1.default)(title));
+                        img.attr("title", (0, sanitize_filename_1.default)(title));
                     }
                     if (!img_itemprop || img_itemprop.trim().length === 0) {
-                        $(img).attr("itemprop", "image");
+                        img.attr("itemprop", "image");
                     }
-                    img_src = $(img).attr("src");
+                    img_src = img.attr("src");
                     if (!img_src) return [3 /*break*/, 5];
                     isExternal = /^https?:\/\//gs.test(img_src);
                     if (!isExternal) return [3 /*break*/, 5];
                     if (!(config.onerror == "clientside")) return [3 /*break*/, 2];
-                    img_onerror = $(img).attr("onerror");
+                    img_onerror = img.attr("onerror");
                     if (!img_onerror /*|| img_onerror.trim().length === 0*/) {
                         // to avoid image error, and fix endless loop onerror images
                         //const imgBuf = getBuffer(config.default, hexo);
                         //const base64 = await imageBuffer2base64(imgBuf);
-                        $(img).attr("onerror", "this.onerror=null;this.src='" + config.default + "';");
+                        img.attr("onerror", "this.onerror=null;this.src='" + config.default + "';");
                     }
                     return [3 /*break*/, 5];
                 case 2:
@@ -157,11 +157,11 @@ var seoImage = function ($, hexo) {
                         new_img_src = config.default.toString();
                         //logger.log("default img", img_src);
                         log_1.default.debug("%s is broken, replaced with %s", img_src, new_img_src);
-                        $(img).attr("src", new_img_src);
+                        img.attr("src", new_img_src);
                     }
                     _a.label = 4;
                 case 4:
-                    $(img).attr("src-original", img_src);
+                    img.attr("src-original", img_src);
                     _a.label = 5;
                 case 5:
                     index++;
