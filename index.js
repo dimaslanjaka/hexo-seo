@@ -24,7 +24,7 @@ if (typeof hexo !== "undefined") {
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     // dont run compiled script on development
     hexo.log.debug("hexo-seo running on production mode");
-    const index = require("./dist/src/index");
+    const index = require("./dist/src");
     if (typeof index.hexoSeoCore == "function") {
       index.hexoSeoCore(hexo);
     } else {
