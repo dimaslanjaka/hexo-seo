@@ -12,6 +12,7 @@ import path from "path";
 import fixMeta from "./html/meta";
 import { HexoSeo } from "./html/schema/article";
 import fixHyperlinks from "./html/hyperlink";
+import seoImage from "./img";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -42,13 +43,15 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:js", seoJs);
   hexo.extend.filter.register("after_render:css", seoCss);
 
-  const anchorfix = fixHyperlinks.bind(hexo);
-  const metafix = fixMeta.bind(hexo);
+  const anchorfix: typeof fixHyperlinks = fixHyperlinks.bind(hexo);
+  const metafix: typeof fixMeta = fixMeta.bind(hexo);
+  const imagefix: typeof seoImage = seoImage.bind(hexo);
   const fixSeoHtml = async (str: string, data: HexoSeo) => {
+    console.log(this);
     // parse html start
     let $ = cheerio.load(str);
     // check image start
-    //$ = await seoImage.bind(this)($, hexo);
+    $ = await imagefix($, hexo);
     // filter external links and optimize seo
     $ = anchorfix($, hexo);
     // fix meta

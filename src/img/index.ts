@@ -44,7 +44,7 @@ export const imageBuffer2base64 = async (buffer: Buffer) => {
   return "data:" + type.mime + ";base64," + buffer.toString("base64");
 };
 
-export default async function ($: CheerioAPI, hexo: Hexo) {
+const seoImage = async function ($: CheerioAPI, hexo: Hexo) {
   const title = $("title").text();
   const config = getConfig(hexo).img;
   //await Promise.all($("img").map(processImg));
@@ -108,4 +108,6 @@ export default async function ($: CheerioAPI, hexo: Hexo) {
   }
 
   return $;
-}
+};
+
+export default seoImage;

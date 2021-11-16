@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 /**
@@ -14,4 +13,5 @@ export declare const getBuffer: (src: Buffer | string, hexo: Hexo) => Buffer;
  * @returns
  */
 export declare const imageBuffer2base64: (buffer: Buffer) => Promise<string>;
-export default function ($: CheerioAPI, hexo: Hexo): Promise<CheerioAPI>;
+declare const seoImage: ($: CheerioAPI, hexo: Hexo) => Promise<CheerioAPI>;
+export default seoImage;

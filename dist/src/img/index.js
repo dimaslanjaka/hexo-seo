@@ -108,7 +108,7 @@ var imageBuffer2base64 = function (buffer) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.imageBuffer2base64 = imageBuffer2base64;
-function default_1($, hexo) {
+var seoImage = function ($, hexo) {
     return __awaiter(this, void 0, void 0, function () {
         var title, config, imgs, index, img, img_alt, img_title, img_itemprop, img_src, isExternal, img_onerror, check, new_img_src;
         return __generator(this, function (_a) {
@@ -170,5 +170,5 @@ function default_1($, hexo) {
             }
         });
     });
-}
-exports.default = default_1;
+};
+exports.default = seoImage;

@@ -50,6 +50,7 @@ var serve_static_1 = __importDefault(require("serve-static"));
 var path_1 = __importDefault(require("path"));
 var meta_1 = __importDefault(require("./html/meta"));
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
+var img_1 = __importDefault(require("./img"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -73,19 +74,26 @@ function default_1(hexo) {
     hexo.extend.filter.register("after_render:css", css_1.default);
     var anchorfix = hyperlink_1.default.bind(hexo);
     var metafix = meta_1.default.bind(hexo);
+    var imagefix = img_1.default.bind(hexo);
     var fixSeoHtml = function (str, data) { return __awaiter(_this, void 0, void 0, function () {
         var $;
         return __generator(this, function (_a) {
-            $ = cheerio_1.default.load(str);
-            // check image start
-            //$ = await seoImage.bind(this)($, hexo);
-            // filter external links and optimize seo
-            $ = anchorfix($, hexo);
-            // fix meta
-            $ = metafix($, data);
-            // set modified html
-            str = $.html();
-            return [2 /*return*/, str];
+            switch (_a.label) {
+                case 0:
+                    console.log(this);
+                    $ = cheerio_1.default.load(str);
+                    return [4 /*yield*/, imagefix($, hexo)];
+                case 1:
+                    // check image start
+                    $ = _a.sent();
+                    // filter external links and optimize seo
+                    $ = anchorfix($, hexo);
+                    // fix meta
+                    $ = metafix($, data);
+                    // set modified html
+                    str = $.html();
+                    return [2 /*return*/, str];
+            }
         });
     }); };
     hexo.extend.filter.register("after_render:html", fixSeoHtml);
