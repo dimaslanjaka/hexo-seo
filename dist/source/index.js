@@ -21,6 +21,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var fs = __importStar(require("fs"));
 var path_1 = __importDefault(require("path"));
 /**
@@ -28,9 +29,15 @@ var path_1 = __importDefault(require("path"));
  */
 var imgfallback = path_1.default.join(__dirname, "img", "no-image.png");
 if (!fs.existsSync(imgfallback)) {
+    imgfallback = path_1.default.join(__dirname, "../../../source/img", "no-image.png");
+}
+if (!fs.existsSync(imgfallback)) {
     imgfallback = path_1.default.join(__dirname, "../../source/img", "no-image.png");
 }
-module.exports = {
+if (!fs.existsSync(imgfallback)) {
+    imgfallback = path_1.default.join(__dirname, "../source/img", "no-image.png");
+}
+var defaultObject = {
     img: {
         fallback: {
             buffer: fs.readFileSync(imgfallback),
@@ -38,3 +45,8 @@ module.exports = {
         }
     }
 };
+if (typeof hexo != "undefined") {
+    console.log("setup route");
+    hexo.route.set(defaultObject.img.fallback.public, defaultObject.img.fallback.buffer);
+}
+exports.default = defaultObject;

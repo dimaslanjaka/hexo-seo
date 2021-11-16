@@ -26,8 +26,8 @@ if (typeof hexo !== "undefined") {
       // dont run compiled script on development
       hexo.log.debug("hexo-seo running on production mode");
       const index = require("./dist/src");
-      if (typeof index.hexoSeoCore == "function") {
-        index.hexoSeoCore(hexo);
+      if (typeof index.default == "function") {
+        index.default(hexo);
       } else {
         hexo.log.error("Cannot find compiled hexo-seo plugin");
       }
@@ -38,7 +38,7 @@ if (typeof hexo !== "undefined") {
         projectSearchDir: __dirname.toString(),
         project: "tsconfig.json"
       });
-      require("./src/hexo-seo").default(hexo);
+      require("./src").default(hexo);
     }
   } catch (e) {
     throw new Error(e);

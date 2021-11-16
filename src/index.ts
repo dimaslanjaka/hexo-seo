@@ -6,8 +6,6 @@ import seoJs from "./minifier/js";
 import seoCss from "./minifier/css";
 import minimist from "minimist";
 import getConfig from "./config";
-import serveStatic from "serve-static";
-import path from "path";
 import fixMeta from "./html/meta";
 import fixHyperlinks from "./html/hyperlink";
 import brokenImageFix from "./img/broken";
@@ -37,10 +35,10 @@ export default function (hexo: Hexo) {
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo
-  hexo.extend.filter.register("server_middleware", function (app) {
+  /*hexo.extend.filter.register("server_middleware", function (app) {
     // Main routes
     app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
-  });
+  });*/
 
   // minify javascripts
   hexo.extend.filter.register("after_render:js", seoJs);
@@ -54,6 +52,4 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:html", brokenImageFix);
 
   //hexo.extend.filter.register("after_generate", minHtml);
-  //hexo.extend.filter.register("after_generate", testAfterGenerate);
-  //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);
 }

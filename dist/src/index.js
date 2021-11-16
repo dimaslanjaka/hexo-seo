@@ -9,8 +9,6 @@ var js_1 = __importDefault(require("./minifier/js"));
 var css_1 = __importDefault(require("./minifier/css"));
 var minimist_1 = __importDefault(require("minimist"));
 var config_1 = __importDefault(require("./config"));
-var serve_static_1 = __importDefault(require("serve-static"));
-var path_1 = __importDefault(require("path"));
 var meta_1 = __importDefault(require("./html/meta"));
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
 var broken_1 = __importDefault(require("./img/broken"));
@@ -32,10 +30,10 @@ function default_1(hexo) {
     hexo.config.seo = (0, config_1.default)(hexo);
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo
-    hexo.extend.filter.register("server_middleware", function (app) {
-        // Main routes
-        app.use(hexo.config.root, (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
-    });
+    /*hexo.extend.filter.register("server_middleware", function (app) {
+      // Main routes
+      app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
+    });*/
     // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);
     // minify css
@@ -47,7 +45,5 @@ function default_1(hexo) {
     // test image fix
     hexo.extend.filter.register("after_render:html", broken_1.default);
     //hexo.extend.filter.register("after_generate", minHtml);
-    //hexo.extend.filter.register("after_generate", testAfterGenerate);
-    //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);
 }
 exports.default = default_1;

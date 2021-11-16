@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable global-require */
 /* eslint-disable no-undef */
-const hexoSeoInit = require("./dist/src/index");
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* global hexo */
 
-if (typeof hexo !== "undefined") {
-  try {
-    hexoSeoInit.default(hexo);
-  } catch (e) {
-    throw new Error(e);
-  }
-}
+hexo.log.debug("hexo-seo running on development mode");
+require("ts-node").register({
+  projectSearchDir: __dirname.toString(),
+  project: "tsconfig.json"
+});
+require("./src").default(hexo);

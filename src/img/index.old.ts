@@ -2,12 +2,10 @@ import Hexo from "hexo";
 import logger from "../log";
 import getConfig from "../config";
 import minimatch from "minimatch";
-import { isIgnore, dump } from "../utils";
+import { isIgnore } from "../utils";
 import { streamToArray } from "../utils/stream";
 import cheerio from "cheerio";
-import imageBroken from "./broken";
 import { Stream } from "stream";
-import { memoize } from "underscore";
 
 export interface imgOptions {
   /**

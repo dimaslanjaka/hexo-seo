@@ -6,10 +6,16 @@ import path from "path";
  */
 let imgfallback = path.join(__dirname, "img", "no-image.png");
 if (!fs.existsSync(imgfallback)) {
+  imgfallback = path.join(__dirname, "../../../source/img", "no-image.png");
+}
+if (!fs.existsSync(imgfallback)) {
   imgfallback = path.join(__dirname, "../../source/img", "no-image.png");
 }
+if (!fs.existsSync(imgfallback)) {
+  imgfallback = path.join(__dirname, "../source/img", "no-image.png");
+}
 
-export = {
+const defaultObject = {
   img: {
     fallback: {
       buffer: fs.readFileSync(imgfallback),
@@ -17,3 +23,13 @@ export = {
     }
   }
 };
+
+if (typeof hexo != "undefined") {
+  console.log("setup route");
+  hexo.route.set(
+    defaultObject.img.fallback.public,
+    defaultObject.img.fallback.buffer
+  );
+}
+
+export default defaultObject;

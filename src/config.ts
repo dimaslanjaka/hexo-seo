@@ -5,7 +5,6 @@ import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
-import { memoize } from "underscore";
 import source from "../source";
 import { hyperlinkOptions } from "./html/hyperlink";
 
@@ -80,6 +79,7 @@ const getConfig = function (hexo: Hexo): {
     },
     schema: true
   };
+
   const config: seoOptions = hexo.config;
   let seo: defaultSeoOptions = config.seo;
   if (typeof seo === "undefined") return <any>defaultOpt;

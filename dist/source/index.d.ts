@@ -1,5 +1,5 @@
 /// <reference types="node" />
-declare const _default: {
+declare const defaultObject: {
     img: {
         fallback: {
             buffer: Buffer;
@@ -7,4 +7,4 @@ declare const _default: {
         };
     };
 };
-export = _default;
+export default defaultObject;
