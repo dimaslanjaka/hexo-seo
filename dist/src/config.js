@@ -37,7 +37,8 @@ var getConfig = function (hexo, key) {
             },
             schema: true
         };
-        hexo.route.set(source_1.default.img.fallback.public, source_1.default.img.fallback.buffer);
+        if (!/^http?s/gs.test(source_1.default.img.fallback.public))
+            hexo.route.set(source_1.default.img.fallback.public, source_1.default.img.fallback.buffer);
         var config = hexo.config;
         var seo = config.seo;
         if (typeof seo === "undefined")
