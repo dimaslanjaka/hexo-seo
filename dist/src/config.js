@@ -33,6 +33,7 @@ var getConfig = function (hexo) {
         },
         schema: true
     };
+    hexo.route.set(source_1.default.img.fallback.public, source_1.default.img.fallback.buffer);
     var config = hexo.config;
     var seo = config.seo;
     if (typeof seo === "undefined")

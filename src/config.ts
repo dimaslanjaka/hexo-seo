@@ -80,6 +80,8 @@ const getConfig = function (hexo: Hexo): {
     schema: true
   };
 
+  hexo.route.set(source.img.fallback.public, source.img.fallback.buffer);
+
   const config: seoOptions = hexo.config;
   let seo: defaultSeoOptions = config.seo;
   if (typeof seo === "undefined") return <any>defaultOpt;

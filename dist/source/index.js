@@ -45,8 +45,4 @@ var defaultObject = {
         }
     }
 };
-if (typeof hexo != "undefined") {
-    console.log("setup route");
-    hexo.route.set(defaultObject.img.fallback.public, defaultObject.img.fallback.buffer);
-}
 exports.default = defaultObject;
