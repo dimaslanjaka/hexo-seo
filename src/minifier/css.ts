@@ -1,7 +1,7 @@
 "use strict";
 
 import CleanCSS from "clean-css";
-import getConfig, { defaultSeoOptions } from "../config";
+import getConfig from "../config";
 import Hexo from "hexo";
 import { isIgnore } from "../utils";
 import log from "../log";

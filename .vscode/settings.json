@@ -19,5 +19,7 @@
     "packages": true,
     "dist": true
   },
-  "git.detectSubmodules": false
+  "git.detectSubmodules": false,
+  "javascript.suggestionActions.enabled": false,
+  "typescript.suggestionActions.enabled": false
 }

@@ -1,9 +1,7 @@
-import { Cheerio, CheerioAPI, Element } from "cheerio";
+import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
 import parseUrl from "url-parse";
-import logger from "../log";
-import { memoize } from "underscore";
 import sanitizeFilename from "sanitize-filename";
 
 /**
@@ -73,10 +71,14 @@ const extractRel = function (anchor: Cheerio<Element>) {
   return [];
 };
 
-const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
-  const config = getConfig(hexo);
-  const hexoConfig = hexo.config;
+const fixHyperlinks = function (
+  this: Hexo,
+  content: string,
+  data: Hexo.Locals.Page
+) {
+  const hexoConfig = this.config;
   let siteHost = parseUrl(hexoConfig.url).hostname;
+  const $ = cheerio.load(content);
   const hyperlinks = $("a");
   if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
     siteHost = siteHost.trim();
@@ -85,18 +87,24 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
       const href = parseUrl(hyperlink.attr("href"));
       // external links rel
       if (typeof href.hostname == "string") {
-        let attr = extractRel(hyperlink);
         const hyperlinkHost = href.hostname.trim();
-        /**
-         * filter by global hexo site url host
-         */
-        const isInternal = !isExternal(href, hexo);
-        const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
-        const internalArr = ["internal", "follow", "bookmark"];
-
         if (hyperlinkHost.length > 0) {
+          /**
+           * filter by global hexo site url host
+           */
+          const isInternal = !isExternal(href, this);
+          const externalArr = [
+            "nofollow",
+            "noopener",
+            "noreferer",
+            "noreferrer"
+          ];
+          let attr = extractRel(hyperlink);
+          const internalArr = ["internal", "follow", "bookmark"];
+
+          //console.log(hyperlinkHost, "is internal", isInternal);
           if (isInternal) {
-            // internal link
+            // internal link, remove external rel
             attr = attr.concat(internalArr).filter(function (el) {
               return !externalArr.includes(el);
             });
@@ -122,15 +130,16 @@ const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
           hyperlink.attr("rel", attr.join(" ").trim());
         }
       }
+
       // fix anchor title
       const a_title = hyperlink.attr("title");
-      if (a_title && a_title.trim().length < 1) {
-        const a_text = sanitizeFilename(hyperlink.text());
+      if (!a_title || a_title.trim().length < 1) {
+        const a_text = hyperlink.text().replace(/['"]/gm, "");
         hyperlink.attr("title", a_text);
       }
     }
   }
-  return $;
+  return $.html();
 };
 
 export default fixHyperlinks;

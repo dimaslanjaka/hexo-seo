@@ -1,24 +1,15 @@
-import cheerio, { CheerioAPI } from "cheerio";
+import cheerio from "cheerio";
 import Hexo from "hexo";
-import { dump, extractSimplePageData } from "../utils";
 import getConfig from "../config";
 import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "../hexo-seo";
 
-const fixMeta = function (
-  content: CheerioAPI | string,
-  data: HexoSeo
-): CheerioAPI {
+const fixMeta = function (content: string, data: HexoSeo) {
   const hexo: Hexo = this;
   const config = getConfig(hexo).schema;
-  let $: CheerioAPI;
-  if (typeof content == "string") {
-    $ = cheerio.load(content);
-  } else {
-    $ = content;
-  }
-  if (!config) return $;
+  if (!config) return content;
+  const $ = cheerio.load(content);
   const buildSchema = new schemaArticles({ pretty: isDev, hexo: data });
   const whereHexo = hexoIs2(data);
   let writeSchema = false;
@@ -111,7 +102,7 @@ const fixMeta = function (
       `<script type="application/ld+json">${buildSchema}</script>`
     );
   }
-  return $;
+  return $.html();
 };
 
 export default fixMeta;

@@ -1,4 +1,3 @@
-import { CheerioAPI, load as cheerioLoad } from "cheerio";
 import { existsSync } from "fs";
 import Hexo from "hexo";
 import path from "path";
@@ -7,6 +6,7 @@ import getConfig from "../config";
 import logger from "../log";
 import * as fileType from "file-type";
 import checkUrl from "../curl/check";
+import cheerio from "cheerio";
 
 /**
  * Get buffer from source
@@ -47,11 +47,12 @@ const seoImage = async function (
   /*$: CheerioAPI*/ content: string,
   hexo: Hexo
 ) {
-  const $ = cheerioLoad(content);
+  const $ = cheerio.load(content);
   const title = $("title").text();
   const config = getConfig(hexo).img;
   //await Promise.all($("img").map(processImg));
   const imgs = $("img");
+
   if (imgs.length)
     for (let index = 0; index < imgs.length; index++) {
       const img = $(imgs[index]);
