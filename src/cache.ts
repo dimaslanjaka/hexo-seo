@@ -35,7 +35,13 @@ export default class {
     return this.getCache(key, fallback);
   }
 
-  getCache(key: string, fallback?: any) {
+  /**
+   * Get cache for given key
+   * @param key
+   * @param fallback fallback if key not in cache
+   * @returns
+   */
+  getCache(key: string, fallback = undefined) {
     return this.caches[key] || fallback;
   }
 

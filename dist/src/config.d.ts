@@ -38,7 +38,7 @@ export interface defaultSeoOptions {
      */
     schema?: boolean;
 }
-declare const getConfig: (hexo: Hexo) => {
+declare const getConfig: (hexo: Hexo, key?: string) => {
     js: jsMinifyOptions;
     css: cssMinifyOptions;
     img: imgOptions;

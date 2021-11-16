@@ -22,6 +22,12 @@ export default class {
     set(key: string, value: any): void;
     setCache(key: string, value: any): void;
     get(key: string, fallback?: any): any;
+    /**
+     * Get cache for given key
+     * @param key
+     * @param fallback fallback if key not in cache
+     * @returns
+     */
     getCache(key: string, fallback?: any): any;
     isFileChanged(filePath: string): Promise<boolean>;
 }

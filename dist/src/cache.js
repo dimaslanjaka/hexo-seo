@@ -71,7 +71,14 @@ var default_1 = /** @class */ (function () {
     default_1.prototype.get = function (key, fallback) {
         return this.getCache(key, fallback);
     };
+    /**
+     * Get cache for given key
+     * @param key
+     * @param fallback fallback if key not in cache
+     * @returns
+     */
     default_1.prototype.getCache = function (key, fallback) {
+        if (fallback === void 0) { fallback = undefined; }
         return this.caches[key] || fallback;
     };
     default_1.prototype.isFileChanged = function (filePath) {
