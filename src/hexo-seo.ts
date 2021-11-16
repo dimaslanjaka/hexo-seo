@@ -63,7 +63,7 @@ export default function (hexo: Hexo) {
     // parse html start
     let $ = cheerio.load(str);
     // check image start
-    $ = await imagefix($, hexo);
+    //$ = await imagefix($, hexo);
     // filter external links and optimize seo
     $ = anchorfix($, hexo);
     // fix meta
