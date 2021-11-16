@@ -53,7 +53,7 @@
     "object-assign": "^4.1.1",
     "prompts": "^2.4.2",
     "sanitize-filename": "^1.6.3",
-    "serve-static": "^1.4.0",
+    "serve-static": "github:expressjs/serve-static",
     "terser": "^5.9.0",
     "ts-node": "^10.4.0",
     "underscore": "^1.13.1",
