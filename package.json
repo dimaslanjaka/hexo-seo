@@ -9,7 +9,8 @@
     "packages",
     "test.js",
     "*.md",
-    "images"
+    "images",
+    "source"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
