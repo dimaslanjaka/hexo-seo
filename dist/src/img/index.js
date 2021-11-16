@@ -59,6 +59,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageBuffer2base64 = exports.getBuffer = void 0;
+var cheerio_1 = require("cheerio");
 var fs_1 = require("fs");
 var path_1 = __importDefault(require("path"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
@@ -108,12 +109,14 @@ var imageBuffer2base64 = function (buffer) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.imageBuffer2base64 = imageBuffer2base64;
-var seoImage = function ($, hexo) {
+var seoImage = function (
+/*$: CheerioAPI*/ content, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var title, config, imgs, index, img, img_alt, img_title, img_itemprop, img_src, isExternal, img_onerror, check, new_img_src;
+        var $, title, config, imgs, index, img, img_alt, img_title, img_itemprop, img_src, isExternal, img_onerror, check, new_img_src;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    $ = (0, cheerio_1.load)(content);
                     title = $("title").text();
                     config = (0, config_1.default)(hexo).img;
                     imgs = $("img");
@@ -166,7 +169,7 @@ var seoImage = function ($, hexo) {
                 case 5:
                     index++;
                     return [3 /*break*/, 1];
-                case 6: return [2 /*return*/, $];
+                case 6: return [2 /*return*/, $.html()];
             }
         });
     });

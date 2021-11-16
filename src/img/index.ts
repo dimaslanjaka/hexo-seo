@@ -3,7 +3,6 @@ import { existsSync } from "fs";
 import Hexo from "hexo";
 import path from "path";
 import sanitizeFilename from "sanitize-filename";
-import { memoize } from "underscore";
 import getConfig from "../config";
 import logger from "../log";
 import * as fileType from "file-type";
@@ -44,7 +43,11 @@ export const imageBuffer2base64 = async (buffer: Buffer) => {
   return "data:" + type.mime + ";base64," + buffer.toString("base64");
 };
 
-const seoImage = async function ($: CheerioAPI, hexo: Hexo) {
+const seoImage = async function (
+  /*$: CheerioAPI*/ content: string,
+  hexo: Hexo
+) {
+  const $ = cheerioLoad(content);
   const title = $("title").text();
   const config = getConfig(hexo).img;
   //await Promise.all($("img").map(processImg));
@@ -107,7 +110,7 @@ const seoImage = async function ($: CheerioAPI, hexo: Hexo) {
     //return $;
   }
 
-  return $;
+  return $.html();
 };
 
 export default seoImage;

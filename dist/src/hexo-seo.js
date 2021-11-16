@@ -86,17 +86,23 @@ function default_1(hexo) {
     var fixSeoHtml = function (str, data) { return __awaiter(_this, void 0, void 0, function () {
         var $;
         return __generator(this, function (_a) {
-            console.log(this);
-            $ = cheerio_1.default.load(str);
-            // check image start
-            //$ = await imagefix($, hexo);
-            // filter external links and optimize seo
-            $ = anchorfix($, hexo);
-            // fix meta
-            $ = metafix($, data);
-            // set modified html
-            str = $.html();
-            return [2 /*return*/, str];
+            switch (_a.label) {
+                case 0:
+                    console.log(this);
+                    $ = cheerio_1.default.load(str);
+                    return [4 /*yield*/, imagefix(str, data)];
+                case 1:
+                    // check image start
+                    //$ = await imagefix($, hexo);
+                    str = _a.sent();
+                    // filter external links and optimize seo
+                    $ = anchorfix($, hexo);
+                    // fix meta
+                    $ = metafix($, data);
+                    // set modified html
+                    str = $.html();
+                    return [2 /*return*/, str];
+            }
         });
     }); };
     hexo.extend.filter.register("after_render:html", fixSeoHtml);

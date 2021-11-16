@@ -1,4 +1,3 @@
-import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 /**
  * Get buffer from source
@@ -13,5 +12,5 @@ export declare const getBuffer: (src: Buffer | string, hexo: Hexo) => Buffer;
  * @returns
  */
 export declare const imageBuffer2base64: (buffer: Buffer) => Promise<string>;
-declare const seoImage: ($: CheerioAPI, hexo: Hexo) => Promise<CheerioAPI>;
+declare const seoImage: (content: string, hexo: Hexo) => Promise<string>;
 export default seoImage;
