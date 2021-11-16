@@ -1,4 +1,4 @@
-import { HexoSeo } from "src/html/schema/article";
+import { HexoSeo } from "../html/schema/article";
 import Hexo from "packages/@types/hexo";
 import Promise from "bluebird";
 /**

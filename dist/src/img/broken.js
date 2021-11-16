@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isLocalImage = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
-var config_1 = __importDefault(require("src/config"));
-var check_1 = __importDefault(require("src/curl/check"));
+var config_1 = __importDefault(require("../config"));
+var check_1 = __importDefault(require("../curl/check"));
 var bluebird_1 = __importDefault(require("bluebird"));
 /**
  * is local image

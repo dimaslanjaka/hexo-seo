@@ -1,9 +1,9 @@
 import logger from "../log";
-import { HexoSeo } from "src/html/schema/article";
+import { HexoSeo } from "../html/schema/article";
 import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "packages/@types/hexo";
-import getConfig from "src/config";
-import checkUrl from "src/curl/check";
+import getConfig from "../config";
+import checkUrl from "../curl/check";
 import Promise from "bluebird";
 
 /**
