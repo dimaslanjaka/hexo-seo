@@ -34,7 +34,7 @@ function default_1(hexo) {
     // hexo-seo available in server http://localhost:4000/hexo-seo
     hexo.extend.filter.register("server_middleware", function (app) {
         // Main routes
-        app.use(hexo.config.root + "hexo-seo/", (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
+        app.use(hexo.config.root, (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
     });
     // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);

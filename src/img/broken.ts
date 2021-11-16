@@ -1,7 +1,7 @@
 import logger from "../log";
 import { HexoSeo } from "../html/schema/article";
 import cheerio, { Cheerio, Element } from "cheerio";
-import Hexo from "packages/@types/hexo";
+import Hexo from "hexo";
 import getConfig from "../config";
 import checkUrl from "../curl/check";
 import Promise from "bluebird";
@@ -10,6 +10,7 @@ import Promise from "bluebird";
  * is local image
  */
 export const isLocalImage = (url: string) => {
+  if (!url) return false;
   const regex = /^http?s/gs;
   return regex.test(url);
 };

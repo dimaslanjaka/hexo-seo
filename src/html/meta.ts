@@ -3,7 +3,7 @@ import Hexo from "hexo";
 import getConfig from "../config";
 import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
-import { isDev } from "../hexo-seo";
+import { isDev } from "..";
 
 const fixMeta = function (content: string, data: HexoSeo) {
   const hexo: Hexo = this;

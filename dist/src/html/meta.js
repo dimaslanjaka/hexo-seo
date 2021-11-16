@@ -7,14 +7,14 @@ var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
-var hexo_seo_1 = require("../hexo-seo");
+var __1 = require("..");
 var fixMeta = function (content, data) {
     var hexo = this;
     var config = (0, config_1.default)(hexo).schema;
     if (!config)
         return content;
     var $ = cheerio_1.default.load(content);
-    var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
+    var buildSchema = new article_1.default({ pretty: __1.isDev, hexo: data });
     var whereHexo = (0, hexo_is_1.default)(data);
     var writeSchema = false;
     if (whereHexo.post) {

@@ -1,5 +1,5 @@
 import { HexoSeo } from "../html/schema/article";
-import Hexo from "packages/@types/hexo";
+import Hexo from "hexo";
 import Promise from "bluebird";
 /**
  * is local image

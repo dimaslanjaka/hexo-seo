@@ -12,7 +12,7 @@ import rimraf from "rimraf";
 import utils from "util";
 import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
-import { isDev } from "./hexo-seo";
+import { isDev } from ".";
 
 export interface Objek extends Object {
   [key: string]: any;

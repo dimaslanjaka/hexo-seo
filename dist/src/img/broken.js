@@ -13,6 +13,8 @@ var bluebird_1 = __importDefault(require("bluebird"));
  * is local image
  */
 var isLocalImage = function (url) {
+    if (!url)
+        return false;
     var regex = /^http?s/gs;
     return regex.test(url);
 };

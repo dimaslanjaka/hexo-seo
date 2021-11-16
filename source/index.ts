@@ -13,7 +13,7 @@ export = {
   img: {
     fallback: {
       buffer: fs.readFileSync(imgfallback),
-      public: "/hexo-seo/img/no-image.png"
+      public: "/img/no-image.png"
     }
   }
 };
