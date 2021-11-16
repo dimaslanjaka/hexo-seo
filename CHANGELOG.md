@@ -79,3 +79,8 @@
 - 47478cd : remove some large in-memory cache  Tue Nov 16 09:04:10 2021 +0700
 - a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+
+## [1.0.15] 2021-11-16T16:09:21
+- 497926e : update method  Tue Nov 16 16:08:09 2021 +0700
+- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
+- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
