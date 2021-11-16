@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var htmlparser2_1 = require("htmlparser2");
+var html = "<html><body> <div><p>1. Some text .../p><p>2. Some text .../p></div><p> <b>Click</b> to change the <span id=\"tag\">html</span> </p><p> to a <span id=\"text\">text</span> node. </p><p> This <button name=\"nada\">button</button> does nothing. </p><script src=\"index.js\"></script></body></html>";
+var handler = new htmlparser2_1.DomHandler();
+var parser = new htmlparser2_1.Parser(handler);
+parser.write(html);
+parser.end();
+var root = handler.root;
+console.log(root);
