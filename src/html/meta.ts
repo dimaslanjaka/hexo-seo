@@ -1,4 +1,4 @@
-import cheerio, {CheerioAPI} from "cheerio";
+import cheerio, { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 import { dump, extractSimplePageData } from "../utils";
 import getConfig from "../config";
@@ -16,7 +16,7 @@ const fixMeta = function (content: CheerioAPI | string, data: HexoSeo) {
   } else {
     $ = content;
   }
-  const buildSchema = new schemaArticles({pretty: isDev, hexo: data});
+  const buildSchema = new schemaArticles({ pretty: isDev, hexo: data });
   const whereHexo = hexoIs2(data);
   let writeSchema = false;
   if (whereHexo.post) {
@@ -105,7 +105,7 @@ const fixMeta = function (content: CheerioAPI | string, data: HexoSeo) {
     buildSchema.setArticleBody(bodyArticle);
     buildSchema.setImage($);
     $("head").append(
-        `<script type="application/ld+json">${buildSchema}</script>`
+      `<script type="application/ld+json">${buildSchema}</script>`
     );
   }
   return $;
