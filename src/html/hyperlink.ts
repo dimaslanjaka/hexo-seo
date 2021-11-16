@@ -63,7 +63,7 @@ function isExternal(url: parseUrl, hexo: Hexo): boolean {
  * @param anchor
  * @returns
  */
-const extractRel = memoize(function (anchor: Cheerio<Element>) {
+const extractRel = function (anchor: Cheerio<Element>) {
   const original = anchor.attr("rel");
   if (original && original.length > 0) {
     return original.split(/\s/).filter(function (el) {
@@ -71,7 +71,7 @@ const extractRel = memoize(function (anchor: Cheerio<Element>) {
     });
   }
   return [];
-});
+};
 
 const fixHyperlinks = function ($: CheerioAPI, hexo: Hexo) {
   const config = getConfig(hexo);

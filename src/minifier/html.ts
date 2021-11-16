@@ -17,11 +17,7 @@ export interface MinifyOptions extends htmlMinifyOptions {
   exclude: string[];
 }
 
-const minHtml = memoize(async function (
-  this: Hexo,
-  str: string,
-  data: HexoSeo
-) {
+const minHtml = async function (this: Hexo, str: string, data: HexoSeo) {
   const hexo = this;
   const options: MinifyOptions = getConfig(hexo).html;
   // if option html is false, return original content
@@ -56,6 +52,6 @@ const minHtml = memoize(async function (
   }*/
   str = await processHtml(str);
   return str;
-});
+};
 
 export default minHtml;
