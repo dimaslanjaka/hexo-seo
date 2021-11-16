@@ -3,16 +3,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
 var hexo_seo_1 = require("../hexo-seo");
-var fixMeta = function ($, data) {
+var fixMeta = function (content, data) {
     var hexo = this;
     var config = config_1.default(hexo).schema;
+    var $;
     if (!config)
-        return $;
-    var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
+        return content;
+    if (typeof content == "string") {
+        $ = cheerio_1.default.load(content);
+    } else {
+        $ = content;
+    }
+    var buildSchema = new article_1.default({pretty: hexo_seo_1.isDev, hexo: data});
     var whereHexo = hexo_is_1.default(data);
     var writeSchema = false;
     if (whereHexo.post) {
@@ -87,10 +94,10 @@ var fixMeta = function ($, data) {
     }
     if (writeSchema) {
         var bodyArticle = void 0;
-        if ($("article").text().length > 0) {
-            bodyArticle = $("article").text();
-        }
-        else {
+        var article = $("article");
+        if (article.text().length > 0) {
+            bodyArticle = article.text();
+        } else {
             bodyArticle = $("body").text();
         }
         buildSchema.setArticleBody(bodyArticle);

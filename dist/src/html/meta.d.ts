@@ -1,4 +1,4 @@
 import { CheerioAPI } from "cheerio";
 import { HexoSeo } from "./schema/article";
-declare const fixMeta: ($: CheerioAPI, data: HexoSeo) => CheerioAPI;
+declare const fixMeta: (content: CheerioAPI | string, data: HexoSeo) => string | CheerioAPI;
 export default fixMeta;

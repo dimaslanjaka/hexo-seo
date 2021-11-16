@@ -1,4 +1,4 @@
-import { CheerioAPI } from "cheerio";
+import cheerio, {CheerioAPI} from "cheerio";
 import Hexo from "hexo";
 import { dump, extractSimplePageData } from "../utils";
 import getConfig from "../config";
@@ -6,11 +6,17 @@ import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "../hexo-seo";
 
-const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
+const fixMeta = function (content: CheerioAPI | string, data: HexoSeo) {
   const hexo: Hexo = this;
   const config = getConfig(hexo).schema;
-  if (!config) return $;
-  const buildSchema = new schemaArticles({ pretty: isDev, hexo: data });
+  let $: CheerioAPI;
+  if (!config) return content;
+  if (typeof content == "string") {
+    $ = cheerio.load(content);
+  } else {
+    $ = content;
+  }
+  const buildSchema = new schemaArticles({pretty: isDev, hexo: data});
   const whereHexo = hexoIs2(data);
   let writeSchema = false;
   if (whereHexo.post) {
@@ -90,15 +96,16 @@ const fixMeta = function ($: CheerioAPI, data: HexoSeo) {
 
   if (writeSchema) {
     let bodyArticle: string;
-    if ($("article").text().length > 0) {
-      bodyArticle = $("article").text();
+    const article = $("article");
+    if (article.text().length > 0) {
+      bodyArticle = article.text();
     } else {
       bodyArticle = $("body").text();
     }
     buildSchema.setArticleBody(bodyArticle);
     buildSchema.setImage($);
     $("head").append(
-      `<script type="application/ld+json">${buildSchema}</script>`
+        `<script type="application/ld+json">${buildSchema}</script>`
     );
   }
   return $;
