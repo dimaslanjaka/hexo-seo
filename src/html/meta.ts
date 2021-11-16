@@ -108,7 +108,7 @@ const fixMeta = function (content: CheerioAPI | string, data: HexoSeo) {
       `<script type="application/ld+json">${buildSchema}</script>`
     );
   }
-  return $;
+  return $.html();
 };
 
 export default fixMeta;

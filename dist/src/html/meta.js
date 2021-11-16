@@ -16,10 +16,11 @@ var fixMeta = function (content, data) {
         return content;
     if (typeof content == "string") {
         $ = cheerio_1.default.load(content);
-    } else {
+    }
+    else {
         $ = content;
     }
-    var buildSchema = new article_1.default({pretty: hexo_seo_1.isDev, hexo: data});
+    var buildSchema = new article_1.default({ pretty: hexo_seo_1.isDev, hexo: data });
     var whereHexo = hexo_is_1.default(data);
     var writeSchema = false;
     if (whereHexo.post) {
@@ -97,13 +98,14 @@ var fixMeta = function (content, data) {
         var article = $("article");
         if (article.text().length > 0) {
             bodyArticle = article.text();
-        } else {
+        }
+        else {
             bodyArticle = $("body").text();
         }
         buildSchema.setArticleBody(bodyArticle);
         buildSchema.setImage($);
         $("head").append("<script type=\"application/ld+json\">" + buildSchema + "</script>");
     }
-    return $;
+    return $.html();
 };
 exports.default = fixMeta;
