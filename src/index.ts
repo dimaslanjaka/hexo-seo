@@ -9,6 +9,8 @@ import getConfig from "./config";
 import fixMeta from "./html/meta";
 import fixHyperlinks from "./html/hyperlink";
 import brokenImageFix from "./img/broken";
+import serveStatic from "serve-static";
+import path from "path";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -35,10 +37,10 @@ export default function (hexo: Hexo) {
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo
-  /*hexo.extend.filter.register("server_middleware", function (app) {
+  hexo.extend.filter.register("server_middleware", function (app) {
     // Main routes
     app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
-  });*/
+  });
 
   // minify javascripts
   hexo.extend.filter.register("after_render:js", seoJs);
