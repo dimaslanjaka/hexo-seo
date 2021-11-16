@@ -74,3 +74,8 @@
 - df4a56c : fix missing dependency  Mon Nov 15 23:32:07 2021 +0700
 - a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+
+## [1.0.14] 2021-11-16T09:04:47
+- 47478cd : remove some large in-memory cache  Tue Nov 16 09:04:10 2021 +0700
+- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
+- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700

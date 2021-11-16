@@ -36,11 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var node_libcurl_1 = require("node-libcurl");
-var underscore_1 = require("underscore");
 /**
  * Check if url is exists
  */
-var checkUrl = (0, underscore_1.memoize)(function (url) {
+var checkUrl = function (url) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, statusCode, data, headers, e_1;
         return __generator(this, function (_b) {
@@ -58,5 +57,5 @@ var checkUrl = (0, underscore_1.memoize)(function (url) {
             }
         });
     });
-});
+};
 module.exports = checkUrl;

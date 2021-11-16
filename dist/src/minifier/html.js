@@ -40,14 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var html_minifier_terser_1 = require("html-minifier-terser");
-var underscore_1 = require("underscore");
 var utils_1 = require("../utils");
 var config_1 = __importDefault(require("../config"));
 var img_1 = __importDefault(require("../img"));
 var cheerio_1 = __importDefault(require("cheerio"));
 var meta_1 = __importDefault(require("../html/meta"));
 var hyperlink_1 = __importDefault(require("../html/hyperlink"));
-var minHtml = (0, underscore_1.memoize)(function (str, data) {
+var minHtml = function (str, data) {
     return __awaiter(this, void 0, void 0, function () {
         var hexo, options, path, exclude, processHtml;
         var _this = this;
@@ -101,5 +100,5 @@ var minHtml = (0, underscore_1.memoize)(function (str, data) {
             }
         });
     });
-});
+};
 exports.default = minHtml;

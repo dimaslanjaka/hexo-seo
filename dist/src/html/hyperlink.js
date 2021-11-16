@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = __importDefault(require("../config"));
 var url_parse_1 = __importDefault(require("url-parse"));
-var underscore_1 = require("underscore");
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 /**
  * Remove item from array
@@ -53,7 +52,7 @@ function isExternal(url, hexo) {
  * @param anchor
  * @returns
  */
-var extractRel = (0, underscore_1.memoize)(function (anchor) {
+var extractRel = function (anchor) {
     var original = anchor.attr("rel");
     if (original && original.length > 0) {
         return original.split(/\s/).filter(function (el) {
@@ -61,7 +60,7 @@ var extractRel = (0, underscore_1.memoize)(function (anchor) {
         });
     }
     return [];
-});
+};
 var fixHyperlinks = function ($, hexo) {
     var config = (0, config_1.default)(hexo);
     var hexoConfig = hexo.config;

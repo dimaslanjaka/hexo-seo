@@ -26,7 +26,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dump = exports.extractSimplePageData = exports.isIgnore = void 0;
 var minimatch_1 = __importDefault(require("minimatch"));
-var underscore_1 = __importDefault(require("underscore"));
 var path_1 = __importDefault(require("path"));
 var fs = __importStar(require("fs"));
 var rimraf_1 = __importDefault(require("rimraf"));
@@ -38,7 +37,7 @@ var fileCache = {};
 /**
  * is ignore pattern matching?
  */
-exports.isIgnore = underscore_1.default.memoize(function (path0, exclude, hexo) {
+var isIgnore = function (path0, exclude, hexo) {
     if (exclude && !Array.isArray(exclude))
         exclude = [exclude];
     if (path0 && exclude && exclude.length) {
@@ -58,7 +57,8 @@ exports.isIgnore = underscore_1.default.memoize(function (path0, exclude, hexo) 
         }
     }
     return false;
-});
+};
+exports.isIgnore = isIgnore;
 /**
  * Simplify object data / delete object key
  * @param data
