@@ -41,7 +41,7 @@ var defaultObject = {
     img: {
         fallback: {
             buffer: fs.readFileSync(imgfallback),
-            public: "/img/no-image.png"
+            public: "/images/no-image.png"
         }
     }
 };
