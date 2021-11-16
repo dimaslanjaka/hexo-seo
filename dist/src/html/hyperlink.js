@@ -26,11 +26,11 @@ function removeItem(arr, value) {
  * @returns
  */
 function isExternal(url, hexo) {
-    var site = typeof (0, url_parse_1.default)(hexo.config.url).hostname == "string"
-        ? (0, url_parse_1.default)(hexo.config.url).hostname
+    var site = typeof url_parse_1.default(hexo.config.url).hostname == "string"
+        ? url_parse_1.default(hexo.config.url).hostname
         : null;
     var cases = typeof url.hostname == "string" ? url.hostname.trim() : null;
-    var config = (0, config_1.default)(hexo);
+    var config = config_1.default(hexo);
     var allowed = Array.isArray(config.links.allow) ? config.links.allow : [];
     var hosts = config.host;
     // if url hostname empty, its internal
@@ -62,15 +62,15 @@ var extractRel = function (anchor) {
     return [];
 };
 var fixHyperlinks = function ($, hexo) {
-    var config = (0, config_1.default)(hexo);
+    var config = config_1.default(hexo);
     var hexoConfig = hexo.config;
-    var siteHost = (0, url_parse_1.default)(hexoConfig.url).hostname;
+    var siteHost = url_parse_1.default(hexoConfig.url).hostname;
     var hyperlinks = $("a");
     if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
         siteHost = siteHost.trim();
         var _loop_1 = function (index) {
             var hyperlink = $(hyperlinks[index]);
-            var href = (0, url_parse_1.default)(hyperlink.attr("href"));
+            var href = url_parse_1.default(hyperlink.attr("href"));
             // external links rel
             if (typeof href.hostname == "string") {
                 var attr_1 = extractRel(hyperlink);
@@ -111,7 +111,7 @@ var fixHyperlinks = function ($, hexo) {
             // fix anchor title
             var a_title = hyperlink.attr("title");
             if (a_title && a_title.trim().length < 1) {
-                var a_text = (0, sanitize_filename_1.default)(hyperlink.text());
+                var a_text = sanitize_filename_1.default(hyperlink.text());
                 hyperlink.attr("title", a_text);
             }
         };

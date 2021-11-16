@@ -15,7 +15,7 @@ import checkUrl from "../curl/check";
  * @param hexo
  * @returns
  */
-export const getBuffer = memoize(function (src: Buffer | string, hexo: Hexo) {
+export const getBuffer = function (src: Buffer | string, hexo: Hexo) {
   if (typeof src == "string") {
     const base_dir = hexo.base_dir;
     const source_dir = hexo.source_dir;
@@ -31,7 +31,7 @@ export const getBuffer = memoize(function (src: Buffer | string, hexo: Hexo) {
     return Buffer.from(find);
   }
   if (Buffer.isBuffer(src)) return src;
-});
+};
 
 /**
  * Image buffer to base64 encoded

@@ -46,11 +46,11 @@ var check_1 = __importDefault(require("../curl/check"));
         switch (_e.label) {
             case 0:
                 _b = (_a = console).log;
-                return [4 /*yield*/, (0, check_1.default)("http://google.com")];
+                return [4 /*yield*/, check_1.default("http://google.com")];
             case 1:
                 _b.apply(_a, [_e.sent()]); // true
                 _d = (_c = console).log;
-                return [4 /*yield*/, (0, check_1.default)("https://www.digitalponsel.com/wp-content/uploads/2018/09/xOnePlus-6-1024x538.jpg.pagespeed.ic.zkfkebn_T3.jpg")];
+                return [4 /*yield*/, check_1.default("https://www.digitalponsel.com/wp-content/uploads/2018/09/xOnePlus-6-1024x538.jpg.pagespeed.ic.zkfkebn_T3.jpg")];
             case 2:
                 _d.apply(_c, [_e.sent()]); // false
                 return [2 /*return*/];

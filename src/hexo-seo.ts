@@ -9,6 +9,7 @@ import minimist from "minimist";
 import getConfig from "./config";
 import serveStatic from "serve-static";
 import path from "path";
+import fixMeta from "./html/meta";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -24,7 +25,7 @@ const env =
 export const isDev = arg || env;
 
 export default function (hexo: Hexo) {
-  // hexo.config.seo = getConfig(hexo);
+  hexo.config.seo = getConfig(hexo);
   if (typeof hexo.config.seo == "undefined") return;
   hexo.extend.filter.register("server_middleware", function (app) {
     // Main routes
@@ -35,7 +36,7 @@ export default function (hexo: Hexo) {
   });
   hexo.extend.filter.register("after_render:js", seoJs);
   hexo.extend.filter.register("after_render:css", seoCss);
-  hexo.extend.filter.register("after_render:html", seoHtml);
+  hexo.extend.filter.register("after_render:html", fixMeta);
   //hexo.extend.filter.register("after_generate", seoImage);
   //hexo.extend.filter.register("after_generate", testAfterGenerate);
   //hexo.extend.filter.register("after_render:html", testAfterRenderHtml);

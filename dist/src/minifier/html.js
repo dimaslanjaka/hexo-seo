@@ -54,14 +54,14 @@ var minHtml = function (str, data) {
             switch (_a.label) {
                 case 0:
                     hexo = this;
-                    options = (0, config_1.default)(hexo).html;
+                    options = config_1.default(hexo).html;
                     // if option html is false, return original content
                     if (typeof options == "boolean" && !options)
                         return [2 /*return*/, str];
                     path = data.path;
                     exclude = options.exclude;
                     if (path && exclude && exclude.length) {
-                        if ((0, utils_1.isIgnore)(path, exclude))
+                        if (utils_1.isIgnore(path, exclude))
                             return [2 /*return*/, str];
                     }
                     processHtml = function (str) { return __awaiter(_this, void 0, void 0, function () {
@@ -80,7 +80,7 @@ var minHtml = function (str, data) {
                                     $ = meta_1.default.bind(this)($, data);
                                     // set modified html
                                     str = $.html();
-                                    return [4 /*yield*/, (0, html_minifier_terser_1.minify)(str, options)];
+                                    return [4 /*yield*/, html_minifier_terser_1.minify(str, options)];
                                 case 2:
                                     // minifying html start
                                     str = _a.sent();

@@ -4,10 +4,10 @@ import { memoize } from "underscore";
 /**
  * is local image
  */
-export const isLocalImage = memoize((url: string) => {
+export const isLocalImage = (url: string) => {
   const regex = /^http?s/gs;
   return regex.test(url);
-});
+};
 
 /**
  * Broken image fix

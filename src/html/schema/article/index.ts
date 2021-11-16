@@ -113,7 +113,7 @@ class articleSchema {
       name: any;
     }[]
   ) {
-    const build: typeof this.schema.mainEntityOfPage.mainEntity.itemListElement =
+    const build: typeof mainSchema.mainEntityOfPage.mainEntity.itemListElement =
       [];
     for (let index = 0; index < tags.length; index++) {
       const template = {

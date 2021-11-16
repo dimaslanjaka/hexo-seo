@@ -81,7 +81,7 @@ var default_1 = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, (0, md5_file_1.default)(filePath)];
+                        return [4 /*yield*/, md5_file_1.default(filePath)];
                     case 1:
                         hash1 = _a.sent();
                         hash = this.md5Cache[filePath];

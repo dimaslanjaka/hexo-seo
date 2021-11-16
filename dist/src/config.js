@@ -4,9 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var object_assign_1 = __importDefault(require("object-assign"));
-var underscore_1 = require("underscore");
 var source_1 = __importDefault(require("../source"));
-var getConfig = (0, underscore_1.memoize)(function (hexo) {
+var getConfig = function (hexo) {
     var defaultOpt = {
         js: {
             exclude: ["*.min.js"]
@@ -44,8 +43,8 @@ var getConfig = (0, underscore_1.memoize)(function (hexo) {
         delete seo.js;
     if (typeof seo.html === "boolean")
         delete seo.html;
-    seo = (0, object_assign_1.default)(defaultOpt, seo);
+    seo = object_assign_1.default(defaultOpt, seo);
     //console.log(seo);
     return seo;
-});
+};
 exports.default = getConfig;

@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isLocalImage = void 0;
-var underscore_1 = require("underscore");
 /**
  * is local image
  */
-exports.isLocalImage = (0, underscore_1.memoize)(function (url) {
+var isLocalImage = function (url) {
     var regex = /^http?s/gs;
     return regex.test(url);
-});
+};
+exports.isLocalImage = isLocalImage;
 /**
  * Broken image fix
  * @param img

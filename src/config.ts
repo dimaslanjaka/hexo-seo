@@ -44,7 +44,7 @@ export interface defaultSeoOptions {
   schema?: boolean;
 }
 
-const getConfig = memoize(function (hexo: Hexo): {
+const getConfig = function (hexo: Hexo): {
   js: jsMinifyOptions;
   css: cssMinifyOptions;
   img: imgOptions;
@@ -89,6 +89,6 @@ const getConfig = memoize(function (hexo: Hexo): {
   seo = assign(defaultOpt, seo);
   //console.log(seo);
   return <any>seo;
-});
+};
 
 export default getConfig;

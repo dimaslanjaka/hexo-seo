@@ -29,7 +29,7 @@ var fs = __importStar(require("fs"));
 var util_1 = __importDefault(require("util"));
 var path_1 = __importDefault(require("path"));
 var is_1 = __importDefault(require("./is"));
-var log = (0, hexo_log_1.default)({
+var log = hexo_log_1.default({
     debug: false,
     silent: false
 });
@@ -44,7 +44,7 @@ var log = (0, hexo_log_1.default)({
  */
 var hexoIs = function (hexo) {
     if (typeof hexo["page"] != "undefined")
-        return (0, is_1.default)(hexo);
+        return is_1.default(hexo);
     /*
     if (typeof hexo["locals"] != "undefined") {
       hexoIsDump(hexo["locals"]["page"], "locals");
