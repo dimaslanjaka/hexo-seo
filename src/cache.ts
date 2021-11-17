@@ -1,4 +1,5 @@
 import md5File from "md5-file";
+import { memoize } from "underscore";
 import { Objek } from "./utils";
 
 /**
@@ -6,7 +7,7 @@ import { Objek } from "./utils";
  * - Reduce CPU Usage
  * - Reduce Resource Usage
  */
-export default class {
+class Cache {
   /**
    * Storage object for storing
    */
@@ -15,7 +16,7 @@ export default class {
   /**
    * Identifier Hash for cache
    */
-  md5Cache: Objek = {};
+  static md5Cache: Objek = {};
 
   /**
    * Set cache
@@ -41,24 +42,27 @@ export default class {
    * @param fallback fallback if key not in cache
    * @returns
    */
-  getCache(key: string, fallback = undefined) {
+  getCache(key: string, fallback = null) {
     return this.caches[key] || fallback;
   }
 
-  async isFileChanged(filePath: string) {
-    try {
-      const hash1 = await md5File(filePath);
-      const hash = this.md5Cache[filePath];
-      this.md5Cache[filePath] = hash1;
-      if (!hash) {
+  isFileChanged(filePath: string) {
+    return md5File(filePath)
+      .then((hash1) => {
+        const hash = Cache.md5Cache[filePath];
+        Cache.md5Cache[filePath] = hash1;
+        if (!hash) {
+          return true;
+        }
+        if (hash === hash1) {
+          return false;
+        }
         return true;
-      }
-      if (hash === hash1) {
-        return false;
-      }
-      return true;
-    } catch (err) {
-      return true;
-    }
+      })
+      .catch((err) => {
+        return true;
+      });
   }
 }
+
+export default Cache;

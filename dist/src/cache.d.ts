@@ -4,7 +4,7 @@ import { Objek } from "./utils";
  * - Reduce CPU Usage
  * - Reduce Resource Usage
  */
-export default class {
+declare class Cache {
     /**
      * Storage object for storing
      */
@@ -12,7 +12,7 @@ export default class {
     /**
      * Identifier Hash for cache
      */
-    md5Cache: Objek;
+    static md5Cache: Objek;
     /**
      * Set cache
      * @param key
@@ -31,3 +31,4 @@ export default class {
     getCache(key: string, fallback?: any): any;
     isFileChanged(filePath: string): Promise<boolean>;
 }
+export default Cache;

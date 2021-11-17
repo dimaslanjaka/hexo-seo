@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import crypto from "crypto";
 
 /**
  * resolve dirname of file
@@ -54,4 +55,42 @@ export function readFile(
     writeFile(filePath, "");
   }
   return fs.readFileSync(filePath, options);
+}
+
+const BUFFER_SIZE = 8192;
+
+export function md5FileSync(path) {
+  const fd = fs.openSync(path, "r");
+  const hash = crypto.createHash("md5");
+  const buffer = Buffer.alloc(BUFFER_SIZE);
+
+  try {
+    let bytesRead;
+
+    do {
+      bytesRead = fs.readSync(fd, buffer, 0, BUFFER_SIZE, null);
+      hash.update(buffer.slice(0, bytesRead));
+    } while (bytesRead === BUFFER_SIZE);
+  } finally {
+    fs.closeSync(fd);
+  }
+
+  return hash.digest("hex");
+}
+
+export function md5File(path) {
+  return new Promise((resolve, reject) => {
+    const output = crypto.createHash("md5");
+    const input = fs.createReadStream(path);
+
+    input.on("error", (err) => {
+      reject(err);
+    });
+
+    output.once("readable", () => {
+      resolve(output.read().toString("hex"));
+    });
+
+    input.pipe(output);
+  });
 }

@@ -20,3 +20,5 @@ export declare function readFile(filePath: string, options?: {
     encoding?: "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "base64url" | "latin1" | "binary" | "hex" | null | undefined;
     flag?: string | undefined;
 } | null, autocreate?: boolean | undefined): string | Buffer;
+export declare function md5FileSync(path: any): string;
+export declare function md5File(path: any): Promise<unknown>;

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var node_libcurl_1 = require("node-libcurl");
+//import Promise from "bluebird";
 /**
  * Check if url is exists
  */

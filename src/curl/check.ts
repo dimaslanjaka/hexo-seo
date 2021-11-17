@@ -1,5 +1,5 @@
 import { curly } from "node-libcurl";
-import { memoize } from "underscore";
+//import Promise from "bluebird";
 
 /**
  * Check if url is exists

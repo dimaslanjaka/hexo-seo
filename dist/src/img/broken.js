@@ -55,16 +55,36 @@ function default_1(content, data) {
                     images_1.push(img);
                 }
             });
+            /**
+             * check broken image with caching strategy
+             */
+            var checkBrokenImg_1 = function (src) {
+                var new_src = {
+                    original: src,
+                    resolved: src
+                };
+                var cached = cache.getCache(src, null);
+                if (!cached) {
+                    return (0, check_1.default)(src).then(function (isWorking) {
+                        if (!isWorking) {
+                            // image is broken, replace with default broken image fallback
+                            new_src.resolved = config_2.default.toString();
+                        }
+                        cache.setCache(src, new_src);
+                        return new_src;
+                    });
+                }
+                return bluebird_1.default.any([cached]).then(function (srcx) {
+                    return srcx;
+                });
+            };
             var fixBrokenImg = function (img) {
                 var img_src = img.attr("src");
-                return (0, check_1.default)(img_src).then(function (isWorking) {
-                    var new_img_src = config_2.default.toString();
-                    if (!isWorking) {
-                        img.attr("src", new_img_src);
-                        img.attr("src-original", img_src);
-                        log_1.default.log("%s is broken, replaced with %s", img_src, new_img_src);
-                    }
-                    return img;
+                var img_check = checkBrokenImg_1(img_src);
+                img_check.then(function (chk) {
+                    img.attr("src", chk.resolved);
+                    img.attr("src-original", chk.original);
+                    log_1.default.log("%s is broken, replaced with %s", chk.resolved, chk.original);
                 });
             };
             return bluebird_1.default.all(images_1)

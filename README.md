@@ -36,9 +36,9 @@ sudo apt-get install libcurl4-openssl-dev -y
 rm -rf node_modules
 npm install node-libcurl --build-from-source
 ```
--   Fixes
+- Fix javascript heap out of memory
 ```shell
-export NODE_OPTIONS=--max_old_space_size=4096
+export NODE_OPTIONS=--max_old_space_size=8096
 ```
 
 ## Project with this package

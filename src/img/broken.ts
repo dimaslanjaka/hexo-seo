@@ -54,16 +54,41 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
         }
       });
 
+      /**
+       * check broken image with caching strategy
+       */
+      const checkBrokenImg = function (src: string) {
+        const new_src = {
+          original: src,
+          resolved: src
+        };
+        const cached: typeof new_src | null = cache.getCache(src, null);
+        if (!cached) {
+          return checkUrl(src).then((isWorking) => {
+            if (!isWorking) {
+              // image is broken, replace with default broken image fallback
+              new_src.resolved = config.default.toString();
+            }
+            cache.setCache(src, new_src);
+            return new_src;
+          });
+        }
+        return Promise.any([cached]).then((srcx) => {
+          return srcx;
+        });
+      };
+
       const fixBrokenImg = function (img: Cheerio<Element>) {
         const img_src = img.attr("src");
-        return checkUrl(img_src).then((isWorking) => {
-          const new_img_src = config.default.toString();
-          if (!isWorking) {
-            img.attr("src", new_img_src);
-            img.attr("src-original", img_src);
-            logger.log("%s is broken, replaced with %s", img_src, new_img_src);
-          }
-          return img;
+        const img_check = checkBrokenImg(img_src);
+        img_check.then((chk) => {
+          img.attr("src", chk.resolved);
+          img.attr("src-original", chk.original);
+          logger.log(
+            "%s is broken, replaced with %s",
+            chk.resolved,
+            chk.original
+          );
         });
       };
 

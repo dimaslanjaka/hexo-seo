@@ -18,10 +18,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readFile = exports.writeFile = exports.resolveFile = void 0;
+exports.md5File = exports.md5FileSync = exports.readFile = exports.writeFile = exports.resolveFile = void 0;
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
+var crypto_1 = __importDefault(require("crypto"));
 /**
  * resolve dirname of file
  * @param filePath
@@ -57,3 +61,35 @@ function readFile(filePath, options, autocreate) {
     return fs.readFileSync(filePath, options);
 }
 exports.readFile = readFile;
+var BUFFER_SIZE = 8192;
+function md5FileSync(path) {
+    var fd = fs.openSync(path, "r");
+    var hash = crypto_1.default.createHash("md5");
+    var buffer = Buffer.alloc(BUFFER_SIZE);
+    try {
+        var bytesRead = void 0;
+        do {
+            bytesRead = fs.readSync(fd, buffer, 0, BUFFER_SIZE, null);
+            hash.update(buffer.slice(0, bytesRead));
+        } while (bytesRead === BUFFER_SIZE);
+    }
+    finally {
+        fs.closeSync(fd);
+    }
+    return hash.digest("hex");
+}
+exports.md5FileSync = md5FileSync;
+function md5File(path) {
+    return new Promise(function (resolve, reject) {
+        var output = crypto_1.default.createHash("md5");
+        var input = fs.createReadStream(path);
+        input.on("error", function (err) {
+            reject(err);
+        });
+        output.once("readable", function () {
+            resolve(output.read().toString("hex"));
+        });
+        input.pipe(output);
+    });
+}
+exports.md5File = md5File;
