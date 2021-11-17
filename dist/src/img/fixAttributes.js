@@ -39,9 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
 //import Promise from "bluebird";
 var cache_1 = __importDefault(require("../cache"));
+var package_json_1 = __importDefault(require("../../package.json"));
 var cache = new cache_1.default();
 function default_1(content, data) {
     return __awaiter(this, void 0, void 0, function () {
@@ -63,15 +65,18 @@ function default_1(content, data) {
                             var img_alt = img.attr("alt");
                             var img_title = img.attr("title");
                             var img_itemprop = img.attr("itemprop");
-                            //const img_src = img.attr("src");
+                            var img_src = img.attr("src");
                             if (!img_alt || img_alt.trim().length === 0) {
                                 img.attr("alt", title_1);
+                                log_1.default.log("%s(IMG:alt): %s [%s]", package_json_1.default.name, path0, img_src);
                             }
                             if (!img_title || img_title.trim().length === 0) {
                                 img.attr("title", title_1);
+                                log_1.default.log("%s(IMG:title): %s [%s]", package_json_1.default.name, path0, img_src);
                             }
                             if (!img_itemprop || img_itemprop.trim().length === 0) {
                                 img.attr("itemprop", "image");
+                                log_1.default.log("%s(IMG:itemprop): %s [%s]", package_json_1.default.name, path0, img_src);
                             }
                         });
                         cache.set(path0, $_1.html());

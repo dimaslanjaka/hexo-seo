@@ -6,6 +6,7 @@ import getConfig from "../config";
 import checkUrl from "../curl/check";
 //import Promise from "bluebird";
 import InMemoryCache from "../cache";
+import pkg from "../../package.json";
 
 const cache = new InMemoryCache();
 
@@ -27,15 +28,18 @@ export default async function (
       const img_alt = img.attr("alt");
       const img_title = img.attr("title");
       const img_itemprop = img.attr("itemprop");
-      //const img_src = img.attr("src");
+      const img_src = img.attr("src");
       if (!img_alt || img_alt.trim().length === 0) {
         img.attr("alt", title);
+        logger.log("%s(IMG:alt): %s [%s]", pkg.name, path0, img_src);
       }
       if (!img_title || img_title.trim().length === 0) {
         img.attr("title", title);
+        logger.log("%s(IMG:title): %s [%s]", pkg.name, path0, img_src);
       }
       if (!img_itemprop || img_itemprop.trim().length === 0) {
         img.attr("itemprop", "image");
+        logger.log("%s(IMG:itemprop): %s [%s]", pkg.name, path0, img_src);
       }
     });
 
