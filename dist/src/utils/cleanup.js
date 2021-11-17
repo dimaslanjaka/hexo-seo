@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 process.stdin.resume(); //so the program will not close instantly
-var fns1 = [];
+//const fns1: Array<(data?: string) => void> = [];
 var fns = [];
 function exitHandler(options, exitCode) {
-    fns.concat(fns1).map(function (fn) {
+    fns.map(function (fn) {
         fn();
     });
     if (options.cleanup)
