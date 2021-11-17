@@ -64,17 +64,17 @@ export const usingJSDOM = function (
   data: HexoSeo
 ) {
   releaseMemory();
-  const path0 = data.page ? data.page.full_source : data.path;
   const is = hexoIs(data);
-  if (is.home) return content;
+  if (is.home || is.category || is.tag) return content;
+  const path0 = data.page ? data.page.full_source : data.path;
   if (!path0) {
     console.log(is);
-    dump("dump-path0.txt", extractSimplePageData(data));
+    dump("dump-path0.txt", path0);
+    dump("dump.txt", extractSimplePageData(data));
+    dump("dump-page.txt", extractSimplePageData(data.page));
+    dump("dump-this.txt", extractSimplePageData(this));
     return content;
   }
-  /*dump("dump.txt", extractSimplePageData(data));
-  dump("dump-page.txt", extractSimplePageData(data.page));
-  dump("dump-this.txt", extractSimplePageData(this));*/
   const title =
     data.page && data.page.title && data.page.title.trim().length > 0
       ? data.page.title

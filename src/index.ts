@@ -53,5 +53,5 @@ export default function (hexo: Hexo) {
   // test image fix
   hexo.extend.filter.register("after_render:html", usingJSDOM);
   // minify html on production mode
-  if (!isDev) hexo.extend.filter.register("after_generate", minHtml);
+  //hexo.extend.filter.register("after_generate", minHtml);
 }

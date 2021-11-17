@@ -12,7 +12,6 @@ var config_1 = __importDefault(require("./config"));
 var meta_1 = __importDefault(require("./html/meta"));
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
 var fixAttributes_1 = require("./img/fixAttributes");
-var html_1 = __importDefault(require("./minifier/html"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -46,7 +45,6 @@ function default_1(hexo) {
     // test image fix
     hexo.extend.filter.register("after_render:html", fixAttributes_1.usingJSDOM);
     // minify html on production mode
-    if (!exports.isDev)
-        hexo.extend.filter.register("after_generate", html_1.default);
+    //hexo.extend.filter.register("after_generate", minHtml);
 }
 exports.default = default_1;

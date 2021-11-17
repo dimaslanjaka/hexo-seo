@@ -117,18 +117,18 @@ var usingCheerio = function (content, data) {
 var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     (0, cache_1.releaseMemory)();
-    var path0 = data.page ? data.page.full_source : data.path;
     var is = (0, hexo_is_1.default)(data);
-    if (is.home)
+    if (is.home || is.category || is.tag)
         return content;
+    var path0 = data.page ? data.page.full_source : data.path;
     if (!path0) {
         console.log(is);
-        (0, utils_1.dump)("dump-path0.txt", (0, utils_1.extractSimplePageData)(data));
+        (0, utils_1.dump)("dump-path0.txt", path0);
+        (0, utils_1.dump)("dump.txt", (0, utils_1.extractSimplePageData)(data));
+        (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
+        (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
         return content;
     }
-    /*dump("dump.txt", extractSimplePageData(data));
-    dump("dump-page.txt", extractSimplePageData(data.page));
-    dump("dump-this.txt", extractSimplePageData(this));*/
     var title = data.page && data.page.title && data.page.title.trim().length > 0
         ? data.page.title
         : this.config.title;
