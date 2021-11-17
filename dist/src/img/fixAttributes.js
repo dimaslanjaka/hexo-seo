@@ -41,22 +41,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
-//import Promise from "bluebird";
 var cache_1 = __importDefault(require("../cache"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache = new cache_1.default();
 function default_1(content, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, isChanged, config, $_1, title_1;
+        var page, path0, isChanged, config, $_1, title_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    path0 = data.path;
+                    page = data.page ? data.page.full_source : null;
+                    path0 = page ? page : data.path;
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
                     config = this.config;
-                    console.log("changed", isChanged, path0);
+                    //console.log("changed", isChanged, path0);
                     if (isChanged) {
                         $_1 = cheerio_1.default.load(content);
                         title_1 = data.title || config.title;

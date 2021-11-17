@@ -4,7 +4,7 @@ import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
 import checkUrl from "../curl/check";
-//import Promise from "bluebird";
+import { dump, extractSimplePageData } from "../utils";
 import InMemoryCache from "../cache";
 import pkg from "../../package.json";
 
@@ -15,10 +15,13 @@ export default async function (
   content: string,
   data: HexoSeo
 ): globalThis.Promise<string> {
-  const path0 = data.path;
+  const page = data.page ? data.page.full_source : null;
+  //dump("data.txt", extractSimplePageData(data.page));
+  //return content;
+  const path0 = page ? page : data.path;
   const isChanged = await cache.isFileChanged(path0);
   const config = this.config;
-  console.log("changed", isChanged, path0);
+  //console.log("changed", isChanged, path0);
   if (isChanged) {
     const $ = cheerio.load(content);
     //const config = getConfig(this).img;
