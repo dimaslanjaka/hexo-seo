@@ -96,7 +96,7 @@ var fixMeta = function (content, data) {
         else {
             bodyArticle = $("body").text();
         }
-        buildSchema.setArticleBody(bodyArticle);
+        buildSchema.setArticleBody(bodyArticle.replace(/[\W_-]+/gm, " "));
         buildSchema.setImage($);
         $("head").append("<script type=\"application/ld+json\">" + buildSchema + "</script>");
     }
