@@ -25,6 +25,18 @@ npm i hexo-seo
 - CSS JS HTML minifier
 - Auto add alternate and title of images
 
+# Usage
+> this plugin will run the functions based on development mode or production mode
+
+**development mode**
+```shell
+set NODE_ENV=development && hexo server
+# or
+hexo server --development
+```
+
+# Preview
+
 ![](./images/rich-snippets-result.png)
 
 # Troubleshoot
