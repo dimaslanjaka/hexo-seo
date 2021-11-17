@@ -39,6 +39,7 @@ export declare class CacheFile {
     dbFile: string;
     constructor(hash?: any);
     static md5: (data: string) => string;
+    setCache(key: string, value: any): void;
     set(key: string, value: any): void;
     has(key: string): boolean;
     /**
@@ -47,7 +48,8 @@ export declare class CacheFile {
      * @param fallback
      * @returns
      */
-    get<T extends keyof any>(key: string, fallback?: T): any;
+    get<T extends keyof any>(key: string, fallback?: T): T;
+    getCache<T extends keyof any>(key: string, fallback?: T): T;
     /**
      * Check file is changed with md5 algorithm
      * @param path0

@@ -50,7 +50,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     }
   } else {
     log.log("%s(CSS) cached [%s]", pkg.name, path0.replace(this.base_dir, ""));
-    str = cache.get(path0);
+    str = cache.get(path0, "");
   }
 
   return str;

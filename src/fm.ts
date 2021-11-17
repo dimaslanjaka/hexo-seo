@@ -23,16 +23,7 @@ export function writeFile(filePath: string, content: string) {
   fs.writeFileSync(filePath, content);
 }
 
-export type anyOf =
-  | string
-  | object
-  | Array<any>
-  | number
-  | boolean
-  | Buffer
-  | ObjectConstructor
-  | Record<string, object>
-  | Record<string, string>;
+export type anyOf = string | object | symbol | Record<string, any>;
 
 /**
  * read file nested path

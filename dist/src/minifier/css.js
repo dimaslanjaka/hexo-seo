@@ -88,7 +88,7 @@ function default_1(str, data) {
                 case 4: return [3 /*break*/, 6];
                 case 5:
                     log_1.default.log("%s(CSS) cached [%s]", package_json_1.default.name, path0.replace(this.base_dir, ""));
-                    str = cache.get(path0);
+                    str = cache.get(path0, "");
                     _a.label = 6;
                 case 6: return [2 /*return*/, str];
             }

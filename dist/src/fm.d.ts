@@ -10,7 +10,7 @@ export declare function resolveFile(filePath: string): string;
  * @param filePath
  */
 export declare function writeFile(filePath: string, content: string): void;
-export declare type anyOf = string | object | Array<any> | number | boolean | Buffer | ObjectConstructor | Record<string, object> | Record<string, string>;
+export declare type anyOf = string | object | symbol | Record<string, any>;
 /**
  * read file nested path
  * @param filePath

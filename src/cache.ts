@@ -91,7 +91,10 @@ export class CacheFile {
   static md5 = memoize((data: string): string => {
     return crypto.createHash("md5").update(data).digest("hex");
   });
-  set(key: string, value: any): void {
+  setCache(key: string, value: any) {
+    return this.set(key, value);
+  }
+  set(key: string, value: any) {
     this.md5Cache[key] = value;
     writeFile(this.dbFile, JSON.stringify(this.md5Cache));
   }
@@ -105,10 +108,13 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get<T extends keyof any>(key: string, fallback: T = null) {
+  get<T extends keyof any>(key: string, fallback: T = null): T {
     const Get = this.md5Cache[key];
     if (Get === undefined) return fallback;
     return Get;
+  }
+  getCache<T extends keyof any>(key: string, fallback: T = null): T {
+    return this.get(key, fallback);
   }
 
   /**

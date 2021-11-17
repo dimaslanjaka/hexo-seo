@@ -108,6 +108,9 @@ var CacheFile = /** @class */ (function () {
             this.md5Cache = db;
         }
     }
+    CacheFile.prototype.setCache = function (key, value) {
+        return this.set(key, value);
+    };
     CacheFile.prototype.set = function (key, value) {
         this.md5Cache[key] = value;
         (0, fm_1.writeFile)(this.dbFile, JSON.stringify(this.md5Cache));
@@ -127,6 +130,10 @@ var CacheFile = /** @class */ (function () {
         if (Get === undefined)
             return fallback;
         return Get;
+    };
+    CacheFile.prototype.getCache = function (key, fallback) {
+        if (fallback === void 0) { fallback = null; }
+        return this.get(key, fallback);
     };
     /**
      * Check file is changed with md5 algorithm
