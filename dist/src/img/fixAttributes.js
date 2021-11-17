@@ -9,8 +9,8 @@ var cache = new cache_1.default();
 function default_1(content, data) {
     var path0 = data.path;
     return cache.isFileChanged(path0).then(function (isChanged) {
-        if (!isChanged) {
-            console.log("changed", path0);
+        console.log("changed", isChanged, path0);
+        if (isChanged) {
             var $_1 = cheerio_1.default.load(content);
             //const config = getConfig(this).img;
             var title_1 = data.title;

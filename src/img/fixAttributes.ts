@@ -16,8 +16,8 @@ export default function (
 ): globalThis.Promise<string> {
   const path0 = data.path;
   return cache.isFileChanged(path0).then((isChanged) => {
-    if (!isChanged) {
-      console.log("changed", path0);
+    console.log("changed", isChanged, path0);
+    if (isChanged) {
       const $ = cheerio.load(content);
       //const config = getConfig(this).img;
       const title = data.title;
