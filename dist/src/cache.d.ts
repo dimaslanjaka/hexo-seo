@@ -55,4 +55,8 @@ export declare class CacheFile {
      */
     isFileChanged(path0: string): boolean;
 }
+/**
+ * Release memories
+ */
+export declare function releaseMemory(): void;
 export default Cache;

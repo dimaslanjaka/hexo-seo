@@ -8,7 +8,9 @@ var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
 var __1 = require("..");
+var cache_1 = require("../cache");
 var fixMeta = function (content, data) {
+    (0, cache_1.releaseMemory)();
     var hexo = this;
     var config = (0, config_1.default)(hexo).schema;
     if (!config)

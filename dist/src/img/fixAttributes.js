@@ -114,6 +114,7 @@ var usingCheerio = function (content, data) {
 };
 var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
+    (0, cache_1.releaseMemory)();
     var dom = new jsdom_1.JSDOM(content);
     var document = dom.window.document;
     var path0 = data.page ? data.page.full_source : data.path;

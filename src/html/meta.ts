@@ -4,8 +4,10 @@ import getConfig from "../config";
 import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
+import { releaseMemory } from "../cache";
 
 const fixMeta = function (content: string, data: HexoSeo) {
+  releaseMemory();
   const hexo: Hexo = this;
   const config = getConfig(hexo).schema;
   if (!config) return content;

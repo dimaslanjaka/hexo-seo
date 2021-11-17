@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CacheFile = void 0;
+exports.releaseMemory = exports.CacheFile = void 0;
 var md5_file_1 = __importStar(require("md5-file"));
 var path_1 = __importDefault(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
@@ -151,4 +151,14 @@ var CacheFile = /** @class */ (function () {
     return CacheFile;
 }());
 exports.CacheFile = CacheFile;
+/**
+ * Release memories
+ */
+function releaseMemory() {
+    if (process.memoryUsage().heapUsed > 200000000) {
+        // memory use is above 200MB
+        global.gc();
+    }
+}
+exports.releaseMemory = releaseMemory;
 exports.default = Cache;

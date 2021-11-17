@@ -130,4 +130,14 @@ export class CacheFile {
   }
 }
 
+/**
+ * Release memories
+ */
+export function releaseMemory() {
+  if (process.memoryUsage().heapUsed > 200000000) {
+    // memory use is above 200MB
+    global.gc();
+  }
+}
+
 export default Cache;

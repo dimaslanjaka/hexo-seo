@@ -5,7 +5,7 @@ import Hexo from "hexo";
 import getConfig from "../config";
 import checkUrl from "../curl/check";
 import { dump, extractSimplePageData } from "../utils";
-import InMemoryCache, { CacheFile } from "../cache";
+import InMemoryCache, { CacheFile, releaseMemory } from "../cache";
 import pkg from "../../package.json";
 import parse5 from "parse5";
 import { JSDOM } from "jsdom";
@@ -63,6 +63,7 @@ export const usingJSDOM = function (
   content: string,
   data: HexoSeo
 ) {
+  releaseMemory();
   const dom = new JSDOM(content);
   const document = dom.window.document;
   const path0 = data.page ? data.page.full_source : data.path;
