@@ -105,12 +105,16 @@ export class CacheFile {
   setCache(key: string, value: any) {
     return this.set(key, value);
   }
+  private binded = false;
   set(key: string, value: any) {
     this.md5Cache[key] = value;
-    bindProcessExit(() => {
-      console.log("saving cache");
-      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-    });
+    if (!this.binded) {
+      this.binded = true;
+      bindProcessExit(() => {
+        console.log("saving cache");
+        writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+      });
+    }
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;

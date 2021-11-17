@@ -109,6 +109,7 @@ var CacheFile = /** @class */ (function () {
     function CacheFile(hash) {
         if (hash === void 0) { hash = null; }
         this.md5Cache = {};
+        this.binded = false;
         if (!hash) {
             var stack = new Error().stack.split("at")[2];
             hash = CacheFile.md5(stack);
@@ -128,10 +129,13 @@ var CacheFile = /** @class */ (function () {
     CacheFile.prototype.set = function (key, value) {
         var _this = this;
         this.md5Cache[key] = value;
-        (0, cleanup_1.default)(function () {
-            console.log("saving cache");
-            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
-        });
+        if (!this.binded) {
+            this.binded = true;
+            (0, cleanup_1.default)(function () {
+                console.log("saving cache");
+                (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+            });
+        }
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;

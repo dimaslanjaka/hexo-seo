@@ -46,6 +46,7 @@ export declare class CacheFile {
     constructor(hash?: any);
     static md5: (data: string) => string;
     setCache(key: string, value: any): void;
+    private binded;
     set(key: string, value: any): void;
     has(key: string): boolean;
     /**
