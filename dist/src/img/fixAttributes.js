@@ -61,6 +61,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usingJQuery = exports.usingJSDOM = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
+var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
+var utils_1 = require("../utils");
 var cache_1 = __importStar(require("../cache"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var jsdom_1 = require("jsdom");
@@ -116,6 +118,14 @@ var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     (0, cache_1.releaseMemory)();
     var path0 = data.page ? data.page.full_source : data.path;
+    var is = (0, hexo_is_1.default)(data);
+    if (is.home)
+        return content;
+    if (!path0) {
+        console.log(is);
+        (0, utils_1.dump)("dump-path0.txt", (0, utils_1.extractSimplePageData)(data));
+        return content;
+    }
     /*dump("dump.txt", extractSimplePageData(data));
     dump("dump-page.txt", extractSimplePageData(data.page));
     dump("dump-this.txt", extractSimplePageData(this));*/

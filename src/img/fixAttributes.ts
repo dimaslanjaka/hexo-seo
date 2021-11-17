@@ -3,7 +3,7 @@ import { HexoSeo } from "../html/schema/article";
 import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
-import checkUrl from "../curl/check";
+import hexoIs from "../hexo/hexo-is";
 import { dump, extractSimplePageData } from "../utils";
 import InMemoryCache, { CacheFile, releaseMemory } from "../cache";
 import pkg from "../../package.json";
@@ -65,6 +65,13 @@ export const usingJSDOM = function (
 ) {
   releaseMemory();
   const path0 = data.page ? data.page.full_source : data.path;
+  const is = hexoIs(data);
+  if (is.home) return content;
+  if (!path0) {
+    console.log(is);
+    dump("dump-path0.txt", extractSimplePageData(data));
+    return content;
+  }
   /*dump("dump.txt", extractSimplePageData(data));
   dump("dump-page.txt", extractSimplePageData(data.page));
   dump("dump-this.txt", extractSimplePageData(this));*/

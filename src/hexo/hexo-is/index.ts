@@ -20,7 +20,7 @@ const log = hexoLog({
  * @param hexo
  * @returns
  */
-const hexoIs = function (hexo: Hexo | Hexo.View): object | string {
+const hexoIs = function (hexo: Hexo | Hexo.View) {
   if (typeof hexo["page"] != "undefined") return is(hexo);
   if (typeof hexo["type"] != "undefined") {
     const ix = is(hexo);

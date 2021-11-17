@@ -8,7 +8,28 @@ import Hexo from "hexo";
  * @param hexo
  * @returns
  */
-declare const hexoIs: (hexo: Hexo | Hexo.View) => object | string;
+declare const hexoIs: (hexo: Hexo | Hexo.View) => {
+    current: boolean;
+    home: boolean;
+    post: boolean;
+    page: boolean;
+    archive: boolean;
+    year: boolean;
+    month: boolean;
+    category: boolean;
+    tag: boolean;
+    message: string;
+} | {
+    current: any;
+    home: any;
+    post: any;
+    page: any;
+    archive: any;
+    year: any;
+    month: any;
+    category: any;
+    tag: any;
+};
 /**
  * Dump variable to file
  * @param toDump
