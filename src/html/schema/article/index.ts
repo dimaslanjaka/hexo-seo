@@ -104,6 +104,20 @@ class articleSchema {
   }
 
   /**
+   * get schema property
+   */
+  get(key) {
+    return this.schema[key];
+  }
+
+  /**
+   * get all schema structure
+   */
+  getStructure() {
+    return this.schema;
+  }
+
+  /**
    * Set breadcrumbs by tags and categories
    * @param tags
    */

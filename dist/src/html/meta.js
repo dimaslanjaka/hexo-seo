@@ -74,6 +74,9 @@ var fixMeta = function (content, data) {
                 schemaBreadcrumbs_1.push(o);
             });
         }
+        if (data.date) {
+            buildSchema.set("datePublished", data.date);
+        }
         buildSchema.set("genre", keywords_1.join(", "));
         buildSchema.set("keywords", keywords_1.join(", "));
         if (data["url"]) {

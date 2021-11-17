@@ -71,6 +71,10 @@ const fixMeta = function (content: string, data: HexoSeo) {
       });
     }
 
+    if (data.date) {
+      buildSchema.set("datePublished", data.date);
+    }
+
     buildSchema.set("genre", keywords.join(", "));
     buildSchema.set("keywords", keywords.join(", "));
 

@@ -77,6 +77,18 @@ var articleSchema = /** @class */ (function () {
         this.schema[key] = value;
     };
     /**
+     * get schema property
+     */
+    articleSchema.prototype.get = function (key) {
+        return this.schema[key];
+    };
+    /**
+     * get all schema structure
+     */
+    articleSchema.prototype.getStructure = function () {
+        return this.schema;
+    };
+    /**
      * Set breadcrumbs by tags and categories
      * @param tags
      */
