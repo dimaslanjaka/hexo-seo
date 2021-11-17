@@ -95,6 +95,7 @@ export const usingJSDOM = function (
     content = document.documentElement.outerHTML;
     dom.window.close();
     cF.set(path0, content);
+    return content;
   }
   content = cF.get(path0, "");
   return content;
