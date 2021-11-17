@@ -87,7 +87,7 @@ function default_1(content, data) {
                     img.attr("src", chk.resolved);
                     img.attr("src-original", chk.original);
                     if (!chk.cached)
-                        log_1.default.log("%s is broken, replaced with %s", chk.resolved, chk.original);
+                        log_1.default.log("%s is broken, replaced with %s", chk.original, chk.resolved);
                     return img;
                 });
             };

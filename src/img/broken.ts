@@ -89,8 +89,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
           if (!chk.cached)
             logger.log(
               "%s is broken, replaced with %s",
-              chk.resolved,
-              chk.original
+              chk.original,
+              chk.resolved
             );
           return img;
         });
