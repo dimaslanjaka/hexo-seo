@@ -65,7 +65,7 @@ export const usingJSDOM = function (
 ) {
   releaseMemory();
   const is = hexoIs(data);
-  if (is.home || is.category || is.tag) return content;
+  if (!is.page || !is.post) return content;
   const path0 = data.page ? data.page.full_source : data.path;
   if (!path0) {
     console.log(is);

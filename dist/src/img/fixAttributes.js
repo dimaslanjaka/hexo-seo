@@ -118,7 +118,7 @@ var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     (0, cache_1.releaseMemory)();
     var is = (0, hexo_is_1.default)(data);
-    if (is.home || is.category || is.tag)
+    if (!is.page || !is.post)
         return content;
     var path0 = data.page ? data.page.full_source : data.path;
     if (!path0) {
