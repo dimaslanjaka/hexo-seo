@@ -10,7 +10,8 @@
     "test.js",
     "*.md",
     "images",
-    "source"
+    "source",
+    "index.*"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
