@@ -56,10 +56,6 @@ const usingCheerio = async function (
   }
 };
 
-const usingParse5 = function (this: Hexo, content: string, data: HexoSeo) {
-  const document = parse5.parse(content);
-};
-
 const cF = new CacheFile();
 
 export const usingJSDOM = function (
@@ -77,22 +73,27 @@ export const usingJSDOM = function (
     data.page && data.page.title.trim().length > 0
       ? data.page.title
       : this.config.title;
+  const isChanged = cF.isFileChanged(path0);
 
-  document.querySelectorAll("img[src]").forEach((element) => {
-    if (!element.getAttribute("title")) {
-      element.setAttribute("title", title);
-    }
-    if (!element.getAttribute("alt")) {
-      element.setAttribute("alt", title);
-    }
-    if (!element.getAttribute("itemprop")) {
-      element.setAttribute("itemprop", "image");
-    }
-  });
+  if (isChanged) {
+    document.querySelectorAll("img[src]").forEach((element) => {
+      if (!element.getAttribute("title")) {
+        element.setAttribute("title", title);
+      }
+      if (!element.getAttribute("alt")) {
+        element.setAttribute("alt", title);
+      }
+      if (!element.getAttribute("itemprop")) {
+        element.setAttribute("itemprop", "image");
+      }
+    });
 
-  //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
-  //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-  return document.documentElement.outerHTML;
+    //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
+    //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
+    content = document.documentElement.outerHTML;
+    cF.set(path0, content);
+  }
+  return cF.get(path0, "");
 };
 
 export const usingJQuery = function (

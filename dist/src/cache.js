@@ -1,10 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CacheFile = void 0;
-var md5_file_1 = __importDefault(require("md5-file"));
+var md5_file_1 = __importStar(require("md5-file"));
 var path_1 = __importDefault(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
@@ -90,13 +109,40 @@ var CacheFile = /** @class */ (function () {
         }
     }
     CacheFile.prototype.set = function (key, value) {
-        this[key] = value;
+        this.md5Cache[key] = value;
     };
     CacheFile.prototype.has = function (key) {
-        return typeof this[key] !== undefined;
+        return typeof this.md5Cache[key] !== undefined;
     };
-    CacheFile.prototype.get = function (key) {
-        return this[key];
+    /**
+     * Get cache by key
+     * @param key
+     * @param fallback
+     * @returns
+     */
+    CacheFile.prototype.get = function (key, fallback) {
+        if (fallback === void 0) { fallback = null; }
+        var Get = this.md5Cache[key];
+        if (Get === undefined)
+            return fallback;
+        return Get;
+    };
+    /**
+     * Check file is changed with md5 algorithm
+     * @param path0
+     * @returns
+     */
+    CacheFile.prototype.isFileChanged = function (path0) {
+        // get md5 hash from path0
+        var pathMd5 = (0, md5_file_1.sync)(path0);
+        // get index hash
+        var savedMd5 = this.md5Cache[path0 + "-hash"];
+        var result = savedMd5 == pathMd5;
+        if (!result) {
+            // set, if file hash is not found
+            this.md5Cache[path0 + "-hash"] = pathMd5;
+        }
+        return result;
     };
     CacheFile.md5 = (0, underscore_1.memoize)(function (data) {
         return crypto_1.default.createHash("md5").update(data).digest("hex");

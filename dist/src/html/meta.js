@@ -17,7 +17,7 @@ var fixMeta = function (content, data) {
     var buildSchema = new article_1.default({ pretty: __1.isDev, hexo: data });
     var whereHexo = (0, hexo_is_1.default)(data);
     var writeSchema = false;
-    if (whereHexo.post) {
+    if (typeof whereHexo == "object" && whereHexo["post"]) {
         writeSchema = true;
         var schemaData = data;
         if (data["page"])

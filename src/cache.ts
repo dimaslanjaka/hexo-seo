@@ -1,4 +1,4 @@
-import md5File from "md5-file";
+import md5File, { sync as md5FileSync } from "md5-file";
 import path from "path";
 import crypto from "crypto";
 import { Objek } from "./utils";
@@ -91,13 +91,40 @@ export class CacheFile {
     return crypto.createHash("md5").update(data).digest("hex");
   });
   set(key: string, value: any): void {
-    this[key] = value;
+    this.md5Cache[key] = value;
   }
   has(key: string): boolean {
-    return typeof this[key] !== undefined;
+    return typeof this.md5Cache[key] !== undefined;
   }
-  get(key: string) {
-    return this[key];
+
+  /**
+   * Get cache by key
+   * @param key
+   * @param fallback
+   * @returns
+   */
+  get<T extends keyof any>(key: string, fallback: T = null) {
+    const Get = this.md5Cache[key];
+    if (Get === undefined) return fallback;
+    return Get;
+  }
+
+  /**
+   * Check file is changed with md5 algorithm
+   * @param path0
+   * @returns
+   */
+  isFileChanged(path0: string) {
+    // get md5 hash from path0
+    const pathMd5 = md5FileSync(path0);
+    // get index hash
+    const savedMd5 = this.md5Cache[path0 + "-hash"];
+    const result = savedMd5 == pathMd5;
+    if (!result) {
+      // set, if file hash is not found
+      this.md5Cache[path0 + "-hash"] = pathMd5;
+    }
+    return result;
   }
 }
 

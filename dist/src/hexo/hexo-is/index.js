@@ -38,25 +38,19 @@ var log = (0, hexo_log_1.default)({
  * // run inside plugin or theme event
  * import hexoIs from 'hexo-is';
  * const hexo = this;
- * console.log(hexoIs(hexo));
+ * console.log(hexoIs(hexo)); // object or string
  * @param hexo
  * @returns
  */
 var hexoIs = function (hexo) {
     if (typeof hexo["page"] != "undefined")
         return (0, is_1.default)(hexo);
-    /*
-    if (typeof hexo["locals"] != "undefined") {
-      hexoIsDump(hexo["locals"]["page"], "locals");
+    if (typeof hexo["type"] != "undefined") {
+        var ix = (0, is_1.default)(hexo);
+        if (typeof ix[hexo["type"]] != "undefined")
+            ix[hexo["type"]] = true;
+        return ix;
     }
-    */
-    /*
-    if (typeof hexo["extend"] != "undefined") {
-      const filter = hexo["extend"]["filter"];
-      //filter.register("after_render:html", dumper);
-      //hexoIsDump(filter["store"]["_after_html_render"], "filter");
-    }
-    */
 };
 function dumper() {
     hexoIsDump(arguments, "arg");

@@ -40,6 +40,18 @@ export declare class CacheFile {
     static md5: (data: string) => string;
     set(key: string, value: any): void;
     has(key: string): boolean;
-    get(key: string): any;
+    /**
+     * Get cache by key
+     * @param key
+     * @param fallback
+     * @returns
+     */
+    get<T extends keyof any>(key: string, fallback?: T): any;
+    /**
+     * Check file is changed with md5 algorithm
+     * @param path0
+     * @returns
+     */
+    isFileChanged(path0: string): boolean;
 }
 export default Cache;

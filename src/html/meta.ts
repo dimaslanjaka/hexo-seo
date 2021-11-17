@@ -13,7 +13,7 @@ const fixMeta = function (content: string, data: HexoSeo) {
   const buildSchema = new schemaArticles({ pretty: isDev, hexo: data });
   const whereHexo = hexoIs2(data);
   let writeSchema = false;
-  if (whereHexo.post) {
+  if (typeof whereHexo == "object" && whereHexo["post"]) {
     writeSchema = true;
 
     let schemaData = data;

@@ -63,7 +63,6 @@ var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
 var cache_1 = __importStar(require("../cache"));
 var package_json_1 = __importDefault(require("../../package.json"));
-var parse5_1 = __importDefault(require("parse5"));
 var jsdom_1 = require("jsdom");
 var jquery_1 = __importDefault(require("jquery"));
 var cache = new cache_1.default();
@@ -113,9 +112,6 @@ var usingCheerio = function (content, data) {
         });
     });
 };
-var usingParse5 = function (content, data) {
-    var document = parse5_1.default.parse(content);
-};
 var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     var dom = new jsdom_1.JSDOM(content);
@@ -127,20 +123,25 @@ var usingJSDOM = function (content, data) {
     var title = data.page && data.page.title.trim().length > 0
         ? data.page.title
         : this.config.title;
-    document.querySelectorAll("img[src]").forEach(function (element) {
-        if (!element.getAttribute("title")) {
-            element.setAttribute("title", title);
-        }
-        if (!element.getAttribute("alt")) {
-            element.setAttribute("alt", title);
-        }
-        if (!element.getAttribute("itemprop")) {
-            element.setAttribute("itemprop", "image");
-        }
-    });
-    //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
-    //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-    return document.documentElement.outerHTML;
+    var isChanged = cF.isFileChanged(path0);
+    if (isChanged) {
+        document.querySelectorAll("img[src]").forEach(function (element) {
+            if (!element.getAttribute("title")) {
+                element.setAttribute("title", title);
+            }
+            if (!element.getAttribute("alt")) {
+                element.setAttribute("alt", title);
+            }
+            if (!element.getAttribute("itemprop")) {
+                element.setAttribute("itemprop", "image");
+            }
+        });
+        //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
+        //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
+        content = document.documentElement.outerHTML;
+        cF.set(path0, content);
+    }
+    return cF.get(path0, "");
 };
 exports.usingJSDOM = usingJSDOM;
 var usingJQuery = function (content, data) {
