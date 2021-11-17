@@ -60,7 +60,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       const checkBrokenImg = function (src: string) {
         const new_src = {
           original: src,
-          resolved: src
+          resolved: src,
+          cached: false
         };
         const cached: typeof new_src | null = cache.getCache(src, null);
         if (!cached) {
@@ -73,6 +74,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
             return new_src;
           });
         }
+        new_src.cached = true;
         return Promise.any([cached]).then((srcx) => {
           return srcx;
         });
@@ -84,11 +86,12 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
         return img_check.then((chk) => {
           img.attr("src", chk.resolved);
           img.attr("src-original", chk.original);
-          logger.log(
-            "%s is broken, replaced with %s",
-            chk.resolved,
-            chk.original
-          );
+          if (!chk.cached)
+            logger.log(
+              "%s is broken, replaced with %s",
+              chk.resolved,
+              chk.original
+            );
           return img;
         });
       };

@@ -61,7 +61,8 @@ function default_1(content, data) {
             var checkBrokenImg_1 = function (src) {
                 var new_src = {
                     original: src,
-                    resolved: src
+                    resolved: src,
+                    cached: false
                 };
                 var cached = cache.getCache(src, null);
                 if (!cached) {
@@ -74,6 +75,7 @@ function default_1(content, data) {
                         return new_src;
                     });
                 }
+                new_src.cached = true;
                 return bluebird_1.default.any([cached]).then(function (srcx) {
                     return srcx;
                 });
@@ -84,7 +86,8 @@ function default_1(content, data) {
                 return img_check.then(function (chk) {
                     img.attr("src", chk.resolved);
                     img.attr("src-original", chk.original);
-                    log_1.default.log("%s is broken, replaced with %s", chk.resolved, chk.original);
+                    if (!chk.cached)
+                        log_1.default.log("%s is broken, replaced with %s", chk.resolved, chk.original);
                     return img;
                 });
             };
