@@ -81,7 +81,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       const fixBrokenImg = function (img: Cheerio<Element>) {
         const img_src = img.attr("src");
         const img_check = checkBrokenImg(img_src);
-        img_check.then((chk) => {
+        return img_check.then((chk) => {
           img.attr("src", chk.resolved);
           img.attr("src-original", chk.original);
           logger.log(
@@ -89,6 +89,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
             chk.resolved,
             chk.original
           );
+          return img;
         });
       };
 

@@ -81,10 +81,11 @@ function default_1(content, data) {
             var fixBrokenImg = function (img) {
                 var img_src = img.attr("src");
                 var img_check = checkBrokenImg_1(img_src);
-                img_check.then(function (chk) {
+                return img_check.then(function (chk) {
                     img.attr("src", chk.resolved);
                     img.attr("src-original", chk.original);
                     log_1.default.log("%s is broken, replaced with %s", chk.resolved, chk.original);
+                    return img;
                 });
             };
             return bluebird_1.default.all(images_1)
