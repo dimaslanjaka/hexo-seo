@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.releaseMemory = exports.CacheFile = void 0;
+exports.releaseMemory = exports.CacheFile = exports.resolveString = void 0;
 var md5_file_1 = __importStar(require("md5-file"));
 var path_1 = __importDefault(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
@@ -88,6 +88,19 @@ var Cache = /** @class */ (function () {
     return Cache;
 }());
 /**
+ * Transform any variable to string
+ * @param variable
+ * @returns
+ */
+function resolveString(variable, encode) {
+    if (encode === void 0) { encode = false; }
+    if (typeof variable === "number")
+        variable = variable.toString();
+    if (Buffer.isBuffer(variable))
+        variable = variable.toString();
+}
+exports.resolveString = resolveString;
+/**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
@@ -141,6 +154,10 @@ var CacheFile = /** @class */ (function () {
      * @returns
      */
     CacheFile.prototype.isFileChanged = function (path0) {
+        if (typeof path0 != "string") {
+            console.log(typeof path0, path0);
+            return true;
+        }
         // get md5 hash from path0
         var pathMd5 = (0, md5_file_1.sync)(path0);
         // get index hash

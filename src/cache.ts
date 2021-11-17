@@ -68,6 +68,16 @@ class Cache {
 }
 
 /**
+ * Transform any variable to string
+ * @param variable
+ * @returns
+ */
+export function resolveString(variable: any, encode = false) {
+  if (typeof variable === "number") variable = variable.toString();
+  if (Buffer.isBuffer(variable)) variable = variable.toString();
+}
+
+/**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
@@ -123,6 +133,10 @@ export class CacheFile {
    * @returns
    */
   isFileChanged(path0: string) {
+    if (typeof path0 != "string") {
+      console.log(typeof path0, path0);
+      return true;
+    }
     // get md5 hash from path0
     const pathMd5 = md5FileSync(path0);
     // get index hash

@@ -31,6 +31,12 @@ declare class Cache {
     isFileChanged(filePath: string): Promise<boolean>;
 }
 /**
+ * Transform any variable to string
+ * @param variable
+ * @returns
+ */
+export declare function resolveString(variable: any, encode?: boolean): void;
+/**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
