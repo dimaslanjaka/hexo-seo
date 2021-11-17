@@ -1,9 +1,11 @@
 process.stdin.resume(); //so the program will not close instantly
 
 function exitHandler(options?, exitCode = 0) {
-  if (options.cleanup) console.log("process exiting");
+  if (typeof options == "function") options();
+  if (typeof options == "object" && options.cleanup)
+    console.log("process exiting");
   if (exitCode || exitCode === 0) console.log(exitCode);
-  if (options.exit) process.exit();
+  if (typeof options == "object" && options.exit) process.exit();
 }
 
 function bindProcessExit(fn: () => void): void {

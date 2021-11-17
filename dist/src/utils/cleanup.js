@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 process.stdin.resume(); //so the program will not close instantly
 function exitHandler(options, exitCode) {
     if (exitCode === void 0) { exitCode = 0; }
-    if (options.cleanup)
+    if (typeof options == "function")
+        options();
+    if (typeof options == "object" && options.cleanup)
         console.log("process exiting");
     if (exitCode || exitCode === 0)
         console.log(exitCode);
-    if (options.exit)
+    if (typeof options == "object" && options.exit)
         process.exit();
 }
 function bindProcessExit(fn) {
