@@ -115,8 +115,6 @@ var usingCheerio = function (content, data) {
 var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     (0, cache_1.releaseMemory)();
-    var dom = new jsdom_1.JSDOM(content);
-    var document = dom.window.document;
     var path0 = data.page ? data.page.full_source : data.path;
     /*dump("dump.txt", extractSimplePageData(data));
     dump("dump-page.txt", extractSimplePageData(data.page));
@@ -126,8 +124,10 @@ var usingJSDOM = function (content, data) {
         : this.config.title;
     var isChanged = cF.isFileChanged(path0);
     if (isChanged) {
+        var dom = new jsdom_1.JSDOM(content);
+        var document_1 = dom.window.document;
         log_1.default.log("%s(IMG:attr) parsing start [%s]", package_json_1.default.name, path0);
-        document.querySelectorAll("img[src]").forEach(function (element) {
+        document_1.querySelectorAll("img[src]").forEach(function (element) {
             if (!element.getAttribute("title")) {
                 element.setAttribute("title", title);
             }
@@ -140,7 +140,7 @@ var usingJSDOM = function (content, data) {
         });
         //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
         //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-        content = document.documentElement.outerHTML;
+        content = document_1.documentElement.outerHTML;
         dom.window.close();
         cF.set(path0, content);
         return content;

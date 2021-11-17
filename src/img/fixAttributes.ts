@@ -64,8 +64,6 @@ export const usingJSDOM = function (
   data: HexoSeo
 ) {
   releaseMemory();
-  const dom = new JSDOM(content);
-  const document = dom.window.document;
   const path0 = data.page ? data.page.full_source : data.path;
   /*dump("dump.txt", extractSimplePageData(data));
   dump("dump-page.txt", extractSimplePageData(data.page));
@@ -77,6 +75,8 @@ export const usingJSDOM = function (
   const isChanged = cF.isFileChanged(path0);
 
   if (isChanged) {
+    const dom = new JSDOM(content);
+    const document = dom.window.document;
     logger.log("%s(IMG:attr) parsing start [%s]", pkg.name, path0);
     document.querySelectorAll("img[src]").forEach((element) => {
       if (!element.getAttribute("title")) {
