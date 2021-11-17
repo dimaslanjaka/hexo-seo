@@ -24,7 +24,7 @@ export const isLocalImage = (url: string) => {
  */
 export default function (this: Hexo, content: string, data: HexoSeo) {
   const path0 = data.path;
-  cache.isFileChanged(path0).then((isChanged) => {
+  return cache.isFileChanged(path0).then((isChanged) => {
     if (isChanged) {
       const $ = cheerio.load(content);
       const config = getConfig(this).img;

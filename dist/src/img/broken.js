@@ -28,7 +28,7 @@ exports.isLocalImage = isLocalImage;
 function default_1(content, data) {
     var _this = this;
     var path0 = data.path;
-    cache.isFileChanged(path0).then(function (isChanged) {
+    return cache.isFileChanged(path0).then(function (isChanged) {
         if (isChanged) {
             var $_1 = cheerio_1.default.load(content);
             var config_2 = (0, config_1.default)(_this).img;

@@ -8,9 +8,7 @@ import minimist from "minimist";
 import getConfig from "./config";
 import fixMeta from "./html/meta";
 import fixHyperlinks from "./html/hyperlink";
-import brokenImageFix from "./img/broken";
-import serveStatic from "serve-static";
-import path from "path";
+import imageFixAttributes from "./img/fixAttributes";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -51,7 +49,7 @@ export default function (hexo: Hexo) {
   // fix schema meta
   hexo.extend.filter.register("after_render:html", fixMeta);
   // test image fix
-  hexo.extend.filter.register("after_render:html", brokenImageFix);
+  hexo.extend.filter.register("after_render:html", imageFixAttributes);
 
   //hexo.extend.filter.register("after_generate", minHtml);
 }

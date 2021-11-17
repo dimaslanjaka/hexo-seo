@@ -35,7 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var node_libcurl_1 = require("node-libcurl");
+var log_1 = __importDefault(require("../log"));
 //import Promise from "bluebird";
 /**
  * Check if url is exists
@@ -50,6 +54,7 @@ var checkUrl = function (url) {
                     return [4 /*yield*/, node_libcurl_1.curly.get(url.toString())];
                 case 1:
                     _a = _b.sent(), statusCode = _a.statusCode, data = _a.data, headers = _a.headers;
+                    log_1.default.log(url, statusCode);
                     return [2 /*return*/, statusCode < 400 || statusCode >= 500 || statusCode === 200];
                 case 2:
                     e_1 = _b.sent();
