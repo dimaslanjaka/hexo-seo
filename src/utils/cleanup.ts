@@ -1,7 +1,7 @@
 process.stdin.resume(); //so the program will not close instantly
 
-let fns1: Array<(data?: string) => void>;
-let fns: ((data?: string) => void)[];
+const fns1: Array<(data?: string) => void> = [];
+const fns: ((data?: string) => void)[] = [];
 function exitHandler(options, exitCode) {
   fns.concat(fns1).map((fn) => {
     fn();

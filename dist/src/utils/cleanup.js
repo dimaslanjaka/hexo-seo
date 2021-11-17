@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 process.stdin.resume(); //so the program will not close instantly
-var fns1;
-var fns;
+var fns1 = [];
+var fns = [];
 function exitHandler(options, exitCode) {
     fns.concat(fns1).map(function (fn) {
         fn();
