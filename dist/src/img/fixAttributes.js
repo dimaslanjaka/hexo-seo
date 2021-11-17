@@ -142,7 +142,8 @@ var usingJSDOM = function (content, data) {
         dom.window.close();
         cF.set(path0, content);
     }
-    return cF.get(path0, "");
+    content = cF.get(path0, "");
+    return content;
 };
 exports.usingJSDOM = usingJSDOM;
 var usingJQuery = function (content, data) {

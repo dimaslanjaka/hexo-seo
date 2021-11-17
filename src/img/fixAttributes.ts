@@ -94,7 +94,8 @@ export const usingJSDOM = function (
     dom.window.close();
     cF.set(path0, content);
   }
-  return cF.get(path0, "");
+  content = cF.get(path0, "");
+  return content;
 };
 
 export const usingJQuery = function (
