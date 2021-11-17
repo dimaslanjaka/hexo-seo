@@ -119,7 +119,7 @@ var usingJSDOM = function (content, data) {
     /*dump("dump.txt", extractSimplePageData(data));
     dump("dump-page.txt", extractSimplePageData(data.page));
     dump("dump-this.txt", extractSimplePageData(this));*/
-    var title = data.page && data.page.title.trim().length > 0
+    var title = data.page && data.page.title && data.page.title.trim().length > 0
         ? data.page.title
         : this.config.title;
     var isChanged = cF.isFileChanged(path0);

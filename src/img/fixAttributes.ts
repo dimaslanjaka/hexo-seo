@@ -69,7 +69,7 @@ export const usingJSDOM = function (
   dump("dump-page.txt", extractSimplePageData(data.page));
   dump("dump-this.txt", extractSimplePageData(this));*/
   const title =
-    data.page && data.page.title.trim().length > 0
+    data.page && data.page.title && data.page.title.trim().length > 0
       ? data.page.title
       : this.config.title;
   const isChanged = cF.isFileChanged(path0);
