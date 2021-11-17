@@ -30,8 +30,15 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     const exclude = typeof options.exclude == "object" ? options.exclude : [];
 
     if (path0 && exclude && exclude.length > 0) {
-      log.log("[exclude]", isIgnore(path0, exclude), path0, exclude);
-      if (isIgnore(path0, exclude)) return str;
+      const ignored = isIgnore(path0, exclude);
+      log.log(
+        "%s(CSS:exclude) %s %s %s",
+        pkg.name,
+        ignored ? chalk.red(ignored) : chalk.green(ignored),
+        path0,
+        exclude
+      );
+      if (ignored) return str;
     }
 
     if (typeof options == "object") {

@@ -105,21 +105,15 @@ export class CacheFile {
   setCache(key: string, value: any) {
     return this.set(key, value);
   }
-  private binded = false;
   set(key: string, value: any) {
     this.md5Cache[key] = value;
-    if (!this.binded) {
-      this.binded = true;
-      bindProcessExit(() => {
-        console.log("saving cache");
-        writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-      });
-    }
+    bindProcessExit("cachefile", () => {
+      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    });
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;
   }
-
   /**
    * Get cache by key
    * @param key
@@ -134,7 +128,6 @@ export class CacheFile {
   getCache<T extends keyof any>(key: string, fallback: T = null): T {
     return this.get(key, fallback);
   }
-
   /**
    * Check file is changed with md5 algorithm
    * @param path0

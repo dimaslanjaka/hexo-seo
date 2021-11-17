@@ -49,7 +49,7 @@ var chalk_1 = __importDefault(require("chalk"));
 var cache = new cache_1.CacheFile();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, isChanged, hexo_1, options, exclude, styles, saved, err_1;
+        var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -64,8 +64,9 @@ function default_1(str, data) {
                         return [2 /*return*/, str];
                     exclude = typeof options.exclude == "object" ? options.exclude : [];
                     if (path0 && exclude && exclude.length > 0) {
-                        log_1.default.log("[exclude]", (0, utils_1.isIgnore)(path0, exclude), path0, exclude);
-                        if ((0, utils_1.isIgnore)(path0, exclude))
+                        ignored = (0, utils_1.isIgnore)(path0, exclude);
+                        log_1.default.log("%s(CSS:exclude) %s %s %s", package_json_1.default.name, ignored ? chalk_1.default.red(ignored) : chalk_1.default.green(ignored), path0, exclude);
+                        if (ignored)
                             return [2 /*return*/, str];
                     }
                     if (!(typeof options == "object")) return [3 /*break*/, 4];
