@@ -9,10 +9,8 @@ import minimist from "minimist";
 import getConfig from "./config";
 import fixMeta from "./html/meta";
 import fixHyperlinks from "./html/hyperlink";
-import imageFixAttributes, {
-  usingJQuery,
-  usingJSDOM
-} from "./img/fixAttributes";
+import { usingJSDOM } from "./img/fixAttributes";
+import minHtml from "./minifier/html";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -54,6 +52,6 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:html", fixMeta);
   // test image fix
   hexo.extend.filter.register("after_render:html", usingJSDOM);
-
-  //hexo.extend.filter.register("after_generate", minHtml);
+  // minify html on production mode
+  if (!isDev) hexo.extend.filter.register("after_generate", minHtml);
 }
