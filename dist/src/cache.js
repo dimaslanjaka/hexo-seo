@@ -28,6 +28,7 @@ var path_1 = __importDefault(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
+var cleanup_1 = __importDefault(require("./utils/cleanup"));
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -125,8 +126,12 @@ var CacheFile = /** @class */ (function () {
         return this.set(key, value);
     };
     CacheFile.prototype.set = function (key, value) {
+        var _this = this;
         this.md5Cache[key] = value;
-        (0, fm_1.writeFile)(this.dbFile, JSON.stringify(this.md5Cache));
+        (0, cleanup_1.default)(function () {
+            console.log("saving cache");
+            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+        });
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;

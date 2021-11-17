@@ -21,7 +21,8 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
   const isChanged = cache.isFileChanged(path0);
 
   if (isChanged) {
-    // if original file is changed, re-minify js
+    log.log("%s is changed %s", path0, isChanged);
+    // if original file is changed, re-minify css
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;
     // if option css is false, return original content
@@ -29,7 +30,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     const exclude = typeof options.exclude == "object" ? options.exclude : [];
 
     if (path0 && exclude && exclude.length > 0) {
-      log.debug("[exclude]", isIgnore(path0, exclude), path0, exclude);
+      log.log("[exclude]", isIgnore(path0, exclude), path0, exclude);
       if (isIgnore(path0, exclude)) return str;
     }
 

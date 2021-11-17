@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Objek } from "./utils";
 import { memoize } from "underscore";
 import { readFile, writeFile } from "./fm";
+import bindProcessExit from "./utils/cleanup";
 
 /**
  * @summary IN MEMORY CACHE
@@ -106,7 +107,10 @@ export class CacheFile {
   }
   set(key: string, value: any) {
     this.md5Cache[key] = value;
-    writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    bindProcessExit(() => {
+      console.log("saving cache");
+      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    });
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;
