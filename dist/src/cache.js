@@ -155,6 +155,10 @@ exports.CacheFile = CacheFile;
  * Release memories
  */
 function releaseMemory() {
+    if (!global.gc) {
+        console.log("Garbage collection is not exposed");
+        return;
+    }
     if (process.memoryUsage().heapUsed > 200000000) {
         // memory use is above 200MB
         global.gc();
