@@ -99,8 +99,8 @@ var CacheFile = /** @class */ (function () {
             var stack = new Error().stack.split("at")[2];
             hash = CacheFile.md5(stack);
         }
-        var dbf = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
-        var db = (0, fm_1.readFile)(dbf, { encoding: "utf8" }, {});
+        this.dbFile = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
+        var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
             db = JSON.parse(db.toString());
         }
@@ -110,6 +110,7 @@ var CacheFile = /** @class */ (function () {
     }
     CacheFile.prototype.set = function (key, value) {
         this.md5Cache[key] = value;
+        (0, fm_1.writeFile)(this.dbFile, JSON.stringify(this.md5Cache));
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;

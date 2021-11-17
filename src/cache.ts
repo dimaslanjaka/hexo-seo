@@ -3,7 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import { Objek } from "./utils";
 import { memoize } from "underscore";
-import { readFile } from "./fm";
+import { readFile, writeFile } from "./fm";
 
 /**
  * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
@@ -73,13 +73,14 @@ class Cache {
  */
 export class CacheFile {
   md5Cache: Objek = {};
+  dbFile: string;
   constructor(hash = null) {
     if (!hash) {
       const stack = new Error().stack.split("at")[2];
       hash = CacheFile.md5(stack);
     }
-    const dbf = path.join(__dirname, "../tmp/db-" + hash + ".json");
-    let db = readFile(dbf, { encoding: "utf8" }, {});
+    this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
+    let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
       db = JSON.parse(db.toString());
     }
@@ -92,6 +93,7 @@ export class CacheFile {
   });
   set(key: string, value: any): void {
     this.md5Cache[key] = value;
+    writeFile(this.dbFile, JSON.stringify(this.md5Cache));
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;

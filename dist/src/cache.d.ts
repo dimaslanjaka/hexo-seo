@@ -36,6 +36,7 @@ declare class Cache {
  */
 export declare class CacheFile {
     md5Cache: Objek;
+    dbFile: string;
     constructor(hash?: any);
     static md5: (data: string) => string;
     set(key: string, value: any): void;

@@ -139,6 +139,7 @@ var usingJSDOM = function (content, data) {
         //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
         //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
         content = document.documentElement.outerHTML;
+        dom.window.close();
         cF.set(path0, content);
     }
     return cF.get(path0, "");
