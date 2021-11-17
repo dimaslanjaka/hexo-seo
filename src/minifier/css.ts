@@ -6,7 +6,7 @@ import Hexo from "hexo";
 import { isIgnore } from "../utils";
 import log from "../log";
 import pkg from "../../package.json";
-import Cache from "../cache";
+import { CacheFile } from "../cache";
 import chalk from "chalk";
 
 export type cssMinifyOptions = CleanCSS.Options & {
@@ -14,11 +14,11 @@ export type cssMinifyOptions = CleanCSS.Options & {
   exclude?: string[];
 };
 
-const cache = new Cache();
+const cache = new CacheFile();
 
 export default async function (this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
-  const isChanged = await cache.isFileChanged(path0);
+  const isChanged = cache.isFileChanged(path0);
 
   if (isChanged) {
     // if original file is changed, re-minify js
@@ -49,6 +49,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
       }
     }
   } else {
+    log.log("%s(CSS) cached [%s]", pkg.name, path0.replace(this.base_dir, ""));
     str = cache.get(path0);
   }
 

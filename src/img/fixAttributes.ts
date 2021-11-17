@@ -97,7 +97,11 @@ export const usingJSDOM = function (
     cF.set(path0, content);
     return content;
   }
-  logger.log("%s(IMG:attr) cached [%s]", pkg.name, path0);
+  logger.log(
+    "%s(IMG:attr) cached [%s]",
+    pkg.name,
+    path0.replace(this.base_dir, "")
+  );
   content = cF.get(path0, "");
   return content;
 };

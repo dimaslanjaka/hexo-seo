@@ -29,9 +29,8 @@ var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 /**
- * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
- * - Reduce CPU Usage
- * - Reduce Resource Usage
+ * @summary IN MEMORY CACHE
+ * @description cache will be saved in memory/RAM
  */
 var Cache = /** @class */ (function () {
     function Cache() {
@@ -89,7 +88,8 @@ var Cache = /** @class */ (function () {
     return Cache;
 }());
 /**
- * Save cache to file, cache will be restored on next process restart
+ * @summary IN FILE CACHE.
+ * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 var CacheFile = /** @class */ (function () {
     function CacheFile(hash) {

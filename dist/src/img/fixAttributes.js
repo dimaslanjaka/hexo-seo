@@ -145,7 +145,7 @@ var usingJSDOM = function (content, data) {
         cF.set(path0, content);
         return content;
     }
-    log_1.default.log("%s(IMG:attr) cached [%s]", package_json_1.default.name, path0);
+    log_1.default.log("%s(IMG:attr) cached [%s]", package_json_1.default.name, path0.replace(this.base_dir, ""));
     content = cF.get(path0, "");
     return content;
 };

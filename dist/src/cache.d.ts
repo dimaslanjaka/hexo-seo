@@ -1,8 +1,7 @@
 import { Objek } from "./utils";
 /**
- * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
- * - Reduce CPU Usage
- * - Reduce Resource Usage
+ * @summary IN MEMORY CACHE
+ * @description cache will be saved in memory/RAM
  */
 declare class Cache {
     /**
@@ -32,7 +31,8 @@ declare class Cache {
     isFileChanged(filePath: string): Promise<boolean>;
 }
 /**
- * Save cache to file, cache will be restored on next process restart
+ * @summary IN FILE CACHE.
+ * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export declare class CacheFile {
     md5Cache: Objek;
