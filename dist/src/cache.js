@@ -138,7 +138,7 @@ var CacheFile = /** @class */ (function () {
         var pathMd5 = (0, md5_file_1.sync)(path0);
         // get index hash
         var savedMd5 = this.md5Cache[path0 + "-hash"];
-        var result = savedMd5 == pathMd5;
+        var result = savedMd5 != pathMd5;
         if (!result) {
             // set, if file hash is not found
             this.md5Cache[path0 + "-hash"] = pathMd5;
@@ -156,7 +156,7 @@ exports.CacheFile = CacheFile;
  */
 function releaseMemory() {
     if (!global.gc) {
-        console.log("Garbage collection is not exposed");
+        //console.log("Garbage collection is not exposed");
         return;
     }
     if (process.memoryUsage().heapUsed > 200000000) {

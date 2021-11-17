@@ -126,6 +126,7 @@ var usingJSDOM = function (content, data) {
         : this.config.title;
     var isChanged = cF.isFileChanged(path0);
     if (isChanged) {
+        log_1.default.log("%s(IMG:attr) parsing start [%s]", package_json_1.default.name, path0);
         document.querySelectorAll("img[src]").forEach(function (element) {
             if (!element.getAttribute("title")) {
                 element.setAttribute("title", title);

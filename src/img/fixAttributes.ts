@@ -77,6 +77,7 @@ export const usingJSDOM = function (
   const isChanged = cF.isFileChanged(path0);
 
   if (isChanged) {
+    logger.log("%s(IMG:attr) parsing start [%s]", pkg.name, path0);
     document.querySelectorAll("img[src]").forEach((element) => {
       if (!element.getAttribute("title")) {
         element.setAttribute("title", title);

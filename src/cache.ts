@@ -121,7 +121,7 @@ export class CacheFile {
     const pathMd5 = md5FileSync(path0);
     // get index hash
     const savedMd5 = this.md5Cache[path0 + "-hash"];
-    const result = savedMd5 == pathMd5;
+    const result = savedMd5 != pathMd5;
     if (!result) {
       // set, if file hash is not found
       this.md5Cache[path0 + "-hash"] = pathMd5;
@@ -135,7 +135,7 @@ export class CacheFile {
  */
 export function releaseMemory() {
   if (!global.gc) {
-    console.log("Garbage collection is not exposed");
+    //console.log("Garbage collection is not exposed");
     return;
   }
   if (process.memoryUsage().heapUsed > 200000000) {
