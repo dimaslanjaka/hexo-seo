@@ -12,8 +12,6 @@ var config_1 = __importDefault(require("./config"));
 var meta_1 = __importDefault(require("./html/meta"));
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
 var broken_1 = __importDefault(require("./img/broken"));
-var serve_static_1 = __importDefault(require("serve-static"));
-var path_1 = __importDefault(require("path"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -32,10 +30,10 @@ function default_1(hexo) {
     hexo.config.seo = (0, config_1.default)(hexo);
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo
-    hexo.extend.filter.register("server_middleware", function (app) {
-        // Main routes
-        app.use(hexo.config.root, (0, serve_static_1.default)(path_1.default.join(__dirname, "../source")));
-    });
+    /*hexo.extend.filter.register("server_middleware", function (app) {
+      // Main routes
+      app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
+    });*/
     // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);
     // minify css

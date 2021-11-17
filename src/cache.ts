@@ -44,6 +44,7 @@ export default class {
   getCache(key: string, fallback = undefined) {
     return this.caches[key] || fallback;
   }
+
   async isFileChanged(filePath: string) {
     try {
       const hash1 = await md5File(filePath);

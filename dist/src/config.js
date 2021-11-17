@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var object_assign_1 = __importDefault(require("object-assign"));
-var source_1 = __importDefault(require("../source"));
 var cache_1 = __importDefault(require("./cache"));
 var cache = new cache_1.default();
 var getConfig = function (hexo, key) {
@@ -30,16 +29,20 @@ var getConfig = function (hexo, key) {
                 minifyJS: true,
                 minifyCSS: true
             },
-            img: { default: source_1.default.img.fallback.public, onerror: "serverside" },
+            //img: { default: source.img.fallback.public, onerror: "serverside" },
+            img: {
+                default: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
+                onerror: "serverside"
+            },
             host: ["webmanajemen.com"],
             links: {
                 allow: ["webmanajemen.com"]
             },
             schema: true
         };
-        if (!/^http?s/gs.test(source_1.default.img.fallback.public)) {
-            hexo.route.set(source_1.default.img.fallback.public, source_1.default.img.fallback.buffer);
-        }
+        /*if (!/^http?s/gs.test(source.img.fallback.public)) {
+          hexo.route.set(source.img.fallback.public, source.img.fallback.buffer);
+        }*/
         var config = hexo.config;
         var seo = config.seo;
         if (typeof seo === "undefined")

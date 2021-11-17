@@ -5,7 +5,6 @@ import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
-import source from "../source";
 import { hyperlinkOptions } from "./html/hyperlink";
 import InMemory from "./cache";
 
@@ -77,7 +76,12 @@ const getConfig = function (
         minifyJS: true,
         minifyCSS: true
       },
-      img: { default: source.img.fallback.public, onerror: "serverside" },
+      //img: { default: source.img.fallback.public, onerror: "serverside" },
+      img: {
+        default:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
+        onerror: "serverside"
+      },
       host: ["webmanajemen.com"],
       links: {
         allow: ["webmanajemen.com"]
@@ -85,9 +89,9 @@ const getConfig = function (
       schema: true
     };
 
-    if (!/^http?s/gs.test(source.img.fallback.public)) {
+    /*if (!/^http?s/gs.test(source.img.fallback.public)) {
       hexo.route.set(source.img.fallback.public, source.img.fallback.buffer);
-    }
+    }*/
 
     const config: seoOptions = hexo.config;
     let seo: defaultSeoOptions = config.seo;
