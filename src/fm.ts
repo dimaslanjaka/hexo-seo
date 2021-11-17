@@ -23,13 +23,24 @@ export function writeFile(filePath: string, content: string) {
   fs.writeFileSync(filePath, content);
 }
 
+export type anyOf =
+  | string
+  | object
+  | Array<any>
+  | number
+  | boolean
+  | Buffer
+  | ObjectConstructor
+  | Record<string, object>
+  | Record<string, string>;
+
 /**
  * read file nested path
  * @param filePath
  * @param options
  * @returns
  */
-export function readFile(
+export function readFile<T extends anyOf>(
   filePath: string,
   options?: {
     encoding?:
@@ -48,11 +59,20 @@ export function readFile(
       | undefined;
     flag?: string | undefined;
   } | null,
-  autocreate?: boolean | undefined
+  autocreate: T = undefined
 ) {
   resolveFile(filePath);
   if (autocreate && !fs.existsSync(filePath)) {
-    writeFile(filePath, "");
+    if (typeof autocreate === "boolean") {
+      writeFile(filePath, "");
+    } else if (autocreate) {
+      let text;
+      if (Array.isArray(autocreate) || typeof autocreate === "object") {
+        text = JSON.stringify(autocreate);
+      }
+      writeFile(filePath, text);
+    }
+    return autocreate;
   }
   return fs.readFileSync(filePath, options);
 }

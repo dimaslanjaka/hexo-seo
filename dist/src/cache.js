@@ -3,7 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CacheFile = void 0;
 var md5_file_1 = __importDefault(require("md5-file"));
+var path_1 = __importDefault(require("path"));
+var crypto_1 = __importDefault(require("crypto"));
+var underscore_1 = require("underscore");
+var fm_1 = require("./fm");
 /**
  * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
  * - Reduce CPU Usage
@@ -64,4 +69,39 @@ var Cache = /** @class */ (function () {
     Cache.md5Cache = {};
     return Cache;
 }());
+/**
+ * Save cache to file, cache will be restored on next process restart
+ */
+var CacheFile = /** @class */ (function () {
+    function CacheFile(hash) {
+        if (hash === void 0) { hash = null; }
+        this.md5Cache = {};
+        if (!hash) {
+            var stack = new Error().stack.split("at")[2];
+            hash = CacheFile.md5(stack);
+        }
+        var dbf = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
+        var db = (0, fm_1.readFile)(dbf, { encoding: "utf8" }, {});
+        if (typeof db != "object") {
+            db = JSON.parse(db.toString());
+        }
+        if (typeof db == "object") {
+            this.md5Cache = db;
+        }
+    }
+    CacheFile.prototype.set = function (key, value) {
+        this[key] = value;
+    };
+    CacheFile.prototype.has = function (key) {
+        return typeof this[key] !== undefined;
+    };
+    CacheFile.prototype.get = function (key) {
+        return this[key];
+    };
+    CacheFile.md5 = (0, underscore_1.memoize)(function (data) {
+        return crypto_1.default.createHash("md5").update(data).digest("hex");
+    });
+    return CacheFile;
+}());
+exports.CacheFile = CacheFile;
 exports.default = Cache;

@@ -1,6 +1,9 @@
 import md5File from "md5-file";
-import { memoize } from "underscore";
+import path from "path";
+import crypto from "crypto";
 import { Objek } from "./utils";
+import { memoize } from "underscore";
+import { readFile } from "./fm";
 
 /**
  * IN MEMORY CACHE PROCESSOR, Save any values in RAM as caches.
@@ -62,6 +65,39 @@ class Cache {
       .catch((err) => {
         return true;
       });
+  }
+}
+
+/**
+ * Save cache to file, cache will be restored on next process restart
+ */
+export class CacheFile {
+  md5Cache: Objek = {};
+  constructor(hash = null) {
+    if (!hash) {
+      const stack = new Error().stack.split("at")[2];
+      hash = CacheFile.md5(stack);
+    }
+    const dbf = path.join(__dirname, "../tmp/db-" + hash + ".json");
+    let db = readFile(dbf, { encoding: "utf8" }, {});
+    if (typeof db != "object") {
+      db = JSON.parse(db.toString());
+    }
+    if (typeof db == "object") {
+      this.md5Cache = db;
+    }
+  }
+  static md5 = memoize((data: string): string => {
+    return crypto.createHash("md5").update(data).digest("hex");
+  });
+  set(key: string, value: any): void {
+    this[key] = value;
+  }
+  has(key: string): boolean {
+    return typeof this[key] !== undefined;
+  }
+  get(key: string) {
+    return this[key];
   }
 }
 

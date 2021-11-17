@@ -54,9 +54,20 @@ exports.writeFile = writeFile;
  * @returns
  */
 function readFile(filePath, options, autocreate) {
+    if (autocreate === void 0) { autocreate = undefined; }
     resolveFile(filePath);
     if (autocreate && !fs.existsSync(filePath)) {
-        writeFile(filePath, "");
+        if (typeof autocreate === "boolean") {
+            writeFile(filePath, "");
+        }
+        else if (autocreate) {
+            var text = void 0;
+            if (Array.isArray(autocreate) || typeof autocreate === "object") {
+                text = JSON.stringify(autocreate);
+            }
+            writeFile(filePath, text);
+        }
+        return autocreate;
     }
     return fs.readFileSync(filePath, options);
 }

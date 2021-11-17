@@ -11,7 +11,7 @@ export declare const isIgnore: (path0: string, exclude: string | string[], hexo?
  * Simplify object data / delete object key
  * @param data
  */
-export declare function extractSimplePageData(data: HexoSeo, additional?: any[]): HexoSeo;
+export declare function extractSimplePageData(data: HexoSeo | Hexo, additional?: any[]): Hexo | HexoSeo;
 /**
  * Dump large objects
  * @param filename

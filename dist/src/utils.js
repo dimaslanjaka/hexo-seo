@@ -65,13 +65,13 @@ exports.isIgnore = isIgnore;
  */
 function extractSimplePageData(data, additional) {
     if (additional === void 0) { additional = []; }
-    delete data._raw;
-    delete data.raw;
-    delete data._content;
-    delete data.content;
-    delete data.site;
-    delete data.more;
-    delete data.excerpt;
+    delete data["_raw"];
+    delete data["raw"];
+    delete data["_content"];
+    delete data["content"];
+    delete data["site"];
+    delete data["more"];
+    delete data["excerpt"];
     return data;
 }
 exports.extractSimplePageData = extractSimplePageData;

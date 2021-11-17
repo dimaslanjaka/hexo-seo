@@ -31,4 +31,15 @@ declare class Cache {
     getCache(key: string, fallback?: any): any;
     isFileChanged(filePath: string): Promise<boolean>;
 }
+/**
+ * Save cache to file, cache will be restored on next process restart
+ */
+export declare class CacheFile {
+    md5Cache: Objek;
+    constructor(hash?: any);
+    static md5: (data: string) => string;
+    set(key: string, value: any): void;
+    has(key: string): boolean;
+    get(key: string): any;
+}
 export default Cache;

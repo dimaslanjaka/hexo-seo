@@ -5,9 +5,26 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global hexo */
 
-hexo.log.debug("hexo-seo running on development mode");
-require("ts-node").register({
-  projectSearchDir: __dirname.toString(),
-  project: "tsconfig.json"
-});
-require("./src").default(hexo);
+const path = require("path");
+const fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
+
+// --development
+const arg = typeof argv["development"] == "boolean" && argv["development"];
+
+// set NODE_ENV = "development"
+const env =
+  process.env.NODE_ENV &&
+  process.env.NODE_ENV.toString().toLowerCase() === "development";
+
+// define is development
+const isDev = arg || env;
+
+if (typeof hexo !== "undefined") {
+  global.hexo = hexo;
+  if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
+    require("./index.prod");
+  } else {
+    require("./index.dev");
+  }
+}

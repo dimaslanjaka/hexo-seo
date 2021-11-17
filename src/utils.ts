@@ -51,14 +51,14 @@ export const isIgnore = (
  * Simplify object data / delete object key
  * @param data
  */
-export function extractSimplePageData(data: HexoSeo, additional = []) {
-  delete data._raw;
-  delete data.raw;
-  delete data._content;
-  delete data.content;
-  delete data.site;
-  delete data.more;
-  delete data.excerpt;
+export function extractSimplePageData(data: HexoSeo | Hexo, additional = []) {
+  delete data["_raw"];
+  delete data["raw"];
+  delete data["_content"];
+  delete data["content"];
+  delete data["site"];
+  delete data["more"];
+  delete data["excerpt"];
   return data;
 }
 

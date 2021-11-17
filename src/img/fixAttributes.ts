@@ -5,12 +5,15 @@ import Hexo from "hexo";
 import getConfig from "../config";
 import checkUrl from "../curl/check";
 import { dump, extractSimplePageData } from "../utils";
-import InMemoryCache from "../cache";
+import InMemoryCache, { CacheFile } from "../cache";
 import pkg from "../../package.json";
+import parse5 from "parse5";
+import { JSDOM } from "jsdom";
+import jQuery from "jquery";
 
 const cache = new InMemoryCache();
 
-export default async function (
+const usingCheerio = async function (
   this: Hexo,
   content: string,
   data: HexoSeo
@@ -51,4 +54,59 @@ export default async function (
   } else {
     return cache.get(path0);
   }
-}
+};
+
+const usingParse5 = function (this: Hexo, content: string, data: HexoSeo) {
+  const document = parse5.parse(content);
+};
+
+const cF = new CacheFile();
+
+export const usingJSDOM = function (
+  this: Hexo,
+  content: string,
+  data: HexoSeo
+) {
+  const dom = new JSDOM(content);
+  const document = dom.window.document;
+  const path0 = data.page ? data.page.full_source : data.path;
+  /*dump("dump.txt", extractSimplePageData(data));
+  dump("dump-page.txt", extractSimplePageData(data.page));
+  dump("dump-this.txt", extractSimplePageData(this));*/
+  const title =
+    data.page && data.page.title.trim().length > 0
+      ? data.page.title
+      : this.config.title;
+
+  document.querySelectorAll("img[src]").forEach((element) => {
+    if (!element.getAttribute("title")) {
+      element.setAttribute("title", title);
+    }
+    if (!element.getAttribute("alt")) {
+      element.setAttribute("alt", title);
+    }
+    if (!element.getAttribute("itemprop")) {
+      element.setAttribute("itemprop", "image");
+    }
+  });
+
+  //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
+  //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
+  return document.documentElement.outerHTML;
+};
+
+export const usingJQuery = function (
+  this: Hexo,
+  content: string,
+  data: HexoSeo
+) {
+  const htmlDOM = new JSDOM(content);
+  const $ = jQuery(htmlDOM.window);
+  const page = data.page ? data.page.full_source : null;
+  const path0 = page ? page : data.path;
+  console.log($.html());
+
+  return content;
+};
+
+export default usingCheerio;

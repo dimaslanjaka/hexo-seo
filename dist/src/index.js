@@ -11,7 +11,7 @@ var minimist_1 = __importDefault(require("minimist"));
 var config_1 = __importDefault(require("./config"));
 var meta_1 = __importDefault(require("./html/meta"));
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
-var fixAttributes_1 = __importDefault(require("./img/fixAttributes"));
+var fixAttributes_1 = require("./img/fixAttributes");
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -43,7 +43,7 @@ function default_1(hexo) {
     // fix schema meta
     hexo.extend.filter.register("after_render:html", meta_1.default);
     // test image fix
-    hexo.extend.filter.register("after_render:html", fixAttributes_1.default);
+    hexo.extend.filter.register("after_render:html", fixAttributes_1.usingJSDOM);
     //hexo.extend.filter.register("after_generate", minHtml);
 }
 exports.default = default_1;

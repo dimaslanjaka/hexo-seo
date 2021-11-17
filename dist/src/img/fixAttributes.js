@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,12 +58,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.usingJQuery = exports.usingJSDOM = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
-var cache_1 = __importDefault(require("../cache"));
+var cache_1 = __importStar(require("../cache"));
 var package_json_1 = __importDefault(require("../../package.json"));
+var parse5_1 = __importDefault(require("parse5"));
+var jsdom_1 = require("jsdom");
+var jquery_1 = __importDefault(require("jquery"));
 var cache = new cache_1.default();
-function default_1(content, data) {
+var usingCheerio = function (content, data) {
     return __awaiter(this, void 0, void 0, function () {
         var page, path0, isChanged, config, $_1, title_1;
         return __generator(this, function (_a) {
@@ -89,5 +112,44 @@ function default_1(content, data) {
             }
         });
     });
-}
-exports.default = default_1;
+};
+var usingParse5 = function (content, data) {
+    var document = parse5_1.default.parse(content);
+};
+var cF = new cache_1.CacheFile();
+var usingJSDOM = function (content, data) {
+    var dom = new jsdom_1.JSDOM(content);
+    var document = dom.window.document;
+    var path0 = data.page ? data.page.full_source : data.path;
+    /*dump("dump.txt", extractSimplePageData(data));
+    dump("dump-page.txt", extractSimplePageData(data.page));
+    dump("dump-this.txt", extractSimplePageData(this));*/
+    var title = data.page && data.page.title.trim().length > 0
+        ? data.page.title
+        : this.config.title;
+    document.querySelectorAll("img[src]").forEach(function (element) {
+        if (!element.getAttribute("title")) {
+            element.setAttribute("title", title);
+        }
+        if (!element.getAttribute("alt")) {
+            element.setAttribute("alt", title);
+        }
+        if (!element.getAttribute("itemprop")) {
+            element.setAttribute("itemprop", "image");
+        }
+    });
+    //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
+    //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
+    return document.documentElement.outerHTML;
+};
+exports.usingJSDOM = usingJSDOM;
+var usingJQuery = function (content, data) {
+    var htmlDOM = new jsdom_1.JSDOM(content);
+    var $ = (0, jquery_1.default)(htmlDOM.window);
+    var page = data.page ? data.page.full_source : null;
+    var path0 = page ? page : data.path;
+    console.log($.html());
+    return content;
+};
+exports.usingJQuery = usingJQuery;
+exports.default = usingCheerio;
