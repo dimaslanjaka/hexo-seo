@@ -18,7 +18,7 @@ const cache = new Cache();
 
 export default async function (this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
-  const isChanged = cache.isFileChanged(path0);
+  const isChanged = await cache.isFileChanged(path0);
 
   if (isChanged) {
     log.log("%s is changed %s", path0, isChanged);
@@ -36,7 +36,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
         pkg.name,
         ignored ? chalk.red(ignored) : chalk.green(ignored),
         path0,
-        exclude
+        exclude.join(", ")
       );
       if (ignored) return str;
     }
