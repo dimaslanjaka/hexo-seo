@@ -115,7 +115,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   } else if (data.content) {
     body = data.content;
   }
-  if (body) Schema.setArticleBody(body.trim().replace(/['"{}\\/]+/gm, ""));
+  if (body) Schema.setArticleBody(body.trim().replace(/['"{}\\]+/gm, ""));
 
   // prepare breadcrumbs
   const schemaBreadcrumbs = [];
