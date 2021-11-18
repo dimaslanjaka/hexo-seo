@@ -85,18 +85,8 @@
 - a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
 
-## [1.0.16] 2021-11-16T16:40:39
-- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
-- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+## [1.0.20] 2021-11-19
 
-## [1.0.17] 2021-11-16T17:11:05
-- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
-- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
-
-## [1.0.18] 2021-11-17T11:52:07
-- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
-- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
-
-## [1.0.19] 2021-11-17T15:46:02
-- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
-- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+- Fix Schema
+- Pending Image Broken Fixer
+- Pending HTML minify
