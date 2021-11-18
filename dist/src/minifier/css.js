@@ -44,9 +44,9 @@ var config_1 = __importDefault(require("../config"));
 var utils_1 = require("../utils");
 var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
-var cache_1 = require("../cache");
+var cache_1 = __importDefault(require("../cache"));
 var chalk_1 = __importDefault(require("chalk"));
-var cache = new cache_1.CacheFile();
+var cache = new cache_1.default();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
         var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;

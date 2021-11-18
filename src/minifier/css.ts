@@ -6,7 +6,7 @@ import Hexo from "hexo";
 import { isIgnore } from "../utils";
 import log from "../log";
 import pkg from "../../package.json";
-import { CacheFile } from "../cache";
+import Cache from "../cache";
 import chalk from "chalk";
 
 export type cssMinifyOptions = CleanCSS.Options & {
@@ -14,7 +14,7 @@ export type cssMinifyOptions = CleanCSS.Options & {
   exclude?: string[];
 };
 
-const cache = new CacheFile();
+const cache = new Cache();
 
 export default async function (this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;

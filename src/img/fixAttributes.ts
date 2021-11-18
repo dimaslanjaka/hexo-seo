@@ -65,9 +65,9 @@ export const usingJSDOM = function (
 ) {
   releaseMemory();
   const is = hexoIs(data);
-  if (!is.page || !is.post) return content;
   const path0 = data.page ? data.page.full_source : data.path;
-  if (!path0) {
+
+  if ((!path0 || !is.post) && !is.page) {
     console.log(is);
     dump("dump-path0.txt", path0);
     dump("dump.txt", extractSimplePageData(data));
@@ -75,6 +75,7 @@ export const usingJSDOM = function (
     dump("dump-this.txt", extractSimplePageData(this));
     return content;
   }
+
   const title =
     data.page && data.page.title && data.page.title.trim().length > 0
       ? data.page.title
