@@ -24,6 +24,6 @@ export function getTextPartialHtml(
   options?: jsdom.ConstructorOptions
 ) {
   domPart = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
-  const document: Document = dom.window.document;
+  const document: Document = domPart.window.document;
   return document.querySelector("div#parseJSDOM").textContent;
 }

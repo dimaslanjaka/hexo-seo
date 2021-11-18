@@ -26,7 +26,7 @@ var domPart;
  */
 function getTextPartialHtml(text, options) {
     domPart = new jsdom_1.default.JSDOM("<div id=\"parseJSDOM\">" + text + "</div>", options);
-    var document = dom.window.document;
+    var document = domPart.window.document;
     return document.querySelector("div#parseJSDOM").textContent;
 }
 exports.getTextPartialHtml = getTextPartialHtml;
