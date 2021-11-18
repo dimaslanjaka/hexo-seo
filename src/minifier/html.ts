@@ -10,6 +10,9 @@ import { streamToArray } from "../utils/stream";
 import logger from "../log";
 
 export interface MinifyOptions extends htmlMinifyOptions {
+  /**
+   * Fix html
+   */
   fix?: boolean;
   /**
    * Array of exclude patterns to exclude from minifying

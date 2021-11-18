@@ -128,7 +128,7 @@ var usingJSDOM = function (content, data) {
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
         return content;
     }
-    var config = (0, config_1.default)(this).html;
+    var HSconfig = (0, config_1.default)(this);
     var title = data.page && data.page.title && data.page.title.trim().length > 0
         ? data.page.title
         : this.config.title;
@@ -150,7 +150,7 @@ var usingJSDOM = function (content, data) {
         });
         //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
         //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-        if (config.fix) {
+        if (HSconfig.html.fix) {
             content = dom.serialize();
         }
         else {
