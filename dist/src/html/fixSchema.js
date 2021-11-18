@@ -120,7 +120,7 @@ function default_1(content, data) {
         body = data.content;
     }
     if (body)
-        Schema.setArticleBody(body.trim().replace(/['"]+/gm, ""));
+        Schema.setArticleBody(body.trim().replace(/['"{}]+/gm, ""));
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {
