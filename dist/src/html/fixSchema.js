@@ -109,16 +109,19 @@ function default_1(content, data) {
     var body;
     if (data.page) {
         if (data.page.content) {
-            parseDom = (0, dom_1.parseJsdom)(data.page.content);
-            body = parseDom.document.documentElement.innerText;
-            //body = data.page.content;
+            var dom = new dom_1.parsePartialJsdom(data.page.content);
+            body = dom.getText();
+            console.log(body);
+            if (!body || body.trim().length === 0) {
+                body = data.page.content;
+            }
         }
     }
     else if (data.content) {
         body = data.content;
     }
     if (body)
-        Schema.setArticleBody(body.replace(/[\W_-]+/gm, " ").trim());
+        Schema.setArticleBody(body.trim()); //.replace(/[\W_-]+/gm, " ")
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {

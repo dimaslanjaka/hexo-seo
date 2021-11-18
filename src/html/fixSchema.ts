@@ -5,7 +5,7 @@ import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
-import { parseJsdom } from "./dom";
+import { parseJsdom, parsePartialJsdom } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
@@ -106,14 +106,17 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   let body: string;
   if (data.page) {
     if (data.page.content) {
-      parseDom = parseJsdom(data.page.content);
-      body = parseDom.document.documentElement.innerText;
-      //body = data.page.content;
+      const dom = new parsePartialJsdom(data.page.content);
+      body = dom.getText();
+      console.log(body);
+      if (!body || body.trim().length === 0) {
+        body = data.page.content;
+      }
     }
   } else if (data.content) {
     body = data.content;
   }
-  if (body) Schema.setArticleBody(body.replace(/[\W_-]+/gm, " ").trim());
+  if (body) Schema.setArticleBody(body.trim()); //.replace(/[\W_-]+/gm, " ")
 
   // prepare breadcrumbs
   const schemaBreadcrumbs = [];
