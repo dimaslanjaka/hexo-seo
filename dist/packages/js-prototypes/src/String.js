@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="String.d.ts" />
 /// <reference path="globals.d.ts" />
 String.prototype.parse_url = function () {
-    var parser = document.createElement("a"), searchObject, queries, split, i;
+    var parser = document.createElement("a");
+    var searchObject, split, i;
+    var queries = [];
     // Let the browser do the work
     parser.href = this.toString();
     // Convert query string to object
@@ -19,7 +22,7 @@ String.prototype.parse_url = function () {
         search: parser.search,
         searchObject: searchObject,
         hash: parser.hash,
-        protohost: parser.protocol + "//" + parser.host,
+        protohost: parser.protocol + "//" + parser.host
     };
 };
 /**
@@ -85,4 +88,12 @@ String.prototype.isEmpty = function () {
         return this.length === 0 || !this.trim();
     }
     return false;
+};
+String.prototype.replaceArr = function (array, replacement) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    var ori = this;
+    array.map(function (str) {
+        ori = ori.replace(str, replacement);
+    });
+    return ori;
 };
