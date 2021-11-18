@@ -129,6 +129,7 @@ var CacheFile = /** @class */ (function () {
         var _this = this;
         this.md5Cache[key] = value;
         (0, cleanup_1.default)("cachefile", function () {
+            console.log("saving cache");
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };

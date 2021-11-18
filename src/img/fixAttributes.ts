@@ -1,19 +1,18 @@
 import logger from "../log";
 import { HexoSeo } from "../html/schema/article";
-import cheerio, { Cheerio, Element } from "cheerio";
+import cheerio from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
 import { dump, extractSimplePageData } from "../utils";
 import InMemoryCache, { CacheFile, releaseMemory } from "../cache";
 import pkg from "../../package.json";
-import parse5 from "parse5";
 import { JSDOM } from "jsdom";
 import jQuery from "jquery";
 
 const cache = new InMemoryCache();
 
-const usingCheerio = async function (
+export const usingCheerio = async function (
   this: Hexo,
   content: string,
   data: HexoSeo
@@ -134,5 +133,3 @@ export const usingJQuery = function (
 
   return content;
 };
-
-export default usingCheerio;

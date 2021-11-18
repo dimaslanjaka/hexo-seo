@@ -5,6 +5,7 @@ import hexoIs2 from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
 import { releaseMemory } from "../cache";
+import { dump, extractSimplePageData } from "../utils";
 
 const fixMeta = function (content: string, data: HexoSeo) {
   releaseMemory();
@@ -73,6 +74,11 @@ const fixMeta = function (content: string, data: HexoSeo) {
       });
     }
 
+    //dump("dump-path0.txt", path0);
+    dump("dump-data.txt", extractSimplePageData(data));
+    if (typeof data.page != "undefined")
+      dump("dump-page.txt", extractSimplePageData(data.page));
+    dump("dump-this.txt", extractSimplePageData(this));
     if (data.date) {
       buildSchema.set("datePublished", data.date);
     }

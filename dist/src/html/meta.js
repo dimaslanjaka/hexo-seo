@@ -9,6 +9,7 @@ var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
 var __1 = require("..");
 var cache_1 = require("../cache");
+var utils_1 = require("../utils");
 var fixMeta = function (content, data) {
     (0, cache_1.releaseMemory)();
     var hexo = this;
@@ -76,6 +77,11 @@ var fixMeta = function (content, data) {
                 schemaBreadcrumbs_1.push(o);
             });
         }
+        //dump("dump-path0.txt", path0);
+        (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
+        if (typeof data.page != "undefined")
+            (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
+        (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
         if (data.date) {
             buildSchema.set("datePublished", data.date);
         }

@@ -58,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usingJQuery = exports.usingJSDOM = void 0;
+exports.usingJQuery = exports.usingJSDOM = exports.usingCheerio = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
@@ -115,6 +115,7 @@ var usingCheerio = function (content, data) {
         });
     });
 };
+exports.usingCheerio = usingCheerio;
 var cF = new cache_1.CacheFile();
 var usingJSDOM = function (content, data) {
     (0, cache_1.releaseMemory)();
@@ -176,4 +177,3 @@ var usingJQuery = function (content, data) {
     return content;
 };
 exports.usingJQuery = usingJQuery;
-exports.default = usingCheerio;

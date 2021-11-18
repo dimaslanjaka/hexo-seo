@@ -108,6 +108,7 @@ export class CacheFile {
   set(key: string, value: any) {
     this.md5Cache[key] = value;
     bindProcessExit("cachefile", () => {
+      console.log("saving cache");
       writeFile(this.dbFile, JSON.stringify(this.md5Cache));
     });
   }
