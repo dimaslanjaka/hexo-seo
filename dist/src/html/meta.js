@@ -51,7 +51,7 @@ function default_1(content, data) {
         Schema.setUrl(url);
     var keywords = [];
     if (this.config.keywords) {
-        keywords.push(this.config.keywords.split(",").map(string_1.trimText));
+        keywords = keywords.concat(this.config.keywords.split(",").map(string_1.trimText));
     }
     // set title
     var title = data.page.title || data.title || this.config.title;

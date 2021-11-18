@@ -48,9 +48,9 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   }
   if (url) Schema.setUrl(url);
 
-  const keywords = [];
+  let keywords = [];
   if (this.config.keywords) {
-    keywords.push(this.config.keywords.split(",").map(trimText));
+    keywords = keywords.concat(this.config.keywords.split(",").map(trimText));
   }
 
   // set title
