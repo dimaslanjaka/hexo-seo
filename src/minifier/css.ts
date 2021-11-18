@@ -21,7 +21,11 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
   const isChanged = await cache.isFileChanged(path0);
 
   if (isChanged) {
-    log.log("%s is changed %s", path0, isChanged);
+    log.log(
+      "%s is changed %s",
+      path0,
+      isChanged ? chalk.red(isChanged) : chalk.green(isChanged)
+    );
     // if original file is changed, re-minify css
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;

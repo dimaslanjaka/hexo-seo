@@ -58,7 +58,7 @@ function default_1(str, data) {
                 case 1:
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
-                    log_1.default.log("%s is changed %s", path0, isChanged);
+                    log_1.default.log("%s is changed %s", path0, isChanged ? chalk_1.default.red(isChanged) : chalk_1.default.green(isChanged));
                     hexo_1 = this;
                     options = (0, config_1.default)(hexo_1).css;
                     // if option css is false, return original content
