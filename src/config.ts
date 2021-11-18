@@ -64,6 +64,7 @@ const getConfig = function (
         exclude: ["*.min.css"]
       },
       html: {
+        fix: false,
         exclude: [],
         collapseBooleanAttributes: true,
         collapseWhitespace: true,

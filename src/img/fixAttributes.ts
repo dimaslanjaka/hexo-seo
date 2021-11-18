@@ -75,6 +75,7 @@ export const usingJSDOM = function (
     dump("dump-this.txt", extractSimplePageData(this));
     return content;
   }
+  const config = getConfig(this).html;
 
   const title =
     data.page && data.page.title && data.page.title.trim().length > 0
@@ -100,7 +101,11 @@ export const usingJSDOM = function (
 
     //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
     //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-    content = document.documentElement.outerHTML;
+    if (config.fix) {
+      content = dom.serialize();
+    } else {
+      content = document.documentElement.outerHTML;
+    }
     dom.window.close();
     cF.set(path0, content);
     return content;

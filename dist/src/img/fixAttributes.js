@@ -61,6 +61,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usingJQuery = exports.usingJSDOM = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
+var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var utils_1 = require("../utils");
 var cache_1 = __importStar(require("../cache"));
@@ -127,6 +128,7 @@ var usingJSDOM = function (content, data) {
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
         return content;
     }
+    var config = (0, config_1.default)(this).html;
     var title = data.page && data.page.title && data.page.title.trim().length > 0
         ? data.page.title
         : this.config.title;
@@ -148,7 +150,12 @@ var usingJSDOM = function (content, data) {
         });
         //dom.serialize() === "<!DOCTYPE html><html><head></head><body>hello</body></html>";
         //document.documentElement.outerHTML === "<html><head></head><body>hello</body></html>";
-        content = document_1.documentElement.outerHTML;
+        if (config.fix) {
+            content = dom.serialize();
+        }
+        else {
+            content = document_1.documentElement.outerHTML;
+        }
         dom.window.close();
         cF.set(path0, content);
         return content;

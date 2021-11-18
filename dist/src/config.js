@@ -17,6 +17,7 @@ var getConfig = function (hexo, key) {
                 exclude: ["*.min.css"]
             },
             html: {
+                fix: false,
                 exclude: [],
                 collapseBooleanAttributes: true,
                 collapseWhitespace: true,
