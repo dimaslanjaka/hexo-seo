@@ -12,13 +12,10 @@ export function parseJsdom(text: string) {
   return dom;
 }
 
-export class parsePartialJsdom extends jsdom.JSDOM {
+export class parsePartialJsdom {
+  dom: jsdom.JSDOM;
   constructor(text: string, options?: jsdom.ConstructorOptions) {
-    super(`<div id="parseJSDOM">${text}</div>`, options);
-  }
-
-  getDocument(): Document {
-    return this.window.document;
+    this.dom = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
   }
 
   /**
@@ -26,7 +23,7 @@ export class parsePartialJsdom extends jsdom.JSDOM {
    * @returns
    */
   getText() {
-    const document: Document = this.window.document;
+    const document: Document = this.dom.window.document;
     return document.querySelector("div#parseJSDOM").textContent;
   }
 }
