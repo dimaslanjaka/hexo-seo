@@ -3,114 +3,146 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var cheerio_1 = __importDefault(require("cheerio"));
+var cache_1 = require("../cache");
+var utils_1 = require("../utils");
 var config_1 = __importDefault(require("../config"));
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var article_1 = __importDefault(require("./schema/article"));
 var __1 = require("..");
-var cache_1 = require("../cache");
-var utils_1 = require("../utils");
-var fixMeta = function (content, data) {
+var dom_1 = require("./dom");
+var string_1 = require("../utils/string");
+require("../../packages/js-prototypes/src/String");
+require("../../packages/js-prototypes/src/Array");
+function default_1(content, data) {
     (0, cache_1.releaseMemory)();
-    var hexo = this;
-    var config = (0, config_1.default)(hexo).schema;
-    if (!config)
+    var is = (0, hexo_is_1.default)(data);
+    var path0 = data.page ? data.page.full_source : data.path;
+    var config = (0, config_1.default)(this).schema;
+    // return if config is boolean and false
+    if ((config && typeof config == "boolean" && !config) || !config) {
         return content;
-    var $ = cheerio_1.default.load(content);
-    var buildSchema = new article_1.default({ pretty: __1.isDev, hexo: data });
-    var whereHexo = (0, hexo_is_1.default)(data);
-    var writeSchema = false;
-    if (typeof whereHexo == "object" && whereHexo["post"]) {
-        writeSchema = true;
-        var schemaData = data;
-        if (data["page"])
-            schemaData = data["page"];
-        if (typeof schemaData.path == "string") {
-            var buildUrl = data["url"] || schemaData["path"];
-            buildSchema.setUrl(buildUrl);
+    }
+    if ((!path0 || !is.post) && !is.page) {
+        if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
+            console.log(path0, is);
+            dumper();
         }
-        // set schema title
-        if (typeof schemaData.title == "string")
-            buildSchema.setTitle(schemaData.title);
-        // set schema description
-        var description = void 0;
-        if (schemaData["subtitle"]) {
-            description = schemaData["subtitle"];
-        }
-        else if (schemaData["description"]) {
-            description = schemaData["description"];
-        }
-        else if (schemaData["desc"]) {
-            description = schemaData["desc"];
-        }
-        else if (schemaData.title) {
-            description = schemaData.title;
-        }
-        if (description)
-            buildSchema.setDescription(description);
-        // set schema author
-        var author = void 0;
-        if (schemaData["author"]) {
-            author = schemaData["author"];
-        }
-        if (author)
-            buildSchema.setAuthor(author);
-        // prepare keywords
-        var keywords_1 = [];
-        if (schemaData.title) {
-            keywords_1.push(schemaData.title);
-        }
-        // prepare breadcrumbs
-        var schemaBreadcrumbs_1 = [];
-        // build breadcrumb
-        if (schemaData.tags && schemaData.tags.length > 0) {
-            schemaData.tags.forEach(function (tag, index, tags) {
-                keywords_1.push(tag["name"]);
-                var o = { item: tag["permalink"], name: tag["name"] };
-                schemaBreadcrumbs_1.push(o);
-            });
-        }
-        if (schemaData.categories && schemaData.categories.length > 0) {
-            schemaData.categories.forEach(function (category) {
-                keywords_1.push(category["name"]);
-                var o = { item: category["permalink"], name: category["name"] };
-                schemaBreadcrumbs_1.push(o);
-            });
-        }
-        //dump("dump-path0.txt", path0);
+        return content;
+    }
+    function dumper() {
+        (0, utils_1.dump)("dump-path0.txt", path0);
         (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
-        if (typeof data.page != "undefined")
-            (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
+        (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
-        if (data.date) {
-            buildSchema.set("datePublished", data.date);
+    }
+    var parseDom;
+    var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
+    // set url
+    var url = this.config.url;
+    if (data.page) {
+        if (data.page.permalink) {
+            url = data.page.permalink;
         }
-        buildSchema.set("genre", keywords_1.join(", "));
-        buildSchema.set("keywords", keywords_1.join(", "));
-        if (data["url"]) {
-            schemaBreadcrumbs_1.push({
-                item: data["url"] || schemaData["path"],
-                name: schemaData["title"] || data["title"] || hexo.config.url
+        else if (data.page.url) {
+            url = data.page.url;
+        }
+    }
+    if (url)
+        Schema.setUrl(url);
+    var keywords = [];
+    if (this.config.keywords) {
+        keywords.push(this.config.keywords.split(",").map(string_1.trimText));
+    }
+    // set title
+    var title = data.page.title || data.title || this.config.title;
+    if (title) {
+        keywords.push(title);
+        Schema.setTitle(title);
+    }
+    else {
+        dumper();
+    }
+    // set schema description
+    var description = title;
+    if (data.page) {
+        if (data.page.description) {
+            description = data.page.description;
+        }
+        else if (data.page.desc) {
+            description = data.page.desc;
+        }
+        else if (data.page.subtitle) {
+            description = data.page.subtitle;
+        }
+        else if (data.page.excerpt) {
+            description = data.page.excerpt;
+        }
+    }
+    if (description)
+        Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());
+    // set schema author
+    var author;
+    if (data.page) {
+        if (data.page["author"]) {
+            author = data.page["author"];
+        }
+    }
+    else if (data["author"]) {
+        author = data["author"];
+    }
+    if (author)
+        Schema.setAuthor(author);
+    // set schema date
+    if (data.page) {
+        if (data.page.date) {
+            Schema.set("dateCreated", data.page.date);
+            Schema.set("datePublished", data.page.date);
+        }
+        if (data.page.modified) {
+            Schema.set("dateModified", data.page.modified);
+        }
+        else if (data.page.updated) {
+            Schema.set("dateModified", data.page.updated);
+        }
+    }
+    // set schema body
+    var body;
+    if (data.page) {
+        if (data.page.content) {
+            parseDom = (0, dom_1.parseJsdom)(data.page.content);
+            body = parseDom.document.documentElement.innerText;
+            //body = data.page.content;
+        }
+    }
+    else if (data.content) {
+        body = data.content;
+    }
+    if (body)
+        Schema.setArticleBody(body.replace(/[\W_-]+/gm, " ").trim());
+    // prepare breadcrumbs
+    var schemaBreadcrumbs = [];
+    if (data.page) {
+        if (data.page.tags && data.page.tags.length > 0) {
+            data.page.tags.forEach(function (tag, index, tags) {
+                keywords.push(tag["name"]);
+                var o = { item: tag["permalink"], name: tag["name"] };
+                schemaBreadcrumbs.push(o);
             });
         }
-        if (schemaBreadcrumbs_1.length > 0) {
-            buildSchema.setBreadcrumbs(schemaBreadcrumbs_1);
+        if (data.page.categories && data.page.categories.length > 0) {
+            data.page.categories.forEach(function (category) {
+                keywords.push(category["name"]);
+                var o = { item: category["permalink"], name: category["name"] };
+                schemaBreadcrumbs.push(o);
+            });
         }
-        //dump(schemaData.title + "data.txt", extractSimplePageData(schemaData));
     }
-    if (writeSchema) {
-        var bodyArticle = void 0;
-        var article = $("article");
-        if (article.text().length > 0) {
-            bodyArticle = article.text();
-        }
-        else {
-            bodyArticle = $("body").text();
-        }
-        buildSchema.setArticleBody(bodyArticle.replace(/[\W_-]+/gm, " "));
-        buildSchema.setImage($);
-        $("head").append("<script type=\"application/ld+json\">" + buildSchema + "</script>");
+    if (schemaBreadcrumbs.length > 0) {
+        Schema.setBreadcrumbs(schemaBreadcrumbs);
     }
-    return $.html();
-};
-exports.default = fixMeta;
+    // set schema genres
+    Schema.set("genre", keywords.unique().map(string_1.trimText).join(","));
+    Schema.set("keywords", keywords.unique().map(string_1.trimText).join(","));
+    return content.replace("</head>", "<script type=\"application/ld+json\">" + Schema + "</script></head>");
+}
+exports.default = default_1;

@@ -15,4 +15,4 @@ const checkUrl = async function (url: string | URL) {
   }
 };
 
-export = checkUrl;
+export default checkUrl;

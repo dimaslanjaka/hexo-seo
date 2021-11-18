@@ -5,6 +5,7 @@ import { Objek } from "./utils";
 import { memoize } from "underscore";
 import { readFile, writeFile } from "./fm";
 import bindProcessExit from "./utils/cleanup";
+import logger from "./log";
 
 /**
  * @summary IN MEMORY CACHE
@@ -93,7 +94,12 @@ export class CacheFile {
     this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
-      db = JSON.parse(db.toString());
+      try {
+        db = JSON.parse(db.toString());
+      } catch (e) {
+        logger.error("cache database lost");
+        logger.error(e);
+      }
     }
     if (typeof db == "object") {
       this.md5Cache = db;
@@ -107,6 +113,7 @@ export class CacheFile {
   }
   set(key: string, value: any) {
     this.md5Cache[key] = value;
+    // save cache on process exit
     bindProcessExit("cachefile", () => {
       console.log("saving cache");
       writeFile(this.dbFile, JSON.stringify(this.md5Cache));

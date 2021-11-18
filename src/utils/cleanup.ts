@@ -2,6 +2,12 @@ process.stdin.resume(); //so the program will not close instantly
 
 //const fns1: Array<(data?: string) => void> = [];
 const fns: { [key: string]: (data?: string) => void }[] = [];
+
+/**
+ * Handler function on process exit
+ * @param options
+ * @param exitCode
+ */
 function exitHandler(options, exitCode) {
   Object.keys(fns).forEach((key) => {
     fns[key]();
@@ -11,6 +17,11 @@ function exitHandler(options, exitCode) {
   if (options.exit) process.exit();
 }
 
+/**
+ * Bind functions to exit handler
+ * @param key
+ * @param fn
+ */
 function bindProcessExit(key: string, fn: () => void): void {
   fns[key] = fn;
 }

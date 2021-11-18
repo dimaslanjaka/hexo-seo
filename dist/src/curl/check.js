@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var node_libcurl_1 = require("node-libcurl");
 var log_1 = __importDefault(require("../log"));
 //import Promise from "bluebird";
@@ -64,4 +65,4 @@ var checkUrl = function (url) {
         });
     });
 };
-module.exports = checkUrl;
+exports.default = checkUrl;

@@ -8,24 +8,27 @@ const path = require("path");
 const testDir = path.join(__dirname, "src/__test__");
 const scanDir = readdirSync(testDir);
 const build = [];
-scanDir
-  .map((dir) => {
-    return path.join(testDir, dir);
-  })
-  .forEach((file, index, array) => {
-    const template = {
-      value: file,
-      title: path.basename(file.replace(/-_/, " "), ".ts")
-    };
-    const read = readFileSync(file).toString();
-    const regex = /^\/\/.*title:\s?(.*)/gm;
-    let match = regex.exec(read);
-    if (match && typeof match[1] == "string" && match[1].length > 0) {
-      template.title = match[1].trim();
-    }
-    build.push(template);
-    writeFileSync(path.join(__dirname, "test.json"), JSON.stringify(build));
-  });
+
+function scanScripts() {
+  scanDir
+    .map((dir) => {
+      return path.join(testDir, dir);
+    })
+    .forEach((file, index, array) => {
+      const template = {
+        value: file,
+        title: path.basename(file.replace(/-_/, " "), ".ts")
+      };
+      const read = readFileSync(file).toString();
+      const regex = /^\/\/.*title:\s?(.*)/gm;
+      let match = regex.exec(read);
+      if (match && typeof match[1] == "string" && match[1].length > 0) {
+        template.title = match[1].trim();
+      }
+      build.push(template);
+      writeFileSync(path.join(__dirname, "test.json"), JSON.stringify(build));
+    });
+}
 
 (async () => {
   const tests = require("./test.json");
@@ -44,6 +47,7 @@ scanDir
   const scripts = response.script;
   scripts.map((script) => {
     exec(`node -r ts-node/register ${script}`, (err, stdout, stderr) => {
+      scanScripts();
       if (err) {
         throw err;
       }

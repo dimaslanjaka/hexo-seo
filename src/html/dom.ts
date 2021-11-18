@@ -1,19 +1,11 @@
-import cheerio, { Cheerio, Element, Document } from "cheerio";
-import { InternalOptions } from "cheerio/lib/options";
+import jsdom from "jsdom";
 
-// not working
-export const cheerioParseHtml = function (htmlstring: string) {
-  if (!htmlstring || htmlstring.length < 1) return null;
-  return cheerio.load(htmlstring);
-};
-export type CheerioElement = Cheerio<Element>;
-export type CheerioDocument = Cheerio<Document>;
-export const getAllAttributes = function (node: Element) {
-  return (
-    node.attributes ||
-    Object.keys(node.attribs).map((name) => ({
-      name,
-      value: node.attribs[name]
-    }))
-  );
-};
+let dom: jsdom.JSDOM, document: Document;
+export function parseJsdom(text: string) {
+  dom = new jsdom.JSDOM(text);
+  document = dom.window.document;
+  return {
+    dom,
+    document
+  };
+}

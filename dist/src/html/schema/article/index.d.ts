@@ -137,6 +137,7 @@ declare class articleSchema {
     setImage($: string | CheerioAPI): void;
     /**
      * Set author
+     * @description automatically find author
      * @param author Author Options
      */
     setAuthor(author: SchemaAuthor): void;

@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 process.stdin.resume(); //so the program will not close instantly
 //const fns1: Array<(data?: string) => void> = [];
 var fns = [];
+/**
+ * Handler function on process exit
+ * @param options
+ * @param exitCode
+ */
 function exitHandler(options, exitCode) {
     Object.keys(fns).forEach(function (key) {
         fns[key]();
@@ -14,6 +19,11 @@ function exitHandler(options, exitCode) {
     if (options.exit)
         process.exit();
 }
+/**
+ * Bind functions to exit handler
+ * @param key
+ * @param fn
+ */
 function bindProcessExit(key, fn) {
     fns[key] = fn;
 }

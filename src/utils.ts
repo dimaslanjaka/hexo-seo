@@ -52,13 +52,15 @@ export const isIgnore = (
  * @param data
  */
 export function extractSimplePageData(data: HexoSeo | Hexo, additional = []) {
-  delete data["_raw"];
-  delete data["raw"];
-  delete data["_content"];
-  delete data["content"];
-  delete data["site"];
-  delete data["more"];
-  delete data["excerpt"];
+  if (data) {
+    delete data["_raw"];
+    delete data["raw"];
+    delete data["_content"];
+    delete data["content"];
+    delete data["site"];
+    delete data["more"];
+    delete data["excerpt"];
+  }
   return data;
 }
 

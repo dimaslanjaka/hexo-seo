@@ -1,5 +1,6 @@
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
+import { isValidUrlPattern } from "../../../utils/url";
 
 const mainSchema = {
   "@context": "https://schema.org",
@@ -178,6 +179,7 @@ class articleSchema {
 
   /**
    * Set author
+   * @description automatically find author
    * @param author Author Options
    */
   setAuthor(author: SchemaAuthor) {
@@ -248,6 +250,9 @@ class articleSchema {
           }
         }
       }
+    }
+    if (!isValidUrlPattern(authorUrl)) {
+      authorUrl = this.hexo.config.url;
     }
     this.schema.author.sameAs = authorUrl;
   }

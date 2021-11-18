@@ -29,6 +29,7 @@ var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 var cleanup_1 = __importDefault(require("./utils/cleanup"));
+var log_1 = __importDefault(require("./log"));
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -116,7 +117,13 @@ var CacheFile = /** @class */ (function () {
         this.dbFile = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
-            db = JSON.parse(db.toString());
+            try {
+                db = JSON.parse(db.toString());
+            }
+            catch (e) {
+                log_1.default.error("cache database lost");
+                log_1.default.error(e);
+            }
         }
         if (typeof db == "object") {
             this.md5Cache = db;
@@ -128,6 +135,7 @@ var CacheFile = /** @class */ (function () {
     CacheFile.prototype.set = function (key, value) {
         var _this = this;
         this.md5Cache[key] = value;
+        // save cache on process exit
         (0, cleanup_1.default)("cachefile", function () {
             console.log("saving cache");
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));

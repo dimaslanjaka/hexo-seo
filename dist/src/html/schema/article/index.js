@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var url_1 = require("../../../utils/url");
 var mainSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -137,6 +138,7 @@ var articleSchema = /** @class */ (function () {
     };
     /**
      * Set author
+     * @description automatically find author
      * @param author Author Options
      */
     articleSchema.prototype.setAuthor = function (author) {
@@ -209,6 +211,9 @@ var articleSchema = /** @class */ (function () {
                     }
                 }
             }
+        }
+        if (!(0, url_1.isValidUrlPattern)(authorUrl)) {
+            authorUrl = this.hexo.config.url;
         }
         this.schema.author.sameAs = authorUrl;
     };
