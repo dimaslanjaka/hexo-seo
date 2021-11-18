@@ -121,11 +121,13 @@ var usingJSDOM = function (content, data) {
     var is = (0, hexo_is_1.default)(data);
     var path0 = data.page ? data.page.full_source : data.path;
     if ((!path0 || !is.post) && !is.page) {
-        console.log(path0, is);
-        (0, utils_1.dump)("dump-path0.txt", path0);
-        (0, utils_1.dump)("dump.txt", (0, utils_1.extractSimplePageData)(data));
-        (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
-        (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
+        if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
+            console.log(path0, is);
+            (0, utils_1.dump)("dump-path0.txt", path0);
+            (0, utils_1.dump)("dump.txt", (0, utils_1.extractSimplePageData)(data));
+            (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
+            (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
+        }
         return content;
     }
     var HSconfig = (0, config_1.default)(this);

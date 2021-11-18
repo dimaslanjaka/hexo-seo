@@ -68,15 +68,17 @@ export const usingJSDOM = function (
   const path0 = data.page ? data.page.full_source : data.path;
 
   if ((!path0 || !is.post) && !is.page) {
-    console.log(path0, is);
-    dump("dump-path0.txt", path0);
-    dump("dump.txt", extractSimplePageData(data));
-    dump("dump-page.txt", extractSimplePageData(data.page));
-    dump("dump-this.txt", extractSimplePageData(this));
+    if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
+      console.log(path0, is);
+      dump("dump-path0.txt", path0);
+      dump("dump.txt", extractSimplePageData(data));
+      dump("dump-page.txt", extractSimplePageData(data.page));
+      dump("dump-this.txt", extractSimplePageData(this));
+    }
     return content;
   }
-  const HSconfig = getConfig(this);
 
+  const HSconfig = getConfig(this);
   const title =
     data.page && data.page.title && data.page.title.trim().length > 0
       ? data.page.title
