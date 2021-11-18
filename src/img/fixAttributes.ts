@@ -71,7 +71,7 @@ export const usingJSDOM = function (
     if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
       console.log(path0, is);
       dump("dump-path0.txt", path0);
-      dump("dump.txt", extractSimplePageData(data));
+      dump("dump-data.txt", extractSimplePageData(data));
       dump("dump-page.txt", extractSimplePageData(data.page));
       dump("dump-this.txt", extractSimplePageData(this));
     }

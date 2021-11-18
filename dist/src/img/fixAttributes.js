@@ -124,7 +124,7 @@ var usingJSDOM = function (content, data) {
         if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
             console.log(path0, is);
             (0, utils_1.dump)("dump-path0.txt", path0);
-            (0, utils_1.dump)("dump.txt", (0, utils_1.extractSimplePageData)(data));
+            (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
             (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
             (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
         }
