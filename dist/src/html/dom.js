@@ -17,6 +17,7 @@ function parseJsdom(text) {
     return dom;
 }
 exports.parseJsdom = parseJsdom;
+var domPart;
 /**
  * Get text from partial html
  * @param text
@@ -24,7 +25,7 @@ exports.parseJsdom = parseJsdom;
  * @returns
  */
 function getTextPartialHtml(text, options) {
-    var dom = new jsdom_1.default.JSDOM("<div id=\"parseJSDOM\">" + text + "</div>", options);
+    domPart = new jsdom_1.default.JSDOM("<div id=\"parseJSDOM\">" + text + "</div>", options);
     var document = dom.window.document;
     return document.querySelector("div#parseJSDOM").textContent;
 }

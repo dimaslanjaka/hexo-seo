@@ -12,6 +12,7 @@ export function parseJsdom(text: string) {
   return dom;
 }
 
+let domPart: jsdom.JSDOM;
 /**
  * Get text from partial html
  * @param text
@@ -22,7 +23,7 @@ export function getTextPartialHtml(
   text: string,
   options?: jsdom.ConstructorOptions
 ) {
-  const dom = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
+  domPart = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
   const document: Document = dom.window.document;
   return document.querySelector("div#parseJSDOM").textContent;
 }

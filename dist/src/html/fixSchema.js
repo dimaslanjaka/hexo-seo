@@ -111,9 +111,8 @@ function default_1(content, data) {
         if (data.page.content) {
             var getText = (0, dom_1.getTextPartialHtml)(data.page.content);
             body = getText;
-            console.log(body);
             if (!body || body.trim().length === 0) {
-                body = data.page.content;
+                body = data.page.content.replace(/[\W_-]+/gm, " ");
             }
         }
     }
@@ -121,7 +120,7 @@ function default_1(content, data) {
         body = data.content;
     }
     if (body)
-        Schema.setArticleBody(body.trim()); //.replace(/[\W_-]+/gm, " ")
+        Schema.setArticleBody(body.trim());
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {

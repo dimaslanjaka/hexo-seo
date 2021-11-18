@@ -108,15 +108,14 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     if (data.page.content) {
       const getText = getTextPartialHtml(data.page.content);
       body = getText;
-      console.log(body);
       if (!body || body.trim().length === 0) {
-        body = data.page.content;
+        body = data.page.content.replace(/[\W_-]+/gm, " ");
       }
     }
   } else if (data.content) {
     body = data.content;
   }
-  if (body) Schema.setArticleBody(body.trim()); //.replace(/[\W_-]+/gm, " ")
+  if (body) Schema.setArticleBody(body.trim());
 
   // prepare breadcrumbs
   const schemaBreadcrumbs = [];
