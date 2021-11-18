@@ -68,7 +68,7 @@ export const usingJSDOM = function (
   const path0 = data.page ? data.page.full_source : data.path;
 
   if ((!path0 || !is.post) && !is.page) {
-    console.log(is);
+    console.log(path0, is);
     dump("dump-path0.txt", path0);
     dump("dump.txt", extractSimplePageData(data));
     dump("dump-page.txt", extractSimplePageData(data.page));
