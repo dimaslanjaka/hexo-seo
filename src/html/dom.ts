@@ -12,18 +12,17 @@ export function parseJsdom(text: string) {
   return dom;
 }
 
-export class parsePartialJsdom {
-  dom: jsdom.JSDOM;
-  constructor(text: string, options?: jsdom.ConstructorOptions) {
-    this.dom = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
-  }
-
-  /**
-   * Get texts from partial html
-   * @returns
-   */
-  getText() {
-    const document: Document = this.dom.window.document;
-    return document.querySelector("div#parseJSDOM").textContent;
-  }
+/**
+ * Get text from partial html
+ * @param text
+ * @param options
+ * @returns
+ */
+export function getTextPartialHtml(
+  text: string,
+  options?: jsdom.ConstructorOptions
+) {
+  const dom = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
+  const document: Document = dom.window.document;
+  return document.querySelector("div#parseJSDOM").textContent;
 }

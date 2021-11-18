@@ -5,7 +5,7 @@ import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
-import { parseJsdom, parsePartialJsdom } from "./dom";
+import { parseJsdom, getTextPartialHtml } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
@@ -106,8 +106,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   let body: string;
   if (data.page) {
     if (data.page.content) {
-      const dom = new parsePartialJsdom(data.page.content);
-      body = dom.getText();
+      const getText = getTextPartialHtml(data.page.content);
+      body = getText;
       console.log(body);
       if (!body || body.trim().length === 0) {
         body = data.page.content;

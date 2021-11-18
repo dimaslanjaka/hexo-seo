@@ -109,8 +109,8 @@ function default_1(content, data) {
     var body;
     if (data.page) {
         if (data.page.content) {
-            var dom = new dom_1.parsePartialJsdom(data.page.content);
-            body = dom.getText();
+            var getText = (0, dom_1.getTextPartialHtml)(data.page.content);
+            body = getText;
             console.log(body);
             if (!body || body.trim().length === 0) {
                 body = data.page.content;
