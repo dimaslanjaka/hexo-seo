@@ -1,6 +1,44 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable prefer-rest-params */
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="String.d.ts" />
 /// <reference path="globals.d.ts" />
+String.prototype.printf = function (obj) {
+    /*const isNode = new Function(
+      "try {return this===global;}catch(e){return false;}"
+    );
+  
+    if (isNode()) {
+      const util = require("util");
+      return util.format(this, obj);
+    }*/
+    var useArguments = false;
+    var _arguments = arguments;
+    var i = -1;
+    if (typeof _arguments[0] == "string") {
+        useArguments = true;
+    }
+    if (obj instanceof Array || useArguments) {
+        return this.replace(/%s/g, function (a, b) {
+            i++;
+            if (useArguments) {
+                if (typeof _arguments[i] == "string") {
+                    return _arguments[i];
+                }
+                else {
+                    throw new Error("Arguments element is an invalid type");
+                }
+            }
+            return obj[i];
+        });
+    }
+    else {
+        return this.replace(/{([^{}]*)}/g, function (a, b) {
+            var r = obj[b];
+            return typeof r === "string" || typeof r === "number" ? r : a;
+        });
+    }
+};
 String.prototype.parse_url = function () {
     var parser = document.createElement("a");
     var searchObject, split, i;

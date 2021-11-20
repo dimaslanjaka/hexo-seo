@@ -123,7 +123,7 @@ function default_1(content, data) {
         Schema.setArticleBody(body
             .trim()
             .replace(/['"{}\\]+/gm, "")
-            .replace(/http?s:\/\//gm, "//"));
+            .replace(/https?:\/\//gm, "//"));
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {

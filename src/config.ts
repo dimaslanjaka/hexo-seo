@@ -90,7 +90,7 @@ const getConfig = function (
       schema: true
     };
 
-    /*if (!/^http?s/gs.test(source.img.fallback.public)) {
+    /*if (!/^https?/gs.test(source.img.fallback.public)) {
       hexo.route.set(source.img.fallback.public, source.img.fallback.buffer);
     }*/
 

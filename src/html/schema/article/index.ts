@@ -166,7 +166,7 @@ class articleSchema {
       const image = $(images[index]);
       const img = image.attr("src");
       if (img && img.trim().startsWith("#") && img.trim().length > 0) {
-        if (/^\/|http?s/gs.test(img)) {
+        if (/^\/|https?/gs.test(img)) {
           this.schema.image = img;
           return;
         }

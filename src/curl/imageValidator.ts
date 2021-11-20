@@ -16,7 +16,7 @@ class imageValidator {
    * @returns
    */
   static isValid(url: string) {
-    if (/^http?s/gs.test(url)) {
+    if (/^https?/gs.test(url)) {
       try {
         return curly.get(url.toString()).then((res) => {
           const statusCode = res.statusCode;

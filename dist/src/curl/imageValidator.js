@@ -17,7 +17,7 @@ var imageValidator = /** @class */ (function () {
      * @returns
      */
     imageValidator.isValid = function (url) {
-        if (/^http?s/gs.test(url)) {
+        if (/^https?/gs.test(url)) {
             try {
                 return node_libcurl_1.curly.get(url.toString()).then(function (res) {
                     var statusCode = res.statusCode;

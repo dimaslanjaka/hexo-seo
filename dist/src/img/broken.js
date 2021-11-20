@@ -17,7 +17,7 @@ var cache = new cache_1.default();
 var isLocalImage = function (url) {
     if (!url)
         return false;
-    var regex = /^http?s/gs;
+    var regex = /^https?/gs;
     return regex.test(url);
 };
 exports.isLocalImage = isLocalImage;

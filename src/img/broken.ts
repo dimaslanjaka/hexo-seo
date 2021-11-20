@@ -14,7 +14,7 @@ const cache = new InMemoryCache();
  */
 export const isLocalImage = (url: string) => {
   if (!url) return false;
-  const regex = /^http?s/gs;
+  const regex = /^https?/gs;
   return regex.test(url);
 };
 

@@ -32,7 +32,7 @@ export interface hyperlinkOptions {
  * @param hexo
  * @returns
  */
-function isExternal(url: parseUrl, hexo: Hexo): boolean {
+function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
   const site =
     typeof parseUrl(hexo.config.url).hostname == "string"
       ? parseUrl(hexo.config.url).hostname

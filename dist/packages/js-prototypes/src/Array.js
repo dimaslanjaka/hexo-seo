@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-prototype-builtins */
 /// <reference path="./Array.d.ts" />
 Array.prototype.shuffle = function () {
     var i = this.length, j, temp;
@@ -116,16 +119,16 @@ Array.prototype.exists = function (n) {
 if (!Array.prototype.hasOwnProperty("every")) {
     Array.prototype.every = function (fun /*, thisp */) {
         "use strict";
-        var t, len, i, thisp;
+        var t = Object(this);
+        var len = t.length >>> 0;
+        var i;
+        var thisp = arguments[1];
         if (this == null) {
             throw new TypeError();
         }
-        t = Object(this);
-        len = t.length >>> 0;
         if (typeof fun !== "function") {
             throw new TypeError();
         }
-        thisp = arguments[1];
         for (i = 0; i < len; i++) {
             if (i in t && !fun.call(thisp, t[i], i, t)) {
                 return false;
@@ -151,7 +154,7 @@ function array_rand(arrays, unique) {
     var index = Math.floor(Math.random() * arrays.length);
     return {
         index: index,
-        value: arrays[index],
+        value: arrays[index]
     };
 }
 /**
@@ -299,6 +302,6 @@ if (typeof module !== "undefined" && module.exports) {
         array_shuffle: array_shuffle,
         array_keys: array_keys,
         in_array: in_array,
-        deepAssign: deepAssign,
+        deepAssign: deepAssign
     };
 }
