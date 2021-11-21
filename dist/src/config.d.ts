@@ -38,7 +38,7 @@ export interface defaultSeoOptions {
      */
     schema?: boolean;
 }
-declare const getConfig: (hexo: Hexo, key?: string) => {
+interface ReturnConfig {
     js: jsMinifyOptions;
     css: cssMinifyOptions;
     img: imgOptions;
@@ -46,5 +46,6 @@ declare const getConfig: (hexo: Hexo, key?: string) => {
     links: hyperlinkOptions;
     host: defaultSeoOptions["host"];
     schema: boolean;
-};
+}
+declare const getConfig: (hexo: Hexo) => ReturnConfig;
 export default getConfig;

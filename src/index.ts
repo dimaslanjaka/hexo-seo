@@ -6,7 +6,10 @@ import Hexo from "hexo";
 import seoJs from "./minifier/js";
 import seoCss from "./minifier/css";
 import minimist from "minimist";
-import getConfig from "./config";
+import { usingJSDOM } from "./img/fixAttributes";
+import fixHyperlinks from "./html/hyperlink";
+import fixSchema from "./html/fixSchema";
+import fixInvalid from "./html/fixInvalid";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -27,9 +30,23 @@ export default function (hexo: Hexo) {
     console.error("ERROR", "seo options not found");
     return;
   }
-
   // bind configuration
-  hexo.config.seo = getConfig(hexo);
+  // hexo.config.seo = getConfig(hexo);
+
+  // minify javascripts
+  hexo.extend.filter.register("after_render:js", seoJs);
+  // minify css
+  hexo.extend.filter.register("after_render:css", seoCss);
+  // fix external link
+  hexo.extend.filter.register("after_render:html", fixHyperlinks);
+  // fix image attributes
+  hexo.extend.filter.register("after_render:html", usingJSDOM);
+  // fix schema meta
+  hexo.extend.filter.register("after_render:html", fixSchema);
+  // fix invalid link[/.js, /.css]
+  hexo.extend.filter.register("after_render:html", fixInvalid);
+  // minify html on production mode
+  //hexo.extend.filter.register("after_generate", minHtml);
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo
@@ -37,17 +54,4 @@ export default function (hexo: Hexo) {
     // Main routes
     app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
   });*/
-
-  // minify javascripts
-  hexo.extend.filter.register("after_render:js", seoJs);
-  // minify css
-  hexo.extend.filter.register("after_render:css", seoCss);
-  // fix external link
-  //hexo.extend.filter.register("after_render:html", fixHyperlinks);
-  // fix image attributes
-  //hexo.extend.filter.register("after_render:html", usingJSDOM);
-  // fix schema meta
-  //hexo.extend.filter.register("after_render:html", fixSchema);
-  // minify html on production mode
-  //hexo.extend.filter.register("after_generate", minHtml);
 }

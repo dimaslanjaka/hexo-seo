@@ -16,8 +16,12 @@ export interface jsMinifyOptions extends MinifyOptions {
 
 const cache = new Cache();
 
-export default async function (this: Hexo, str: any, data: Hexo.View) {
+export default async function (this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
+  if (!path0) {
+    log.error("%s(CSS) invalid path", pkg.name);
+    return;
+  }
   const options = getConfig(this).js;
   // if option js is false, return original content
   if (typeof options == "boolean" && !options) return str;

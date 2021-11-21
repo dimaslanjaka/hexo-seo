@@ -54,6 +54,10 @@ function default_1(str, data) {
             switch (_a.label) {
                 case 0:
                     path0 = data.path;
+                    if (!path0) {
+                        log_1.default.error("%s(CSS) invalid path", package_json_1.default.name);
+                        return [2 /*return*/];
+                    }
                     options = (0, config_1.default)(this).js;
                     // if option js is false, return original content
                     if (typeof options == "boolean" && !options)

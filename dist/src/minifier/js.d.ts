@@ -6,4 +6,4 @@ export interface jsMinifyOptions extends MinifyOptions {
      */
     exclude: string[];
 }
-export default function (this: Hexo, str: any, data: Hexo.View): Promise<any>;
+export default function (this: Hexo, str: string, data: Hexo.View): Promise<string>;
