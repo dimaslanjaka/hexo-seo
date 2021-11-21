@@ -9,7 +9,7 @@ export declare type SchemaAuthor = ObjectConstructor & {
 export declare type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag;
 export interface SchemaArticleOptions {
     pretty?: boolean;
-    hexo: HexoSeo;
+    hexo: Hexo;
 }
 declare class articleSchema {
     schema: {
@@ -61,7 +61,7 @@ declare class articleSchema {
         articleBody: string;
     };
     options: SchemaArticleOptions;
-    hexo: HexoSeo;
+    hexo: Hexo;
     constructor(options?: SchemaArticleOptions);
     /**
      * Set custom property and value

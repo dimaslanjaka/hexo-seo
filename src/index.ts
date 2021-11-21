@@ -51,7 +51,7 @@ export default function (hexo: Hexo) {
   // fix image attributes
   hexo.extend.filter.register("after_render:html", usingJSDOM);
   // fix schema meta
-  hexo.extend.filter.register("after_render:html", fixSchema);
+  //hexo.extend.filter.register("after_render:html", fixSchema);
   // minify html on production mode
   //hexo.extend.filter.register("after_generate", minHtml);
 }

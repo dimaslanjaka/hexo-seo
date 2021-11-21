@@ -9,9 +9,6 @@ var js_1 = __importDefault(require("./minifier/js"));
 var css_1 = __importDefault(require("./minifier/css"));
 var minimist_1 = __importDefault(require("minimist"));
 var config_1 = __importDefault(require("./config"));
-var fixSchema_1 = __importDefault(require("./html/fixSchema"));
-var hyperlink_1 = __importDefault(require("./html/hyperlink"));
-var fixAttributes_1 = require("./img/fixAttributes");
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -39,11 +36,11 @@ function default_1(hexo) {
     // minify css
     hexo.extend.filter.register("after_render:css", css_1.default);
     // fix external link
-    hexo.extend.filter.register("after_render:html", hyperlink_1.default);
+    //hexo.extend.filter.register("after_render:html", fixHyperlinks);
+    // fix image attributes
+    //hexo.extend.filter.register("after_render:html", usingJSDOM);
     // fix schema meta
-    hexo.extend.filter.register("after_render:html", fixSchema_1.default);
-    // test image fix
-    hexo.extend.filter.register("after_render:html", fixAttributes_1.usingJSDOM);
+    //hexo.extend.filter.register("after_render:html", fixSchema);
     // minify html on production mode
     //hexo.extend.filter.register("after_generate", minHtml);
 }

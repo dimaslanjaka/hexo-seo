@@ -1,4 +1,12 @@
 /// <reference types="node" />
+import "../packages/js-prototypes/src/String";
+import "../packages/js-prototypes/src/Array";
+import "../packages/js-prototypes/src/Object";
+/**
+ * Temp folder
+ */
+export declare const tmpFolder: string;
+export declare const buildFolder: string;
 /**
  * resolve dirname of file
  * @param filePath

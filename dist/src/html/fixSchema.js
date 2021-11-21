@@ -35,8 +35,7 @@ function default_1(content, data) {
         (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
     }
-    var parseDom;
-    var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
+    var Schema = new article_1.default({ pretty: __1.isDev, hexo: this });
     // set url
     var url = this.config.url;
     if (data.page) {
@@ -148,6 +147,8 @@ function default_1(content, data) {
     // set schema genres
     Schema.set("genre", keywords.unique().map(string_1.trimText).join(","));
     Schema.set("keywords", keywords.unique().map(string_1.trimText).join(","));
-    return content.replace("</head>", "<script type=\"application/ld+json\">" + Schema + "</script></head>");
+    var schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
+    (0, utils_1.dump)("schema.html", content);
+    return content;
 }
 exports.default = default_1;
