@@ -14,6 +14,7 @@ var string_1 = require("../utils/string");
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
 var jsdom_1 = require("jsdom");
+var cache = new cache_1.CacheFile("schema");
 function default_1(content, data) {
     (0, cache_1.releaseMemory)();
     var is = (0, hexo_is_1.default)(data);
@@ -35,6 +36,9 @@ function default_1(content, data) {
         (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
         (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
+    }
+    if (!cache.isFileChanged(path0)) {
+        return cache.getCache(path0, null);
     }
     var Schema = new article_1.default({ pretty: __1.isDev, hexo: this });
     // set url
@@ -159,6 +163,7 @@ function default_1(content, data) {
     else {
         content = document.documentElement.outerHTML;
     }
+    cache.set(path0, content);
     return content;
 }
 exports.default = default_1;

@@ -1,5 +1,5 @@
 import Hexo from "hexo";
-import { releaseMemory } from "../cache";
+import { CacheFile, releaseMemory } from "../cache";
 import { dump, extractSimplePageData } from "../utils";
 import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
@@ -10,6 +10,8 @@ import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
 import { JSDOM } from "jsdom";
+
+const cache = new CacheFile("schema");
 
 export default function (this: Hexo, content: string, data: HexoSeo) {
   releaseMemory();
@@ -35,6 +37,9 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     dump("dump-this.txt", extractSimplePageData(this));
   }
 
+  if (!cache.isFileChanged(path0)) {
+    return cache.getCache(path0, null);
+  }
   const Schema = new schemaArticles({ pretty: isDev, hexo: this });
   // set url
   let url = this.config.url;
@@ -161,5 +166,6 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   } else {
     content = document.documentElement.outerHTML;
   }
+  cache.set(path0, content);
   return content;
 }
