@@ -98,7 +98,10 @@ npm install node-libcurl --build-from-source
 
 - Fix javascript heap out of memory
 ```shell
+# POSIX
 export NODE_OPTIONS=--max_old_space_size=8096
+# windows
+set NODE_OPTIONS=--max_old_space_size=8096
 ```
 
 - **important** after you update this plugin, you could cleaning the temp folders with:
