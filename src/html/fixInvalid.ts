@@ -1,8 +1,9 @@
 import Hexo from "hexo";
 import { JSDOM } from "jsdom";
 import getConfig from "../config";
+import { HexoSeo } from "./schema/article";
 
-export default function (this: Hexo, content: string) {
+export default function (this: Hexo, content: string, data: HexoSeo) {
   const HSconfig = getConfig(this);
   const dom = new JSDOM(content);
   const document: Document = dom.window.document;

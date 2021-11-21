@@ -137,6 +137,19 @@ if (!Array.prototype.hasOwnProperty("every")) {
         return true;
     };
 }
+Array.prototype.hapusItemDariArrayLain = function () {
+    var arrayLain = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        arrayLain[_i] = arguments[_i];
+    }
+    var thisArr = this;
+    arrayLain.forEach(function (otherArr) {
+        thisArr = thisArr.filter(function (el) {
+            return !otherArr.includes(el);
+        });
+    });
+    return thisArr;
+};
 function array_filter(array) {
     return array.filter(function (el) {
         return el != null;
@@ -297,11 +310,25 @@ function deepAssign() {
     }
     return arguments[0];
 }
+/**
+ * Remove item from array
+ * @param arr
+ * @param value
+ * @returns
+ */
+function removeItem(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+        arr.splice(index, 1);
+    }
+    return arr;
+}
 if (typeof module !== "undefined" && module.exports) {
     module.exports = {
         array_shuffle: array_shuffle,
         array_keys: array_keys,
         in_array: in_array,
-        deepAssign: deepAssign
+        deepAssign: deepAssign,
+        removeItem: removeItem
     };
 }

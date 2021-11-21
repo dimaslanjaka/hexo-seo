@@ -61,3 +61,10 @@ declare function array_shuffle(a: Array<any>): any[];
  * @returns Merged values of defaults and options
  */
 declare function deepAssign(...objects: object[]): object;
+/**
+ * Remove item from array
+ * @param arr
+ * @param value
+ * @returns
+ */
+declare function removeItem<T>(arr: Array<T>, value: T): Array<T>;

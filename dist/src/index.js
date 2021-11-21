@@ -63,7 +63,7 @@ function default_1(hexo) {
     hexo.extend.filter.register("after_render:html", fixInvalid_1.default);
     // minify html
     //hexo.extend.filter.register("after_generate", minHtml);
-    hexo.on("exit", function (post) {
+    hexo.on("exit", function () {
         console.log("executing scheduled functions");
         scheduler_1.default.executeAll();
     });

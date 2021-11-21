@@ -86,6 +86,8 @@ const getConfig = function (hexo: Hexo, key = "config-hexo-seo"): ReturnConfig {
       },
       host: ["webmanajemen.com"],
       links: {
+        blank: true,
+        enable: true,
         allow: ["webmanajemen.com"]
       },
       schema: true

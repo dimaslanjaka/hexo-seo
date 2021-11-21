@@ -37,6 +37,8 @@ var getConfig = function (hexo, key) {
             },
             host: ["webmanajemen.com"],
             links: {
+                blank: true,
+                enable: true,
                 allow: ["webmanajemen.com"]
             },
             schema: true

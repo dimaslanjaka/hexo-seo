@@ -1,2 +1,3 @@
 import Hexo from "hexo";
-export default function (this: Hexo, content: string): string;
+import { HexoSeo } from "./schema/article";
+export default function (this: Hexo, content: string, data: HexoSeo): string;

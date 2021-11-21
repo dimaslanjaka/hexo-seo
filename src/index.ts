@@ -72,7 +72,7 @@ export default function (hexo: Hexo) {
   // minify html
   //hexo.extend.filter.register("after_generate", minHtml);
 
-  hexo.on("exit", function (post) {
+  hexo.on("exit", function () {
     console.log("executing scheduled functions");
     scheduler.executeAll();
   });
