@@ -117,7 +117,11 @@ export class CacheFile {
     // if value is string, save to static file
     if (typeof value === "string") {
       if (key.startsWith("/")) {
-        const saveLocation = path.join(tmpFolder, key);
+        const saveLocation = path.join(
+          tmpFolder,
+          CacheFile.md5(key),
+          path.basename(key)
+        );
         this.md5Cache[key] = "file://" + saveLocation;
         // save cache on process exit
         scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {

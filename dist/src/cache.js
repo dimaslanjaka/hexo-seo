@@ -139,7 +139,7 @@ var CacheFile = /** @class */ (function () {
         // if value is string, save to static file
         if (typeof value === "string") {
             if (key.startsWith("/")) {
-                var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, key);
+                var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
                 this.md5Cache[key] = "file://" + saveLocation_1;
                 // save cache on process exit
                 scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
