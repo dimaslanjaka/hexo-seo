@@ -47,5 +47,5 @@ interface ReturnConfig {
     host: defaultSeoOptions["host"];
     schema: boolean;
 }
-declare const getConfig: (hexo: Hexo) => ReturnConfig;
+declare const getConfig: (hexo: Hexo, key?: string) => ReturnConfig;
 export default getConfig;
