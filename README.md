@@ -33,13 +33,13 @@ seo:
     exclude:
       - "*.min.{htm,html}"
   # minify css
-  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable minification css
+  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable css minification  
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.css"
   # minify js
-  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable minification css
+  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification 
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
