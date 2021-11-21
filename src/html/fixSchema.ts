@@ -5,7 +5,7 @@ import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
-import { parseJsdom, getTextPartialHtml } from "./dom";
+import { getTextPartialHtml } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
@@ -34,9 +34,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     dump("dump-this.txt", extractSimplePageData(this));
   }
 
-  let parseDom: ReturnType<typeof parseJsdom>;
-
-  const Schema = new schemaArticles({ pretty: isDev, hexo: data });
+  const Schema = new schemaArticles({ pretty: isDev, hexo: this });
   // set url
   let url = this.config.url;
   if (data.page) {
@@ -150,8 +148,9 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   Schema.set("genre", keywords.unique().map(trimText).join(","));
   Schema.set("keywords", keywords.unique().map(trimText).join(","));
 
-  return content.replace(
-    "</head>",
-    `<script type="application/ld+json">${Schema}</script></head>`
-  );
+  const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
+
+  dump("schema.html", content);
+
+  return content;
 }

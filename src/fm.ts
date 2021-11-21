@@ -1,6 +1,15 @@
 import * as fs from "fs";
 import * as path from "path";
 import crypto from "crypto";
+import "../packages/js-prototypes/src/String";
+import "../packages/js-prototypes/src/Array";
+import "../packages/js-prototypes/src/Object";
+
+/**
+ * Temp folder
+ */
+export const tmpFolder = path.join(__dirname, "../tmp");
+export const buildFolder = path.join(process.cwd(), "build/hexo-seo");
 
 /**
  * resolve dirname of file

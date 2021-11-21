@@ -1,8 +1,7 @@
 import jsdom from "jsdom";
 
-let dom: jsdom.JSDOM;
 export function parseJsdom(text: string) {
-  dom = new jsdom.JSDOM(text);
+  const dom = new jsdom.JSDOM(text);
   const document = dom.window.document;
   /*
   return {
@@ -12,7 +11,6 @@ export function parseJsdom(text: string) {
   return dom;
 }
 
-let domPart: jsdom.JSDOM;
 /**
  * Get text from partial html
  * @param text
@@ -23,7 +21,10 @@ export function getTextPartialHtml(
   text: string,
   options?: jsdom.ConstructorOptions
 ) {
-  domPart = new jsdom.JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
+  const domPart = new jsdom.JSDOM(
+    `<div id="parseJSDOM">${text}</div>`,
+    options
+  );
   const document: Document = domPart.window.document;
   return document.querySelector("div#parseJSDOM").textContent;
 }

@@ -83,13 +83,13 @@ export type HexoSeo = Hexo &
 
 export interface SchemaArticleOptions {
   pretty?: boolean;
-  hexo: HexoSeo;
+  hexo: Hexo;
 }
 
 class articleSchema {
   schema = mainSchema;
   options: SchemaArticleOptions;
-  hexo: HexoSeo;
+  hexo: Hexo;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;

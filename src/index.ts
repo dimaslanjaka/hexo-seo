@@ -48,10 +48,10 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:css", seoCss);
   // fix external link
   hexo.extend.filter.register("after_render:html", fixHyperlinks);
+  // fix image attributes
+  hexo.extend.filter.register("after_render:html", usingJSDOM);
   // fix schema meta
   hexo.extend.filter.register("after_render:html", fixSchema);
-  // test image fix
-  hexo.extend.filter.register("after_render:html", usingJSDOM);
   // minify html on production mode
   //hexo.extend.filter.register("after_generate", minHtml);
 }
