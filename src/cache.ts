@@ -117,35 +117,38 @@ export class CacheFile {
   set(key: string, value: any) {
     // if value is string, save to static file
     if (typeof value === "string") {
-      if (key.startsWith("/")) {
-        const saveLocation = path.join(
-          tmpFolder,
-          CacheFile.md5(key),
-          path.basename(key)
-        );
-        this.md5Cache[key + "-fileCache"] = value;
-        this.md5Cache[key] = "file://" + saveLocation;
-        // save cache on process exit
-        scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
-          console.log(this.cacheHash, "Saving cache to disk...");
-          writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-          writeFile(saveLocation, value);
-        });
+      // usually tags, archives, categories don't have paths for keys
+      // generate based on value
+      if (!key) {
+        key = CacheFile.md5(value);
       }
-    } else {
-      this.md5Cache[key] = value;
+      const saveLocation = path.join(
+        tmpFolder,
+        CacheFile.md5(key),
+        path.basename(key)
+      );
+      this.md5Cache[key + "-fileCache"] = value;
+      this.md5Cache[key] = "file://" + saveLocation;
       // save cache on process exit
-      scheduler.add("writeCacheFile" + this.cacheHash, () => {
-        // delete keys with suffix -fileCache
-        for (const k in this.md5Cache) {
-          if (k.endsWith("-fileCache")) {
-            delete this.md5Cache[k];
-          }
-        }
+      scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
         console.log(this.cacheHash, "Saving cache to disk...");
         writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+        writeFile(saveLocation, value);
       });
+      return;
     }
+    this.md5Cache[key] = value;
+    // save cache on process exit
+    scheduler.add("writeCacheFile" + this.cacheHash, () => {
+      // delete keys with suffix -fileCache
+      for (const k in this.md5Cache) {
+        if (k.endsWith("-fileCache")) {
+          delete this.md5Cache[k];
+        }
+      }
+      console.log(this.cacheHash, "Saving cache to disk...");
+      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    });
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;

@@ -139,32 +139,34 @@ var CacheFile = /** @class */ (function () {
         var _this = this;
         // if value is string, save to static file
         if (typeof value === "string") {
-            if (key.startsWith("/")) {
-                var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
-                this.md5Cache[key + "-fileCache"] = value;
-                this.md5Cache[key] = "file://" + saveLocation_1;
-                // save cache on process exit
-                scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
-                    console.log(_this.cacheHash, "Saving cache to disk...");
-                    (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
-                    (0, fm_1.writeFile)(saveLocation_1, value);
-                });
+            // usually tags, archives, categories don't have paths for keys
+            // generate based on value
+            if (!key) {
+                key = CacheFile.md5(value);
             }
-        }
-        else {
-            this.md5Cache[key] = value;
+            var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
+            this.md5Cache[key + "-fileCache"] = value;
+            this.md5Cache[key] = "file://" + saveLocation_1;
             // save cache on process exit
-            scheduler_1.default.add("writeCacheFile" + this.cacheHash, function () {
-                // delete keys with suffix -fileCache
-                for (var k in _this.md5Cache) {
-                    if (k.endsWith("-fileCache")) {
-                        delete _this.md5Cache[k];
-                    }
-                }
+            scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
                 console.log(_this.cacheHash, "Saving cache to disk...");
                 (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+                (0, fm_1.writeFile)(saveLocation_1, value);
             });
+            return;
         }
+        this.md5Cache[key] = value;
+        // save cache on process exit
+        scheduler_1.default.add("writeCacheFile" + this.cacheHash, function () {
+            // delete keys with suffix -fileCache
+            for (var k in _this.md5Cache) {
+                if (k.endsWith("-fileCache")) {
+                    delete _this.md5Cache[k];
+                }
+            }
+            console.log(_this.cacheHash, "Saving cache to disk...");
+            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+        });
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;
