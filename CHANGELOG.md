@@ -86,7 +86,9 @@
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
 
 ## [1.0.20] 2021-11-19
-
 - Fix Schema
 - Pending Image Broken Fixer
 - Pending HTML minify
+
+## [1.0.21] 2021-11-21
+- Fix invalid html
