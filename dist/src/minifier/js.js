@@ -49,7 +49,7 @@ var utils_1 = require("../utils");
 var cache = new cache_1.default();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, options, isChanged, hexo_1, options_1, minifyOptions, result, saved, e_1;
+        var path0, HSConfig, isChanged, hexo_1, options, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,28 +58,27 @@ function default_1(str, data) {
                         log_1.default.error("%s(CSS) invalid path", package_json_1.default.name);
                         return [2 /*return*/];
                     }
-                    options = (0, config_1.default)(this).js;
+                    HSConfig = (0, config_1.default)(this).js;
                     // if option js is false, return original content
-                    if (typeof options == "boolean" && !options)
+                    if (typeof HSConfig == "boolean" && !HSConfig)
                         return [2 /*return*/, str];
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
                     hexo_1 = this;
-                    options_1 = {
+                    options = {
                         exclude: ["*.min.js"]
                     };
-                    if (typeof hexo_1.config.seo.js === "boolean") {
-                        if (!hexo_1.config.seo.js)
+                    if (typeof HSConfig === "boolean") {
+                        if (!HSConfig)
                             return [2 /*return*/, str];
                     }
-                    else if (typeof hexo_1.config.seo.js == "object") {
-                        options_1 = (0, object_assign_1.default)(options_1, hexo_1.config.seo.js);
+                    else if (typeof HSConfig == "object") {
+                        options = (0, object_assign_1.default)(options, HSConfig);
+                        if ((0, utils_1.isIgnore)(path0, options.exclude))
+                            return [2 /*return*/, str];
                     }
-                    //console.log(`minifying ${path0}`);
-                    if (typeof options_1 == "object" && (0, utils_1.isIgnore)(path0, options_1.exclude))
-                        return [2 /*return*/, str];
                     minifyOptions = {
                         mangle: {
                             toplevel: true,
@@ -92,6 +91,9 @@ function default_1(str, data) {
                             dead_code: true //remove unreachable code
                         }
                     };
+                    if (typeof options.options == "object") {
+                        minifyOptions = (0, object_assign_1.default)(minifyOptions, options.options);
+                    }
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);

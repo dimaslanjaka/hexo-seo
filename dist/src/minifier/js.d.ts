@@ -4,6 +4,7 @@ export interface jsMinifyOptions extends MinifyOptions {
     /**
      * exclude js patterns from minifying
      */
-    exclude: string[];
+    exclude?: string[];
+    options?: MinifyOptions;
 }
 export default function (this: Hexo, str: string, data: Hexo.View): Promise<string>;

@@ -11,7 +11,8 @@ export interface jsMinifyOptions extends MinifyOptions {
   /**
    * exclude js patterns from minifying
    */
-  exclude: string[];
+  exclude?: string[];
+  options?: MinifyOptions;
 }
 
 const cache = new Cache();
@@ -22,27 +23,25 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     log.error("%s(CSS) invalid path", pkg.name);
     return;
   }
-  const options = getConfig(this).js;
+  const HSConfig = getConfig(this).js;
   // if option js is false, return original content
-  if (typeof options == "boolean" && !options) return str;
+  if (typeof HSConfig == "boolean" && !HSConfig) return str;
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {
     // if original file is changed, re-minify js
     const hexo: Hexo = this;
-    let options: defaultSeoOptions["js"] = {
+    let options: jsMinifyOptions = {
       exclude: ["*.min.js"]
     };
 
-    if (typeof hexo.config.seo.js === "boolean") {
-      if (!hexo.config.seo.js) return str;
-    } else if (typeof hexo.config.seo.js == "object") {
-      options = assign(options, hexo.config.seo.js);
+    if (typeof HSConfig === "boolean") {
+      if (!HSConfig) return str;
+    } else if (typeof HSConfig == "object") {
+      options = assign(options, HSConfig);
+      if (isIgnore(path0, options.exclude)) return str;
     }
-    //console.log(`minifying ${path0}`);
-    if (typeof options == "object" && isIgnore(path0, options.exclude))
-      return str;
 
-    const minifyOptions: MinifyOptions = {
+    let minifyOptions: MinifyOptions = {
       mangle: {
         toplevel: true, // to mangle names declared in the top level scope.
         properties: false, // disable mangle object and array properties
@@ -54,6 +53,9 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
         dead_code: true //remove unreachable code
       }
     };
+    if (typeof options.options == "object") {
+      minifyOptions = assign(minifyOptions, options.options);
+    }
 
     try {
       const result = await minify(str, minifyOptions);
