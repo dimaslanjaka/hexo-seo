@@ -66,6 +66,7 @@ function default_1(hexo) {
     //hexo.extend.filter.register("after_generate", minHtml);
     // execute scheduled functions before process exit
     if (hexoCmd && hexoCmd != "clean") {
+        console.log("Scheduling functions on process exit");
         (0, cleanup_1.default)("scheduler_on_exit", function () {
             console.log("executing scheduled functions");
             scheduler_1.default.executeAll();

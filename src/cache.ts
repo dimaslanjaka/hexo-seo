@@ -125,18 +125,19 @@ export class CacheFile {
         this.md5Cache[key] = "file://" + saveLocation;
         // save cache on process exit
         scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
-          console.log(this.cacheHash, "Saving cache to disk...", saveLocation);
+          console.log(this.cacheHash, "Saving cache to disk...");
           writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+          writeFile(saveLocation, value);
         });
       }
     } else {
       this.md5Cache[key] = value;
+      // save cache on process exit
+      scheduler.add("writeCacheFile" + this.cacheHash, () => {
+        console.log(this.cacheHash, "Saving cache to disk...");
+        writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+      });
     }
-    // save cache on process exit
-    scheduler.add("writeCacheFile" + this.cacheHash, () => {
-      console.log(this.cacheHash, "Saving cache to disk...");
-      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-    });
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;
