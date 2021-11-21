@@ -140,6 +140,7 @@ var CacheFile = /** @class */ (function () {
         if (typeof value === "string") {
             if (key.startsWith("/")) {
                 var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
+                this.md5Cache[key + "-file"] = value;
                 this.md5Cache[key] = "file://" + saveLocation_1;
                 // save cache on process exit
                 scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
@@ -174,6 +175,8 @@ var CacheFile = /** @class */ (function () {
             return fallback;
         if (typeof Get == "string") {
             if (Get.startsWith("file://")) {
+                if (typeof this.md5Cache[key + "-file"] != "undefined")
+                    return this.md5Cache[key + "-file"];
                 var loadLocation = (0, fm_1.readFile)(Get.replace("file://", "")).toString();
                 return loadLocation;
             }

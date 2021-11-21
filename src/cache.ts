@@ -122,6 +122,7 @@ export class CacheFile {
           CacheFile.md5(key),
           path.basename(key)
         );
+        this.md5Cache[key + "-file"] = value;
         this.md5Cache[key] = "file://" + saveLocation;
         // save cache on process exit
         scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
@@ -153,6 +154,8 @@ export class CacheFile {
     if (Get === undefined) return fallback;
     if (typeof Get == "string") {
       if (Get.startsWith("file://")) {
+        if (typeof this.md5Cache[key + "-file"] != "undefined")
+          return this.md5Cache[key + "-file"];
         const loadLocation = readFile(Get.replace("file://", "")).toString();
         return loadLocation;
       }
