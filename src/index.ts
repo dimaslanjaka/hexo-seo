@@ -47,6 +47,7 @@ export default function (hexo: Hexo) {
     }
   }
 
+  // clean build and temp folder on `hexo clean`
   if (hexoCmd && hexoCmd == "clean") {
     rimraf.sync(tmpFolder);
     rimraf.sync(buildFolder);

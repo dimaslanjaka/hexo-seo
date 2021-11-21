@@ -41,6 +41,7 @@ function default_1(hexo) {
                 hexoCmd = "clean";
         }
     }
+    // clean build and temp folder on `hexo clean`
     if (hexoCmd && hexoCmd == "clean") {
         rimraf_1.default.sync(fm_1.tmpFolder);
         rimraf_1.default.sync(fm_1.buildFolder);
