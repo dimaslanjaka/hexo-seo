@@ -78,8 +78,17 @@ const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
         }
         el.setAttribute("rel", rels.join(" "));
       }
+      // set anchor title
       const aTitle = el.getAttribute("title");
-      console.log("a:title", aTitle);
+      if (!aTitle || aTitle.length < 1) {
+        let textContent: string;
+        if (!el.textContent || el.textContent.length < 1) {
+          textContent = hexo.config.title;
+        } else {
+          textContent = el.textContent;
+        }
+        el.setAttribute("title", formatAnchorText(textContent));
+      }
     });
   }
 

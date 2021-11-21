@@ -62,8 +62,18 @@ var usingJSDOM = function (content, data) {
                 }
                 el.setAttribute("rel", rels.join(" "));
             }
+            // set anchor title
             var aTitle = el.getAttribute("title");
-            console.log("a:title", aTitle);
+            if (!aTitle || aTitle.length < 1) {
+                var textContent = void 0;
+                if (!el.textContent || el.textContent.length < 1) {
+                    textContent = hexo.config.title;
+                }
+                else {
+                    textContent = el.textContent;
+                }
+                el.setAttribute("title", formatAnchorText(textContent));
+            }
         });
     }
     if (typeof HSconfig.html.fix == "boolean" && HSconfig.html.fix) {
