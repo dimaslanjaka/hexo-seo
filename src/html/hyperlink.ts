@@ -1,9 +1,7 @@
-import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
 import parseUrl from "url-parse";
 import { CacheFile } from "../cache";
-import { dump, extractSimplePageData } from "../utils";
 import { HexoSeo } from "./schema/article";
 import "../../packages/js-prototypes/src/Array";
 import pkg from "../../package.json";
@@ -21,87 +19,9 @@ export interface hyperlinkOptions {
 
 const cache = new CacheFile("hyperlink");
 
-const fixHyperlinks = function (this: Hexo, content: string, data: HexoSeo) {
-  const path0 = data.page ? data.page.full_source : data.path;
-  const hexo = this;
-  function dumper() {
-    dump("dump-path0.txt", path0);
-    dump("dump-data.txt", extractSimplePageData(data));
-    dump("dump-page.txt", extractSimplePageData(data.page));
-    dump("dump-this.txt", extractSimplePageData(hexo));
-  }
-
-  if (!cache.isFileChanged(path0)) {
-    return cache.getCache(path0, null) as string;
-  }
-  const hexoConfig = this.config;
-  let siteHost = parseUrl(hexoConfig.url).hostname;
-  const $ = cheerio.load(content);
-  const hyperlinks = $("a");
-  if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
-    siteHost = siteHost.trim();
-    for (let index = 0; index < hyperlinks.length; index++) {
-      const hyperlink = $(hyperlinks[index]);
-      const href = parseUrl(hyperlink.attr("href"));
-      // external links rel
-      if (typeof href.hostname == "string") {
-        const hyperlinkHost = href.hostname.trim();
-        if (hyperlinkHost.length > 0) {
-          /**
-           * filter by global hexo site url host
-           */
-          const isInternal = !isExternal(href, this);
-          const externalArr = [
-            "nofollow",
-            "noopener",
-            "noreferer",
-            "noreferrer"
-          ];
-          let attr = extractRel(hyperlink);
-          const internalArr = ["internal", "follow", "bookmark"];
-
-          //console.log(hyperlinkHost, "is internal", isInternal);
-          if (isInternal) {
-            // internal link, remove external rel
-            attr = attr.concat(internalArr).filter(function (el) {
-              return !externalArr.includes(el);
-            });
-          } else {
-            attr = attr.concat(externalArr).filter(function (el) {
-              return !internalArr.includes(el);
-            });
-          }
-
-          // filter attributes
-          attr = attr
-            // trim
-            .map((str) => {
-              return str.trim();
-            })
-            // remove duplicates
-            .filter(function (val, ind) {
-              return attr.indexOf(val) == ind;
-            });
-
-          //logger.log(hyperlinkHost, siteHost, isInternal, config.links);
-          //logger.log(href.hostname, isInternal, attr);
-          hyperlink.attr("rel", attr.join(" ").trim());
-        }
-      }
-
-      // fix anchor title
-      const a_title = hyperlink.attr("title");
-      if (!a_title || a_title.trim().length < 1) {
-        const a_text = hyperlink.text().replace(/['"]/gm, "");
-        hyperlink.attr("title", a_text);
-      }
-    }
-  }
-  content = $.html();
-  cache.setCache(path0, content);
-
-  return content;
-};
+function formatAnchorText(text: string) {
+  return text.replace(/['"]/gm, "");
+}
 
 const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
   const path0 = data.page ? data.page.full_source : data.path;
@@ -144,6 +64,12 @@ const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
             .concat(externalArr)
             .unique()
             .hapusItemDariArrayLain(internalArr);
+          if (
+            typeof HSconfig.links.blank == "boolean" &&
+            HSconfig.links.blank
+          ) {
+            el.setAttribute("target", "_blank");
+          }
         } else {
           rels = rels
             .concat(internalArr)
@@ -152,6 +78,8 @@ const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
         }
         el.setAttribute("rel", rels.join(" "));
       }
+      const aTitle = el.getAttribute("title");
+      console.log("a:title", aTitle);
     });
   }
 
@@ -160,6 +88,7 @@ const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
   } else {
     content = document.documentElement.outerHTML;
   }
+  cache.set(path0, content);
   return content;
 };
 
@@ -192,20 +121,5 @@ function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
 
   return true;
 }
-
-/**
- * Extract rels from anchor
- * @param anchor
- * @returns
- */
-const extractRel = function (anchor: Cheerio<Element>) {
-  const original = anchor.attr("rel");
-  if (original && original.length > 0) {
-    return original.split(/\s/).filter(function (el) {
-      return el != null || el.trim().length > 0;
-    });
-  }
-  return [];
-};
 
 export default usingJSDOM;
