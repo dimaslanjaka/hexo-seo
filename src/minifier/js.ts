@@ -7,7 +7,7 @@ import assign from "object-assign";
 import getConfig, { defaultSeoOptions } from "../config";
 import { isIgnore } from "../utils";
 
-export interface jsMinifyOptions extends MinifyOptions {
+export interface jsMinifyOptions {
   /**
    * exclude js patterns from minifying
    */

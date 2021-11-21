@@ -1,6 +1,6 @@
 import Hexo from "hexo";
 import { MinifyOptions } from "terser";
-export interface jsMinifyOptions extends MinifyOptions {
+export interface jsMinifyOptions {
     /**
      * exclude js patterns from minifying
      */
