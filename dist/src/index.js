@@ -12,6 +12,8 @@ var fixAttributes_1 = require("./img/fixAttributes");
 var hyperlink_1 = __importDefault(require("./html/hyperlink"));
 var fixSchema_1 = __importDefault(require("./html/fixSchema"));
 var fixInvalid_1 = __importDefault(require("./html/fixInvalid"));
+var rimraf_1 = __importDefault(require("rimraf"));
+var fm_1 = require("./fm");
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -25,6 +27,23 @@ function default_1(hexo) {
     if (typeof hexo.config.seo == "undefined") {
         console.error("ERROR", "seo options not found");
         return;
+    }
+    var hexoCmd;
+    if (hexo.env.args._ && hexo.env.args._.length > 0) {
+        for (var i = 0; i < hexo.env.args._.length; i++) {
+            if (hexo.env.args._[i] == "s" || hexo.env.args._[i] == "server")
+                hexoCmd = "server";
+            if (hexo.env.args._[i] == "d" || hexo.env.args._[i] == "deploy")
+                hexoCmd = "deploy";
+            if (hexo.env.args._[i] == "g" || hexo.env.args._[i] == "generate")
+                hexoCmd = "generate";
+            if (hexo.env.args._[i] == "clean")
+                hexoCmd = "clean";
+        }
+    }
+    if (hexoCmd && hexoCmd == "clean") {
+        rimraf_1.default.sync(fm_1.tmpFolder);
+        rimraf_1.default.sync(fm_1.buildFolder);
     }
     // bind configuration
     // hexo.config.seo = getConfig(hexo);
@@ -40,7 +59,7 @@ function default_1(hexo) {
     hexo.extend.filter.register("after_render:html", fixSchema_1.default);
     // fix invalid link[/.js, /.css]
     hexo.extend.filter.register("after_render:html", fixInvalid_1.default);
-    // minify html on production mode
+    // minify html
     //hexo.extend.filter.register("after_generate", minHtml);
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo

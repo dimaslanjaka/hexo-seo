@@ -10,6 +10,9 @@ import { usingJSDOM } from "./img/fixAttributes";
 import fixHyperlinks from "./html/hyperlink";
 import fixSchema from "./html/fixSchema";
 import fixInvalid from "./html/fixInvalid";
+import minHtml from "./minifier/html";
+import rimraf from "rimraf";
+import { buildFolder, tmpFolder } from "./fm";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -30,6 +33,25 @@ export default function (hexo: Hexo) {
     console.error("ERROR", "seo options not found");
     return;
   }
+
+  let hexoCmd: string;
+  if (hexo.env.args._ && hexo.env.args._.length > 0) {
+    for (let i = 0; i < hexo.env.args._.length; i++) {
+      if (hexo.env.args._[i] == "s" || hexo.env.args._[i] == "server")
+        hexoCmd = "server";
+      if (hexo.env.args._[i] == "d" || hexo.env.args._[i] == "deploy")
+        hexoCmd = "deploy";
+      if (hexo.env.args._[i] == "g" || hexo.env.args._[i] == "generate")
+        hexoCmd = "generate";
+      if (hexo.env.args._[i] == "clean") hexoCmd = "clean";
+    }
+  }
+
+  if (hexoCmd && hexoCmd == "clean") {
+    rimraf.sync(tmpFolder);
+    rimraf.sync(buildFolder);
+  }
+
   // bind configuration
   // hexo.config.seo = getConfig(hexo);
 
@@ -45,7 +67,7 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:html", fixSchema);
   // fix invalid link[/.js, /.css]
   hexo.extend.filter.register("after_render:html", fixInvalid);
-  // minify html on production mode
+  // minify html
   //hexo.extend.filter.register("after_generate", minHtml);
 
   // register source to hexo middleware
