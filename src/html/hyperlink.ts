@@ -2,7 +2,9 @@ import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
 import getConfig from "../config";
 import parseUrl from "url-parse";
-import sanitizeFilename from "sanitize-filename";
+import { CacheFile } from "../cache";
+import { dump, extractSimplePageData } from "../utils";
+import { HexoSeo } from "./schema/article";
 
 /**
  * Remove item from array
@@ -71,75 +73,89 @@ const extractRel = function (anchor: Cheerio<Element>) {
   return [];
 };
 
-const fixHyperlinks = function (
-  this: Hexo,
-  content: string,
-  data: Hexo.Locals.Page
-) {
-  const hexoConfig = this.config;
-  let siteHost = parseUrl(hexoConfig.url).hostname;
-  const $ = cheerio.load(content);
-  const hyperlinks = $("a");
-  if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
-    siteHost = siteHost.trim();
-    for (let index = 0; index < hyperlinks.length; index++) {
-      const hyperlink = $(hyperlinks[index]);
-      const href = parseUrl(hyperlink.attr("href"));
-      // external links rel
-      if (typeof href.hostname == "string") {
-        const hyperlinkHost = href.hostname.trim();
-        if (hyperlinkHost.length > 0) {
-          /**
-           * filter by global hexo site url host
-           */
-          const isInternal = !isExternal(href, this);
-          const externalArr = [
-            "nofollow",
-            "noopener",
-            "noreferer",
-            "noreferrer"
-          ];
-          let attr = extractRel(hyperlink);
-          const internalArr = ["internal", "follow", "bookmark"];
+const cache = new CacheFile("hyperlink");
 
-          //console.log(hyperlinkHost, "is internal", isInternal);
-          if (isInternal) {
-            // internal link, remove external rel
-            attr = attr.concat(internalArr).filter(function (el) {
-              return !externalArr.includes(el);
-            });
-          } else {
-            attr = attr.concat(externalArr).filter(function (el) {
-              return !internalArr.includes(el);
-            });
+const fixHyperlinks = function (this: Hexo, content: string, data: HexoSeo) {
+  const path0 = data.page ? data.page.full_source : data.path;
+  if (path0) {
+    if (!cache.isFileChanged(path0)) {
+      return cache.getCache(path0, null) as string;
+    }
+    const hexoConfig = this.config;
+    let siteHost = parseUrl(hexoConfig.url).hostname;
+    const $ = cheerio.load(content);
+    const hyperlinks = $("a");
+    if (siteHost && typeof siteHost == "string" && siteHost.trim().length > 0) {
+      siteHost = siteHost.trim();
+      for (let index = 0; index < hyperlinks.length; index++) {
+        const hyperlink = $(hyperlinks[index]);
+        const href = parseUrl(hyperlink.attr("href"));
+        // external links rel
+        if (typeof href.hostname == "string") {
+          const hyperlinkHost = href.hostname.trim();
+          if (hyperlinkHost.length > 0) {
+            /**
+             * filter by global hexo site url host
+             */
+            const isInternal = !isExternal(href, this);
+            const externalArr = [
+              "nofollow",
+              "noopener",
+              "noreferer",
+              "noreferrer"
+            ];
+            let attr = extractRel(hyperlink);
+            const internalArr = ["internal", "follow", "bookmark"];
+
+            //console.log(hyperlinkHost, "is internal", isInternal);
+            if (isInternal) {
+              // internal link, remove external rel
+              attr = attr.concat(internalArr).filter(function (el) {
+                return !externalArr.includes(el);
+              });
+            } else {
+              attr = attr.concat(externalArr).filter(function (el) {
+                return !internalArr.includes(el);
+              });
+            }
+
+            // filter attributes
+            attr = attr
+              // trim
+              .map((str) => {
+                return str.trim();
+              })
+              // remove duplicates
+              .filter(function (val, ind) {
+                return attr.indexOf(val) == ind;
+              });
+
+            //logger.log(hyperlinkHost, siteHost, isInternal, config.links);
+            //logger.log(href.hostname, isInternal, attr);
+            hyperlink.attr("rel", attr.join(" ").trim());
           }
+        }
 
-          // filter attributes
-          attr = attr
-            // trim
-            .map((str) => {
-              return str.trim();
-            })
-            // remove duplicates
-            .filter(function (val, ind) {
-              return attr.indexOf(val) == ind;
-            });
-
-          //logger.log(hyperlinkHost, siteHost, isInternal, config.links);
-          //logger.log(href.hostname, isInternal, attr);
-          hyperlink.attr("rel", attr.join(" ").trim());
+        // fix anchor title
+        const a_title = hyperlink.attr("title");
+        if (!a_title || a_title.trim().length < 1) {
+          const a_text = hyperlink.text().replace(/['"]/gm, "");
+          hyperlink.attr("title", a_text);
         }
       }
-
-      // fix anchor title
-      const a_title = hyperlink.attr("title");
-      if (!a_title || a_title.trim().length < 1) {
-        const a_text = hyperlink.text().replace(/['"]/gm, "");
-        hyperlink.attr("title", a_text);
-      }
     }
+    content = $.html();
+    cache.setCache(path0, content);
+  } else {
+    dumper.bind(this)();
   }
-  return $.html();
+  function dumper() {
+    dump("dump-path0.txt", path0);
+    dump("dump-data.txt", extractSimplePageData(data));
+    dump("dump-page.txt", extractSimplePageData(data.page));
+    dump("dump-this.txt", extractSimplePageData(this));
+  }
+  return content;
 };
 
 export default fixHyperlinks;
