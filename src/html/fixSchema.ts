@@ -5,11 +5,10 @@ import getConfig from "../config";
 import hexoIs from "../hexo/hexo-is";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
-import { getTextPartialHtml } from "./dom";
+import { getTextPartialHtml, _JSDOM } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
-import { JSDOM } from "jsdom";
 
 const cache = new CacheFile("schema");
 
@@ -161,9 +160,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   );
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
-  const dom = new JSDOM(content);
-  const document: Document = dom.window.document;
-  document.head.insertAdjacentHTML("beforeend", schemahtml);
+  const dom = new _JSDOM(content);
+  dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
   if (
     typeof this.config.seo.html.fix == "boolean" &&
     this.config.seo.html.fix
