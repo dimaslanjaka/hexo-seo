@@ -52,7 +52,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   }
   if (url) Schema.setUrl(url);
 
-  let keywords = [];
+  let keywords: string[] = [];
   if (this.config.keywords) {
     keywords = keywords.concat(this.config.keywords.split(",").map(trimText));
   }
@@ -151,8 +151,14 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   }
 
   // set schema genres
-  Schema.set("genre", keywords.unique().map(trimText).join(","));
-  Schema.set("keywords", keywords.unique().map(trimText).join(","));
+  Schema.set(
+    "genre",
+    keywords.unique().removeEmpties().map(trimText).join(",")
+  );
+  Schema.set(
+    "keywords",
+    keywords.unique().removeEmpties().map(trimText).join(",")
+  );
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
   const dom = new JSDOM(content);

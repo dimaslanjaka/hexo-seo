@@ -150,8 +150,8 @@ function default_1(content, data) {
         Schema.setBreadcrumbs(schemaBreadcrumbs);
     }
     // set schema genres
-    Schema.set("genre", keywords.unique().map(string_1.trimText).join(","));
-    Schema.set("keywords", keywords.unique().map(string_1.trimText).join(","));
+    Schema.set("genre", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
+    Schema.set("keywords", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
     var schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
     var dom = new jsdom_1.JSDOM(content);
     var document = dom.window.document;
