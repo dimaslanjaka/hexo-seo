@@ -139,11 +139,11 @@ var CacheFile = /** @class */ (function () {
         // if value is string, save to static file
         if (typeof value === "string") {
             if (key.startsWith("/")) {
-                var saveLocation = path_1.default.join(fm_1.tmpFolder, key);
-                this.md5Cache[key] = "file://" + saveLocation;
+                var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, key);
+                this.md5Cache[key] = "file://" + saveLocation_1;
                 // save cache on process exit
                 scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
-                    console.log(_this.cacheHash, "Saving cache to disk...");
+                    console.log(_this.cacheHash, "Saving cache to disk...", saveLocation_1);
                     (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
                 });
             }
@@ -173,7 +173,7 @@ var CacheFile = /** @class */ (function () {
             return fallback;
         if (typeof Get == "string") {
             if (Get.startsWith("file://")) {
-                var loadLocation = (0, fm_1.readFile)(Get.replace("file://", ""));
+                var loadLocation = (0, fm_1.readFile)(Get.replace("file://", "")).toString();
                 return loadLocation;
             }
         }
