@@ -13,6 +13,7 @@ var dom_1 = require("./dom");
 var string_1 = require("../utils/string");
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
+var jsdom_1 = require("jsdom");
 function default_1(content, data) {
     (0, cache_1.releaseMemory)();
     var is = (0, hexo_is_1.default)(data);
@@ -148,7 +149,16 @@ function default_1(content, data) {
     Schema.set("genre", keywords.unique().map(string_1.trimText).join(","));
     Schema.set("keywords", keywords.unique().map(string_1.trimText).join(","));
     var schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
-    (0, utils_1.dump)("schema.html", content);
+    var dom = new jsdom_1.JSDOM(content);
+    var document = dom.window.document;
+    document.head.insertAdjacentHTML("beforeend", schemahtml);
+    if (typeof this.config.seo.html.fix == "boolean" &&
+        this.config.seo.html.fix) {
+        content = dom.serialize();
+    }
+    else {
+        content = document.documentElement.outerHTML;
+    }
     return content;
 }
 exports.default = default_1;

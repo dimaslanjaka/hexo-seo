@@ -13,7 +13,7 @@ function default_1(content) {
     cssx.forEach(function (i) {
         i.outerHTML = "<!-- invalid " + i.outerHTML + " -->";
     });
-    if (HSconfig.html.fix) {
+    if (typeof HSconfig.html.fix == "boolean" && HSconfig.html.fix) {
         content = dom.serialize();
     }
     else {

@@ -10,7 +10,7 @@ export default function (this: Hexo, content: string) {
   cssx.forEach((i) => {
     i.outerHTML = `<!-- invalid ${i.outerHTML} -->`;
   });
-  if (HSconfig.html.fix) {
+  if (typeof HSconfig.html.fix == "boolean" && HSconfig.html.fix) {
     content = dom.serialize();
   } else {
     content = document.documentElement.outerHTML;

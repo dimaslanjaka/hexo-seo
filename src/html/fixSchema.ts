@@ -9,6 +9,7 @@ import { getTextPartialHtml } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
+import { JSDOM } from "jsdom";
 
 export default function (this: Hexo, content: string, data: HexoSeo) {
   releaseMemory();
@@ -149,8 +150,16 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   Schema.set("keywords", keywords.unique().map(trimText).join(","));
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
-
-  dump("schema.html", content);
-
+  const dom = new JSDOM(content);
+  const document: Document = dom.window.document;
+  document.head.insertAdjacentHTML("beforeend", schemahtml);
+  if (
+    typeof this.config.seo.html.fix == "boolean" &&
+    this.config.seo.html.fix
+  ) {
+    content = dom.serialize();
+  } else {
+    content = document.documentElement.outerHTML;
+  }
   return content;
 }
