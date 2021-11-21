@@ -76,6 +76,12 @@ const extractRel = function (anchor: Cheerio<Element>) {
 const cache = new CacheFile("hyperlink");
 
 const fixHyperlinks = function (this: Hexo, content: string, data: HexoSeo) {
+  function dumper() {
+    dump("dump-path0.txt", path0);
+    dump("dump-data.txt", extractSimplePageData(data));
+    dump("dump-page.txt", extractSimplePageData(data.page));
+    dump("dump-this.txt", extractSimplePageData(this));
+  }
   const path0 = data.page ? data.page.full_source : data.path;
   if (path0) {
     if (!cache.isFileChanged(path0)) {
@@ -149,12 +155,7 @@ const fixHyperlinks = function (this: Hexo, content: string, data: HexoSeo) {
   } else {
     dumper.bind(this)();
   }
-  function dumper() {
-    dump("dump-path0.txt", path0);
-    dump("dump-data.txt", extractSimplePageData(data));
-    dump("dump-page.txt", extractSimplePageData(data.page));
-    dump("dump-this.txt", extractSimplePageData(this));
-  }
+
   return content;
 };
 

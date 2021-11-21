@@ -73,6 +73,7 @@ export default function (hexo: Hexo) {
   //hexo.extend.filter.register("after_generate", minHtml);
 
   hexo.on("exit", function (post) {
+    console.log("executing scheduled functions");
     scheduler.executeAll();
   });
 

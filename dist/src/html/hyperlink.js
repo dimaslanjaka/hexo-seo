@@ -65,6 +65,12 @@ var extractRel = function (anchor) {
 };
 var cache = new cache_1.CacheFile("hyperlink");
 var fixHyperlinks = function (content, data) {
+    function dumper() {
+        (0, utils_1.dump)("dump-path0.txt", path0);
+        (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
+        (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
+        (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
+    }
     var path0 = data.page ? data.page.full_source : data.path;
     if (path0) {
         if (!cache.isFileChanged(path0)) {
@@ -139,12 +145,6 @@ var fixHyperlinks = function (content, data) {
     }
     else {
         dumper.bind(this)();
-    }
-    function dumper() {
-        (0, utils_1.dump)("dump-path0.txt", path0);
-        (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(data));
-        (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
-        (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
     }
     return content;
 };
