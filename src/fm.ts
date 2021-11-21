@@ -32,7 +32,7 @@ export function writeFile(filePath: string, content: string) {
   fs.writeFileSync(filePath, content);
 }
 
-export type anyOf = string | object | symbol | Record<string, any>;
+export type anyOf = Buffer | string | object | symbol | Record<string, any>;
 
 /**
  * read file nested path
@@ -40,7 +40,7 @@ export type anyOf = string | object | symbol | Record<string, any>;
  * @param options
  * @returns
  */
-export function readFile<T extends anyOf>(
+export function readFile(
   filePath: string,
   options?: {
     encoding?:
@@ -59,8 +59,8 @@ export function readFile<T extends anyOf>(
       | undefined;
     flag?: string | undefined;
   } | null,
-  autocreate: T = undefined
-) {
+  autocreate = undefined
+): Buffer | string {
   resolveFile(filePath);
   if (autocreate && !fs.existsSync(filePath)) {
     if (typeof autocreate === "boolean") {

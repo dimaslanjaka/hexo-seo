@@ -110,10 +110,12 @@ var CacheFile = /** @class */ (function () {
     function CacheFile(hash) {
         if (hash === void 0) { hash = null; }
         this.md5Cache = {};
+        this.cacheHash = "";
         if (!hash) {
             var stack = new Error().stack.split("at")[2];
             hash = CacheFile.md5(stack);
         }
+        this.cacheHash = hash;
         this.dbFile = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
@@ -134,9 +136,24 @@ var CacheFile = /** @class */ (function () {
     };
     CacheFile.prototype.set = function (key, value) {
         var _this = this;
-        this.md5Cache[key] = value;
+        // if value is string, save to static file
+        if (typeof value === "string") {
+            if (key.startsWith("/")) {
+                var saveLocation = path_1.default.join(fm_1.tmpFolder, key);
+                this.md5Cache[key] = "file://" + saveLocation;
+                // save cache on process exit
+                scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
+                    console.log(_this.cacheHash, "Saving cache to disk...");
+                    (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+                });
+            }
+        }
+        else {
+            this.md5Cache[key] = value;
+        }
         // save cache on process exit
-        scheduler_1.default.add("writeCacheFile", function () {
+        scheduler_1.default.add("writeCacheFile" + this.cacheHash, function () {
+            console.log(_this.cacheHash, "Saving cache to disk...");
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
@@ -154,6 +171,12 @@ var CacheFile = /** @class */ (function () {
         var Get = this.md5Cache[key];
         if (Get === undefined)
             return fallback;
+        if (typeof Get == "string") {
+            if (Get.startsWith("file://")) {
+                var loadLocation = (0, fm_1.readFile)(Get.replace("file://", ""));
+                return loadLocation;
+            }
+        }
         return Get;
     };
     CacheFile.prototype.getCache = function (key, fallback) {

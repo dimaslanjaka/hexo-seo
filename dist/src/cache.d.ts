@@ -43,6 +43,7 @@ export declare function resolveString(variable: any, encode?: boolean): void;
 export declare class CacheFile {
     md5Cache: Objek;
     dbFile: string;
+    cacheHash: string;
     constructor(hash?: any);
     static md5: (data: string) => string;
     setCache(key: string, value: any): void;
@@ -54,7 +55,7 @@ export declare class CacheFile {
      * @param fallback
      * @returns
      */
-    get<T extends keyof any>(key: string, fallback?: T): T;
+    get<T extends keyof any>(key: string, fallback?: any): T;
     getCache<T extends keyof any>(key: string, fallback?: T): T;
     /**
      * Check file is changed with md5 algorithm

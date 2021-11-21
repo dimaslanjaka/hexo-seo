@@ -3,7 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import { Objek } from "./utils";
 import { memoize } from "underscore";
-import { readFile, writeFile } from "./fm";
+import { readFile, tmpFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 
@@ -86,11 +86,13 @@ export function resolveString(variable: any, encode = false) {
 export class CacheFile {
   md5Cache: Objek = {};
   dbFile: string;
+  cacheHash = "";
   constructor(hash = null) {
     if (!hash) {
       const stack = new Error().stack.split("at")[2];
       hash = CacheFile.md5(stack);
     }
+    this.cacheHash = hash;
     this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
@@ -112,9 +114,23 @@ export class CacheFile {
     return this.set(key, value);
   }
   set(key: string, value: any) {
-    this.md5Cache[key] = value;
+    // if value is string, save to static file
+    if (typeof value === "string") {
+      if (key.startsWith("/")) {
+        const saveLocation = path.join(tmpFolder, key);
+        this.md5Cache[key] = "file://" + saveLocation;
+        // save cache on process exit
+        scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
+          console.log(this.cacheHash, "Saving cache to disk...", saveLocation);
+          writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+        });
+      }
+    } else {
+      this.md5Cache[key] = value;
+    }
     // save cache on process exit
-    scheduler.add("writeCacheFile", () => {
+    scheduler.add("writeCacheFile" + this.cacheHash, () => {
+      console.log(this.cacheHash, "Saving cache to disk...");
       writeFile(this.dbFile, JSON.stringify(this.md5Cache));
     });
   }
@@ -127,9 +143,15 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get<T extends keyof any>(key: string, fallback: T = null): T {
+  get(key: string, fallback = null) {
     const Get = this.md5Cache[key];
     if (Get === undefined) return fallback;
+    if (typeof Get == "string") {
+      if (Get.startsWith("file://")) {
+        const loadLocation = readFile(Get.replace("file://", "")).toString();
+        return loadLocation;
+      }
+    }
     return Get;
   }
   getCache<T extends keyof any>(key: string, fallback: T = null): T {
