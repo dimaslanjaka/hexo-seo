@@ -40,7 +40,7 @@ seo:
       - "**/*.min.css"
   # minify js
   js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification 
-    # If you want to customize the css minifier settings, you can put below
+    # If you want to customize the js minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.js"
