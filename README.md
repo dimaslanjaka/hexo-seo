@@ -44,16 +44,22 @@ sudo apt-get install libcurl4-openssl-dev -y
 rm -rf node_modules
 npm install node-libcurl --build-from-source
 ```
+
 - Fix javascript heap out of memory
 ```shell
 export NODE_OPTIONS=--max_old_space_size=8096
+```
+
+- **important** after you update this plugin, you could cleaning the temp folders with:
+```shell
+hexo clean # this will cleaning temporarily folders of this plugin
 ```
 
 # Website using Hexo NodeJS Blogging System
 
 [![Build And Tests](https://github.com/dimaslanjaka/dimaslanjaka.github.io/actions/workflows/page.yml/badge.svg?branch=compiler)](https://github.com/dimaslanjaka/dimaslanjaka.github.io/actions/workflows/page.yml)
 [![GitHub](https://badgen.net/badge/icon/github?icon=github&label&style=flat-square)](https://github.com/dimaslanjaka/dimaslanjaka.github.io/tree/compiler)
-[![webmanajemen.com](https://img.shields.io/website.svg?down_color=red&down_message=down&style=flat-square&up_color=green&up_message=up&label=webmanajemen.com&cacheSeconds=999&url=http%3A%2F%2Fwebmanajemen.com)](https://webmanajemen.com) 
+[![webmanajemen.com](https://img.shields.io/website.svg?down_color=red&down_message=down&style=flat-square&up_color=green&up_message=up&label=webmanajemen.com&cacheSeconds=999&url=http%3A%2F%2Fwebmanajemen.com)](https://webmanajemen.com)
 
 ## hexo-adsense
 [![npm version](https://badge.fury.io/js/hexo-adsense.svg?style=flat-square)](https://badge.fury.io/js/hexo-adsense)
