@@ -44,6 +44,14 @@ seo:
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.js"
+    # this is terser options, you can customize minifier with terser options https://github.com/terser/terser
+    # below is config example
+    options:
+      compress:
+        dead_code: true
+      mangle:
+        toplevel: true
+        safari10: true
   # add rich snippets on every posts and pages
   schema: true
   img: # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
