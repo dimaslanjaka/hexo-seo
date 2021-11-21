@@ -30,6 +30,7 @@ var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
+var fs_1 = require("fs");
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -140,7 +141,7 @@ var CacheFile = /** @class */ (function () {
         if (typeof value === "string") {
             if (key.startsWith("/")) {
                 var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
-                this.md5Cache[key + "-file"] = value;
+                this.md5Cache[key + "-fileCache"] = value;
                 this.md5Cache[key] = "file://" + saveLocation_1;
                 // save cache on process exit
                 scheduler_1.default.add("writeStaticCacheFile" + this.cacheHash, function () {
@@ -154,6 +155,12 @@ var CacheFile = /** @class */ (function () {
             this.md5Cache[key] = value;
             // save cache on process exit
             scheduler_1.default.add("writeCacheFile" + this.cacheHash, function () {
+                // delete keys with suffix -fileCache
+                for (var k in _this.md5Cache) {
+                    if (k.endsWith("-fileCache")) {
+                        delete _this.md5Cache[k];
+                    }
+                }
                 console.log(_this.cacheHash, "Saving cache to disk...");
                 (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
             });
@@ -175,10 +182,19 @@ var CacheFile = /** @class */ (function () {
             return fallback;
         if (typeof Get == "string") {
             if (Get.startsWith("file://")) {
-                if (typeof this.md5Cache[key + "-file"] != "undefined")
-                    return this.md5Cache[key + "-file"];
-                var loadLocation = (0, fm_1.readFile)(Get.replace("file://", "")).toString();
-                return loadLocation;
+                var loadLocation = Get.replace("file://", "");
+                // if cache content exists, return it. Otherwise, read, bind and return it
+                if (typeof this.md5Cache[key + "-fileCache"] != "undefined") {
+                    return this.md5Cache[key + "-fileCache"];
+                }
+                if ((0, fs_1.existsSync)(loadLocation)) {
+                    var loadContent = (0, fm_1.readFile)(loadLocation).toString();
+                    this.md5Cache[key + "-fileCache"] = loadContent;
+                    return loadContent;
+                }
+                else {
+                    throw new Error("cache " + loadLocation + " not found");
+                }
             }
         }
         return Get;

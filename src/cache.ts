@@ -6,6 +6,7 @@ import { memoize } from "underscore";
 import { readFile, tmpFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
+import { existsSync } from "fs";
 
 /**
  * @summary IN MEMORY CACHE
@@ -122,7 +123,7 @@ export class CacheFile {
           CacheFile.md5(key),
           path.basename(key)
         );
-        this.md5Cache[key + "-file"] = value;
+        this.md5Cache[key + "-fileCache"] = value;
         this.md5Cache[key] = "file://" + saveLocation;
         // save cache on process exit
         scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
@@ -135,6 +136,12 @@ export class CacheFile {
       this.md5Cache[key] = value;
       // save cache on process exit
       scheduler.add("writeCacheFile" + this.cacheHash, () => {
+        // delete keys with suffix -fileCache
+        for (const k in this.md5Cache) {
+          if (k.endsWith("-fileCache")) {
+            delete this.md5Cache[k];
+          }
+        }
         console.log(this.cacheHash, "Saving cache to disk...");
         writeFile(this.dbFile, JSON.stringify(this.md5Cache));
       });
@@ -154,10 +161,18 @@ export class CacheFile {
     if (Get === undefined) return fallback;
     if (typeof Get == "string") {
       if (Get.startsWith("file://")) {
-        if (typeof this.md5Cache[key + "-file"] != "undefined")
-          return this.md5Cache[key + "-file"];
-        const loadLocation = readFile(Get.replace("file://", "")).toString();
-        return loadLocation;
+        const loadLocation = Get.replace("file://", "");
+        // if cache content exists, return it. Otherwise, read, bind and return it
+        if (typeof this.md5Cache[key + "-fileCache"] != "undefined") {
+          return this.md5Cache[key + "-fileCache"];
+        }
+        if (existsSync(loadLocation)) {
+          const loadContent = readFile(loadLocation).toString();
+          this.md5Cache[key + "-fileCache"] = loadContent;
+          return loadContent;
+        } else {
+          throw new Error("cache " + loadLocation + " not found");
+        }
       }
     }
     return Get;
