@@ -13,6 +13,8 @@ var dom_1 = require("./dom");
 var string_1 = require("../utils/string");
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
+var log_1 = __importDefault(require("../log"));
+var package_json_1 = __importDefault(require("../../package.json"));
 var cache = new cache_1.CacheFile("schema");
 function default_1(content, data) {
     (0, cache_1.releaseMemory)();
@@ -37,6 +39,7 @@ function default_1(content, data) {
         (0, utils_1.dump)("dump-this.txt", (0, utils_1.extractSimplePageData)(this));
     }
     if (!cache.isFileChanged(path0)) {
+        log_1.default.log("%s(Schema) cached %s", package_json_1.default.name, path0);
         return cache.getCache(path0, null);
     }
     var Schema = new article_1.default({ pretty: __1.isDev, hexo: this });

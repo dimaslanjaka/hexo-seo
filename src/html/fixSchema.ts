@@ -9,6 +9,8 @@ import { getTextPartialHtml, _JSDOM } from "./dom";
 import { trimText } from "../utils/string";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
+import logger from "../log";
+import pkg from "../../package.json";
 
 const cache = new CacheFile("schema");
 
@@ -37,6 +39,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   }
 
   if (!cache.isFileChanged(path0)) {
+    logger.log("%s(Schema) cached %s", pkg.name, path0);
     return cache.getCache(path0, null);
   }
   const Schema = new schemaArticles({ pretty: isDev, hexo: this });
