@@ -28,7 +28,7 @@ npm i hexo-seo
 seo:
   html:
     # fix invalid html
-    fix: false
+    fix: true
     # exclude from minify
     exclude:
       - "*.min.{htm,html}"
