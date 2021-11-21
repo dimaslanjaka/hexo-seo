@@ -4,6 +4,6 @@ exports.trimText = void 0;
 function trimText(content) {
     if (typeof content === "string")
         return content.trim();
-    console.log(content, typeof content);
+    console.log("trimText", content, typeof content);
 }
 exports.trimText = trimText;

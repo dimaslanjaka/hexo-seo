@@ -142,7 +142,9 @@ export class CacheFile {
    */
   isFileChanged(path0: string): boolean {
     if (typeof path0 != "string") {
-      console.log(typeof path0, path0);
+      const stack = new Error().stack.split("at: ");
+      console.log(stack);
+      //console.log("", typeof path0, path0);
       return true;
     }
     // get md5 hash from path0

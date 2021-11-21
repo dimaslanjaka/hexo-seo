@@ -167,7 +167,9 @@ var CacheFile = /** @class */ (function () {
      */
     CacheFile.prototype.isFileChanged = function (path0) {
         if (typeof path0 != "string") {
-            console.log(typeof path0, path0);
+            var stack = new Error().stack.split("at: ");
+            console.log(stack);
+            //console.log("", typeof path0, path0);
             return true;
         }
         // get md5 hash from path0

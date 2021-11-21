@@ -119,17 +119,3 @@ export const usingJSDOM = function (
   content = cF.get(path0, "");
   return content;
 };
-
-export const usingJQuery = function (
-  this: Hexo,
-  content: string,
-  data: HexoSeo
-) {
-  const htmlDOM = new JSDOM(content);
-  const $ = jQuery(htmlDOM.window);
-  const page = data.page ? data.page.full_source : null;
-  const path0 = page ? page : data.path;
-  console.log($.html());
-
-  return content;
-};

@@ -1,4 +1,4 @@
 export function trimText(content: string) {
   if (typeof content === "string") return content.trim();
-  console.log(content, typeof content);
+  console.log("trimText", content, typeof content);
 }

@@ -58,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usingJQuery = exports.usingJSDOM = exports.usingCheerio = void 0;
+exports.usingJSDOM = exports.usingCheerio = void 0;
 var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
@@ -67,7 +67,6 @@ var utils_1 = require("../utils");
 var cache_1 = __importStar(require("../cache"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var jsdom_1 = require("jsdom");
-var jquery_1 = __importDefault(require("jquery"));
 var cache = new cache_1.default();
 var usingCheerio = function (content, data) {
     return __awaiter(this, void 0, void 0, function () {
@@ -168,12 +167,3 @@ var usingJSDOM = function (content, data) {
     return content;
 };
 exports.usingJSDOM = usingJSDOM;
-var usingJQuery = function (content, data) {
-    var htmlDOM = new jsdom_1.JSDOM(content);
-    var $ = (0, jquery_1.default)(htmlDOM.window);
-    var page = data.page ? data.page.full_source : null;
-    var path0 = page ? page : data.path;
-    console.log($.html());
-    return content;
-};
-exports.usingJQuery = usingJQuery;
