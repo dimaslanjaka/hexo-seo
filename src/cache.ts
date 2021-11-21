@@ -5,6 +5,7 @@ import { Objek } from "./utils";
 import { memoize } from "underscore";
 import { readFile, writeFile } from "./fm";
 import logger from "./log";
+import scheduler from "./scheduler";
 
 /**
  * @summary IN MEMORY CACHE
@@ -113,7 +114,9 @@ export class CacheFile {
   set(key: string, value: any) {
     this.md5Cache[key] = value;
     // save cache on process exit
-    writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    scheduler.add("writeCacheFile", () => {
+      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+    });
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;

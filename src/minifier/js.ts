@@ -4,7 +4,7 @@ import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
 import assign from "object-assign";
-import getConfig, { defaultSeoOptions } from "../config";
+import getConfig from "../config";
 import { isIgnore } from "../utils";
 
 export interface jsMinifyOptions {

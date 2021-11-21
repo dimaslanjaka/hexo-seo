@@ -29,6 +29,7 @@ var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
+var scheduler_1 = __importDefault(require("./scheduler"));
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -132,9 +133,12 @@ var CacheFile = /** @class */ (function () {
         return this.set(key, value);
     };
     CacheFile.prototype.set = function (key, value) {
+        var _this = this;
         this.md5Cache[key] = value;
         // save cache on process exit
-        (0, fm_1.writeFile)(this.dbFile, JSON.stringify(this.md5Cache));
+        scheduler_1.default.add("writeCacheFile", function () {
+            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+        });
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;

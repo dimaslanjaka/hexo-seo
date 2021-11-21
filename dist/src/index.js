@@ -14,6 +14,7 @@ var fixSchema_1 = __importDefault(require("./html/fixSchema"));
 var fixInvalid_1 = __importDefault(require("./html/fixInvalid"));
 var rimraf_1 = __importDefault(require("rimraf"));
 var fm_1 = require("./fm");
+var scheduler_1 = __importDefault(require("./scheduler"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -62,6 +63,9 @@ function default_1(hexo) {
     hexo.extend.filter.register("after_render:html", fixInvalid_1.default);
     // minify html
     //hexo.extend.filter.register("after_generate", minHtml);
+    hexo.on("exit", function (post) {
+        scheduler_1.default.executeAll();
+    });
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo
     /*hexo.extend.filter.register("server_middleware", function (app) {

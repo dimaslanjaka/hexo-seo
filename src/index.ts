@@ -13,6 +13,7 @@ import fixInvalid from "./html/fixInvalid";
 import minHtml from "./minifier/html";
 import rimraf from "rimraf";
 import { buildFolder, tmpFolder } from "./fm";
+import scheduler from "./scheduler";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -70,6 +71,10 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:html", fixInvalid);
   // minify html
   //hexo.extend.filter.register("after_generate", minHtml);
+
+  hexo.on("exit", function (post) {
+    scheduler.executeAll();
+  });
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo
