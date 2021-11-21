@@ -144,7 +144,15 @@ var CacheFile = /** @class */ (function () {
             if (!key) {
                 key = CacheFile.md5(value);
             }
-            var saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
+            var saveLocation_1;
+            if (key.startsWith("/")) {
+                saveLocation_1 = path_1.default.join(fm_1.tmpFolder, 
+                // pick the dirname to make sure all files in one group
+                CacheFile.md5(path_1.default.dirname(key)), path_1.default.basename(key));
+            }
+            else {
+                saveLocation_1 = path_1.default.join(fm_1.tmpFolder, CacheFile.md5(key), path_1.default.basename(key));
+            }
             this.md5Cache[key + "-fileCache"] = value;
             this.md5Cache[key] = "file://" + saveLocation_1;
             // save cache on process exit

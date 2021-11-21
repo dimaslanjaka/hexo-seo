@@ -122,11 +122,21 @@ export class CacheFile {
       if (!key) {
         key = CacheFile.md5(value);
       }
-      const saveLocation = path.join(
-        tmpFolder,
-        CacheFile.md5(key),
-        path.basename(key)
-      );
+      let saveLocation;
+      if (key.startsWith("/")) {
+        saveLocation = path.join(
+          tmpFolder,
+          // pick the dirname to make sure all files in one group
+          CacheFile.md5(path.dirname(key)),
+          path.basename(key)
+        );
+      } else {
+        saveLocation = path.join(
+          tmpFolder,
+          CacheFile.md5(key),
+          path.basename(key)
+        );
+      }
       this.md5Cache[key + "-fileCache"] = value;
       this.md5Cache[key] = "file://" + saveLocation;
       // save cache on process exit
