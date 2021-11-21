@@ -22,6 +22,57 @@ npm i hexo-seo
 - Auto add alternate and title of images
 
 # Usage
+**Configuration**
+```yaml
+# https://github.com/dimaslanjaka/hexo-seo
+seo:
+  html:
+    # fix invalid html
+    fix: false
+    # exclude from minify
+    exclude:
+      - "*.min.{htm,html}"
+  # minify css
+  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable css minification  
+    # If you want to customize the css minifier settings, you can put below
+    # exclude css from minifying, multiple supported
+    exclude:
+      - "**/*.min.css"
+  # minify js
+  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification 
+    # If you want to customize the js minifier settings, you can put below
+    # exclude css from minifying, multiple supported
+    exclude:
+      - "**/*.min.js"
+    # this is terser options, you can customize minifier with terser options https://github.com/terser/terser
+    # below is config example
+    options:
+      compress:
+        dead_code: true
+      mangle:
+        toplevel: true
+        safari10: true
+  # add rich snippets on every posts and pages
+  schema: true
+  img: # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
+    # fix broken images
+    broken: false
+    # default broken images
+    default: https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg
+    # broken images methods
+    # serverside : process broken images from server side (caused javascript heap out of memory, if your post large and your device has insufficient memory)
+    # clientside : process broken image from client side browser with webjs
+    onerror: serverside
+  # external links fix
+  links:
+    # enable or false
+    enable: true
+    # allowed following links, otherwise nofollow others
+    exclude:
+      - webmanajemen.com
+      - web-manajemen.blogspot.com
+      - dimaslanjaka.github.io
+```
 > this plugin will run the functions based on development mode or production mode
 
 **development mode**
