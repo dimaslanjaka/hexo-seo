@@ -33,16 +33,20 @@ seo:
     exclude:
       - "*.min.{htm,html}"
   # minify css
-  css: # true, you can only put `true` to minifying with default configurations
+  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable minification css
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.css"
   # minify js
-  js: true
+  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable minification css
+    # If you want to customize the css minifier settings, you can put below
+    # exclude css from minifying, multiple supported
+    exclude:
+      - "**/*.min.js"
   # add rich snippets on every posts and pages
   schema: true
-  img:
+  img: # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
     # fix broken images
     broken: false
     # default broken images
