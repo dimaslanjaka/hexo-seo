@@ -7,10 +7,6 @@ import seoJs from "./minifier/js";
 import seoCss from "./minifier/css";
 import minimist from "minimist";
 import getConfig from "./config";
-import fixSchema from "./html/fixSchema";
-import fixHyperlinks from "./html/hyperlink";
-import { usingJSDOM } from "./img/fixAttributes";
-import minHtml from "./minifier/html";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -47,9 +43,9 @@ export default function (hexo: Hexo) {
   // minify css
   hexo.extend.filter.register("after_render:css", seoCss);
   // fix external link
-  hexo.extend.filter.register("after_render:html", fixHyperlinks);
+  //hexo.extend.filter.register("after_render:html", fixHyperlinks);
   // fix image attributes
-  hexo.extend.filter.register("after_render:html", usingJSDOM);
+  //hexo.extend.filter.register("after_render:html", usingJSDOM);
   // fix schema meta
   //hexo.extend.filter.register("after_render:html", fixSchema);
   // minify html on production mode

@@ -20,7 +20,7 @@
     "**/.git/**"
   ],
   "include": [
-    "src/**/*",
+    "src/index.ts",
     "source/**/*"
   ]
 }
