@@ -94,7 +94,7 @@ export class CacheFile {
   constructor(hash = null) {
     if (!hash) {
       const stack = new Error().stack.split("at")[2];
-      hash = CacheFile.md5(stack);
+      hash = md5(stack);
     }
     this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
@@ -110,9 +110,6 @@ export class CacheFile {
       this.md5Cache = db;
     }
   }
-  static md5 = memoize((data: string): string => {
-    return crypto.createHash("md5").update(data).digest("hex");
-  });
   setCache(key: string, value: any) {
     return this.set(key, value);
   }

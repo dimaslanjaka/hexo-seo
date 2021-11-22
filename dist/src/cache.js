@@ -119,7 +119,7 @@ var CacheFile = /** @class */ (function () {
         this.md5Cache = {};
         if (!hash) {
             var stack = new Error().stack.split("at")[2];
-            hash = CacheFile.md5(stack);
+            hash = (0, exports.md5)(stack);
         }
         this.dbFile = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
@@ -188,9 +188,6 @@ var CacheFile = /** @class */ (function () {
         }
         return result;
     };
-    CacheFile.md5 = (0, underscore_1.memoize)(function (data) {
-        return crypto_1.default.createHash("md5").update(data).digest("hex");
-    });
     return CacheFile;
 }());
 exports.CacheFile = CacheFile;
