@@ -133,9 +133,9 @@ function fixSchema(content, data) {
     if (body)
         Schema.setArticleBody(body
             .trim()
-            .replace(/"([^"]+(?="))"/g, "$1")
             //.replace(/['“"{}\\”]+/gm, "")
-            .replace(/https?:\/\//gm, "//"));
+            .replace(/https?:\/\//gm, "//")
+            .toHtmlEntities());
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {

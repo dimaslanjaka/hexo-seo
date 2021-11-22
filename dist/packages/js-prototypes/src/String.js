@@ -135,3 +135,15 @@ String.prototype.replaceArr = function (array, replacement) {
     });
     return ori;
 };
+String.prototype.toHtmlEntities = function () {
+    return this.replace(/./gm, function (s) {
+        // return "&#" + s.charCodeAt(0) + ";";
+        return s.match(/[a-z0-9\s]+/i) ? s : "&#" + s.charCodeAt(0) + ";";
+    });
+};
+String.fromHtmlEntities = function (string) {
+    return (string + "").replace(/&#\d+;/gm, function (s) {
+        var m = s.match(/\d+/gm)[0];
+        return String.fromCharCode(m);
+    });
+};

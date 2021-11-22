@@ -10,7 +10,7 @@ var utils_1 = require("../utils");
 var cache_1 = require("../cache");
 var package_json_1 = __importDefault(require("../../package.json"));
 var jsdom_1 = require("jsdom");
-var cF = new cache_1.CacheFile();
+var cF = new cache_1.CacheFile("img-attr");
 function fixAttributes(content, data) {
     (0, cache_1.releaseMemory)();
     var is = (0, hexo_is_1.default)(data);

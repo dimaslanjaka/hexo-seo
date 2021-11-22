@@ -8,7 +8,7 @@ import { CacheFile, releaseMemory } from "../cache";
 import pkg from "../../package.json";
 import { JSDOM } from "jsdom";
 
-const cF = new CacheFile();
+const cF = new CacheFile("img-attr");
 
 function fixAttributes(this: Hexo, content: string, data: HexoSeo) {
   releaseMemory();

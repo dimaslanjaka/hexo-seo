@@ -131,9 +131,9 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
     Schema.setArticleBody(
       body
         .trim()
-        .replace(/"([^"]+(?="))"/g, "$1")
         //.replace(/['“"{}\\”]+/gm, "")
         .replace(/https?:\/\//gm, "//")
+        .toHtmlEntities()
     );
 
   // prepare breadcrumbs
