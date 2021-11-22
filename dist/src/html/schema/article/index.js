@@ -39,20 +39,20 @@ var mainSchema = {
                 {
                     "@type": "ListItem",
                     position: 1,
-                    name: "Books",
-                    item: "https://example.com/books"
+                    name: "Homepage",
+                    item: "https://webmanajemen.com"
                 },
                 {
                     "@type": "ListItem",
                     position: 2,
-                    name: "Authors",
-                    item: "https://example.com/books/authors"
+                    name: "Tags",
+                    item: "https://webmanajemen.com/tags"
                 },
                 {
                     "@type": "ListItem",
                     position: 3,
-                    name: "Ann Leckie",
-                    item: "https://example.com/books/authors/annleckie"
+                    name: "category",
+                    item: "https://webmanajemen.com/categories"
                 }
             ]
         }

@@ -11,6 +11,7 @@ import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
 import fixBrokenImg from "../img/broken.static";
 import logger from "../log";
+import bluebird from "bluebird";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {
