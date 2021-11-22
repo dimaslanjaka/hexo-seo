@@ -164,7 +164,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
   // to reduce javascript head memories
-  const mode = "regex";
+  const mode: "regex" | "jsdom" = "regex";
   if (mode != "regex") {
     const dom = new _JSDOM(content);
     dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
@@ -177,7 +177,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       content = document.documentElement.outerHTML;
     }
   } else {
-    content = content.replace("</head>", schemahtml);
+    content = content.replace("</head>", schemahtml + "</head>");
   }
   cache.set(path0, content);
   return content;

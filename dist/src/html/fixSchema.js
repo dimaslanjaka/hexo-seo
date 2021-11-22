@@ -169,7 +169,7 @@ function default_1(content, data) {
         }
     }
     else {
-        content = content.replace("</head>", schemahtml);
+        content = content.replace("</head>", schemahtml + "</head>");
     }
     cache.set(path0, content);
     return content;
