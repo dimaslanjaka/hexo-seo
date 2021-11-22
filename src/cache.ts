@@ -96,7 +96,7 @@ export class CacheFile {
       const stack = new Error().stack.split("at")[2];
       hash = md5(stack);
     }
-    this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
+    this.dbFile = path.join(buildFolder, "db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
       try {
