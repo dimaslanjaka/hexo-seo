@@ -10,12 +10,12 @@ export default async function (
   HSconfig: imgOptions,
   data: HexoSeo
 ) {
-  const images = dom.document.querySelectorAll("img[src]");
+  const images = dom.document.querySelectorAll("img");
   for (let index = 0; index < images.length; index++) {
     const img = images.item(index);
     const src = img.getAttribute("src");
     if (src) {
-      if (/^https?:\/\//.test(src)) {
+      if (/^https?:\/\//.test(src) && src.length > 0) {
         const check = await checkBrokenImg(src);
         if (typeof check == "object" && !check.success) {
           logger.log("%s(IMG:broken) fixing %s", pkg.name, src);

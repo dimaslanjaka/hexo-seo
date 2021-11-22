@@ -21,7 +21,8 @@ const checkUrl = async function (url: string | URL) {
       return false;
     }
   }
-  return cache.get(url.toString())[0] as boolean;
+
+  return cache.get(url.toString(), [false, null, null, null])[0] as boolean;
 };
 
 export default checkUrl;

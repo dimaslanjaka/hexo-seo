@@ -130,12 +130,12 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get<T extends keyof any>(key: string, fallback: T = null): T {
+  get(key: string, fallback = null) {
     const Get = this.md5Cache[key];
     if (Get === undefined) return fallback;
     return Get;
   }
-  getCache<T extends keyof any>(key: string, fallback: T = null): T {
+  getCache(key: string, fallback = null) {
     return this.get(key, fallback);
   }
   /**

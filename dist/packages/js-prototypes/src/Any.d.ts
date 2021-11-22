@@ -1,2 +1,2 @@
 /// <reference types="node" />
-declare type anyOf = keyof any | Buffer | string | object | symbol | Record<string, any> | (() => any);
+declare type anyOf = Buffer & string & object & symbol & null & undefined & Record<string, any> & (() => any) & boolean & boolean[] & keyof [false];

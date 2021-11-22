@@ -51,8 +51,8 @@ export declare class CacheFile {
      * @param fallback
      * @returns
      */
-    get<T extends keyof any>(key: string, fallback?: T): T;
-    getCache<T extends keyof any>(key: string, fallback?: T): T;
+    get(key: string, fallback?: any): any;
+    getCache(key: string, fallback?: any): any;
     /**
      * Check file is changed with md5 algorithm
      * @param path0

@@ -48,7 +48,7 @@ function default_1(dom, HSconfig, data) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    images = dom.document.querySelectorAll("img[src]");
+                    images = dom.document.querySelectorAll("img");
                     index = 0;
                     _a.label = 1;
                 case 1:
@@ -56,7 +56,7 @@ function default_1(dom, HSconfig, data) {
                     img = images.item(index);
                     src = img.getAttribute("src");
                     if (!src) return [3 /*break*/, 3];
-                    if (!/^https?:\/\//.test(src)) return [3 /*break*/, 3];
+                    if (!(/^https?:\/\//.test(src) && src.length > 0)) return [3 /*break*/, 3];
                     return [4 /*yield*/, (0, broken_1.checkBrokenImg)(src)];
                 case 2:
                     check = _a.sent();

@@ -63,7 +63,7 @@ var checkUrl = function (url) {
                 case 3:
                     e_1 = _b.sent();
                     return [2 /*return*/, false];
-                case 4: return [2 /*return*/, cache.get(url.toString())[0]];
+                case 4: return [2 /*return*/, cache.get(url.toString(), [false, null, null, null])[0]];
             }
         });
     });
