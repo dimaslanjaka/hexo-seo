@@ -14,7 +14,8 @@ var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
 var cache = new cache_1.CacheFile("index");
 function default_1(content, data) {
-    if (cache.isFileChanged((0, cache_1.md5)(content))) {
+    var path0 = data.page ? data.page.full_source : data.path;
+    if (cache.isFileChanged((0, cache_1.md5)(path0))) {
         var dom = new dom_1._JSDOM(content);
         var cfg = (0, config_1.default)(this);
         (0, fixHyperlinks_static_1.default)(dom, cfg.links, data);
@@ -27,7 +28,10 @@ function default_1(content, data) {
         else {
             content = dom.toString();
         }
-        cache.set((0, cache_1.md5)(content), content);
+        cache.set((0, cache_1.md5)(path0), content);
+    }
+    else {
+        content = cache.getCache((0, cache_1.md5)(path0));
     }
     //content = fixAttributes.bind(this)(content, data);
     //content = fixHyperlinks.bind(this)(content, data);

@@ -147,16 +147,20 @@ export class CacheFile {
       //console.log("", typeof path0, path0);
       return true;
     }
-    // get md5 hash from path0
-    const pathMd5 = md5FileSync(path0);
-    // get index hash
-    const savedMd5 = this.md5Cache[path0 + "-hash"];
-    const result = savedMd5 != pathMd5;
-    if (result) {
-      // set, if file hash is not found
-      this.md5Cache[path0 + "-hash"] = pathMd5;
+    try {
+      // get md5 hash from path0
+      const pathMd5 = md5FileSync(path0);
+      // get index hash
+      const savedMd5 = this.md5Cache[path0 + "-hash"];
+      const result = savedMd5 != pathMd5;
+      if (result) {
+        // set, if file hash is not found
+        this.md5Cache[path0 + "-hash"] = pathMd5;
+      }
+      return result;
+    } catch (e) {
+      return true;
     }
-    return result;
   }
 }
 

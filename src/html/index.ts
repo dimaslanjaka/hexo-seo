@@ -12,7 +12,8 @@ import { CacheFile, md5 } from "../cache";
 
 const cache = new CacheFile("index");
 export default function (this: Hexo, content: string, data: HexoSeo) {
-  if (cache.isFileChanged(md5(content))) {
+  const path0 = data.page ? data.page.full_source : data.path;
+  if (cache.isFileChanged(md5(path0))) {
     const dom = new _JSDOM(content);
     const cfg = getConfig(this);
     fixHyperlinksStatic(dom, cfg.links, data);
@@ -24,7 +25,9 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     } else {
       content = dom.toString();
     }
-    cache.set(md5(content), content);
+    cache.set(md5(path0), content);
+  } else {
+    content = cache.getCache(md5(path0));
   }
 
   //content = fixAttributes.bind(this)(content, data);

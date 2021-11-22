@@ -177,16 +177,21 @@ var CacheFile = /** @class */ (function () {
             //console.log("", typeof path0, path0);
             return true;
         }
-        // get md5 hash from path0
-        var pathMd5 = (0, md5_file_1.sync)(path0);
-        // get index hash
-        var savedMd5 = this.md5Cache[path0 + "-hash"];
-        var result = savedMd5 != pathMd5;
-        if (result) {
-            // set, if file hash is not found
-            this.md5Cache[path0 + "-hash"] = pathMd5;
+        try {
+            // get md5 hash from path0
+            var pathMd5 = (0, md5_file_1.sync)(path0);
+            // get index hash
+            var savedMd5 = this.md5Cache[path0 + "-hash"];
+            var result = savedMd5 != pathMd5;
+            if (result) {
+                // set, if file hash is not found
+                this.md5Cache[path0 + "-hash"] = pathMd5;
+            }
+            return result;
         }
-        return result;
+        catch (e) {
+            return true;
+        }
     };
     return CacheFile;
 }());
