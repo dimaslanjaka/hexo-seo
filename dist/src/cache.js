@@ -161,7 +161,8 @@ var CacheFile = /** @class */ (function () {
         this.md5Cache[key] = saveLocation;
         var dbLocation = path_1.default.join(this.dbFile);
         var db = this.md5Cache;
-        scheduler_1.default.postpone("save-" + key, function () {
+        //dump("cache-" + this.cacheHash, db);
+        scheduler_1.default.postpone("save-" + this.cacheHash, function () {
             console.log("saving caches...", saveLocation);
             (0, fm_1.writeFile)(saveLocation, value);
             (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
@@ -213,12 +214,14 @@ var CacheFile = /** @class */ (function () {
         var pathMd5 = (0, md5_file_1.sync)(path0);
         // get index hash
         var savedMd5 = this.md5Cache[path0 + "-hash"];
-        var result = savedMd5 != pathMd5;
-        if (!result) {
+        var isChanged = savedMd5 !== pathMd5;
+        //console.log(savedMd5, pathMd5, result);
+        if (isChanged) {
+            //console.log("set md5 cache");
             // set, if file hash is not found
             this.md5Cache[path0 + "-hash"] = pathMd5;
         }
-        return result;
+        return isChanged;
     };
     return CacheFile;
 }());

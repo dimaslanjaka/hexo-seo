@@ -1,7 +1,7 @@
 import md5File, { sync as md5FileSync } from "md5-file";
 import path from "path";
 import crypto from "crypto";
-import { Objek } from "./utils";
+import { dump, Objek } from "./utils";
 import { memoize } from "underscore";
 import { readFile, buildFolder, writeFile } from "./fm";
 import logger from "./log";
@@ -140,7 +140,8 @@ export class CacheFile {
     this.md5Cache[key] = saveLocation;
     const dbLocation = path.join(this.dbFile);
     const db = this.md5Cache;
-    scheduler.postpone("save-" + key, function () {
+    //dump("cache-" + this.cacheHash, db);
+    scheduler.postpone("save-" + this.cacheHash, function () {
       console.log("saving caches...", saveLocation);
       writeFile(saveLocation, value);
       writeFile(dbLocation, JSON.stringify(db, null, 2));
@@ -189,12 +190,14 @@ export class CacheFile {
     const pathMd5 = md5FileSync(path0);
     // get index hash
     const savedMd5 = this.md5Cache[path0 + "-hash"];
-    const result = savedMd5 != pathMd5;
-    if (!result) {
+    const isChanged = savedMd5 !== pathMd5;
+    //console.log(savedMd5, pathMd5, result);
+    if (isChanged) {
+      //console.log("set md5 cache");
       // set, if file hash is not found
       this.md5Cache[path0 + "-hash"] = pathMd5;
     }
-    return result;
+    return isChanged;
   }
 }
 
