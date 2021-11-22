@@ -15,8 +15,6 @@ const md5 = memoize((data: string): string => {
   return crypto.createHash("md5").update(data).digest("hex");
 });
 
-logger.prepend(chalk.magentaBright("cache"));
-
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM

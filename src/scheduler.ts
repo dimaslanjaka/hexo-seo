@@ -3,7 +3,6 @@
 
 import chalk from "chalk";
 import logger from "./log";
-logger.prepend(chalk.cyanBright("scheduler"));
 
 const functions: { [key: string]: () => any }[] = [];
 class scheduler {

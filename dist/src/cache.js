@@ -33,12 +33,10 @@ var scheduler_1 = __importDefault(require("./scheduler"));
 var node_cache_1 = __importDefault(require("node-cache"));
 var fs_1 = require("fs");
 require("../packages/js-prototypes/src/Any");
-var chalk_1 = __importDefault(require("chalk"));
 var myCache = new node_cache_1.default({ stdTTL: 500, checkperiod: 520 });
 var md5 = (0, underscore_1.memoize)(function (data) {
     return crypto_1.default.createHash("md5").update(data).digest("hex");
 });
-log_1.default.prepend(chalk_1.default.magentaBright("cache"));
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
