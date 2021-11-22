@@ -10,9 +10,17 @@ import fixHyperlinksStatic from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
 
+export function getPath(data: HexoSeo) {
+  if (data.page) {
+    if (data.page.full_source) return data.page.full_source;
+    if (data.page.path) return data.page.path;
+  }
+  if (data.path) return data.path;
+}
+
 const cache = new CacheFile("index");
 export default function (this: Hexo, content: string, data: HexoSeo) {
-  const path0 = data.page ? data.page.full_source : data.path;
+  const path0 = getPath(data) ? getPath(data) : content;
   if (cache.isFileChanged(md5(path0))) {
     const dom = new _JSDOM(content);
     const cfg = getConfig(this);

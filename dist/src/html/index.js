@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPath = void 0;
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
@@ -12,9 +13,20 @@ var dom_1 = require("./dom");
 var fixHyperlinks_static_1 = __importDefault(require("./fixHyperlinks.static"));
 var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
+function getPath(data) {
+    if (data.page) {
+        if (data.page.full_source)
+            return data.page.full_source;
+        if (data.page.path)
+            return data.page.path;
+    }
+    if (data.path)
+        return data.path;
+}
+exports.getPath = getPath;
 var cache = new cache_1.CacheFile("index");
 function default_1(content, data) {
-    var path0 = data.page ? data.page.full_source : data.path;
+    var path0 = getPath(data) ? getPath(data) : content;
     if (cache.isFileChanged((0, cache_1.md5)(path0))) {
         var dom = new dom_1._JSDOM(content);
         var cfg = (0, config_1.default)(this);
