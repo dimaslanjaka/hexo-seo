@@ -8,7 +8,7 @@ import seoCss from "./minifier/css";
 import minimist from "minimist";
 import rimraf from "rimraf";
 import pkg from "../package.json";
-import { tmpFolder } from "./fm";
+import { buildFolder, tmpFolder } from "./fm";
 import htmlIndex from "./html/index";
 import bindProcessExit from "./utils/cleanup";
 import scheduler from "./scheduler";
@@ -65,7 +65,7 @@ export default function (hexo: Hexo) {
         console.log("cleaned", tmpFolder);
       }
     });
-    //rimraf.sync(buildFolder);
+    rimraf.sync(buildFolder);
     return;
   }
   // execute scheduled functions before process exit

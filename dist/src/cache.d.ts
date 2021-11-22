@@ -1,5 +1,6 @@
 import { Objek } from "./utils";
 import "../packages/js-prototypes/src/Any";
+export declare const md5: (data: string) => string;
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -38,6 +39,33 @@ export declare function resolveString(variable: any, encode?: boolean): void;
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export declare class CacheFile {
+    md5Cache: Objek;
+    dbFile: string;
+    constructor(hash?: any);
+    static md5: (data: string) => string;
+    setCache(key: string, value: any): void;
+    set(key: string, value: any): void;
+    has(key: string): boolean;
+    /**
+     * Get cache by key
+     * @param key
+     * @param fallback
+     * @returns
+     */
+    get<T extends keyof any>(key: string, fallback?: T): T;
+    getCache<T extends keyof any>(key: string, fallback?: T): T;
+    /**
+     * Check file is changed with md5 algorithm
+     * @param path0
+     * @returns
+     */
+    isFileChanged(path0: string): boolean;
+}
+/**
+ * @summary IN FILE CACHE.
+ * @description Save cache to file (not in-memory), cache will be restored on next process restart.
+ */
+export declare class CacheFile2 {
     md5Cache: Objek;
     /**
      * temporary cache
