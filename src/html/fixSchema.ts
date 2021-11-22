@@ -14,7 +14,7 @@ import pkg from "../../package.json";
 
 const cache = new CacheFile("schema");
 
-export default function (this: Hexo, content: string, data: HexoSeo): string {
+function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
   releaseMemory();
   const is = hexoIs(data);
   const path0 = data.page ? data.page.full_source : data.path;
@@ -182,3 +182,5 @@ export default function (this: Hexo, content: string, data: HexoSeo): string {
   cache.set(path0, content);
   return content;
 }
+
+export default fixSchema;

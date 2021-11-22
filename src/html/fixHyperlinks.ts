@@ -23,7 +23,7 @@ function formatAnchorText(text: string) {
   return text.replace(/['"]/gm, "");
 }
 
-const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
+function fixHyperlinks(this: Hexo, content: string, data: HexoSeo) {
   const path0 = data.page ? data.page.full_source : data.path;
   const hexo = this;
   const HSconfig = getConfig(this);
@@ -99,7 +99,7 @@ const usingJSDOM = function (this: Hexo, content: string, data: HexoSeo) {
   }
   cache.set(path0, content);
   return content;
-};
+}
 
 /**
  * is url external link
@@ -131,4 +131,4 @@ function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
   return true;
 }
 
-export default usingJSDOM;
+export default fixHyperlinks;

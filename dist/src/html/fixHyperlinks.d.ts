@@ -10,5 +10,5 @@ export interface hyperlinkOptions {
      */
     allow?: string[];
 }
-declare const fixHyperlinks: (this: Hexo, content: string, data: HexoSeo) => string;
+declare function fixHyperlinks(this: Hexo, content: string, data: HexoSeo): string;
 export default fixHyperlinks;

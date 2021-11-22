@@ -3,7 +3,7 @@ import { JSDOM } from "jsdom";
 import getConfig from "../config";
 import { HexoSeo } from "./schema/article";
 
-export default function (this: Hexo, content: string, data: HexoSeo) {
+function fixInvalid(this: Hexo, content: string, data: HexoSeo) {
   const HSconfig = getConfig(this);
   const dom = new JSDOM(content);
   const document: Document = dom.window.document;
@@ -18,3 +18,4 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   }
   return content;
 }
+export default fixInvalid;

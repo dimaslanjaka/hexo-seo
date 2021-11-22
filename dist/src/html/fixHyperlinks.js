@@ -13,7 +13,7 @@ var cache = new cache_1.CacheFile("hyperlink");
 function formatAnchorText(text) {
     return text.replace(/['"]/gm, "");
 }
-var fixHyperlinks = function (content, data) {
+function fixHyperlinks(content, data) {
     var path0 = data.page ? data.page.full_source : data.path;
     var hexo = this;
     var HSconfig = (0, config_1.default)(this);
@@ -84,7 +84,7 @@ var fixHyperlinks = function (content, data) {
     }
     cache.set(path0, content);
     return content;
-};
+}
 /**
  * is url external link
  * @param url

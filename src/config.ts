@@ -5,7 +5,7 @@ import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
-import { hyperlinkOptions } from "./html/hyperlink";
+import { hyperlinkOptions } from "./html/fixHyperlinks";
 import InMemory from "./cache";
 
 export interface seoOptions extends HexoConfig {

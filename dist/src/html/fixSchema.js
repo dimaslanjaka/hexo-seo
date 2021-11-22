@@ -16,7 +16,7 @@ require("../../packages/js-prototypes/src/Array");
 var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache = new cache_1.CacheFile("schema");
-function default_1(content, data) {
+function fixSchema(content, data) {
     (0, cache_1.releaseMemory)();
     var is = (0, hexo_is_1.default)(data);
     var path0 = data.page ? data.page.full_source : data.path;
@@ -174,4 +174,4 @@ function default_1(content, data) {
     cache.set(path0, content);
     return content;
 }
-exports.default = default_1;
+exports.default = fixSchema;
