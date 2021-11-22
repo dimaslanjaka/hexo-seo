@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkBrokenImg = exports.isLocalImage = void 0;
-var log_1 = __importDefault(require("../log"));
 var cheerio_1 = __importDefault(require("cheerio"));
 var config_1 = __importDefault(require("../config"));
 var check_1 = __importDefault(require("../curl/check"));
@@ -32,11 +31,12 @@ var checkBrokenImg = function (src, defaultImg) {
     var new_src = {
         original: src,
         resolved: src,
-        cached: false
+        success: false
     };
     var cached = cache.getCache(src, null);
     if (!cached) {
         return (0, check_1.default)(src).then(function (isWorking) {
+            new_src.success = isWorking;
             if (!isWorking) {
                 // image is broken, replace with default broken image fallback
                 new_src.resolved = defaultImg; //config.default.toString();
@@ -45,7 +45,6 @@ var checkBrokenImg = function (src, defaultImg) {
             return new_src;
         });
     }
-    new_src.cached = true;
     return bluebird_1.default.any([cached]).then(function (srcx) {
         return srcx;
     });
@@ -78,8 +77,6 @@ function default_1(content, data) {
             return img_check.then(function (chk) {
                 img.attr("src", chk.resolved);
                 img.attr("src-original", chk.original);
-                if (!chk.cached)
-                    log_1.default.log("%s is broken, replaced with %s", chk.original, chk.resolved);
                 return img;
             });
         };

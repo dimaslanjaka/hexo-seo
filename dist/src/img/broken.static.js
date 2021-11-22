@@ -12,7 +12,7 @@ function default_1(dom, HSconfig, data) {
         if (src) {
             if (/^https?:\/\//.test(src)) {
                 (0, broken_1.checkBrokenImg)(src).then(function (check) {
-                    if (typeof check == "object") {
+                    if (typeof check == "object" && !check.success) {
                         log_1.default.log("%s(IMG:broken) fixing %s", package_json_1.default.name, src);
                         img.setAttribute("src", check.resolved);
                         img.setAttribute("src-ori", check.original);

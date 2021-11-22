@@ -31,11 +31,12 @@ export const checkBrokenImg = function (
   const new_src = {
     original: src,
     resolved: src,
-    cached: false
+    success: false
   };
   const cached: typeof new_src | null = cache.getCache(src, null);
   if (!cached) {
     return checkUrl(src).then((isWorking) => {
+      new_src.success = isWorking;
       if (!isWorking) {
         // image is broken, replace with default broken image fallback
         new_src.resolved = defaultImg; //config.default.toString();
@@ -44,7 +45,6 @@ export const checkBrokenImg = function (
       return new_src;
     });
   }
-  new_src.cached = true;
   return Promise.any([cached]).then((srcx) => {
     return srcx;
   });
@@ -80,12 +80,6 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       return img_check.then((chk) => {
         img.attr("src", chk.resolved);
         img.attr("src-original", chk.original);
-        if (!chk.cached)
-          logger.log(
-            "%s is broken, replaced with %s",
-            chk.original,
-            chk.resolved
-          );
         return img;
       });
     };

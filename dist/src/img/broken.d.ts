@@ -14,7 +14,7 @@ export declare const isLocalImage: (url: string) => boolean;
 export declare const checkBrokenImg: (src: string, defaultImg?: string) => globalThis.Promise<{
     original: string;
     resolved: string;
-    cached: boolean;
+    success: boolean;
 }>;
 /**
  * Broken image fix
