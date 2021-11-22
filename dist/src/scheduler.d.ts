@@ -7,6 +7,11 @@ declare class scheduler {
      * @param value
      */
     static add(key: string, value: () => any): void;
+    private static postponeCounter;
+    /**
+     * Add function to postpone, the functions will be executed every 5 items added
+     */
+    static postpone(key: string, value: () => any): void;
     /**
      * Execute functon in key and delete
      * @param key

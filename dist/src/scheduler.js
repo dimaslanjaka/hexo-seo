@@ -15,6 +15,17 @@ var scheduler = /** @class */ (function () {
         functions[key] = value;
     };
     /**
+     * Add function to postpone, the functions will be executed every 5 items added
+     */
+    scheduler.postpone = function (key, value) {
+        functions[key] = value;
+        scheduler.postponeCounter += 1;
+        if (scheduler.postponeCounter == 5) {
+            scheduler.executeAll();
+            scheduler.postponeCounter = 0;
+        }
+    };
+    /**
      * Execute functon in key and delete
      * @param key
      */
@@ -36,7 +47,7 @@ var scheduler = /** @class */ (function () {
         Object.keys(functions).forEach(function (key) {
             functions[key]();
         });
-        this.clearArray(functions);
+        scheduler.clearArray(functions);
     };
     /**
      * Clear Array
@@ -47,6 +58,7 @@ var scheduler = /** @class */ (function () {
             array.pop();
         }
     };
+    scheduler.postponeCounter = 0;
     return scheduler;
 }());
 exports.default = scheduler;

@@ -165,15 +165,18 @@ var CacheFile = /** @class */ (function () {
         }
         this.md5Cache[key] = value;
         // save cache on process exit
-        scheduler_1.default.add("writeCacheFile" + this.cacheHash, function () {
+        scheduler_1.default.add("writeCacheFile" + CacheFile.md5(this.cacheHash + key), function () {
+            // clone md5 caches
+            var md5Cache = _this.md5Cache;
             // delete keys with suffix -fileCache
-            for (var k in _this.md5Cache) {
+            for (var k in md5Cache) {
                 if (k.endsWith("-fileCache")) {
-                    delete _this.md5Cache[k];
+                    console.log("delete file cache", k.replace("-fileCache", ""));
+                    delete md5Cache[k];
                 }
             }
             console.log(_this.cacheHash, "Saving cache to disk...");
-            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(md5Cache));
         });
     };
     CacheFile.prototype.has = function (key) {

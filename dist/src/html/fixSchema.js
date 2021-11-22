@@ -155,14 +155,21 @@ function default_1(content, data) {
     Schema.set("genre", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
     Schema.set("keywords", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
     var schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
-    var dom = new dom_1._JSDOM(content);
-    dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
-    if (typeof this.config.seo.html.fix == "boolean" &&
-        this.config.seo.html.fix) {
-        content = dom.serialize();
+    // to reduce javascript head memories
+    var mode = "regex";
+    if (mode != "regex") {
+        var dom = new dom_1._JSDOM(content);
+        dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
+        if (typeof this.config.seo.html.fix == "boolean" &&
+            this.config.seo.html.fix) {
+            content = dom.serialize();
+        }
+        else {
+            content = document.documentElement.outerHTML;
+        }
     }
     else {
-        content = document.documentElement.outerHTML;
+        content = content.replace("</head>", schemahtml);
     }
     cache.set(path0, content);
     return content;

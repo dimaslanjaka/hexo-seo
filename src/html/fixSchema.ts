@@ -163,15 +163,21 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   );
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
-  const dom = new _JSDOM(content);
-  dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
-  if (
-    typeof this.config.seo.html.fix == "boolean" &&
-    this.config.seo.html.fix
-  ) {
-    content = dom.serialize();
+  // to reduce javascript head memories
+  const mode = "regex";
+  if (mode != "regex") {
+    const dom = new _JSDOM(content);
+    dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
+    if (
+      typeof this.config.seo.html.fix == "boolean" &&
+      this.config.seo.html.fix
+    ) {
+      content = dom.serialize();
+    } else {
+      content = document.documentElement.outerHTML;
+    }
   } else {
-    content = document.documentElement.outerHTML;
+    content = content.replace("</head>", schemahtml);
   }
   cache.set(path0, content);
   return content;

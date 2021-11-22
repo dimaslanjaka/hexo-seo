@@ -3,7 +3,7 @@
   "@type": "Article",
   "headline": "Extra! Extra! Read alla bout it",
   "alternativeHeadline": "This article is also about robots and stuff",
-  "image": "http://example.com/image.jpg",
+  "image": "http://webmanajemen.com/images/webmanajemen.com.up.svg",
   "author": {
     "@type": "Person",
     "image": "/examples/jvanzweden_s.jpg",
@@ -23,7 +23,7 @@
       "url": "https://google.com/logo.jpg"
     }
   },
-  "url": "http://www.example.com",
+  "url": "http://www.webmanajemen.com",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://google.com/article",
@@ -36,20 +36,20 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "Books",
-          "item": "https://example.com/books"
+          "name": "Tags",
+          "item": "https://webmanajemen.com/tags"
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Authors",
-          "item": "https://example.com/books/authors"
+          "name": "Category",
+          "item": "https://webmanajemen.com/category"
         },
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Ann Leckie",
-          "item": "https://example.com/books/authors/annleckie"
+          "name": "GitHub",
+          "item": "https://webmanajemen.com/GitHub"
         }
       ]
     }

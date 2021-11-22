@@ -11,6 +11,18 @@ class scheduler {
   static add(key: string, value: () => any) {
     functions[key] = value;
   }
+  private static postponeCounter = 0;
+  /**
+   * Add function to postpone, the functions will be executed every 5 items added
+   */
+  static postpone(key: string, value: () => any) {
+    functions[key] = value;
+    scheduler.postponeCounter += 1;
+    if (scheduler.postponeCounter == 5) {
+      scheduler.executeAll();
+      scheduler.postponeCounter = 0;
+    }
+  }
   /**
    * Execute functon in key and delete
    * @param key
@@ -30,7 +42,7 @@ class scheduler {
     Object.keys(functions).forEach((key) => {
       functions[key]();
     });
-    this.clearArray(functions);
+    scheduler.clearArray(functions);
   }
 
   /**

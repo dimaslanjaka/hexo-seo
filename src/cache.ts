@@ -149,16 +149,22 @@ export class CacheFile {
     }
     this.md5Cache[key] = value;
     // save cache on process exit
-    scheduler.add("writeCacheFile" + this.cacheHash, () => {
-      // delete keys with suffix -fileCache
-      for (const k in this.md5Cache) {
-        if (k.endsWith("-fileCache")) {
-          delete this.md5Cache[k];
+    scheduler.add(
+      "writeCacheFile" + CacheFile.md5(this.cacheHash + key),
+      () => {
+        // clone md5 caches
+        const md5Cache = this.md5Cache;
+        // delete keys with suffix -fileCache
+        for (const k in md5Cache) {
+          if (k.endsWith("-fileCache")) {
+            console.log("delete file cache", k.replace("-fileCache", ""));
+            delete md5Cache[k];
+          }
         }
+        console.log(this.cacheHash, "Saving cache to disk...");
+        writeFile(this.dbFile, JSON.stringify(md5Cache));
       }
-      console.log(this.cacheHash, "Saving cache to disk...");
-      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-    });
+    );
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;
