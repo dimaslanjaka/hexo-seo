@@ -20,7 +20,13 @@ export default async function (
         const check = await checkBrokenImg(src);
 
         if (typeof check == "object" && !check.success) {
-          logger.log("%s(IMG:broken) fixing %s", pkg.name, src);
+          logger.log(
+            "%s(IMG:broken) fixing %s",
+            pkg.name,
+            src,
+            ">",
+            check.resolved
+          );
           img.setAttribute("src", check.resolved);
           img.setAttribute("src-ori", check.original);
         }

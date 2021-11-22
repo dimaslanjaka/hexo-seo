@@ -45,11 +45,17 @@ var cache = new cache_1.CacheFile("curl");
  */
 var checkUrl = function (url) {
     return __awaiter(this, void 0, void 0, function () {
-        var isChanged, _a, statusCode, data, headers, result, e_1;
+        var isChanged, defaultReturn, _a, statusCode, data, headers, result, e_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     isChanged = cache.isFileChanged(url.toString());
+                    defaultReturn = {
+                        result: false,
+                        statusCode: null,
+                        data: null,
+                        headers: null
+                    };
                     if (!(index_1.isDev || isChanged)) return [3 /*break*/, 4];
                     _b.label = 1;
                 case 1:
@@ -58,12 +64,12 @@ var checkUrl = function (url) {
                 case 2:
                     _a = _b.sent(), statusCode = _a.statusCode, data = _a.data, headers = _a.headers;
                     result = statusCode < 400 || statusCode >= 500 || statusCode === 200;
-                    cache.set(url.toString(), [result, statusCode, data, headers]);
+                    cache.set(url.toString(), { result: result, statusCode: statusCode, data: data, headers: headers });
                     return [2 /*return*/, { result: result, statusCode: statusCode, data: data, headers: headers }];
                 case 3:
                     e_1 = _b.sent();
-                    return [2 /*return*/, false];
-                case 4: return [2 /*return*/, cache.get(url.toString(), [false, null, null, null])[0]];
+                    return [2 /*return*/, defaultReturn];
+                case 4: return [2 /*return*/, cache.get(url.toString(), defaultReturn)];
             }
         });
     });

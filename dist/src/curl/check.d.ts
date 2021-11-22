@@ -1,10 +1,10 @@
 /**
  * Check if url is exists
  */
-declare const checkUrl: (url: string | URL) => Promise<boolean | {
+declare const checkUrl: (url: string | URL) => Promise<{
     result: boolean;
-    statusCode: number;
+    statusCode: any;
     data: any;
-    headers: import("node-libcurl").HeaderInfo[];
+    headers: any;
 }>;
 export default checkUrl;

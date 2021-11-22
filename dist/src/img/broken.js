@@ -36,21 +36,20 @@ var checkBrokenImg = function (src, defaultImg) {
     var cached = cache.getCache(src, null);
     if (!cached) {
         return (0, check_1.default)(src).then(function (isWorking) {
-            if (typeof isWorking == "boolean") {
-                new_src.success = isWorking;
+            // fix image redirect
+            if ((isWorking.statusCode == 302 || isWorking.statusCode == 301) &&
+                isWorking.headers[0] &&
+                isWorking.headers[0].location) {
+                new_src.resolved = isWorking.headers[0].location;
+                // set success to false
+                new_src.success = false;
             }
             else {
                 new_src.success = isWorking.result;
-                // fix image redirect
-                if ((isWorking.statusCode == 302 || isWorking.statusCode == 301) &&
-                    isWorking.headers[0] &&
-                    isWorking.headers[0].location) {
-                    new_src.resolved = isWorking.headers[0].location;
+                if (!isWorking) {
+                    // image is broken, replace with default broken image fallback
+                    new_src.resolved = defaultImg; //config.default.toString();
                 }
-            }
-            if (!isWorking) {
-                // image is broken, replace with default broken image fallback
-                new_src.resolved = defaultImg; //config.default.toString();
             }
             cache.setCache(src, new_src);
             return new_src;

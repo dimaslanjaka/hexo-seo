@@ -61,7 +61,7 @@ function default_1(dom, HSconfig, data) {
                 case 2:
                     check = _a.sent();
                     if (typeof check == "object" && !check.success) {
-                        log_1.default.log("%s(IMG:broken) fixing %s", package_json_1.default.name, src);
+                        log_1.default.log("%s(IMG:broken) fixing %s", package_json_1.default.name, src, ">", check.resolved);
                         img.setAttribute("src", check.resolved);
                         img.setAttribute("src-ori", check.original);
                     }

@@ -9,20 +9,26 @@ const cache = new CacheFile("curl");
  */
 const checkUrl = async function (url: string | URL) {
   const isChanged = cache.isFileChanged(url.toString());
+  const defaultReturn = {
+    result: false,
+    statusCode: null,
+    data: null,
+    headers: null
+  };
   if (isDev || isChanged) {
     try {
       const { statusCode, data, headers } = await curly.get(url.toString());
       //logger.log(url, statusCode);
       const result =
         statusCode < 400 || statusCode >= 500 || statusCode === 200;
-      cache.set(url.toString(), [result, statusCode, data, headers]);
+      cache.set(url.toString(), { result, statusCode, data, headers });
       return { result, statusCode, data, headers };
     } catch (e) {
-      return false;
+      return defaultReturn;
     }
   }
 
-  return cache.get(url.toString(), [false, null, null, null])[0] as boolean;
+  return cache.get(url.toString(), defaultReturn) as typeof defaultReturn;
 };
 
 export default checkUrl;
