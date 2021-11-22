@@ -1,4 +1,5 @@
 import Hexo from "hexo";
+import parseUrl from "url-parse";
 import { HexoSeo } from "./schema/article";
 import "../../packages/js-prototypes/src/Array";
 export interface hyperlinkOptions {
@@ -10,5 +11,13 @@ export interface hyperlinkOptions {
      */
     allow?: string[];
 }
+export declare function formatAnchorText(text: string): string;
 declare function fixHyperlinks(this: Hexo, content: string, data: HexoSeo): string;
+/**
+ * is url external link
+ * @param url
+ * @param hexo
+ * @returns
+ */
+export declare function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean;
 export default fixHyperlinks;

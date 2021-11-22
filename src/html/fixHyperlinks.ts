@@ -19,7 +19,7 @@ export interface hyperlinkOptions {
 
 const cache = new CacheFile("hyperlink");
 
-function formatAnchorText(text: string) {
+export function formatAnchorText(text: string) {
   return text.replace(/['"]/gm, "");
 }
 
@@ -107,7 +107,10 @@ function fixHyperlinks(this: Hexo, content: string, data: HexoSeo) {
  * @param hexo
  * @returns
  */
-function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
+export function isExternal(
+  url: ReturnType<typeof parseUrl>,
+  hexo: Hexo
+): boolean {
   const site =
     typeof parseUrl(hexo.config.url).hostname == "string"
       ? parseUrl(hexo.config.url).hostname

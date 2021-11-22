@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isExternal = exports.formatAnchorText = void 0;
 var config_1 = __importDefault(require("../config"));
 var url_parse_1 = __importDefault(require("url-parse"));
 var cache_1 = require("../cache");
@@ -13,6 +14,7 @@ var cache = new cache_1.CacheFile("hyperlink");
 function formatAnchorText(text) {
     return text.replace(/['"]/gm, "");
 }
+exports.formatAnchorText = formatAnchorText;
 function fixHyperlinks(content, data) {
     var path0 = data.page ? data.page.full_source : data.path;
     var hexo = this;
@@ -113,4 +115,5 @@ function isExternal(url, hexo) {
     }*/
     return true;
 }
+exports.isExternal = isExternal;
 exports.default = fixHyperlinks;

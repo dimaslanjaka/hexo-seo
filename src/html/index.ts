@@ -3,14 +3,26 @@ import { HexoSeo } from "./schema/article";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
 import fixSchema from "./fixSchema";
-import fixInvalid from "./fixInvalid";
+import fixInvalidStatic from "./fixInvalid.static";
 import fixHyperlinks from "./fixHyperlinks";
 import fixAttributes from "../img/fixAttributes";
+import { _JSDOM } from "./dom";
+import fixHyperlinksStatic from "./fixHyperlinks.static";
+import getConfig from "../config";
 
 export default function (this: Hexo, content: string, data: HexoSeo) {
+  const dom = new _JSDOM(content);
+  const cfg = getConfig(this);
+  fixHyperlinksStatic(dom, cfg.links, data);
+  fixInvalidStatic(dom, cfg, data);
   //content = fixAttributes.bind(this)(content, data);
   //content = fixHyperlinks.bind(this)(content, data);
   //content = fixSchema.bind(this)(content, data);
   //content = fixInvalid.bind(this)(content, data);
+  if (cfg.html.fix) {
+    content = dom.serialize();
+  } else {
+    content = dom.toString();
+  }
   return content;
 }

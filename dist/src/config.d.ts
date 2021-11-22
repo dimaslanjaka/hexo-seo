@@ -38,7 +38,7 @@ export interface defaultSeoOptions {
      */
     schema?: boolean;
 }
-interface ReturnConfig {
+export interface ReturnConfig {
     js: jsMinifyOptions;
     css: cssMinifyOptions;
     img: imgOptions;
