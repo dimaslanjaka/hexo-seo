@@ -2,7 +2,7 @@ import Hexo from "hexo";
 import { HexoSeo } from "./schema/article";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
-import fixSchema from "./fixSchema";
+import fixSchemaStatic from "./fixSchema.static";
 import fixInvalidStatic from "./fixInvalid.static";
 import fixAttributes from "./fixImageAttributes";
 import { _JSDOM } from "./dom";
@@ -15,6 +15,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   fixHyperlinksStatic(dom, cfg.links, data);
   fixInvalidStatic(dom, cfg, data);
   fixAttributes(dom, cfg.img, data);
+  fixSchemaStatic(dom, cfg, data);
   //content = fixAttributes.bind(this)(content, data);
   //content = fixHyperlinks.bind(this)(content, data);
   //content = fixSchema.bind(this)(content, data);

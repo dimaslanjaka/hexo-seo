@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
+var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var fixInvalid_static_1 = __importDefault(require("./fixInvalid.static"));
 var fixImageAttributes_1 = __importDefault(require("./fixImageAttributes"));
 var dom_1 = require("./dom");
@@ -16,6 +17,7 @@ function default_1(content, data) {
     (0, fixHyperlinks_static_1.default)(dom, cfg.links, data);
     (0, fixInvalid_static_1.default)(dom, cfg, data);
     (0, fixImageAttributes_1.default)(dom, cfg.img, data);
+    (0, fixSchema_static_1.default)(dom, cfg, data);
     //content = fixAttributes.bind(this)(content, data);
     //content = fixHyperlinks.bind(this)(content, data);
     //content = fixSchema.bind(this)(content, data);
