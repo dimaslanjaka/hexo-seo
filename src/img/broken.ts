@@ -18,6 +18,12 @@ export const isLocalImage = (url: string) => {
   return regex.test(url);
 };
 
+const new_src = {
+  original: null,
+  resolved: null,
+  success: false
+};
+
 /**
  * check broken image with caching strategy
  * @param src
@@ -27,37 +33,33 @@ export const isLocalImage = (url: string) => {
 export const checkBrokenImg = function (
   src: string,
   defaultImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Wikipedia_Hello_World_Graphic.svg/2560px-Wikipedia_Hello_World_Graphic.svg.png"
-) {
-  const new_src = {
-    original: src,
-    resolved: src,
-    success: false
-  };
-  const cached: typeof new_src | null = cache.getCache(src, null);
+): Promise<typeof new_src> {
+  new_src.original = src;
+  new_src.resolved = src;
+  const cached: typeof new_src = cache.getCache(src, null);
   if (!cached) {
-    return checkUrl(src).then((isWorking) => {
+    return Promise.resolve(checkUrl(src)).then((isWorking) => {
       // fix image redirect
       if (
         (isWorking.statusCode == 302 || isWorking.statusCode == 301) &&
         isWorking.headers[0] &&
         isWorking.headers[0].location
       ) {
-        new_src.resolved = isWorking.headers[0].location;
-        // set success to false
-        new_src.success = false;
-      } else {
-        new_src.success = isWorking.result;
+        return checkBrokenImg(isWorking.headers[0].location, defaultImg);
+      }
 
-        if (!isWorking) {
-          // image is broken, replace with default broken image fallback
-          new_src.resolved = defaultImg; //config.default.toString();
-        }
+      new_src.success = isWorking.result;
+
+      if (!isWorking) {
+        // image is broken, replace with default broken image fallback
+        new_src.resolved = defaultImg; //config.default.toString();
       }
 
       cache.setCache(src, new_src);
       return new_src;
     });
   }
+
   return Promise.any([cached]).then((srcx) => {
     return srcx;
   });

@@ -20,6 +20,11 @@ var isLocalImage = function (url) {
     return regex.test(url);
 };
 exports.isLocalImage = isLocalImage;
+var new_src = {
+    original: null,
+    resolved: null,
+    success: false
+};
 /**
  * check broken image with caching strategy
  * @param src
@@ -28,28 +33,21 @@ exports.isLocalImage = isLocalImage;
  */
 var checkBrokenImg = function (src, defaultImg) {
     if (defaultImg === void 0) { defaultImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Wikipedia_Hello_World_Graphic.svg/2560px-Wikipedia_Hello_World_Graphic.svg.png"; }
-    var new_src = {
-        original: src,
-        resolved: src,
-        success: false
-    };
+    new_src.original = src;
+    new_src.resolved = src;
     var cached = cache.getCache(src, null);
     if (!cached) {
-        return (0, check_1.default)(src).then(function (isWorking) {
+        return bluebird_1.default.resolve((0, check_1.default)(src)).then(function (isWorking) {
             // fix image redirect
             if ((isWorking.statusCode == 302 || isWorking.statusCode == 301) &&
                 isWorking.headers[0] &&
                 isWorking.headers[0].location) {
-                new_src.resolved = isWorking.headers[0].location;
-                // set success to false
-                new_src.success = false;
+                return (0, exports.checkBrokenImg)(isWorking.headers[0].location, defaultImg);
             }
-            else {
-                new_src.success = isWorking.result;
-                if (!isWorking) {
-                    // image is broken, replace with default broken image fallback
-                    new_src.resolved = defaultImg; //config.default.toString();
-                }
+            new_src.success = isWorking.result;
+            if (!isWorking) {
+                // image is broken, replace with default broken image fallback
+                new_src.resolved = defaultImg; //config.default.toString();
             }
             cache.setCache(src, new_src);
             return new_src;
