@@ -9,6 +9,7 @@ import { _JSDOM } from "./dom";
 import fixHyperlinksStatic from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
+import fixBrokenImg from "../img/broken.static";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {
@@ -24,6 +25,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   if (cache.isFileChanged(md5(path0))) {
     const dom = new _JSDOM(content);
     const cfg = getConfig(this);
+
+    fixBrokenImg(dom, cfg.img, data);
     fixHyperlinksStatic(dom, cfg.links, data);
     fixInvalidStatic(dom, cfg, data);
     fixAttributes(dom, cfg.img, data);

@@ -144,6 +144,7 @@ var CacheFile = /** @class */ (function () {
         this.md5Cache[key] = value;
         // save cache on process exit
         scheduler_1.default.add("writeCacheFile", function () {
+            log_1.default.log("saved cache", _this.dbFile);
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };

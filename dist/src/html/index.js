@@ -13,6 +13,7 @@ var dom_1 = require("./dom");
 var fixHyperlinks_static_1 = __importDefault(require("./fixHyperlinks.static"));
 var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
+var broken_static_1 = __importDefault(require("../img/broken.static"));
 function getPath(data) {
     if (data.page) {
         if (data.page.full_source)
@@ -30,6 +31,7 @@ function default_1(content, data) {
     if (cache.isFileChanged((0, cache_1.md5)(path0))) {
         var dom = new dom_1._JSDOM(content);
         var cfg = (0, config_1.default)(this);
+        (0, broken_static_1.default)(dom, cfg.img, data);
         (0, fixHyperlinks_static_1.default)(dom, cfg.links, data);
         (0, fixInvalid_static_1.default)(dom, cfg, data);
         (0, fixImageAttributes_1.default)(dom, cfg.img, data);

@@ -117,6 +117,7 @@ export class CacheFile {
     this.md5Cache[key] = value;
     // save cache on process exit
     scheduler.add("writeCacheFile", () => {
+      logger.log("saved cache", this.dbFile);
       writeFile(this.dbFile, JSON.stringify(this.md5Cache));
     });
   }
