@@ -33,13 +33,13 @@ seo:
     exclude:
       - "*.min.{htm,html}"
   # minify css
-  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable css minification  
+  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable css minification
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.css"
   # minify js
-  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification 
+  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification
     # If you want to customize the js minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
@@ -109,6 +109,12 @@ set NODE_OPTIONS=--max_old_space_size=8096
 ```shell
 hexo clean # this will cleaning temporarily folders of this plugin
 ```
+
+# Status
+[![Available](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Available.svg?color=brightgreen)](https://github.com/dimaslanjaka/hexo-seo/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Available%22) [![In Progress](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20In%20Progress.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status:%20In%20Progress) [![Review Needed](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Review%20Needed.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status%3A%20Review%20Needed)
+
+[![Critical](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Priority:%20Critical.svg?color=critical
+)](https://github.com/dimaslanjaka/hexo-seo/labels/Priority%3A%20Critical) [![High](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Priority:%20High.svg?color=important)](https://github.com/dimaslanjaka/hexo-seo/labels/Priority%3A%20High) [![Medium](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Priority:%20Medium.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Priority%3A%20Medium) [![Low](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Priority:%20Low.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Priority%3A%20Low)
 
 # Website using Hexo NodeJS Blogging System
 
