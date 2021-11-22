@@ -14,9 +14,11 @@ export default async function (
   for (let index = 0; index < images.length; index++) {
     const img = images.item(index);
     const src = img.getAttribute("src");
+
     if (src) {
       if (/^https?:\/\//.test(src) && src.length > 0) {
         const check = await checkBrokenImg(src);
+
         if (typeof check == "object" && !check.success) {
           logger.log("%s(IMG:broken) fixing %s", pkg.name, src);
           img.setAttribute("src", check.resolved);

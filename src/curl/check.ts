@@ -16,7 +16,7 @@ const checkUrl = async function (url: string | URL) {
       const result =
         statusCode < 400 || statusCode >= 500 || statusCode === 200;
       cache.set(url.toString(), [result, statusCode, data, headers]);
-      return result;
+      return { result, statusCode, data, headers };
     } catch (e) {
       return false;
     }

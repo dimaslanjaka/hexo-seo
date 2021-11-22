@@ -59,7 +59,7 @@ var checkUrl = function (url) {
                     _a = _b.sent(), statusCode = _a.statusCode, data = _a.data, headers = _a.headers;
                     result = statusCode < 400 || statusCode >= 500 || statusCode === 200;
                     cache.set(url.toString(), [result, statusCode, data, headers]);
-                    return [2 /*return*/, result];
+                    return [2 /*return*/, { result: result, statusCode: statusCode, data: data, headers: headers }];
                 case 3:
                     e_1 = _b.sent();
                     return [2 /*return*/, false];

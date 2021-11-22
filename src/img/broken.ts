@@ -36,7 +36,20 @@ export const checkBrokenImg = function (
   const cached: typeof new_src | null = cache.getCache(src, null);
   if (!cached) {
     return checkUrl(src).then((isWorking) => {
-      new_src.success = isWorking;
+      if (typeof isWorking == "boolean") {
+        new_src.success = isWorking;
+      } else {
+        new_src.success = isWorking.result;
+        // fix image redirect
+        if (
+          (isWorking.statusCode == 302 || isWorking.statusCode == 301) &&
+          isWorking.headers[0] &&
+          isWorking.headers[0].location
+        ) {
+          new_src.resolved = isWorking.headers[0].location;
+        }
+      }
+
       if (!isWorking) {
         // image is broken, replace with default broken image fallback
         new_src.resolved = defaultImg; //config.default.toString();
