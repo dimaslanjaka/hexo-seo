@@ -1,6 +1,10 @@
 /** SCHEDULER JOB **/
 /*** Postpone executing functions ***/
 
+import chalk from "chalk";
+import logger from "./log";
+logger.prepend(chalk.cyanBright("scheduler"));
+
 const functions: { [key: string]: () => any }[] = [];
 class scheduler {
   /**
@@ -32,7 +36,7 @@ class scheduler {
       functions[key]();
       if (deleteAfter) delete functions[key];
     } else {
-      console.error(`function with key: ${key} is not function`);
+      logger.error(`function with key: ${key} is not function`);
     }
   }
   /**
@@ -40,7 +44,7 @@ class scheduler {
    */
   static executeAll() {
     Object.keys(functions).forEach((key) => {
-      console.log("executing", key);
+      logger.log("executing", key);
       functions[key]();
     });
     scheduler.clearArray(functions);

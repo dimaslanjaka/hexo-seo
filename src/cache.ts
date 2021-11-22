@@ -9,10 +9,13 @@ import scheduler from "./scheduler";
 import NodeCache from "node-cache";
 import { existsSync } from "fs";
 import "../packages/js-prototypes/src/Any";
+import chalk from "chalk";
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
 const md5 = memoize((data: string): string => {
   return crypto.createHash("md5").update(data).digest("hex");
 });
+
+logger.prepend(chalk.magentaBright("cache"));
 
 /**
  * @summary IN MEMORY CACHE
@@ -142,7 +145,7 @@ export class CacheFile {
     const db = this.md5Cache;
     //dump("cache-" + this.cacheHash, db);
     scheduler.postpone("save-" + this.cacheHash, function () {
-      console.log("saving caches...", saveLocation);
+      logger.log("saving caches...", saveLocation, dbLocation);
       writeFile(saveLocation, value);
       writeFile(dbLocation, JSON.stringify(db, null, 2));
     });
@@ -160,7 +163,7 @@ export class CacheFile {
       if (existsSync(saveLocation)) {
         const readCache = readFile(saveLocation).toString();
         this.dbTemp[key] = readCache;
-        return <any>readCache;
+        return readCache;
       }
       if (typeof fallback === "function") return fallback();
       return fallback;
@@ -193,7 +196,6 @@ export class CacheFile {
     const isChanged = savedMd5 !== pathMd5;
     //console.log(savedMd5, pathMd5, result);
     if (isChanged) {
-      //console.log("set md5 cache");
       // set, if file hash is not found
       this.md5Cache[path0 + "-hash"] = pathMd5;
     }

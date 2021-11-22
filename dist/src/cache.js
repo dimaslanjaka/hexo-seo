@@ -33,10 +33,12 @@ var scheduler_1 = __importDefault(require("./scheduler"));
 var node_cache_1 = __importDefault(require("node-cache"));
 var fs_1 = require("fs");
 require("../packages/js-prototypes/src/Any");
+var chalk_1 = __importDefault(require("chalk"));
 var myCache = new node_cache_1.default({ stdTTL: 500, checkperiod: 520 });
 var md5 = (0, underscore_1.memoize)(function (data) {
     return crypto_1.default.createHash("md5").update(data).digest("hex");
 });
+log_1.default.prepend(chalk_1.default.magentaBright("cache"));
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -163,7 +165,7 @@ var CacheFile = /** @class */ (function () {
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
         scheduler_1.default.postpone("save-" + this.cacheHash, function () {
-            console.log("saving caches...", saveLocation);
+            log_1.default.log("saving caches...", saveLocation, dbLocation);
             (0, fm_1.writeFile)(saveLocation, value);
             (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
         });
@@ -217,7 +219,6 @@ var CacheFile = /** @class */ (function () {
         var isChanged = savedMd5 !== pathMd5;
         //console.log(savedMd5, pathMd5, result);
         if (isChanged) {
-            //console.log("set md5 cache");
             // set, if file hash is not found
             this.md5Cache[path0 + "-hash"] = pathMd5;
         }
