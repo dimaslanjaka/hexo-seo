@@ -18,7 +18,7 @@ var scheduler = /** @class */ (function () {
      * Add function to postpone, the functions will be executed every 5 items added
      */
     scheduler.postpone = function (key, value) {
-        functions[key] = value;
+        functions["postpone-" + key] = value;
         scheduler.postponeCounter += 1;
         if (scheduler.postponeCounter == 5) {
             scheduler.executeAll();

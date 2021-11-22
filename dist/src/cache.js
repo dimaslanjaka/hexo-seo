@@ -149,9 +149,13 @@ var CacheFile = /** @class */ (function () {
             key = CacheFile.md5(value);
         }
         var saveLocation = path_1.default.join(this.dbFolder, key);
-        scheduler_1.default.postpone("up", function () {
+        this.md5Cache[key] = saveLocation;
+        var dbLocation = path_1.default.join(this.dbFile);
+        var db = this.md5Cache;
+        scheduler_1.default.postpone("save-" + key, function () {
             console.log("saving caches...");
             (0, fm_1.writeFile)(saveLocation, value);
+            (0, fm_1.writeFile)(dbLocation, JSON.stringify(db));
         });
         this.dbTemp[key] = value;
     };

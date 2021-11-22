@@ -133,9 +133,13 @@ export class CacheFile {
       key = CacheFile.md5(value);
     }
     const saveLocation = path.join(this.dbFolder, key);
-    scheduler.postpone("up", function () {
+    this.md5Cache[key] = saveLocation;
+    const dbLocation = path.join(this.dbFile);
+    const db = this.md5Cache;
+    scheduler.postpone("save-" + key, function () {
       console.log("saving caches...");
       writeFile(saveLocation, value);
+      writeFile(dbLocation, JSON.stringify(db));
     });
     this.dbTemp[key] = value;
   }

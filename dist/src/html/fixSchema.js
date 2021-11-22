@@ -15,6 +15,7 @@ require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
 var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
+var underscore_1 = __importDefault(require("underscore"));
 var cache = new cache_1.CacheFile("schema");
 function fixSchema(content, data) {
     (0, cache_1.releaseMemory)();
@@ -131,11 +132,10 @@ function fixSchema(content, data) {
         body = data.content;
     }
     if (body)
-        Schema.setArticleBody(body
+        Schema.setArticleBody(underscore_1.default.escape(body
             .trim()
             //.replace(/['“"{}\\”]+/gm, "")
-            .replace(/https?:\/\//gm, "//")
-            .toHtmlEntities());
+            .replace(/https?:\/\//gm, "//")));
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {

@@ -16,7 +16,7 @@ class scheduler {
    * Add function to postpone, the functions will be executed every 5 items added
    */
   static postpone(key: string, value: () => any) {
-    functions[key] = value;
+    functions["postpone-" + key] = value;
     scheduler.postponeCounter += 1;
     if (scheduler.postponeCounter == 5) {
       scheduler.executeAll();

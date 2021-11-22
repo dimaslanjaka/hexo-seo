@@ -11,6 +11,7 @@ import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
 import logger from "../log";
 import pkg from "../../package.json";
+import underscore from "underscore";
 
 const cache = new CacheFile("schema");
 
@@ -129,11 +130,12 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
   }
   if (body)
     Schema.setArticleBody(
-      body
-        .trim()
-        //.replace(/['“"{}\\”]+/gm, "")
-        .replace(/https?:\/\//gm, "//")
-        .toHtmlEntities()
+      underscore.escape(
+        body
+          .trim()
+          //.replace(/['“"{}\\”]+/gm, "")
+          .replace(/https?:\/\//gm, "//")
+      )
     );
 
   // prepare breadcrumbs
