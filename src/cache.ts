@@ -111,6 +111,11 @@ export class CacheFile {
   }
 
   set(key: string, value: any) {
+    if (!key && !value) {
+      return;
+    } else if (!key) {
+      key = CacheFile.md5(value);
+    }
     return myCache.set(key, value);
     /*// if value is string, save to static file
     if (typeof value === "string") {
