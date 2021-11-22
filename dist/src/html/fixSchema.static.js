@@ -43,24 +43,6 @@ function default_1(dom, HSconfig, data) {
         (0, utils_1.dump)("dump-page.txt", (0, utils_1.extractSimplePageData)(data.page));
         (0, utils_1.dump)("dump-data.txt", (0, utils_1.extractSimplePageData)(this));
     }
-    // set schema description
-    var description = title;
-    if (data.page) {
-        if (data.page.description) {
-            description = data.page.description;
-        }
-        else if (data.page.desc) {
-            description = data.page.desc;
-        }
-        else if (data.page.subtitle) {
-            description = data.page.subtitle;
-        }
-        else if (data.page.excerpt) {
-            description = data.page.excerpt;
-        }
-    }
-    if (description)
-        Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());
     // set schema author
     var author;
     if (data.page) {
@@ -101,11 +83,30 @@ function default_1(dom, HSconfig, data) {
     else if (data.content) {
         body = data.content;
     }
-    if (body)
-        Schema.setArticleBody(underscore_1.default.escape(body
+    if (body) {
+        body = underscore_1.default.escape(body
             .trim()
             //.replace(/['“"{}\\”]+/gm, "")
-            .replace(/https?:\/\//gm, "//")));
+            .replace(/https?:\/\//gm, "//"));
+        Schema.setArticleBody(body);
+        // set schema description
+        Schema.setDescription(body.trim().substring(0, 150));
+    }
+    // set schema description
+    /*let description = title;
+    if (data.page) {
+      if (data.page.description) {
+        description = data.page.description;
+      } else if (data.page.desc) {
+        description = data.page.desc;
+      } else if (data.page.subtitle) {
+        description = data.page.subtitle;
+      } else if (data.page.excerpt) {
+        description = data.page.excerpt;
+      }
+    }
+    if (description)
+      Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());*/
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];
     if (data.page) {
@@ -127,9 +128,19 @@ function default_1(dom, HSconfig, data) {
     if (schemaBreadcrumbs.length > 0) {
         Schema.setBreadcrumbs(schemaBreadcrumbs);
     }
+    // set schema image
+    var img = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+    if (data.photos && Array.isArray(data.photos) && data.photos.length > 0) {
+        img = data.photos[0];
+    }
+    else if (data.cover) {
+        img = data.cover;
+    }
+    Schema.setImage(img);
     // set schema genres
     Schema.set("genre", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
     Schema.set("keywords", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
+    Schema.set("award", keywords.unique().removeEmpties().map(string_1.trimText).join(","));
     var schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
     dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
 }
