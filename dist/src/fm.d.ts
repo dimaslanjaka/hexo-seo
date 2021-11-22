@@ -18,7 +18,6 @@ export declare function resolveFile(filePath: string): string;
  * @param filePath
  */
 export declare function writeFile(filePath: string, content: string): void;
-export declare type anyOf = Buffer | string | object | symbol | Record<string, any>;
 /**
  * read file nested path
  * @param filePath

@@ -29,7 +29,10 @@ var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
+var scheduler_1 = __importDefault(require("./scheduler"));
 var node_cache_1 = __importDefault(require("node-cache"));
+var fs_1 = require("fs");
+require("../packages/js-prototypes/src/Any");
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -111,11 +114,19 @@ var CacheFile = /** @class */ (function () {
     function CacheFile(hash) {
         if (hash === void 0) { hash = null; }
         this.md5Cache = {};
+        /**
+         * temporary cache
+         */
+        this.dbTemp = {};
+        /**
+         * Unique cache id
+         */
         this.cacheHash = "";
         var stack = new Error().stack.split("at")[2];
-        hash = hash + CacheFile.md5(stack);
+        hash = hash + "-" + CacheFile.md5(stack);
         this.cacheHash = hash;
-        this.dbFile = path_1.default.join(__dirname, "../tmp/db-" + hash + ".json");
+        this.dbFile = path_1.default.join(fm_1.tmpFolder, "db-" + hash + ".json");
+        this.dbFolder = path_1.default.join(fm_1.tmpFolder, hash);
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
             try {
@@ -137,57 +148,12 @@ var CacheFile = /** @class */ (function () {
         else if (!key) {
             key = CacheFile.md5(value);
         }
-        return myCache.set(key, value);
-        /*// if value is string, save to static file
-        if (typeof value === "string") {
-          // usually tags, archives, categories don't have paths for keys
-          // generate based on value
-          if (!key) {
-            key = CacheFile.md5(value);
-          }
-          let saveLocation;
-          if (key.startsWith("/")) {
-            saveLocation = path.join(
-              tmpFolder,
-              // pick the dirname to make sure all files in one group
-              CacheFile.md5(path.dirname(key)),
-              path.basename(key)
-            );
-          } else {
-            saveLocation = path.join(
-              tmpFolder,
-              CacheFile.md5(key),
-              path.basename(key)
-            );
-          }
-          this.md5Cache[key + "-fileCache"] = value;
-          this.md5Cache[key] = "file://" + saveLocation;
-          // save cache on process exit
-          scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
-            console.log(this.cacheHash, "Saving cache to disk...");
-            writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-            writeFile(saveLocation, value);
-          });
-          return;
-        }
-        this.md5Cache[key] = value;
-        // save cache on process exit
-        scheduler.add(
-          "writeCacheFile" + CacheFile.md5(this.cacheHash + key),
-          () => {
-            // clone md5 caches
-            const md5Cache = this.md5Cache;
-            // delete keys with suffix -fileCache
-            for (const k in md5Cache) {
-              if (k.endsWith("-fileCache")) {
-                console.log("delete file cache", k.replace("-fileCache", ""));
-                delete md5Cache[k];
-              }
-            }
-            console.log(this.cacheHash, "Saving cache to disk...");
-            writeFile(this.dbFile, JSON.stringify(md5Cache));
-          }
-        );*/
+        var saveLocation = path_1.default.join(this.dbFolder, key);
+        scheduler_1.default.postpone("up", function () {
+            console.log("saving caches...");
+            (0, fm_1.writeFile)(saveLocation, value);
+        });
+        this.dbTemp[key] = value;
     };
     /**
      * Get cache by key
@@ -197,28 +163,18 @@ var CacheFile = /** @class */ (function () {
      */
     CacheFile.prototype.get = function (key, fallback) {
         if (fallback === void 0) { fallback = null; }
-        var Get = myCache.get(key);
-        if (!Get)
+        if (typeof this.dbTemp[key] == "undefined") {
+            var saveLocation = path_1.default.join(this.dbFolder, key);
+            if ((0, fs_1.existsSync)(saveLocation)) {
+                var readCache = (0, fm_1.readFile)(saveLocation).toString();
+                this.dbTemp[key] = readCache;
+                return readCache;
+            }
+            if (typeof fallback === "function")
+                return fallback();
             return fallback;
-        /*const Get = this.md5Cache[key];
-        if (Get === undefined) return fallback;
-        if (typeof Get == "string") {
-          if (Get.startsWith("file://")) {
-            const loadLocation = Get.replace("file://", "");
-            // if cache content exists, return it. Otherwise, read, bind and return it
-            if (typeof this.md5Cache[key + "-fileCache"] != "undefined") {
-              return this.md5Cache[key + "-fileCache"];
-            }
-            if (existsSync(loadLocation)) {
-              const loadContent = readFile(loadLocation).toString();
-              this.md5Cache[key + "-fileCache"] = loadContent;
-              return loadContent;
-            } else {
-              throw new Error("cache " + loadLocation + " not found");
-            }
-          }
         }
-        return Get;*/
+        return this.dbTemp[key];
     };
     CacheFile.prototype.has = function (key) {
         return typeof this.md5Cache[key] !== undefined;

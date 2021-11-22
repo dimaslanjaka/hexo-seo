@@ -6,8 +6,9 @@ import { memoize } from "underscore";
 import { readFile, tmpFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
-import { existsSync } from "fs";
 import NodeCache from "node-cache";
+import { existsSync } from "fs";
+import "../packages/js-prototypes/src/Any";
 
 /**
  * @summary IN MEMORY CACHE
@@ -89,13 +90,28 @@ const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
  */
 export class CacheFile {
   md5Cache: Objek = {};
+  /**
+   * temporary cache
+   */
+  dbTemp: Objek = {};
+  /**
+   * database file
+   */
   dbFile: string;
+  /**
+   * database folder
+   */
+  dbFolder: string;
+  /**
+   * Unique cache id
+   */
   cacheHash = "";
   constructor(hash = null) {
     const stack = new Error().stack.split("at")[2];
-    hash = hash + CacheFile.md5(stack);
+    hash = hash + "-" + CacheFile.md5(stack);
     this.cacheHash = hash;
-    this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
+    this.dbFile = path.join(tmpFolder, "db-" + hash + ".json");
+    this.dbFolder = path.join(tmpFolder, hash);
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
       try {
@@ -116,57 +132,12 @@ export class CacheFile {
     } else if (!key) {
       key = CacheFile.md5(value);
     }
-    return myCache.set(key, value);
-    /*// if value is string, save to static file
-    if (typeof value === "string") {
-      // usually tags, archives, categories don't have paths for keys
-      // generate based on value
-      if (!key) {
-        key = CacheFile.md5(value);
-      }
-      let saveLocation;
-      if (key.startsWith("/")) {
-        saveLocation = path.join(
-          tmpFolder,
-          // pick the dirname to make sure all files in one group
-          CacheFile.md5(path.dirname(key)),
-          path.basename(key)
-        );
-      } else {
-        saveLocation = path.join(
-          tmpFolder,
-          CacheFile.md5(key),
-          path.basename(key)
-        );
-      }
-      this.md5Cache[key + "-fileCache"] = value;
-      this.md5Cache[key] = "file://" + saveLocation;
-      // save cache on process exit
-      scheduler.add("writeStaticCacheFile" + this.cacheHash, () => {
-        console.log(this.cacheHash, "Saving cache to disk...");
-        writeFile(this.dbFile, JSON.stringify(this.md5Cache));
-        writeFile(saveLocation, value);
-      });
-      return;
-    }
-    this.md5Cache[key] = value;
-    // save cache on process exit
-    scheduler.add(
-      "writeCacheFile" + CacheFile.md5(this.cacheHash + key),
-      () => {
-        // clone md5 caches
-        const md5Cache = this.md5Cache;
-        // delete keys with suffix -fileCache
-        for (const k in md5Cache) {
-          if (k.endsWith("-fileCache")) {
-            console.log("delete file cache", k.replace("-fileCache", ""));
-            delete md5Cache[k];
-          }
-        }
-        console.log(this.cacheHash, "Saving cache to disk...");
-        writeFile(this.dbFile, JSON.stringify(md5Cache));
-      }
-    );*/
+    const saveLocation = path.join(this.dbFolder, key);
+    scheduler.postpone("up", function () {
+      console.log("saving caches...");
+      writeFile(saveLocation, value);
+    });
+    this.dbTemp[key] = value;
   }
   /**
    * Get cache by key
@@ -174,33 +145,23 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get<T extends keyof any>(key: string, fallback: T = null): T {
-    const Get = myCache.get(key);
-    if (!Get) return fallback;
-    /*const Get = this.md5Cache[key];
-    if (Get === undefined) return fallback;
-    if (typeof Get == "string") {
-      if (Get.startsWith("file://")) {
-        const loadLocation = Get.replace("file://", "");
-        // if cache content exists, return it. Otherwise, read, bind and return it
-        if (typeof this.md5Cache[key + "-fileCache"] != "undefined") {
-          return this.md5Cache[key + "-fileCache"];
-        }
-        if (existsSync(loadLocation)) {
-          const loadContent = readFile(loadLocation).toString();
-          this.md5Cache[key + "-fileCache"] = loadContent;
-          return loadContent;
-        } else {
-          throw new Error("cache " + loadLocation + " not found");
-        }
+  get(key: string, fallback = null) {
+    if (typeof this.dbTemp[key] == "undefined") {
+      const saveLocation = path.join(this.dbFolder, key);
+      if (existsSync(saveLocation)) {
+        const readCache = readFile(saveLocation).toString();
+        this.dbTemp[key] = readCache;
+        return <any>readCache;
       }
+      if (typeof fallback === "function") return fallback();
+      return fallback;
     }
-    return Get;*/
+    return this.dbTemp[key];
   }
   has(key: string): boolean {
     return typeof this.md5Cache[key] !== undefined;
   }
-  getCache<T extends keyof any>(key: string, fallback: T = null): T {
+  getCache(key: string, fallback = null) {
     return this.get(key, fallback);
   }
   static md5 = memoize((data: string): string => {

@@ -26,6 +26,7 @@ function fixSchema(content, data) {
         return content;
     }
     if ((!path0 || !is.post) && !is.page) {
+        console.log("%s is not a post or page", package_json_1.default.name);
         if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
             console.log(path0, is);
             dumper();
@@ -40,7 +41,10 @@ function fixSchema(content, data) {
     }
     if (!cache.isFileChanged(path0)) {
         log_1.default.log("%s(Schema) cached %s", package_json_1.default.name, path0);
-        return cache.getCache(path0, null);
+        var getCache = cache.getCache(path0, null);
+        if (getCache) {
+            return getCache;
+        }
     }
     var Schema = new article_1.default({ pretty: __1.isDev, hexo: this });
     // set url
@@ -118,6 +122,7 @@ function fixSchema(content, data) {
             var getText = (0, dom_1.getTextPartialHtml)(data.page.content);
             body = getText;
             if (!body || body.trim().length === 0) {
+                console.log("getText failed");
                 body = data.page.content.replace(/[\W_-]+/gm, " ");
             }
         }
@@ -128,7 +133,8 @@ function fixSchema(content, data) {
     if (body)
         Schema.setArticleBody(body
             .trim()
-            .replace(/['"{}\\]+/gm, "")
+            .replace(/"([^"]+(?="))"/g, "$1")
+            //.replace(/['“"{}\\”]+/gm, "")
             .replace(/https?:\/\//gm, "//"));
     // prepare breadcrumbs
     var schemaBreadcrumbs = [];

@@ -24,6 +24,7 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
     return content;
   }
   if ((!path0 || !is.post) && !is.page) {
+    console.log("%s is not a post or page", pkg.name);
     if (!is.tag && !is.archive && !is.home && !is.category && !is.year) {
       console.log(path0, is);
       dumper();
@@ -40,8 +41,12 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
 
   if (!cache.isFileChanged(path0)) {
     logger.log("%s(Schema) cached %s", pkg.name, path0);
-    return cache.getCache(path0, null);
+    const getCache = cache.getCache(path0, null);
+    if (getCache) {
+      return getCache;
+    }
   }
+
   const Schema = new schemaArticles({ pretty: isDev, hexo: this });
   // set url
   let url = this.config.url;
@@ -115,6 +120,7 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
       const getText = getTextPartialHtml(data.page.content);
       body = getText;
       if (!body || body.trim().length === 0) {
+        console.log("getText failed");
         body = data.page.content.replace(/[\W_-]+/gm, " ");
       }
     }
@@ -125,7 +131,8 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
     Schema.setArticleBody(
       body
         .trim()
-        .replace(/['"{}\\]+/gm, "")
+        .replace(/"([^"]+(?="))"/g, "$1")
+        //.replace(/['“"{}\\”]+/gm, "")
         .replace(/https?:\/\//gm, "//")
     );
 

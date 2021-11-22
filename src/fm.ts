@@ -32,8 +32,6 @@ export function writeFile(filePath: string, content: string) {
   fs.writeFileSync(filePath, content);
 }
 
-export type anyOf = Buffer | string | object | symbol | Record<string, any>;
-
 /**
  * read file nested path
  * @param filePath
