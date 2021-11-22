@@ -10,6 +10,8 @@ import rimraf from "rimraf";
 import pkg from "../package.json";
 import { tmpFolder } from "./fm";
 import htmlIndex from "./html/index";
+import bindProcessExit from "./utils/cleanup";
+import scheduler from "./scheduler";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -67,13 +69,15 @@ export default function (hexo: Hexo) {
     return;
   }
   // execute scheduled functions before process exit
-  /*if (hexoCmd && hexoCmd != "clean") {
-    console.log("Scheduling functions on process exit");
+  if (hexoCmd && hexoCmd != "clean") {
+    hexo.on("exit", () => {
+      console.log("Scheduling functions on process exit");
+    });
     bindProcessExit("scheduler_on_exit", function () {
       console.log("executing scheduled functions");
       scheduler.executeAll();
     });
-  }*/
+  }
 
   // bind configuration
   // hexo.config.seo = getConfig(hexo);

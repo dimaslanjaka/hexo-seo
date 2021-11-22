@@ -142,7 +142,7 @@ export class CacheFile {
     const dbLocation = path.join(this.dbFile);
     const db = this.md5Cache;
     //dump("cache-" + this.cacheHash, db);
-    scheduler.postpone("save-" + this.cacheHash, function () {
+    scheduler.add("save-" + this.cacheHash, function () {
       logger.log("saving caches...", saveLocation, dbLocation);
       writeFile(saveLocation, value);
       writeFile(dbLocation, JSON.stringify(db, null, 2));

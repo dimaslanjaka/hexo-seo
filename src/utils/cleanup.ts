@@ -1,4 +1,4 @@
-process.stdin.resume(); //so the program will not close instantly
+//process.stdin.resume(); //so the program will not close instantly
 
 //const fns1: Array<(data?: string) => void> = [];
 const fns: { [key: string]: (data?: string) => void }[] = [];

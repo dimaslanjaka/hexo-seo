@@ -8,9 +8,9 @@ import fixHyperlinks from "./fixHyperlinks";
 import fixAttributes from "../img/fixAttributes";
 
 export default function (this: Hexo, content: string, data: HexoSeo) {
-  content = fixAttributes.bind(this)(content, data);
-  content = fixHyperlinks.bind(this)(content, data);
-  content = fixSchema.bind(this)(content, data);
-  content = fixInvalid.bind(this)(content, data);
+  //content = fixAttributes.bind(this)(content, data);
+  //content = fixHyperlinks.bind(this)(content, data);
+  //content = fixSchema.bind(this)(content, data);
+  //content = fixInvalid.bind(this)(content, data);
   return content;
 }

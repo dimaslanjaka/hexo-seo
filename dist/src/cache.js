@@ -162,7 +162,7 @@ var CacheFile = /** @class */ (function () {
         var dbLocation = path_1.default.join(this.dbFile);
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
-        scheduler_1.default.postpone("save-" + this.cacheHash, function () {
+        scheduler_1.default.add("save-" + this.cacheHash, function () {
             log_1.default.log("saving caches...", saveLocation, dbLocation);
             (0, fm_1.writeFile)(saveLocation, value);
             (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));

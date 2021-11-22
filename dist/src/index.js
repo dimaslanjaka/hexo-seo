@@ -12,6 +12,8 @@ var rimraf_1 = __importDefault(require("rimraf"));
 var package_json_1 = __importDefault(require("../package.json"));
 var fm_1 = require("./fm");
 var index_1 = __importDefault(require("./html/index"));
+var cleanup_1 = __importDefault(require("./utils/cleanup"));
+var scheduler_1 = __importDefault(require("./scheduler"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -62,13 +64,15 @@ function default_1(hexo) {
         return;
     }
     // execute scheduled functions before process exit
-    /*if (hexoCmd && hexoCmd != "clean") {
-      console.log("Scheduling functions on process exit");
-      bindProcessExit("scheduler_on_exit", function () {
-        console.log("executing scheduled functions");
-        scheduler.executeAll();
-      });
-    }*/
+    if (hexoCmd && hexoCmd != "clean") {
+        hexo.on("exit", function () {
+            console.log("Scheduling functions on process exit");
+        });
+        (0, cleanup_1.default)("scheduler_on_exit", function () {
+            console.log("executing scheduled functions");
+            scheduler_1.default.executeAll();
+        });
+    }
     // bind configuration
     // hexo.config.seo = getConfig(hexo);
     // minify javascripts
