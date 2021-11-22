@@ -8,14 +8,10 @@ exports.isDev = void 0;
 var js_1 = __importDefault(require("./minifier/js"));
 var css_1 = __importDefault(require("./minifier/css"));
 var minimist_1 = __importDefault(require("minimist"));
-var fixAttributes_1 = require("./img/fixAttributes");
-var hyperlink_1 = __importDefault(require("./html/hyperlink"));
-var fixSchema_1 = __importDefault(require("./html/fixSchema"));
-var fixInvalid_1 = __importDefault(require("./html/fixInvalid"));
 var rimraf_1 = __importDefault(require("rimraf"));
+var package_json_1 = __importDefault(require("../package.json"));
 var fm_1 = require("./fm");
-var scheduler_1 = __importDefault(require("./scheduler"));
-var cleanup_1 = __importDefault(require("./utils/cleanup"));
+var index_1 = __importDefault(require("./html/index"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
@@ -33,45 +29,64 @@ function default_1(hexo) {
     var hexoCmd;
     if (hexo.env.args._ && hexo.env.args._.length > 0) {
         for (var i = 0; i < hexo.env.args._.length; i++) {
-            if (hexo.env.args._[i] == "s" || hexo.env.args._[i] == "server")
+            if (hexo.env.args._[i] == "s" || hexo.env.args._[i] == "server") {
                 hexoCmd = "server";
-            if (hexo.env.args._[i] == "d" || hexo.env.args._[i] == "deploy")
+                break;
+            }
+            if (hexo.env.args._[i] == "d" || hexo.env.args._[i] == "deploy") {
                 hexoCmd = "deploy";
-            if (hexo.env.args._[i] == "g" || hexo.env.args._[i] == "generate")
+                break;
+            }
+            if (hexo.env.args._[i] == "g" || hexo.env.args._[i] == "generate") {
                 hexoCmd = "generate";
-            if (hexo.env.args._[i] == "clean")
+                break;
+            }
+            if (hexo.env.args._[i] == "clean") {
                 hexoCmd = "clean";
+                break;
+            }
         }
     }
     // clean build and temp folder on `hexo clean`
     if (hexoCmd && hexoCmd == "clean") {
-        rimraf_1.default.sync(fm_1.tmpFolder);
-        rimraf_1.default.sync(fm_1.buildFolder);
+        console.log("%s cleaning build and temp folder", package_json_1.default.name);
+        (0, rimraf_1.default)(fm_1.tmpFolder, function (err) {
+            if (err) {
+                console.error(err);
+            }
+            else {
+                console.log("cleaned", fm_1.tmpFolder);
+            }
+        });
+        //rimraf.sync(buildFolder);
+        return;
     }
+    // execute scheduled functions before process exit
+    /*if (hexoCmd && hexoCmd != "clean") {
+      console.log("Scheduling functions on process exit");
+      bindProcessExit("scheduler_on_exit", function () {
+        console.log("executing scheduled functions");
+        scheduler.executeAll();
+      });
+    }*/
     // bind configuration
     // hexo.config.seo = getConfig(hexo);
     // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);
     // minify css
     hexo.extend.filter.register("after_render:css", css_1.default);
+    // all in one html fixer
+    hexo.extend.filter.register("after_render:html", index_1.default);
     // fix external link
-    hexo.extend.filter.register("after_render:html", hyperlink_1.default);
+    //hexo.extend.filter.register("after_render:html", fixHyperlinks);
     // fix image attributes
-    hexo.extend.filter.register("after_render:html", fixAttributes_1.usingJSDOM);
+    //hexo.extend.filter.register("after_render:html", usingJSDOM);
     // fix schema meta
-    hexo.extend.filter.register("after_render:html", fixSchema_1.default);
+    //hexo.extend.filter.register("after_render:html", fixSchema);
     // fix invalid link[/.js, /.css]
-    hexo.extend.filter.register("after_render:html", fixInvalid_1.default);
+    //hexo.extend.filter.register("after_render:html", fixInvalid);
     // minify html
     //hexo.extend.filter.register("after_generate", minHtml);
-    // execute scheduled functions before process exit
-    if (hexoCmd && hexoCmd != "clean") {
-        console.log("Scheduling functions on process exit");
-        (0, cleanup_1.default)("scheduler_on_exit", function () {
-            console.log("executing scheduled functions");
-            scheduler_1.default.executeAll();
-        });
-    }
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo
     /*hexo.extend.filter.register("server_middleware", function (app) {

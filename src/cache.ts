@@ -7,6 +7,7 @@ import { readFile, tmpFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 import { existsSync } from "fs";
+import NodeCache from "node-cache";
 
 /**
  * @summary IN MEMORY CACHE
@@ -80,6 +81,8 @@ export function resolveString(variable: any, encode = false) {
   if (Buffer.isBuffer(variable)) variable = variable.toString();
 }
 
+const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
+
 /**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
@@ -89,10 +92,8 @@ export class CacheFile {
   dbFile: string;
   cacheHash = "";
   constructor(hash = null) {
-    if (!hash) {
-      const stack = new Error().stack.split("at")[2];
-      hash = CacheFile.md5(stack);
-    }
+    const stack = new Error().stack.split("at")[2];
+    hash = hash + CacheFile.md5(stack);
     this.cacheHash = hash;
     this.dbFile = path.join(__dirname, "../tmp/db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
@@ -108,14 +109,10 @@ export class CacheFile {
       this.md5Cache = db;
     }
   }
-  static md5 = memoize((data: string): string => {
-    return crypto.createHash("md5").update(data).digest("hex");
-  });
-  setCache(key: string, value: any) {
-    return this.set(key, value);
-  }
+
   set(key: string, value: any) {
-    // if value is string, save to static file
+    return myCache.set(key, value);
+    /*// if value is string, save to static file
     if (typeof value === "string") {
       // usually tags, archives, categories don't have paths for keys
       // generate based on value
@@ -164,10 +161,7 @@ export class CacheFile {
         console.log(this.cacheHash, "Saving cache to disk...");
         writeFile(this.dbFile, JSON.stringify(md5Cache));
       }
-    );
-  }
-  has(key: string): boolean {
-    return typeof this.md5Cache[key] !== undefined;
+    );*/
   }
   /**
    * Get cache by key
@@ -175,8 +169,10 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get(key: string, fallback = null) {
-    const Get = this.md5Cache[key];
+  get<T extends keyof any>(key: string, fallback: T = null): T {
+    const Get = myCache.get(key);
+    if (!Get) return fallback;
+    /*const Get = this.md5Cache[key];
     if (Get === undefined) return fallback;
     if (typeof Get == "string") {
       if (Get.startsWith("file://")) {
@@ -194,10 +190,19 @@ export class CacheFile {
         }
       }
     }
-    return Get;
+    return Get;*/
+  }
+  has(key: string): boolean {
+    return typeof this.md5Cache[key] !== undefined;
   }
   getCache<T extends keyof any>(key: string, fallback: T = null): T {
     return this.get(key, fallback);
+  }
+  static md5 = memoize((data: string): string => {
+    return crypto.createHash("md5").update(data).digest("hex");
+  });
+  setCache(key: string, value: any) {
+    return this.set(key, value);
   }
   /**
    * Check file is changed with md5 algorithm

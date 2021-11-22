@@ -4,7 +4,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global hexo */
-
+require("dotenv").config();
 const path = require("path");
 const fs = require("fs");
 const argv = require("minimist")(process.argv.slice(2));

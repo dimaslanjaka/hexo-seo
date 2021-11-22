@@ -10,7 +10,7 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/node_modules": true,
-    "dist": true
+    "dist": false
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,

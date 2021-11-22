@@ -45,6 +45,7 @@ var scheduler = /** @class */ (function () {
      */
     scheduler.executeAll = function () {
         Object.keys(functions).forEach(function (key) {
+            console.log("executing", key);
             functions[key]();
         });
         scheduler.clearArray(functions);

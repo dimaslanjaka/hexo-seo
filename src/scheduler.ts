@@ -40,6 +40,7 @@ class scheduler {
    */
   static executeAll() {
     Object.keys(functions).forEach((key) => {
+      console.log("executing", key);
       functions[key]();
     });
     scheduler.clearArray(functions);
