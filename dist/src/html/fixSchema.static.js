@@ -14,7 +14,7 @@ var utils_1 = require("../utils");
 function default_1(dom, HSconfig, data) {
     if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
         return;
-    var Schema = new article_1.default({ pretty: __1.isDev, hexo: this });
+    var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
     // set url
     var url = data.config.url;
     if (data.page) {

@@ -10,7 +10,7 @@ import { dump, extractSimplePageData } from "../utils";
 
 export default function (dom: _JSDOM, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
-  const Schema = new schemaArticles({ pretty: isDev, hexo: this });
+  const Schema = new schemaArticles({ pretty: isDev, hexo: data });
   // set url
   let url = data.config.url;
   if (data.page) {
