@@ -3,23 +3,22 @@ import path from "path";
 import crypto from "crypto";
 import { Objek } from "./utils";
 import { memoize } from "underscore";
-import { readFile, tmpFolder, writeFile } from "./fm";
+import { readFile, buildFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 import NodeCache from "node-cache";
 import { existsSync } from "fs";
 import "../packages/js-prototypes/src/Any";
+const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
+const md5 = memoize((data: string): string => {
+  return crypto.createHash("md5").update(data).digest("hex");
+});
 
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
  */
 class Cache {
-  /**
-   * Storage object for storing
-   */
-  caches: Objek = {};
-
   /**
    * Identifier Hash for cache
    */
@@ -36,7 +35,9 @@ class Cache {
   }
 
   setCache(key: string, value: any) {
-    this.caches[key] = value;
+    if (!key || !value) return;
+    if (!key) key = md5(value);
+    return myCache.set(key, value);
   }
 
   get(key: string, fallback?: any) {
@@ -50,7 +51,7 @@ class Cache {
    * @returns
    */
   getCache(key: string, fallback = null) {
-    return this.caches[key] || fallback;
+    return myCache.get(key) || fallback;
   }
 
   isFileChanged(filePath: string) {
@@ -82,8 +83,6 @@ export function resolveString(variable: any, encode = false) {
   if (Buffer.isBuffer(variable)) variable = variable.toString();
 }
 
-const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
-
 /**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
@@ -108,10 +107,10 @@ export class CacheFile {
   cacheHash = "";
   constructor(hash = null) {
     const stack = new Error().stack.split("at")[2];
-    hash = hash + "-" + CacheFile.md5(stack);
+    hash = hash + "-" + md5(stack);
     this.cacheHash = hash;
-    this.dbFile = path.join(tmpFolder, "db-" + hash + ".json");
-    this.dbFolder = path.join(tmpFolder, hash);
+    this.dbFile = path.join(buildFolder, "db-" + hash + ".json");
+    this.dbFolder = path.join(buildFolder, hash);
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
       try {
@@ -125,21 +124,26 @@ export class CacheFile {
       this.md5Cache = db;
     }
   }
-
+  getKeyLocation(key: string) {
+    if (key.startsWith("/")) {
+      key = path.join(md5(path.dirname(key)), path.basename(key));
+    }
+    return path.join(this.dbFolder, key);
+  }
   set(key: string, value: any) {
     if (!key && !value) {
       return;
     } else if (!key) {
-      key = CacheFile.md5(value);
+      key = md5(value);
     }
-    const saveLocation = path.join(this.dbFolder, key);
+    const saveLocation = this.getKeyLocation(key);
     this.md5Cache[key] = saveLocation;
     const dbLocation = path.join(this.dbFile);
     const db = this.md5Cache;
     scheduler.postpone("save-" + key, function () {
-      console.log("saving caches...");
+      console.log("saving caches...", saveLocation);
       writeFile(saveLocation, value);
-      writeFile(dbLocation, JSON.stringify(db));
+      writeFile(dbLocation, JSON.stringify(db, null, 2));
     });
     this.dbTemp[key] = value;
   }
@@ -151,7 +155,7 @@ export class CacheFile {
    */
   get(key: string, fallback = null) {
     if (typeof this.dbTemp[key] == "undefined") {
-      const saveLocation = path.join(this.dbFolder, key);
+      const saveLocation = this.getKeyLocation(key);
       if (existsSync(saveLocation)) {
         const readCache = readFile(saveLocation).toString();
         this.dbTemp[key] = readCache;
@@ -168,9 +172,6 @@ export class CacheFile {
   getCache(key: string, fallback = null) {
     return this.get(key, fallback);
   }
-  static md5 = memoize((data: string): string => {
-    return crypto.createHash("md5").update(data).digest("hex");
-  });
   setCache(key: string, value: any) {
     return this.set(key, value);
   }

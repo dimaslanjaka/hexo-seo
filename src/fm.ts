@@ -8,7 +8,7 @@ import "../packages/js-prototypes/src/Object";
 /**
  * Temp folder
  */
-export const tmpFolder = path.join(__dirname, "../tmp");
+export const tmpFolder = path.join(process.cwd(), "tmp");
 export const buildFolder = path.join(process.cwd(), "build/hexo-seo");
 
 /**

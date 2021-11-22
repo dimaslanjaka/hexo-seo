@@ -6,10 +6,6 @@ import "../packages/js-prototypes/src/Any";
  */
 declare class Cache {
     /**
-     * Storage object for storing
-     */
-    caches: Objek;
-    /**
      * Identifier Hash for cache
      */
     static md5Cache: Objek;
@@ -19,8 +15,8 @@ declare class Cache {
      * @param value
      * @returns
      */
-    set(key: string, value: any): void;
-    setCache(key: string, value: any): void;
+    set(key: string, value: any): boolean;
+    setCache(key: string, value: any): boolean;
     get(key: string, fallback?: any): any;
     /**
      * Get cache for given key
@@ -60,6 +56,7 @@ export declare class CacheFile {
      */
     cacheHash: string;
     constructor(hash?: any);
+    getKeyLocation(key: string): string;
     set(key: string, value: any): void;
     /**
      * Get cache by key
@@ -70,7 +67,6 @@ export declare class CacheFile {
     get(key: string, fallback?: any): any;
     has(key: string): boolean;
     getCache(key: string, fallback?: any): any;
-    static md5: (data: string) => string;
     setCache(key: string, value: any): void;
     /**
      * Check file is changed with md5 algorithm

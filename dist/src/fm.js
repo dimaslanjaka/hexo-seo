@@ -32,7 +32,7 @@ require("../packages/js-prototypes/src/Object");
 /**
  * Temp folder
  */
-exports.tmpFolder = path.join(__dirname, "../tmp");
+exports.tmpFolder = path.join(process.cwd(), "tmp");
 exports.buildFolder = path.join(process.cwd(), "build/hexo-seo");
 /**
  * resolve dirname of file
