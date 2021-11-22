@@ -84,7 +84,8 @@ hexo server --development
 
 # Preview
 
-![](./images/rich-snippets-result.png)
+![Google Rich Snippets](./images/rich-snippets-result.png)
+![Schema Article](https://user-images.githubusercontent.com/12471057/142891853-7c00a941-26b6-4a69-9fcd-59b61505e920.png)
 
 # Troubleshoot
 
