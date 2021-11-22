@@ -4,20 +4,26 @@ import { imgOptions } from "./index.old";
 import { checkBrokenImg } from "../img/broken";
 import logger from "../log";
 import pkg from "../../package.json";
+import Promise from "bluebird";
 
 export default function (dom: _JSDOM, HSconfig: imgOptions, data: HexoSeo) {
-  dom.document.querySelectorAll("img[src]").forEach((img) => {
-    const src = img.getAttribute("src");
-    if (src) {
-      if (/^https?:\/\//.test(src)) {
-        checkBrokenImg(src).then((check) => {
-          if (typeof check == "object" && !check.success) {
-            logger.log("%s(IMG:broken) fixing %s", pkg.name, src);
-            img.setAttribute("src", check.resolved);
-            img.setAttribute("src-ori", check.original);
-          }
-        });
+  return Promise.all(
+    Array.from(dom.document.querySelectorAll("img[src]"))
+  ).then((images) => {
+    return images.map((img) => {
+      const src = img.getAttribute("src");
+      if (src) {
+        if (/^https?:\/\//.test(src)) {
+          return checkBrokenImg(src).then((check) => {
+            if (typeof check == "object" && !check.success) {
+              logger.log("%s(IMG:broken) fixing %s", pkg.name, src);
+              img.setAttribute("src", check.resolved);
+              img.setAttribute("src-ori", check.original);
+            }
+          });
+        }
       }
-    }
+      return img;
+    });
   });
 }

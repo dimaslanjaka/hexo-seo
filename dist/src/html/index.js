@@ -29,20 +29,22 @@ var cache = new cache_1.CacheFile("index");
 function default_1(content, data) {
     var path0 = getPath(data) ? getPath(data) : content;
     if (cache.isFileChanged((0, cache_1.md5)(path0))) {
-        var dom = new dom_1._JSDOM(content);
-        var cfg = (0, config_1.default)(this);
-        (0, broken_static_1.default)(dom, cfg.img, data);
-        (0, fixHyperlinks_static_1.default)(dom, cfg.links, data);
-        (0, fixInvalid_static_1.default)(dom, cfg, data);
-        (0, fixImageAttributes_1.default)(dom, cfg.img, data);
-        (0, fixSchema_static_1.default)(dom, cfg, data);
-        if (cfg.html.fix) {
-            content = dom.serialize();
-        }
-        else {
-            content = dom.toString();
-        }
-        cache.set((0, cache_1.md5)(path0), content);
+        var dom_2 = new dom_1._JSDOM(content);
+        var cfg_1 = (0, config_1.default)(this);
+        return (0, broken_static_1.default)(dom_2, cfg_1.img, data).then(function () {
+            (0, fixHyperlinks_static_1.default)(dom_2, cfg_1.links, data);
+            (0, fixInvalid_static_1.default)(dom_2, cfg_1, data);
+            (0, fixImageAttributes_1.default)(dom_2, cfg_1.img, data);
+            (0, fixSchema_static_1.default)(dom_2, cfg_1, data);
+            if (cfg_1.html.fix) {
+                content = dom_2.serialize();
+            }
+            else {
+                content = dom_2.toString();
+            }
+            cache.set((0, cache_1.md5)(path0), content);
+            return content;
+        });
     }
     else {
         content = cache.getCache((0, cache_1.md5)(path0));

@@ -10,6 +10,7 @@ import fixHyperlinksStatic from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
 import fixBrokenImg from "../img/broken.static";
+import Promise from "bluebird";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {
@@ -26,17 +27,19 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     const dom = new _JSDOM(content);
     const cfg = getConfig(this);
 
-    fixBrokenImg(dom, cfg.img, data);
-    fixHyperlinksStatic(dom, cfg.links, data);
-    fixInvalidStatic(dom, cfg, data);
-    fixAttributes(dom, cfg.img, data);
-    fixSchemaStatic(dom, cfg, data);
-    if (cfg.html.fix) {
-      content = dom.serialize();
-    } else {
-      content = dom.toString();
-    }
-    cache.set(md5(path0), content);
+    return fixBrokenImg(dom, cfg.img, data).then(() => {
+      fixHyperlinksStatic(dom, cfg.links, data);
+      fixInvalidStatic(dom, cfg, data);
+      fixAttributes(dom, cfg.img, data);
+      fixSchemaStatic(dom, cfg, data);
+      if (cfg.html.fix) {
+        content = dom.serialize();
+      } else {
+        content = dom.toString();
+      }
+      cache.set(md5(path0), content);
+      return content;
+    });
   } else {
     content = cache.getCache(md5(path0));
   }

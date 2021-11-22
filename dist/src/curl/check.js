@@ -35,12 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var node_libcurl_1 = require("node-libcurl");
-var log_1 = __importDefault(require("../log"));
 var cache_1 = require("../cache");
 var index_1 = require("../index");
 var cache = new cache_1.CacheFile("curl");
@@ -61,7 +57,6 @@ var checkUrl = function (url) {
                     return [4 /*yield*/, node_libcurl_1.curly.get(url.toString())];
                 case 2:
                     _a = _b.sent(), statusCode = _a.statusCode, data = _a.data, headers = _a.headers;
-                    log_1.default.log(url, statusCode);
                     result = statusCode < 400 || statusCode >= 500 || statusCode === 200;
                     cache.set(url.toString(), [result, statusCode, data, headers]);
                     return [2 /*return*/, result];
