@@ -12,12 +12,12 @@ var cache_1 = require("../cache");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var log_1 = __importDefault(require("../log"));
 var bluebird_1 = __importDefault(require("bluebird"));
-var package_json_1 = __importDefault(require("../../package.json"));
 var node_html_parser_1 = require("node-html-parser");
 var fixHyperlinks_1 = require("./fixHyperlinks");
 var url_parse_1 = __importDefault(require("url-parse"));
 var utils_1 = require("../utils");
 var __1 = require("../");
+var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 function getPath(data) {
     if (data.page) {
         if (data.page.full_source)
@@ -91,7 +91,7 @@ function default_1(content, data) {
             : data.config.title;
         root.querySelectorAll("img[src]").forEach(function (element) {
             if (!element.getAttribute("title")) {
-                log_1.default.log("%s(img[title]) fix %s", package_json_1.default.name, data.title);
+                //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
                 element.setAttribute("title", title_1);
             }
             if (!element.getAttribute("alt")) {
@@ -101,6 +101,7 @@ function default_1(content, data) {
                 element.setAttribute("itemprop", "image");
             }
         });
+        (0, fixSchema_static_1.default)(root, cfg_1, data);
         content = root.toString();
         if (allowCache)
             cache.set((0, cache_1.md5)(path0), content);

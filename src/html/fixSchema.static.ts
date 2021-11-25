@@ -2,13 +2,18 @@ import { ReturnConfig } from "../config";
 import { trimText } from "../utils/string";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
-import { getTextPartialHtml, _JSDOM } from "./dom";
+import { getTextPartialHtml } from "./dom";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
 import underscore from "underscore";
 import { dump, extractSimplePageData } from "../utils";
+import { HTMLElement } from "node-html-parser";
 
-export default function (dom: _JSDOM, HSconfig: ReturnConfig, data: HexoSeo) {
+export default function (
+  dom: HTMLElement,
+  HSconfig: ReturnConfig,
+  data: HexoSeo
+) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const Schema = new schemaArticles({ pretty: isDev, hexo: data });
   // set url
@@ -153,5 +158,7 @@ export default function (dom: _JSDOM, HSconfig: ReturnConfig, data: HexoSeo) {
   );
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
-  dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
+  //dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
+  const head = dom.getElementsByTagName("head")[0];
+  head.insertAdjacentHTML("beforeend", schemahtml);
 }

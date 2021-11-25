@@ -14,6 +14,7 @@ import { isExternal } from "./fixHyperlinks";
 import parseUrl from "url-parse";
 import { dump } from "../utils";
 import { isDev } from "../";
+import fixSchemaStatic from "./fixSchema.static";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {
@@ -83,7 +84,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
         : data.config.title;
     root.querySelectorAll("img[src]").forEach((element) => {
       if (!element.getAttribute("title")) {
-        logger.log("%s(img[title]) fix %s", pkg.name, data.title);
+        //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
         element.setAttribute("title", title);
       }
       if (!element.getAttribute("alt")) {
@@ -93,6 +94,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
         element.setAttribute("itemprop", "image");
       }
     });
+
+    fixSchemaStatic(root, cfg, data);
 
     content = root.toString();
     if (allowCache) cache.set(md5(path0), content);
