@@ -22,24 +22,9 @@ export default function (
         let rels = el.getAttribute("rel")
           ? el.getAttribute("rel").split(" ")
           : [];
-        const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
-        const internalArr = ["internal", "follow", "bookmark"];
+
         const external = isExternal(parseHref, hexo);
-        // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
-        if (external) {
-          rels = rels
-            .concat(externalArr)
-            .unique()
-            .hapusItemDariArrayLain(internalArr);
-          if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
-            el.setAttribute("target", "_blank");
-          }
-        } else {
-          rels = rels
-            .concat(internalArr)
-            .unique()
-            .hapusItemDariArrayLain(externalArr);
-        }
+        rels = identifyRels(el, external, HSconfig);
         el.setAttribute("rel", rels.join(" "));
       }
       // set anchor title
@@ -55,4 +40,30 @@ export default function (
       }
     });
   }
+}
+
+export function identifyRels(
+  el: HTMLAnchorElement | import("node-html-parser").HTMLElement,
+  external: boolean,
+  HSconfig: hyperlinkOptions
+) {
+  let rels: string[] = [];
+  const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
+  const internalArr = ["internal", "follow", "bookmark"];
+  // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
+  if (external) {
+    rels = rels
+      .concat(externalArr)
+      .unique()
+      .hapusItemDariArrayLain(internalArr);
+    if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
+      el.setAttribute("target", "_blank");
+    }
+  } else {
+    rels = rels
+      .concat(internalArr)
+      .unique()
+      .hapusItemDariArrayLain(externalArr);
+  }
+  return rels;
 }

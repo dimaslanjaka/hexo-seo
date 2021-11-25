@@ -6,12 +6,16 @@ import fixSchemaStatic from "./fixSchema.static";
 import fixInvalidStatic from "./fixInvalid.static";
 import fixAttributes from "./fixImageAttributes";
 import { _JSDOM } from "./dom";
-import fixHyperlinksStatic from "./fixHyperlinks.static";
+import fixHyperlinksStatic, { identifyRels } from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
 import fixBrokenImg from "../img/broken.static";
 import logger from "../log";
-import bluebird from "bluebird";
+import Promise from "bluebird";
+import { JSDOM } from "jsdom";
+import { HTMLElement, parse as nodeHtmlParser } from "node-html-parser";
+import { isExternal } from "./fixHyperlinks";
+import parseUrl from "url-parse";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {
@@ -21,14 +25,37 @@ export function getPath(data: HexoSeo) {
   if (data.path) return data.path;
 }
 
+let dom: _JSDOM;
 const cache = new CacheFile("index");
-export default async function (this: Hexo, content: string, data: HexoSeo) {
+export default function (this: Hexo, content: string, data: HexoSeo) {
+  const hexo = this;
   const path0 = getPath(data) ? getPath(data) : content;
   if (cache.isFileChanged(md5(path0))) {
-    const dom = new _JSDOM(content);
+    const root = nodeHtmlParser(content);
     const cfg = getConfig(this);
+    //** fix hyperlink */
+    const a = root.querySelectorAll("a[href]");
+    a.forEach((el) => {
+      const href = el.getAttribute("href");
+      if (/https?:\/\//.test(href)) {
+        let rels = el.getAttribute("rel")
+          ? el.getAttribute("rel").split(" ")
+          : [];
+        rels = rels.removeEmpties().unique();
+        const parseHref = parseUrl(href);
+        const external = isExternal(parseHref, hexo);
+        rels = identifyRels(el, external, cfg.links);
+        el.setAttribute("rel", rels.join(" "));
+      }
+    });
 
-    await fixBrokenImg(dom, cfg.img, data);
+    //** fix invalid html */
+    root.querySelectorAll('*[href="/.css"],*[src="/.js"]').forEach((i) => {
+      i.set_content(`<!-- invalid ${i.outerHTML} -->`);
+    });
+    content = root.toString();
+    /*
+    dom = new _JSDOM(content);
     fixHyperlinksStatic(dom, cfg.links, data);
     fixInvalidStatic(dom, cfg, data);
     fixAttributes(dom, cfg.img, data);
@@ -39,15 +66,12 @@ export default async function (this: Hexo, content: string, data: HexoSeo) {
       content = dom.toString();
     }
     cache.set(md5(path0), content);
-    return content;
+    return fixBrokenImg(dom, cfg.img, data).then(() => {
+      return content;
+    });*/
   } else {
-    content = cache.getCache(md5(path0));
+    content = cache.getCache(md5(path0), content) as string;
   }
 
-  //content = fixAttributes.bind(this)(content, data);
-  //content = fixHyperlinks.bind(this)(content, data);
-  //content = fixSchema.bind(this)(content, data);
-  //content = fixInvalid.bind(this)(content, data);
-
-  return content;
+  return Promise.resolve(content);
 }
