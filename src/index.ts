@@ -65,7 +65,13 @@ export default function (hexo: Hexo) {
         console.log("cleaned", tmpFolder);
       }
     });
-    rimraf.sync(buildFolder);
+    rimraf(buildFolder, function (err) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("cleaned", buildFolder);
+      }
+    });
     return;
   }
   // execute scheduled functions before process exit

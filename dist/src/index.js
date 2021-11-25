@@ -60,7 +60,14 @@ function default_1(hexo) {
                 console.log("cleaned", fm_1.tmpFolder);
             }
         });
-        rimraf_1.default.sync(fm_1.buildFolder);
+        (0, rimraf_1.default)(fm_1.buildFolder, function (err) {
+            if (err) {
+                console.error(err);
+            }
+            else {
+                console.log("cleaned", fm_1.buildFolder);
+            }
+        });
         return;
     }
     // execute scheduled functions before process exit
