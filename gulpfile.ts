@@ -14,7 +14,7 @@ function build() {
       "./dist/**/*",
       "./source/**/*"
     ])
-    .pipe(gulp.dest("./build"));
+    .pipe(gulp.dest("./docs"));
 }
 
 exports.default = gulp.series(build);
