@@ -5,7 +5,16 @@ function copy(src, dest) {
 }
 
 function build() {
-  return copy("./lib", "./build/lib").pipe(copy("./src", "./build/src"));
+  return gulp
+    .src([
+      "./*.{json,js}",
+      "./lib/**/*",
+      "./src/**/*",
+      "./packages/**/*",
+      "./dist/**/*",
+      "./source/**/*"
+    ])
+    .pipe(gulp.dest("./build"));
 }
 
 exports.default = gulp.series(build);
