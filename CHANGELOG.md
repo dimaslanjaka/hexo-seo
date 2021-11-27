@@ -2,8 +2,6 @@
 
 # CHANGELOG
 
-<hr/>
-
 ## [0.0.2] 2021-11-12T02:28:58
 - aa6aac6 : +changelog
 - a8a9759 : +changelog builder
