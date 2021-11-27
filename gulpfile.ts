@@ -9,7 +9,7 @@ function build() {
   return gulp
     .src(
       [
-        ".gitmodules",
+        "./.gitmodules",
         "./*.{json,js,md}",
         "./lib/**/*",
         "./src/**/*",
