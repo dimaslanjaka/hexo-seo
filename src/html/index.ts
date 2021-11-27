@@ -5,7 +5,6 @@ import "../../packages/js-prototypes/src/Array";
 import { identifyRels } from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile, md5 } from "../cache";
-import hexoIs from "../hexo/hexo-is";
 import logger from "../log";
 import Promise from "bluebird";
 import pkg from "../../package.json";
@@ -35,20 +34,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     allowCache = false;
     path0 = content;
   }
-  if (isDev) {
-    const is = hexoIs(data);
-    if (is.archive) {
-      dump("data-archive.txt", data);
-    } else if (is.post) {
-      dump("data-post.txt", data);
-    } else if (is.page) {
-      dump("data-page.txt", data);
-    } else if (is.category) {
-      dump("data-category.txt", data);
-    } else if (is.tag) {
-      dump("data-tag.txt", data);
-    }
-  }
+
   if (cache.isFileChanged(md5(path0))) {
     const root = nodeHtmlParser(content);
     const cfg = getConfig(this);
