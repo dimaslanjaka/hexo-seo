@@ -7,6 +7,11 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ compiler ]
 
+# cancel previous workflows, run only one workflow
+concurrency:
+  group: build-master-${{ github.event.push.number || github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
