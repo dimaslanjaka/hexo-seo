@@ -8,7 +8,7 @@ function build() {
   return gulp
     .src([
       ".gitmodules",
-      "./*.{json,js}",
+      "./*.{json,js,md}",
       "./lib/**/*",
       "./src/**/*",
       "./packages/**/*",
