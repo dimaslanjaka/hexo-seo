@@ -34,7 +34,7 @@ function default_1(dom, HSconfig, data) {
     }
     var schemahtml;
     if (is.home) {
-        (0, utils_1.dump)("data-home.txt", data);
+        (0, utils_1.dump)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
         var homepage = new index_1.default({ pretty: __1.isDev, hexo: data });
     }
     else {

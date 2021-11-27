@@ -33,7 +33,7 @@ export default function (
 
   let schemahtml: string;
   if (is.home) {
-    dump("data-home.txt", data);
+    dump("data-home.txt", extractSimplePageData(data));
     const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
   } else {
     const Schema = new schemaArticles({ pretty: isDev, hexo: data });
