@@ -9,13 +9,11 @@ require("../../packages/js-prototypes/src/Array");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
-var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var log_1 = __importDefault(require("../log"));
 var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
 var fixHyperlinks_1 = require("./fixHyperlinks");
 var url_parse_1 = __importDefault(require("url-parse"));
-var utils_1 = require("../utils");
 var __1 = require("../");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 function getPath(data) {
@@ -41,25 +39,7 @@ function default_1(content, data) {
         allowCache = false;
         path0 = content;
     }
-    if (__1.isDev) {
-        var is = (0, hexo_is_1.default)(data);
-        if (is.archive) {
-            (0, utils_1.dump)("data-archive.txt", data);
-        }
-        else if (is.post) {
-            (0, utils_1.dump)("data-post.txt", data);
-        }
-        else if (is.page) {
-            (0, utils_1.dump)("data-page.txt", data);
-        }
-        else if (is.category) {
-            (0, utils_1.dump)("data-category.txt", data);
-        }
-        else if (is.tag) {
-            (0, utils_1.dump)("data-tag.txt", data);
-        }
-    }
-    if (cache.isFileChanged((0, cache_1.md5)(path0))) {
+    if (cache.isFileChanged((0, cache_1.md5)(path0)) || __1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
         var cfg_1 = (0, config_1.default)(this);
         //** fix hyperlink */
