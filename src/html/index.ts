@@ -35,7 +35,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     path0 = content;
   }
 
-  if (cache.isFileChanged(md5(path0))) {
+  if (cache.isFileChanged(md5(path0)) || isDev) {
     const root = nodeHtmlParser(content);
     const cfg = getConfig(this);
     //** fix hyperlink */
