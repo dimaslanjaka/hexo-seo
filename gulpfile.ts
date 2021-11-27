@@ -7,6 +7,7 @@ function copy(src, dest) {
 function build() {
   return gulp
     .src([
+      ".gitmodules",
       "./*.{json,js}",
       "./lib/**/*",
       "./src/**/*",

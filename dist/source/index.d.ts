@@ -1,4 +1,3 @@
-/// <reference types="node" />
 declare const defaultObject: {
     img: {
         fallback: {
