@@ -16,7 +16,7 @@ function build() {
         "./dist/**/*",
         "./source/**/*"
       ],
-      { base: "." }
+      { base: ".", dot: true }
     )
     .pipe(gulp.dest("./docs"));
 }
