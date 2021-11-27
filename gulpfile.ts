@@ -1,7 +1,8 @@
 import gulp from "gulp";
+import concat from "gulp-concat";
 
-function copy(src, dest) {
-  return gulp.src(src, { base: "." }).pipe(gulp.dest(dest));
+function copy(src, dest, opt = { base: "." }) {
+  return gulp.src(src, opt).pipe(gulp.dest(dest));
 }
 
 function build() {
@@ -18,6 +19,13 @@ function build() {
       ],
       { base: ".", dot: true }
     )
+    .pipe(gulp.dest("./docs"));
+}
+
+function readme() {
+  return gulp
+    .src(["./README.md", "./CHANGELOG.md"])
+    .pipe(concat("README.md"))
     .pipe(gulp.dest("./docs"));
 }
 
