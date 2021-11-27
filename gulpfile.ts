@@ -29,4 +29,4 @@ function readme() {
     .pipe(gulp.dest("./docs"));
 }
 
-exports.default = gulp.series(build);
+exports.default = gulp.series(build, readme);
