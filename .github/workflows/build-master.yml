@@ -40,11 +40,11 @@ jobs:
       - run: gulp
         id: gulp
       - run: |
-          cp .gitmodules build/
-          cp .gitignore build/
-          cp .eslintrc build/
-          cp .eslintignore build/
-          cp LICENSE build/
+          cp .gitmodules docs/
+          cp .gitignore docs/
+          cp .eslintrc docs/
+          cp .eslintignore docs/
+          cp LICENSE docs/
       - name: Deploy Master Branch 🚀
         if: steps.gulp.outcome == 'success' && steps.gulp.conclusion == 'success'
         uses: JamesIves/github-pages-deploy-action@4.1.7
