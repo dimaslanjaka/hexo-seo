@@ -6,15 +6,18 @@ function copy(src, dest) {
 
 function build() {
   return gulp
-    .src([
-      ".gitmodules",
-      "./*.{json,js,md}",
-      "./lib/**/*",
-      "./src/**/*",
-      "./packages/**/*",
-      "./dist/**/*",
-      "./source/**/*"
-    ])
+    .src(
+      [
+        ".gitmodules",
+        "./*.{json,js,md}",
+        "./lib/**/*",
+        "./src/**/*",
+        "./packages/**/*",
+        "./dist/**/*",
+        "./source/**/*"
+      ],
+      { base: "." }
+    )
     .pipe(gulp.dest("./docs"));
 }
 
