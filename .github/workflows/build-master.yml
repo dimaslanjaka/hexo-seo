@@ -28,7 +28,7 @@ jobs:
       - run: npm install
       - run: gulp
         id: gulp
-      - name: Deploy 🚀 ${{ steps.date.outputs.date }}
+      - name: Deploy Master Branch 🚀
         if: steps.gulp.outcome == 'success' && steps.gulp.conclusion == 'success'
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
