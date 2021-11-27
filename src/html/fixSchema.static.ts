@@ -20,15 +20,15 @@ export default function (
 
   const is = hexoIs(data);
   if (is.archive) {
-    dump("data-archive.txt", data);
+    dump("data-archive.txt", extractSimplePageData(data));
   } else if (is.post) {
-    dump("data-post.txt", data);
+    dump("data-post.txt", extractSimplePageData(data));
   } else if (is.page) {
-    dump("data-page.txt", data);
+    dump("data-page.txt", extractSimplePageData(data));
   } else if (is.category) {
-    dump("data-category.txt", data);
+    dump("data-category.txt", extractSimplePageData(data));
   } else if (is.tag) {
-    dump("data-tag.txt", data);
+    dump("data-tag.txt", extractSimplePageData(data));
   }
 
   let schemahtml: string;
