@@ -15,6 +15,10 @@
     "skipLibCheck": true
   },
   "exclude": [
+    "**/node_modules/**",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/__tests__/**",
     "**/dist/**",
     "**/node_modules/**",
     "**/.git/**"
