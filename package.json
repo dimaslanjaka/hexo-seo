@@ -58,7 +58,6 @@
     "imagemin-zopfli": "^7.0.0",
     "jquery": "^3.6.0",
     "jsdom": "^18.1.0",
-    "md5-file": "^5.0.0",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
