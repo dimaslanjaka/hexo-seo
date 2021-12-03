@@ -1,3 +1,5 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="Object.d.ts" />
 Object.size = function (obj) {
     var size = 0, key;

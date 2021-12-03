@@ -28,6 +28,12 @@ Array.prototype.last = function (n) {
         return this.slice(start, this.length);
     }
 };
+Array.prototype.trim = function () {
+    return this.map(function (str) {
+        if (typeof str == "string")
+            return str.trim();
+    });
+};
 Array.prototype.isEmpty = function () {
     return this.length === 0;
 };
@@ -60,6 +66,26 @@ Array.prototype.unique = function () {
         }
     }
     return a;
+};
+Array.prototype.uniqueObjectKey = function (key, removeNull) {
+    if (removeNull === void 0) { removeNull = true; }
+    if (!key)
+        return this;
+    var resArr = [];
+    this.filter(function (item) {
+        var i = resArr.findIndex(function (x) { return x[key] == item[key]; });
+        if (i <= -1) {
+            if (removeNull) {
+                if (item[key])
+                    resArr.push(item);
+            }
+            else {
+                resArr.push(item);
+            }
+        }
+        return null;
+    });
+    return resArr;
 };
 Array.prototype.contains = function (obj) {
     var i = this.length;

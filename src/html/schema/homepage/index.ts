@@ -1,4 +1,4 @@
-import data from "./index.json";
+import data from "./data-index.json";
 import { SchemaArticleOptions } from "../article";
 import Hexo from "hexo";
 

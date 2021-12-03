@@ -26,7 +26,7 @@ declare class Cache {
      * @returns
      */
     getCache(key: string, fallback?: any): any;
-    isFileChanged(filePath: string): Promise<boolean>;
+    isFileChanged(filePath: string): any;
 }
 /**
  * Transform any variable to string
