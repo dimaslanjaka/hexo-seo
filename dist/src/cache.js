@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = exports.md5 = void 0;
-var md5_file_1 = __importStar(require("md5-file"));
+var md5_file_1 = __importStar(require("./utils/md5-file"));
 var path_1 = __importDefault(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
 var underscore_1 = require("underscore");

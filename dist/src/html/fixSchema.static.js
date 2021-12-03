@@ -12,7 +12,7 @@ require("../../packages/js-prototypes/src/Array");
 var underscore_1 = __importDefault(require("underscore"));
 var utils_1 = require("../utils");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
-var index_1 = __importDefault(require("./schema/homepage/index"));
+var homepage_1 = __importDefault(require("./schema/homepage"));
 function default_1(dom, HSconfig, data) {
     if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
         return;
@@ -35,7 +35,7 @@ function default_1(dom, HSconfig, data) {
     var schemahtml;
     if (is.home) {
         (0, utils_1.dump)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
-        var homepage = new index_1.default({ pretty: __1.isDev, hexo: data });
+        var homepage = new homepage_1.default({ pretty: __1.isDev, hexo: data });
     }
     else {
         var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
