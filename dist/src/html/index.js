@@ -9,6 +9,7 @@ require("../../packages/js-prototypes/src/Array");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
+var md5_file_1 = require("../utils/md5-file");
 var log_1 = __importDefault(require("../log"));
 var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
@@ -39,7 +40,7 @@ function default_1(content, data) {
         allowCache = false;
         path0 = content;
     }
-    if (cache.isFileChanged((0, cache_1.md5)(path0)) || __1.isDev) {
+    if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || __1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
         var cfg_1 = (0, config_1.default)(this);
         //** fix hyperlink */
@@ -84,7 +85,7 @@ function default_1(content, data) {
         (0, fixSchema_static_1.default)(root, cfg_1, data);
         content = root.toString();
         if (allowCache)
-            cache.set((0, cache_1.md5)(path0), content);
+            cache.set((0, md5_file_1.md5)(path0), content);
         /*
         dom = new _JSDOM(content);
         fixHyperlinksStatic(dom, cfg.links, data);
@@ -102,7 +103,7 @@ function default_1(content, data) {
         });*/
     }
     else {
-        content = cache.getCache((0, cache_1.md5)(path0), content);
+        content = cache.getCache((0, md5_file_1.md5)(path0), content);
     }
     return bluebird_1.default.resolve(content);
 }
