@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const Promise = require("bluebird");
+const { memoize } = require("underscore");
 
 const BUFFER_SIZE = 8192;
 
@@ -40,5 +41,20 @@ function md5File(path) {
   });
 }
 
+/**
+ * MD5
+ */
+const md5 = memoize(
+  /**
+   * MD5
+   * @param {string} data
+   * @returns
+   */
+  (data) => {
+    return crypto.createHash("md5").update(data).digest("hex");
+  }
+);
+
 module.exports = md5File;
 module.exports.sync = md5FileSync;
+module.exports.md5 = md5;
