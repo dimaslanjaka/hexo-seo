@@ -18,7 +18,13 @@ export type HexoSeo = Hexo &
   Hexo.Locals.Tag;
 
 export interface SchemaArticleOptions {
+  /**
+   * Print pretty style
+   */
   pretty?: boolean;
+  /**
+   * Hexo instance
+   */
   hexo: Hexo;
 }
 
