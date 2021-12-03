@@ -9,7 +9,7 @@ import underscore from "underscore";
 import { dump, extractSimplePageData } from "../utils";
 import { HTMLElement } from "node-html-parser";
 import hexoIs from "../hexo/hexo-is";
-import schemaHomepage from "./schema/homepage/index";
+import schemaHomepage from "./schema/homepage";
 
 export default function (
   dom: HTMLElement,

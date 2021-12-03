@@ -141,9 +141,13 @@ String.prototype.toHtmlEntities = function () {
         return s.match(/[a-z0-9\s]+/i) ? s : "&#" + s.charCodeAt(0) + ";";
     });
 };
-String.fromHtmlEntities = function (string) {
-    return (string + "").replace(/&#\d+;/gm, function (s) {
+String.fromHtmlEntities = function (str) {
+    return (str + "").replace(/&#\d+;/gm, function (s) {
         var m = s.match(/\d+/gm)[0];
         return String.fromCharCode(m);
     });
+};
+String.prototype.includesArray = function (substrings) {
+    var _this = this;
+    return substrings.some(function (v) { return _this.includes(v); });
 };

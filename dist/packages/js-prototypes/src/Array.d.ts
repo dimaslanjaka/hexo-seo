@@ -60,7 +60,7 @@ declare function array_shuffle(a: Array<any>): any[];
  * @param objects  The objects to merge together
  * @returns Merged values of defaults and options
  */
-declare function deepAssign(...objects: object[]): object;
+declare function deepAssign(...objects: Record<any, unknown>[]): Record<any, unknown>;
 /**
  * Remove item from array
  * @param arr
