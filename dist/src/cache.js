@@ -22,11 +22,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = exports.md5 = void 0;
+exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = void 0;
 var md5_file_1 = __importStar(require("./utils/md5-file"));
 var path_1 = __importDefault(require("path"));
-var crypto_1 = __importDefault(require("crypto"));
-var underscore_1 = require("underscore");
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
@@ -34,9 +32,6 @@ var node_cache_1 = __importDefault(require("node-cache"));
 var fs_1 = require("fs");
 require("../packages/js-prototypes/src/Any");
 var myCache = new node_cache_1.default({ stdTTL: 500, checkperiod: 520 });
-exports.md5 = (0, underscore_1.memoize)(function (data) {
-    return crypto_1.default.createHash("md5").update(data).digest("hex");
-});
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -57,7 +52,7 @@ var Cache = /** @class */ (function () {
         if (!key || !value)
             return;
         if (!key)
-            key = (0, exports.md5)(value);
+            key = (0, md5_file_1.md5)(value);
         return myCache.set(key, value);
     };
     Cache.prototype.get = function (key, fallback) {
@@ -119,7 +114,7 @@ var CacheFile = /** @class */ (function () {
         this.md5Cache = {};
         if (!hash) {
             var stack = new Error().stack.split("at")[2];
-            hash = (0, exports.md5)(stack);
+            hash = (0, md5_file_1.md5)(stack);
         }
         this.dbFile = path_1.default.join(fm_1.buildFolder, "db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
@@ -214,7 +209,7 @@ var CacheFile2 = /** @class */ (function () {
          */
         this.cacheHash = "";
         var stack = new Error().stack.split("at")[2];
-        hash = hash + "-" + (0, exports.md5)(stack);
+        hash = hash + "-" + (0, md5_file_1.md5)(stack);
         this.cacheHash = hash;
         this.dbFile = path_1.default.join(fm_1.buildFolder, "db-" + hash + ".json");
         this.dbFolder = path_1.default.join(fm_1.buildFolder, hash);
@@ -234,7 +229,7 @@ var CacheFile2 = /** @class */ (function () {
     }
     CacheFile2.prototype.getKeyLocation = function (key) {
         if (key.startsWith("/")) {
-            key = path_1.default.join((0, exports.md5)(path_1.default.dirname(key)), path_1.default.basename(key));
+            key = path_1.default.join((0, md5_file_1.md5)(path_1.default.dirname(key)), path_1.default.basename(key));
         }
         return path_1.default.join(this.dbFolder, key);
     };
@@ -243,7 +238,7 @@ var CacheFile2 = /** @class */ (function () {
             return;
         }
         else if (!key) {
-            key = (0, exports.md5)(value);
+            key = (0, md5_file_1.md5)(value);
         }
         var saveLocation = this.getKeyLocation(key);
         this.md5Cache[key] = saveLocation;

@@ -1,19 +1,13 @@
-import md5File, { sync as md5FileSync } from "./utils/md5-file";
+import md5File, { sync as md5FileSync, md5 } from "./utils/md5-file";
 import path from "path";
-import crypto from "crypto";
-import { dump, Objek } from "./utils";
-import { memoize } from "underscore";
+import { Objek } from "./utils";
 import { readFile, buildFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 import NodeCache from "node-cache";
 import { existsSync } from "fs";
 import "../packages/js-prototypes/src/Any";
-import chalk from "chalk";
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
-export const md5 = memoize((data: string): string => {
-  return crypto.createHash("md5").update(data).digest("hex");
-});
 
 /**
  * @summary IN MEMORY CACHE

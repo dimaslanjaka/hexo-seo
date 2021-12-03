@@ -1,6 +1,5 @@
 import { Objek } from "./utils";
 import "../packages/js-prototypes/src/Any";
-export declare const md5: (data: string) => string;
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
