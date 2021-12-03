@@ -1,5 +1,8 @@
 {
   "root": true,
+  "env": {
+    "node": true
+  },
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [
@@ -29,6 +32,16 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.js"
+      ],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
   ],
   "rules": {
     "import/extensions": [

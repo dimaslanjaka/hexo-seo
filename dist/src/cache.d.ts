@@ -26,7 +26,7 @@ declare class Cache {
      * @returns
      */
     getCache(key: string, fallback?: any): any;
-    isFileChanged(filePath: string): any;
+    isFileChanged(filePath: string): import("bluebird")<boolean>;
 }
 /**
  * Transform any variable to string

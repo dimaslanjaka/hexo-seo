@@ -1,4 +1,4 @@
-import md5File, { sync as md5FileSync } from "md5-file";
+import md5File, { sync as md5FileSync } from "./utils/md5-file";
 import path from "path";
 import crypto from "crypto";
 import { dump, Objek } from "./utils";
