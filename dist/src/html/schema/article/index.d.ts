@@ -8,7 +8,13 @@ export declare type SchemaAuthor = ObjectConstructor & {
 };
 export declare type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag;
 export interface SchemaArticleOptions {
+    /**
+     * Print pretty style
+     */
     pretty?: boolean;
+    /**
+     * Hexo instance
+     */
     hexo: Hexo;
 }
 declare class articleSchema {
@@ -45,7 +51,10 @@ declare class articleSchema {
                 "@context": string;
                 "@type": string;
                 "@id": string;
-                name: string;
+                name: string; /**
+                 * Set breadcrumbs by tags and categories
+                 * @param tags
+                 */
                 itemListElement: {
                     "@type": string;
                     position: number;
@@ -109,7 +118,10 @@ declare class articleSchema {
                 "@context": string;
                 "@type": string;
                 "@id": string;
-                name: string;
+                name: string; /**
+                 * Set breadcrumbs by tags and categories
+                 * @param tags
+                 */
                 itemListElement: {
                     "@type": string;
                     position: number;

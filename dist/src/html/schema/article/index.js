@@ -1,71 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var url_1 = require("../../../utils/url");
-var mainSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: "Extra! Extra! Read alla bout it",
-    alternativeHeadline: "This article is also about robots and stuff",
-    image: "http://example.com/image.jpg",
-    author: {
-        "@type": "Person",
-        image: "/examples/jvanzweden_s.jpg",
-        name: "Jaap van Zweden",
-        sameAs: "http://www.jaapvanzweden.com/"
-    },
-    award: "Best article ever written",
-    editor: "Craig Mount",
-    genre: "search engine optimization",
-    keywords: "seo sales b2b",
-    wordcount: "1120",
-    publisher: {
-        "@type": "Organization",
-        name: "Google",
-        logo: {
-            "@type": "ImageObject",
-            url: "https://google.com/logo.jpg"
-        }
-    },
-    url: "http://www.example.com",
-    mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": "https://google.com/article",
-        mainEntity: {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "@id": "https://developers.google.com/search/docs/advanced/structured-data/breadcrumb",
-            name: "breadcrumb",
-            itemListElement: [
-                {
-                    "@type": "ListItem",
-                    position: 1,
-                    name: "Homepage",
-                    item: "https://webmanajemen.com"
-                },
-                {
-                    "@type": "ListItem",
-                    position: 2,
-                    name: "Tags",
-                    item: "https://webmanajemen.com/tags"
-                },
-                {
-                    "@type": "ListItem",
-                    position: 3,
-                    name: "category",
-                    item: "https://webmanajemen.com/categories"
-                }
-            ]
-        }
-    },
-    datePublished: "2015-09-20",
-    dateCreated: "2015-09-20",
-    dateModified: "2015-09-20",
-    description: "We love to do stuff to help people and stuff",
-    articleBody: "You can paste your entire post in here, and yes it can get really really long."
-};
+var model3_json_1 = __importDefault(require("./model3.json"));
 var articleSchema = /** @class */ (function () {
     function articleSchema(options) {
-        this.schema = mainSchema;
+        this.schema = model3_json_1.default;
         this.options = options;
         this.hexo = options.hexo;
     }

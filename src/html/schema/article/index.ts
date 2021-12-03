@@ -1,71 +1,7 @@
 import { CheerioAPI } from "cheerio";
 import Hexo from "hexo";
 import { isValidUrlPattern } from "../../../utils/url";
-
-const mainSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: "Extra! Extra! Read alla bout it",
-  alternativeHeadline: "This article is also about robots and stuff",
-  image: "http://example.com/image.jpg",
-  author: {
-    "@type": "Person",
-    image: "/examples/jvanzweden_s.jpg",
-    name: "Jaap van Zweden",
-    sameAs: "http://www.jaapvanzweden.com/"
-  },
-  award: "Best article ever written",
-  editor: "Craig Mount",
-  genre: "search engine optimization",
-  keywords: "seo sales b2b",
-  wordcount: "1120",
-  publisher: {
-    "@type": "Organization",
-    name: "Google",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://google.com/logo.jpg"
-    }
-  },
-  url: "http://www.example.com",
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": "https://google.com/article",
-    mainEntity: {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "@id":
-        "https://developers.google.com/search/docs/advanced/structured-data/breadcrumb",
-      name: "breadcrumb",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Homepage",
-          item: "https://webmanajemen.com"
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Tags",
-          item: "https://webmanajemen.com/tags"
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "category",
-          item: "https://webmanajemen.com/categories"
-        }
-      ]
-    }
-  },
-  datePublished: "2015-09-20",
-  dateCreated: "2015-09-20",
-  dateModified: "2015-09-20",
-  description: "We love to do stuff to help people and stuff",
-  articleBody:
-    "You can paste your entire post in here, and yes it can get really really long."
-};
+import mainSchema from "./model3.json";
 
 export type SchemaAuthor = ObjectConstructor & {
   image: string;
@@ -82,7 +18,13 @@ export type HexoSeo = Hexo &
   Hexo.Locals.Tag;
 
 export interface SchemaArticleOptions {
+  /**
+   * Print pretty style
+   */
   pretty?: boolean;
+  /**
+   * Hexo instance
+   */
   hexo: Hexo;
 }
 
@@ -213,7 +155,7 @@ class articleSchema {
     this.schema.author.name =
       this.schema.publisher.name =
       this.schema.editor =
-        authorName;
+      authorName;
 
     // determine author image
     let authorImage =
