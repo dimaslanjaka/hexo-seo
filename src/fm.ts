@@ -112,3 +112,14 @@ export function md5File(path) {
     input.pipe(output);
   });
 }
+
+/**
+ * Read Dir
+ * @param folder
+ * @returns
+ */
+export function readDir(folder) {
+  return fs.readdirSync(folder).map((file) => {
+    return path.join(folder, file);
+  });
+}
