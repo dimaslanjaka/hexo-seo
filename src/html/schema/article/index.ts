@@ -10,12 +10,7 @@ export type SchemaAuthor = ObjectConstructor & {
   url?: string;
 };
 
-export type HexoSeo = Hexo &
-  Hexo.View &
-  Hexo.Locals.Category &
-  Hexo.Locals.Page &
-  Hexo.Locals.Post &
-  Hexo.Locals.Tag;
+export type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag;
 
 export interface SchemaArticleOptions {
   /**
@@ -70,8 +65,7 @@ class articleSchema {
       name: any;
     }[]
   ) {
-    const build: typeof mainSchema.mainEntityOfPage.mainEntity.itemListElement =
-      [];
+    const build: typeof mainSchema.mainEntityOfPage.mainEntity.itemListElement = [];
     for (let index = 0; index < tags.length; index++) {
       const template = {
         "@type": "ListItem",
@@ -144,18 +138,14 @@ class articleSchema {
           const findAuthorKey = ["name", "nick", "nickname"];
           for (const key in findAuthorKey) {
             if (Object.prototype.hasOwnProperty.call(findAuthorKey, key)) {
-              if (typeof this.hexo.config.author[key] == "string")
-                authorName = this.hexo.config.author[key];
+              if (typeof this.hexo.config.author[key] == "string") authorName = this.hexo.config.author[key];
             }
           }
         }
       }
       //author["config"]
     }
-    this.schema.author.name =
-      this.schema.publisher.name =
-      this.schema.editor =
-        authorName;
+    this.schema.author.name = this.schema.publisher.name = this.schema.editor = authorName;
 
     // determine author image
     let authorImage =
