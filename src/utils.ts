@@ -1,4 +1,3 @@
-/* eslint-disable import/no-import-module-exports */
 /* global hexo */
 
 "use strict";
@@ -24,11 +23,7 @@ const fileCache: Objek = {};
 /**
  * is ignore pattern matching?
  */
-export const isIgnore = (
-  path0: string,
-  exclude: string | string[],
-  hexo?: Hexo
-) => {
+export const isIgnore = (path0: string, exclude: string | string[], hexo?: Hexo) => {
   if (exclude && !Array.isArray(exclude)) exclude = [exclude];
 
   if (path0 && exclude && exclude.length) {
@@ -55,6 +50,7 @@ export function extractSimplePageData(data: HexoSeo | Hexo, additional = []) {
   if (data) {
     delete data["_raw"];
     delete data["raw"];
+    delete data["_model"];
     delete data["_content"];
     delete data["content"];
     delete data["site"];
@@ -87,8 +83,7 @@ export const dump = function (filename: string, ...obj: any) {
 
   let buildLog = "";
   for (let index = 0; index < obj.length; index++) {
-    buildLog +=
-      utils.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
+    buildLog += utils.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
   }
   fs.writeFileSync(loc, buildLog);
 

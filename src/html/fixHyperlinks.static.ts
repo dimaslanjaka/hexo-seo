@@ -1,17 +1,9 @@
 import { _JSDOM } from "./dom";
-import {
-  formatAnchorText,
-  hyperlinkOptions,
-  isExternal
-} from "./fixHyperlinks";
+import { formatAnchorText, hyperlinkOptions, isExternal } from "./fixHyperlinks";
 import { HexoSeo } from "./schema/article";
 import parseUrl from "url-parse";
 
-export default function (
-  dom: _JSDOM,
-  HSconfig: hyperlinkOptions,
-  data: HexoSeo
-) {
+export default function (dom: _JSDOM, HSconfig: hyperlinkOptions, data: HexoSeo) {
   const a = dom.document.querySelectorAll("a[href]");
   if (a.length) {
     a.forEach((el: HTMLAnchorElement) => {
@@ -19,9 +11,7 @@ export default function (
       // only process anchor start with https?, otherwise abadoned
       if (/https?/gs.test(href)) {
         const parseHref = parseUrl(href);
-        let rels = el.getAttribute("rel")
-          ? el.getAttribute("rel").split(" ")
-          : [];
+        let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
 
         const external = isExternal(parseHref, hexo);
         rels = identifyRels(el, external, HSconfig);
@@ -52,18 +42,12 @@ export function identifyRels(
   const internalArr = ["internal", "follow", "bookmark"];
   // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
   if (external) {
-    rels = rels
-      .concat(externalArr)
-      .unique()
-      .hapusItemDariArrayLain(internalArr);
+    rels = rels.concat(externalArr).unique().hapusItemDariArrayLain(internalArr);
     if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
       el.setAttribute("target", "_blank");
     }
   } else {
-    rels = rels
-      .concat(internalArr)
-      .unique()
-      .hapusItemDariArrayLain(externalArr);
+    rels = rels.concat(internalArr).unique().hapusItemDariArrayLain(externalArr);
   }
   return rels;
 }

@@ -11,11 +11,7 @@ import { HTMLElement } from "node-html-parser";
 import hexoIs from "../hexo/hexo-is";
 import schemaHomepage from "./schema/homepage";
 
-export default function (
-  dom: HTMLElement,
-  HSconfig: ReturnConfig,
-  data: HexoSeo
-) {
+export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
 
   const is = hexoIs(data);
@@ -160,18 +156,9 @@ export default function (
     Schema.setImage(img);
 
     // set schema genres
-    Schema.set(
-      "genre",
-      keywords.unique().removeEmpties().map(trimText).join(",")
-    );
-    Schema.set(
-      "keywords",
-      keywords.unique().removeEmpties().map(trimText).join(",")
-    );
-    Schema.set(
-      "award",
-      keywords.unique().removeEmpties().map(trimText).join(",")
-    );
+    Schema.set("genre", keywords.unique().removeEmpties().map(trimText).join(","));
+    Schema.set("keywords", keywords.unique().removeEmpties().map(trimText).join(","));
+    Schema.set("award", keywords.unique().removeEmpties().map(trimText).join(","));
 
     schemahtml = `<script type="application/ld+json">${Schema}</script>`;
   }
