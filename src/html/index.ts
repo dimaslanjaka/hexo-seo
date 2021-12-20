@@ -58,7 +58,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     if (cfg.html.fix) {
       //** fix invalid html */
       const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-      logger.log("invalid html found", inv.length, "items");
+     if (inv.length) logger.log("invalid html found", inv.length, inv.length>1?"items":"item");
       inv.forEach((el, i) => {
         el.remove();
       });
