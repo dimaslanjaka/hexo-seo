@@ -199,9 +199,9 @@ interface HexoConfig {
    * Deployment settings
    */
   readonly deploy:
-    | Hexo.extend.Deployer.Config
-    | Hexo.extend.Deployer.Config
-    | null;
+  | Hexo.extend.Deployer.Config
+  | Hexo.extend.Deployer.Config
+  | null;
 
   /**
    * Hexo by default ignores hidden files and folders, but setting this field will make Hexo process them
