@@ -1,25 +1,25 @@
-const _ = require('lodash')
-const urljoin = require('url-join')
+import lodash from 'lodash'
+import urljoin from 'url-join'
 
-const postInSitemap = function(post) {
+const postInSitemap = function (post) {
   return post.sitemap !== false && post.published
 }
 
-const post = function(locals, config) {
-  const get = function() {
+const post = function (locals: HexoLocals, config) {
+  const get = function () {
     if (locals.posts.length === 0) {
       return
     }
-    const posts = _(locals.posts.toArray())
+    const posts = lodash(locals.posts.toArray())
       .filter(postInSitemap)
       .orderBy('updated', 'desc')
       .value()
 
     let sitemaps = []
     if (config.sitemap.urlLimit > 0) {
-      const chunk = _.chunk(posts, config.sitemap.urlLimit)
-      sitemaps = _.map(chunk, (chunkPosts, index) => {
-        const lastUpdatedPost = _.chain(chunkPosts)
+      const chunk = lodash.chunk(posts, config.sitemap.urlLimit)
+      sitemaps = lodash.map(chunk, (chunkPosts, index) => {
+        const lastUpdatedPost = lodash.chain(chunkPosts)
           .first()
           .get('updated')
           .value()
@@ -35,7 +35,7 @@ const post = function(locals, config) {
         }
       })
     } else {
-      const lastUpdatedPost = _.chain(posts)
+      const lastUpdatedPost = lodash.chain(posts)
         .first()
         .get('updated')
         .value()
@@ -59,4 +59,4 @@ const post = function(locals, config) {
   }
 }
 
-module.exports = post
+export default post;

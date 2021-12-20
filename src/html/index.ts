@@ -44,9 +44,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     a.forEach((el) => {
       const href = el.getAttribute("href");
       if (/https?:\/\//.test(href)) {
-        let rels = el.getAttribute("rel")
-          ? el.getAttribute("rel").split(" ")
-          : [];
+        let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
         rels = rels.removeEmpties().unique();
         const parseHref = parseUrl(href);
         const external = isExternal(parseHref, hexo);
@@ -58,7 +56,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     if (cfg.html.fix) {
       //** fix invalid html */
       const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-     if (inv.length) logger.log("invalid html found", inv.length, inv.length>1?"items":"item");
+      if (inv.length) logger.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
       inv.forEach((el, i) => {
         el.remove();
       });
@@ -66,9 +64,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
 
     //** fix images attributes */
     const title =
-      data.page && data.page.title && data.page.title.trim().length > 0
-        ? data.page.title
-        : data.config.title;
+      data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : data.config.title;
     root.querySelectorAll("img[src]").forEach((element) => {
       if (!element.getAttribute("title")) {
         //logger.log("%s(img[title]) fix %s", pkg.name, data.title);

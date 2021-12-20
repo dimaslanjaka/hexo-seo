@@ -1,10 +1,12 @@
-const Promise = require('bluebird'),
-  common = require('./common'),
-  _ = require('lodash')
+import Promise from 'bluebird'
+import common from './common'
+import _ from 'lodash'
+import Hexo from 'hexo'
+import posts from './post'
 
-const seoFriendlySitemap = function (locals) {
-  const config = this.config,
-    posts = require('./post')(locals, config),
+const seoFriendlySitemap = function (this: Hexo, locals) {
+  const config = this.config;
+  const posts(locals, config),
     pages = require('./page')(locals, config),
     categories = require('./category')(locals, config),
     tags = require('./tag')(locals, config),

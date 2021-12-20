@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/prettierrc.json",
+  "semi": true,
+  "singleQuote": false,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "trailingComma": "none"
+}

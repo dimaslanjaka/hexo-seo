@@ -12,6 +12,7 @@ import { buildFolder, tmpFolder } from "./fm";
 import htmlIndex from "./html/index";
 import bindProcessExit from "./utils/cleanup";
 import scheduler from "./scheduler";
+import sitemap from "./sitemap";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -19,9 +20,7 @@ const argv = minimist(process.argv.slice(2));
 const arg = typeof argv["development"] == "boolean" && argv["development"];
 
 // set NODE_ENV = "development"
-const env =
-  process.env.NODE_ENV &&
-  process.env.NODE_ENV.toString().toLowerCase() === "development";
+const env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase() === "development";
 
 // define is development
 export const isDev = arg || env;
@@ -104,6 +103,8 @@ export default function (hexo: Hexo) {
   //hexo.extend.filter.register("after_render:html", fixInvalid);
   // minify html
   //hexo.extend.filter.register("after_generate", minHtml);
+  // sitemap
+  hexo.extend.filter.register("after_generate", sitemap);
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo
