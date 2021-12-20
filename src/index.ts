@@ -77,7 +77,7 @@ export default function (hexo: Hexo) {
   // execute scheduled functions before process exit
   if (hexoCmd && hexoCmd != "clean") {
     hexo.on("exit", () => {
-      console.log("Scheduling functions on process exit");
+      console.log("[hexo.on(exit)] running functions on process exit");
     });
     bindProcessExit("scheduler_on_exit", function () {
       console.log("executing scheduled functions");

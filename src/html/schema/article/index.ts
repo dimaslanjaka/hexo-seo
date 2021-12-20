@@ -155,7 +155,7 @@ class articleSchema {
     this.schema.author.name =
       this.schema.publisher.name =
       this.schema.editor =
-      authorName;
+        authorName;
 
     // determine author image
     let authorImage =
