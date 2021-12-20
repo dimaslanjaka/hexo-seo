@@ -1,13 +1,19 @@
+#!/usr/bin/env node
+
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("ts-node").register({ project: "tsconfig.json" });
 const prompts = require("prompts");
 const { exec } = require("child_process");
-const { readdirSync, readFileSync, writeFileSync } = require("fs");
+const { readdirSync, readFileSync, writeFileSync, existsSync } = require("fs");
 const path = require("path");
-const testDir = path.join(__dirname, "src/__test__");
+const testDir = path.join(__dirname, "/../src/__test__");
 const scanDir = readdirSync(testDir);
 const build = [];
+
+if (!existsSync(__dirname + "/test.json")) {
+  writeFileSync(__dirname + "/test.json", JSON.stringify({}));
+}
 
 function scanScripts() {
   scanDir
@@ -29,6 +35,7 @@ function scanScripts() {
       writeFileSync(path.join(__dirname, "test.json"), JSON.stringify(build));
     });
 }
+scanScripts();
 
 (async () => {
   const tests = require("./test.json");
@@ -47,7 +54,6 @@ function scanScripts() {
   const scripts = response.script;
   scripts.map((script) => {
     exec(`node -r ts-node/register ${script}`, (err, stdout, stderr) => {
-      scanScripts();
       if (err) {
         throw err;
       }

@@ -73,7 +73,8 @@
     "terser": "^5.9.0",
     "ts-node": "^10.4.0",
     "underscore": "^1.13.1",
-    "url-parse": "^1.5.3"
+    "url-parse": "^1.5.3",
+    "xmlbuilder2": "^3.0.2"
   },
   "devDependencies": {
     "@types/clean-css": "^4.2.5",
