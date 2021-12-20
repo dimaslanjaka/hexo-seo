@@ -44,6 +44,22 @@ Object.each = function (callback) {
 Object.isEmpty = function () {
     return this.length === 0;
 };
+Object.replaceKeyFrom = function (anotherObj) {
+    return Object.entries(this).reduce(function (op, _a) {
+        var key = _a[0], value = _a[1];
+        var newKey = anotherObj[key];
+        op[newKey || key] = value;
+        return op;
+    }, {});
+    /*if (typeof anotherObj == 'object') {
+      for (const key in anotherObj) {
+        if (Object.prototype.hasOwnProperty.call(anotherObj, key)) {
+          const element = anotherObj[key];
+          def[key] = element;
+        }
+      }
+    }*/
+};
 /**
  * Join object to separated string
  * @param obj Object

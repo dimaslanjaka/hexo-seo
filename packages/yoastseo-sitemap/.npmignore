@@ -1,0 +1,15 @@
+.idea/
+coverage/
+test/
+tmp/
+*.log
+.editorconfig
+.travis.yml
+.codeclimate.yml
+appveyor.yml
+package-lock.json
+.DS_Store
+.eslintignore
+.eslintrc.js
+.npmrc
+.prettierrc

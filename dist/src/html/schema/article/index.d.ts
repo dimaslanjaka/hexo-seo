@@ -47,14 +47,20 @@ declare class articleSchema {
         mainEntityOfPage: {
             "@type": string;
             "@id": string;
+            url: string;
+            potentialAction: {
+                "@type": string;
+                target: {
+                    "@type": string;
+                    urlTemplate: string;
+                };
+                "query-input": string;
+            }[];
             mainEntity: {
                 "@context": string;
                 "@type": string;
                 "@id": string;
-                name: string; /**
-                 * Set breadcrumbs by tags and categories
-                 * @param tags
-                 */
+                name: string;
                 itemListElement: {
                     "@type": string;
                     position: number;
@@ -114,14 +120,20 @@ declare class articleSchema {
         mainEntityOfPage: {
             "@type": string;
             "@id": string;
+            url: string;
+            potentialAction: {
+                "@type": string;
+                target: {
+                    "@type": string;
+                    urlTemplate: string;
+                };
+                "query-input": string;
+            }[];
             mainEntity: {
                 "@context": string;
                 "@type": string;
                 "@id": string;
-                name: string; /**
-                 * Set breadcrumbs by tags and categories
-                 * @param tags
-                 */
+                name: string;
                 itemListElement: {
                     "@type": string;
                     position: number;
