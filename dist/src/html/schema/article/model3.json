@@ -23,10 +23,21 @@
             "url": "https://google.com/logo.jpg"
         }
     },
-    "url": "http://www.webmanajemen.com",
+    "url": "https://www.webmanajemen.com",
     "mainEntityOfPage": {
-        "@type": "WebPage",
+        "@type": "WebSite",
         "@id": "https://google.com/article",
+        "url": "https://www.webmanajemen.com",
+        "potentialAction": [
+            {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.webmanajemen.com/search?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
+        ],
         "mainEntity": {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",

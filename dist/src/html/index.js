@@ -61,7 +61,8 @@ function default_1(content, data) {
         if (cfg_1.html.fix) {
             //** fix invalid html */
             var inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-            log_1.default.log("invalid html found", inv.length, "items");
+            if (inv.length)
+                log_1.default.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
             inv.forEach(function (el, i) {
                 el.remove();
             });

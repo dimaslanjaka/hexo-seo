@@ -139,6 +139,7 @@ Array.prototype.unset = function (value) {
         // Make sure the value exists
         this.splice(this.indexOf(value), 1);
     }
+    return this;
 };
 Array.prototype.exists = function (n) {
     return typeof this[n] !== "undefined";
