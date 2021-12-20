@@ -286,7 +286,13 @@ declare namespace Hexo {
     /**
      * Get All Variable
      */
-    toObject(): any;
+    toObject(): {
+      posts: Hexo.Post;
+      pages: Hexo.Locals.Page;
+      categories: Hexo.Locals.Category;
+      tags: Hexo.Locals.Tag;
+      data: object;
+    };
 
     /**
      * Invalidate the cache
@@ -404,7 +410,7 @@ declare namespace Hexo {
         fn: (data: {
           content: string;
           [key: string]: any;
-        }) => { content: string; [key: string]: any } | void,
+        }) => { content: string;[key: string]: any } | void,
         priority?: number
       ): void;
 
@@ -416,7 +422,7 @@ declare namespace Hexo {
         fn: (data: {
           content: string;
           [key: string]: any;
-        }) => { content: string; [key: string]: any } | void,
+        }) => { content: string;[key: string]: any } | void,
         priority?: number
       ): void;
 
@@ -478,7 +484,7 @@ declare namespace Hexo {
         type: "after_render:html",
         fn: (
           result: string,
-          data: { path: string; text: string; [key: string]: any }
+          data: { path: string; text: string;[key: string]: any }
         ) => string | void,
         priority?: number
       ): void;
@@ -883,14 +889,14 @@ interface TemplateLocals {
    */
   _: underscore.UnderscoreStatic;
   page:
-    | Hexo.Locals.Post
-    | Hexo.Locals.Page
-    | Hexo.Locals.Category
-    | Hexo.Locals.Tag
-    | IndexPage
-    | ArchivePage
-    | CategoryPage
-    | TagPage;
+  | Hexo.Locals.Post
+  | Hexo.Locals.Page
+  | Hexo.Locals.Category
+  | Hexo.Locals.Tag
+  | IndexPage
+  | ArchivePage
+  | CategoryPage
+  | TagPage;
   path: string;
   url: string;
 
