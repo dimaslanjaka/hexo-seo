@@ -1,8 +1,7 @@
 import Hexo, { TemplateLocals } from "hexo";
 import moment from "moment";
-import { getCacheFolder } from "../utils";
 import { create as createXML } from "xmlbuilder2";
-import { copyFile, copyFileSync, existsSync, readFileSync, statSync } from "fs";
+import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
 import { join } from "path";
 import hexoIs from "../hexo/hexo-is";
 import { HexoIs } from "../hexo/hexo-is/is";
@@ -40,10 +39,8 @@ interface SitemapIndex {
   };
 }
 interface SitemapIndexItem {
-  sitemap: {
-    loc: string;
-    lastmod: string;
-  };
+  loc: string;
+  lastmod: string;
 }
 
 function initSitemap(type: string | "post" | "page" | "category" | "tag") {
@@ -108,11 +105,6 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
         const stats = statSync(post.full_source);
         post.updated = moment(stats.mtime);
       }
-    } else {
-      // if post updated not found on archive etc
-      if (!post.updated) {
-        post.updated = moment(Date.now());
-      }
     }
     if (post.is.post) {
       sitemapGroup["post"].urlset.url.push({
@@ -131,14 +123,14 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
     } else if (post.is.category) {
       sitemapGroup["category"].urlset.url.push({
         loc: post.permalink,
-        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ"),
         changefreq: "weekly",
         priority: "0.2"
       });
     } else if (post.is.tag) {
       sitemapGroup["tag"].urlset.url.push({
         loc: post.permalink,
-        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ"),
         changefreq: "weekly",
         priority: "0.2"
       });
@@ -180,7 +172,28 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
   if (!hexoinstance && typeof hexo != "undefined") {
     hexoinstance = hexo;
   }
-  const destIndexSitemap = join(hexo.public_dir, "category-sitemap.xml");
+  const locals = hexo.locals;
+  const lastModifiedArchives = locals.get("categories").map((items) => {
+    const lastModifiedPosts = items.posts.map((post) => {
+      return post.updated.toDate();
+    });
+    const latest = new Date(
+      Math.max.apply(
+        null,
+        lastModifiedPosts.map(function (e) {
+          return e;
+        })
+      )
+    );
+    return moment(latest).format("YYYY-MM-DDTHH:mm:ssZ");
+  });
+  console.log(lastModifiedArchives);
+
+  sitemapIndex.sitemapindex.sitemap.push({
+    loc: hexo.config.url.toString() + "/post-sitemap.xml",
+    lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ")
+  });
+  const destIndexSitemap = join(hexo.public_dir, "sitemap.xml");
   writeFile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
   log.log("index sitemap saved", destIndexSitemap);
 }
