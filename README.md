@@ -24,6 +24,9 @@ npm i hexo-seo
 
 # Usage
 **Configuration**
+
+[full example](https://github.com/dimaslanjaka/site/blob/3e2a0854da2162d8c4aff934107aca34998f147c/_config.yml#L125-L174)
+
 ```yaml
 # https://github.com/dimaslanjaka/hexo-seo
 seo:
