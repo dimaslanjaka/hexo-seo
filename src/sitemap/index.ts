@@ -9,6 +9,7 @@ import { join } from "path";
 const xml = createXML(readFileSync(join(__dirname, "views/post-sitemap.xml")).toString());
 
 export function sitemap_post(this: Hexo, content: string, data: Hexo.Locals.Post) {
+  console.log("start");
   const locals = this.locals;
   if (locals.get("posts").length === 0) {
     return;
@@ -21,7 +22,7 @@ export function sitemap_post(this: Hexo, content: string, data: Hexo.Locals.Post
     .orderBy("updated", "desc")
     .value();
   const post = posts.find((post) => post.title.toLowerCase() === data.title.toLowerCase());
-  if (!post) {
+  if (post) {
     const build = {
       url: {
         loc: post.permalink,

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 /* eslint-disable global-require */
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -13,9 +11,7 @@ const argv = require("minimist")(process.argv.slice(2));
 const arg = typeof argv["development"] == "boolean" && argv["development"];
 
 // set NODE_ENV = "development"
-const env =
-  process.env.NODE_ENV &&
-  process.env.NODE_ENV.toString().toLowerCase() === "development";
+const env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase() === "development";
 
 // define is development
 const isDev = arg || env;
