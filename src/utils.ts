@@ -3,7 +3,6 @@
 "use strict";
 
 import minimatch from "minimatch";
-import underscore from "underscore";
 import path from "path";
 import Hexo from "hexo";
 import * as fs from "fs";
@@ -12,13 +11,11 @@ import utils from "util";
 import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
 import { isDev } from ".";
+import "js-prototypes/src/globals";
 
 export interface Objek extends Object {
   [key: string]: any;
 }
-
-const md5Cache: Objek = {};
-const fileCache: Objek = {};
 
 /**
  * is ignore pattern matching?
@@ -89,3 +86,16 @@ export const dump = function (filename: string, ...obj: any) {
 
   console.log(`dump results saved to ${path.resolve(loc)}`);
 };
+
+/**
+ * get cache folder location
+ * @param folderName
+ * @returns
+ */
+export function getCacheFolder(folderName = "") {
+  let root = process.cwd();
+  if (typeof hexo != "undefined") {
+    root = hexo.base_dir;
+  }
+  return path.join(root, "build/hexo-seo", folderName);
+}

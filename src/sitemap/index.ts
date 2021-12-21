@@ -1,13 +1,14 @@
 import Hexo, { TemplateLocals } from "hexo";
-import _ from "lodash";
 import moment from "moment";
-import { dump, extractSimplePageData } from "../utils";
-import { convert as convertXML, create as createXML } from "xmlbuilder2";
+import { getCacheFolder } from "../utils";
+import { create as createXML } from "xmlbuilder2";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { HexoSeo } from "../html/schema/article";
 import hexoIs from "../hexo/hexo-is";
 import { HexoIs } from "../hexo/hexo-is/is";
+import "js-prototypes/src/globals";
+import { writeFile } from "../fm";
+
 interface sitemapItem {
   loc: string;
   lastmod: string;
@@ -42,25 +43,24 @@ export function sitemap_post(this: Hexo, content: string, data: TemplateLocals) 
   if (locals.get("posts").length === 0) {
     return;
   }
-  obj.urlset.url.push({
-    loc: hexo.config.url,
-    lastmod: moment(new Date()).format("YYYY-MM-DDTHH:mm:ssZ"),
-    priority: "1",
-    changefreq: "daily"
-  });
-  console.log(createXML(obj).end({ prettyPrint: true }));
+  if (obj.urlset.url.length === 0)
+    obj.urlset.url.push({
+      loc: hexo.config.url,
+      lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ"),
+      priority: "1",
+      changefreq: "daily"
+    });
 
+  const temp = join(getCacheFolder("sitemap"), "post-sitemap.xml");
+  writeFile(temp, createXML(obj).end({ prettyPrint: true }));
   const post = getPageData(data);
   if (post) {
-    const build = {
-      url: {
-        loc: post.permalink,
-        lastmod: post.updated,
-        changefreq: "weekly",
-        priority: "0.6"
-      }
-    };
-    console.log(build);
+    obj.urlset.url.push({
+      loc: post.permalink,
+      lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+      changefreq: "weekly",
+      priority: "0.6"
+    });
   }
 
   /*
