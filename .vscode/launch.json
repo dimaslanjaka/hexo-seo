@@ -5,6 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "cd test/demo && hexo server --development",
+      "name": "[DEV] Demo Site Server",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
       "command": "cd ../../ && hexo server --development",
       "name": "[DEV] server",
       "env": {

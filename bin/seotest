@@ -12,7 +12,7 @@ const testDir = path.join(__dirname, "/../src/__test__");
 const scanDir = readdirSync(testDir);
 const build = [];
 // run last script
-const runLastScript = yargs._[0].toLowerCase() == "l";
+const runLastScript = yargs._.length ? yargs._[0].toLowerCase() == "l" : null;
 
 if (!existsSync(__dirname + "/test.json")) {
   writeFileSync(__dirname + "/test.json", JSON.stringify({}));
@@ -47,7 +47,7 @@ let tests = require("./test.json");
   const scripts = response.script;
   tests.forEach((test) => {
     const match = test.value == scripts[0];
-    if (match) test.lastrun = true;
+    test.lastrun = match;
   });
   writeFileSync(__dirname + "/test.json", JSON.stringify(tests));
   run(scripts[0]);
