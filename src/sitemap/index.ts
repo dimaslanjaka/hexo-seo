@@ -7,20 +7,63 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { HexoSeo } from "../html/schema/article";
 import hexoIs from "../hexo/hexo-is";
+import { HexoIs } from "../hexo/hexo-is/is";
+interface sitemapItem {
+  loc: string;
+  lastmod: string;
+  changefreq: string;
+  priority: string;
+}
+interface sitemapObj {
+  urlset: {
+    url: sitemapItem[];
+  };
+}
+const doc = createXML(readFileSync(join(__dirname, "views/post-sitemap.xml")).toString());
+const obj = <sitemapObj>new Object(doc.end({ format: "object" }));
+obj.urlset.url = [];
 
-const xml = createXML(readFileSync(join(__dirname, "views/post-sitemap.xml")).toString());
-
-export function getPage(data: TemplateLocals) {
+interface returnPage extends Hexo.PageData {
+  [key: string]: any;
+  is: HexoIs;
+}
+export function getPageData(data: TemplateLocals) {
   const is = hexoIs(data);
-  console.log(Object.keys(data["page"]));
-  return data["page"];
+  if (data["page"]) {
+    const page = <returnPage>data["page"];
+    page.is = is;
+    return page;
+  }
 }
 
 export function sitemap_post(this: Hexo, content: string, data: TemplateLocals) {
-  const locals = this.locals;
+  const hexo = this;
+  const locals = hexo.locals;
   if (locals.get("posts").length === 0) {
     return;
   }
+  obj.urlset.url.push({
+    loc: hexo.config.url,
+    lastmod: moment(new Date()).format("YYYY-MM-DDTHH:mm:ssZ"),
+    priority: "1",
+    changefreq: "daily"
+  });
+  console.log(createXML(obj).end({ prettyPrint: true }));
+
+  const post = getPageData(data);
+  if (post) {
+    const build = {
+      url: {
+        loc: post.permalink,
+        lastmod: post.updated,
+        changefreq: "weekly",
+        priority: "0.6"
+      }
+    };
+    console.log(build);
+  }
+
+  /*
   const posts = _(locals.get("posts").toArray())
     .filter((post) => {
       if ([post.sitemap, post.indexing].some((b) => b === false)) return false;
@@ -28,10 +71,8 @@ export function sitemap_post(this: Hexo, content: string, data: TemplateLocals) 
     })
     .orderBy("updated", "desc")
     .value();
-  const page = getPage(data);
-  console.log(page.title);
-  /*const post = posts.find((post) =>
-    post.title && data.get("title") ? post.title.toLowerCase() === data.title.toLowerCase() : false
+  const post = posts.find((post) =>
+    post.title && page.title ? post.title.toLowerCase() === page.title.toLowerCase() : false
   );
   if (post) {
     const build = {

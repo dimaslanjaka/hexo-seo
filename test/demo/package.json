@@ -7,7 +7,8 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "test": "npm i git+https://github.com/dimaslanjaka/hexo-blogger-xml.git"
+    "install-git": "npm i git+https://github.com/dimaslanjaka/hexo-blogger-xml.git",
+    "install-local": "npm i ./../.. && npm i ./../../../hexo-blogger-xml"
   },
   "hexo": {
     "version": "5.4.0"
@@ -18,6 +19,8 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "hexo": "^5.0.0",
+    "hexo-blogger-xml": "github:dimaslanjaka/hexo-blogger-xml",
+    "hexo-browsersync": "github:hexojs/hexo-browsersync",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^2.0.0",

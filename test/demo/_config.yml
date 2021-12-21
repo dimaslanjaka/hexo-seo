@@ -104,6 +104,14 @@ theme: landscape #hexo-theme-amp
 deploy:
   type: ""
 
+# https://github.com/hexojs/hexo-browsersync
+browsersync:
+  logLevel: "warn"
+  ghostMode:
+    scroll: true
+  instanceName: "uniqueString"
+
+# https://github.com/dimaslanjaka/hexo-blogger-xml
 blogger_xml:
   site_title: "My Site Title"
   callback: "./scripts/post_callback.js"
