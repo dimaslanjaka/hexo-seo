@@ -23,7 +23,7 @@ declare global {
 
 
 
-interface Model<T> {
+export interface Model<T> {
   /**
    * Warehouse method
    * https://hexojs.github.io/warehouse/

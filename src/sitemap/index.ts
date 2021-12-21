@@ -1,4 +1,4 @@
-import Hexo, { TemplateLocals } from "hexo";
+import Hexo, { Model, TemplateLocals } from "hexo";
 import moment from "moment";
 import { create as createXML } from "xmlbuilder2";
 import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
@@ -121,15 +121,19 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
         priority: "0.8"
       });
     } else if (post.is.category) {
+      const permalink = new URL(hexo.config.url);
+      permalink.pathname = post.path;
       sitemapGroup["category"].urlset.url.push({
-        loc: post.permalink,
+        loc: permalink.toString(),
         lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ"),
         changefreq: "weekly",
         priority: "0.2"
       });
     } else if (post.is.tag) {
+      const permalink = new URL(hexo.config.url);
+      permalink.pathname = post.path;
       sitemapGroup["tag"].urlset.url.push({
-        loc: post.permalink,
+        loc: permalink.toString(),
         lastmod: moment(Date.now()).format("YYYY-MM-DDTHH:mm:ssZ"),
         changefreq: "weekly",
         priority: "0.2"
@@ -172,22 +176,27 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
   if (!hexoinstance && typeof hexo != "undefined") {
     hexoinstance = hexo;
   }
+  const groups = ["categories", "tags"];
   const locals = hexo.locals;
-  const lastModifiedArchives = locals.get("categories").map((items) => {
-    const lastModifiedPosts = items.posts.map((post) => {
-      return post.updated.toDate();
+  const groupsmap = groups.map((group) => {
+    const lastModifiedObject = (<Model<Hexo.Locals.Category | Hexo.Locals.Tag>>locals.get(group)).map((items) => {
+      const lastModifiedPosts = items.posts.map((post) => {
+        return post.updated.toDate();
+      });
+      const latest = new Date(
+        Math.max.apply(
+          null,
+          lastModifiedPosts.map(function (e) {
+            return e;
+          })
+        )
+      );
+      return { name: items.name, latest: moment(latest).format("YYYY-MM-DDTHH:mm:ssZ") };
     });
-    const latest = new Date(
-      Math.max.apply(
-        null,
-        lastModifiedPosts.map(function (e) {
-          return e;
-        })
-      )
-    );
-    return moment(latest).format("YYYY-MM-DDTHH:mm:ssZ");
+    return { [group]: lastModifiedObject };
   });
-  console.log(lastModifiedArchives);
+
+  //console.log(groupsmap);
 
   sitemapIndex.sitemapindex.sitemap.push({
     loc: hexo.config.url.toString() + "/post-sitemap.xml",
