@@ -80,11 +80,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     $("img").each((i, el) => {
       const img = $(el);
       const img_src = img.attr("src");
-      if (
-        img_src &&
-        img_src.trim().length > 0 &&
-        /^https?:\/\//gs.test(img_src)
-      ) {
+      if (img_src && img_src.trim().length > 0 && /^https?:\/\//gs.test(img_src)) {
         images.push(img);
       }
     });
@@ -99,14 +95,16 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       });
     };
 
-    return Promise.all(images)
-      .map(fixBrokenImg)
-      .catch(() => {})
-      .then(() => {
-        content = $.html();
-        cache.setCache(path0, content);
-        return content;
-      });
+    return (
+      Promise.all(images)
+        .map(fixBrokenImg)
+        //.catch(() => { })
+        .then(() => {
+          content = $.html();
+          cache.setCache(path0, content);
+          return content;
+        })
+    );
   } else {
     const gCache: string = cache.getCache(path0);
     return Promise.any(gCache).then((content) => {

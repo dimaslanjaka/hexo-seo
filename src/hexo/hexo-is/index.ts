@@ -1,5 +1,5 @@
 /* eslint-disable prefer-rest-params */
-import Hexo from "hexo";
+import Hexo, { TemplateLocals } from "hexo";
 import hexoLog from "hexo-log";
 import pkg from "./package.json";
 import * as fs from "fs";
@@ -20,7 +20,7 @@ const log = hexoLog({
  * @param hexo
  * @returns
  */
-const hexoIs = function (hexo: Hexo | Hexo.View) {
+const hexoIs = function (hexo: Hexo | Hexo.View | TemplateLocals) {
   if (typeof hexo["page"] != "undefined") return is(hexo);
   if (typeof hexo["type"] != "undefined") {
     const ix = is(hexo);
@@ -28,10 +28,6 @@ const hexoIs = function (hexo: Hexo | Hexo.View) {
     return ix;
   }
 };
-
-function dumper() {
-  hexoIsDump(arguments, "arg");
-}
 
 /**
  * Dump variable to file
