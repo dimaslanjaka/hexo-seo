@@ -104,7 +104,8 @@ export default function (hexo: Hexo) {
   // minify html
   //hexo.extend.filter.register("after_generate", minHtml);
   // sitemap
-  hexo.extend.filter.register("after_generate", sitemap);
+  //hexo.extend.filter.register("after_generate", sitemap);
+  hexo.extend.filter.register("after_render:html", sitemap);
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo

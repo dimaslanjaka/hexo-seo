@@ -6,22 +6,29 @@ import { convert as convertXML, create as createXML } from "xmlbuilder2";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-const xml = createXML(readFileSync(join(__dirname, "views/post-sitemap.xml")));
+const xml = createXML(readFileSync(join(__dirname, "views/post-sitemap.xml")).toString());
 
-const postInSitemap = function (post: Hexo.Locals.Post) {
-  return post.sitemap !== false && post.published;
-};
-
-export default function sitemap_post(this: Hexo) {
+export function sitemap_post(this: Hexo, content: string, data: Hexo.Locals.Post) {
   const locals = this.locals;
   if (locals.get("posts").length === 0) {
     return;
   }
-  const posts = _(locals.get("posts").toArray()).filter(postInSitemap).orderBy("updated", "desc").value();
-  const chunk = _.chunk(posts, 1000);
-  _.map(chunk, (chunkPosts, index) => {
-    const chainFirst: _.CollectionChain<any> = _.chain(chunkPosts).first();
-    const updatedDate: moment.Moment = chainFirst.get(<any>"updated").value();
-    const creationDate: moment.Moment = chainFirst.get(<any>"date").value();
-  });
+  const posts = _(locals.get("posts").toArray())
+    .filter((post) => {
+      if ([post.sitemap, post.indexing].some((b) => b === false)) return false;
+      return post.published;
+    })
+    .orderBy("updated", "desc")
+    .value();
+  const post = posts.find((post) => post.title.toLowerCase() === data.title.toLowerCase());
+  if (!post) {
+    const build = {
+      url: {
+        loc: post.permalink,
+        lastmod: post.updated
+      }
+    };
+    console.log(build);
+  }
 }
+export default sitemap_post;
