@@ -9,6 +9,7 @@ import "js-prototypes/src/globals";
 import { writeFile } from "../fm";
 import log from "../log";
 import scheduler from "../scheduler";
+import { parse as nodeHtmlParser } from "node-html-parser";
 
 interface sitemapItem {
   loc: string;
@@ -71,7 +72,19 @@ export function getPageData(data: TemplateLocals) {
   }
 }
 
-export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
+export function sitemap(this: Hexo, content: string, data: TemplateLocals) {
+  const root = nodeHtmlParser(content);
+  const linksitemap = root.querySelector('link[rel="sitemap"]');
+  if (linksitemap) {
+    linksitemap.setAttribute("href", "/sitemap.xml");
+    linksitemap.setAttribute("type", "application/xml");
+    linksitemap.setAttribute("rel", "sitemap");
+    linksitemap.setAttribute("title", "Sitemap");
+  } else {
+    root.querySelector("head").innerHTML +=
+      '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
+  }
+
   const hexo = this;
   const locals = hexo.locals;
   if (locals.get("posts").length === 0) {
@@ -160,6 +173,9 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
       sitemapIndex(hexo);
     });
   }
+
+  content = root.toString();
+  return content;
 }
 export default sitemap;
 

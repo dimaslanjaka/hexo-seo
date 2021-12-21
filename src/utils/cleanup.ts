@@ -1,4 +1,4 @@
-//process.stdin.resume(); //so the program will not close instantly
+import log from "../log";
 
 //const fns1: Array<(data?: string) => void> = [];
 const fns: { [key: string]: (data?: string) => void }[] = [];
@@ -10,11 +10,10 @@ const fns: { [key: string]: (data?: string) => void }[] = [];
  */
 function exitHandler(options, exitCode) {
   Object.keys(fns).forEach((key) => {
-    console.log(`executing function key: ${key}`);
+    log.log(`executing function key: ${key}`);
     fns[key]();
   });
-  if (options.cleanup) console.log("clean");
-  if (exitCode || exitCode === 0) console.log(exitCode);
+  if (options.cleanup) log.log(`clean exit(${exitCode})`);
   if (options.exit) process.exit();
 }
 
