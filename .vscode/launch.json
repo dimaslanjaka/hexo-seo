@@ -6,7 +6,17 @@
   "configurations": [
     {
       "command": "npx hexo server --development",
-      "name": "[DEV] Demo Site Server",
+      "name": "[DEV] Demo Server",
+      "cwd": "${workspaceFolder}/test/demo",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npx hexo generate --development",
+      "name": "[DEV] Demo Generate",
       "cwd": "${workspaceFolder}/test/demo",
       "env": {
         "NODE_ENV": "development"

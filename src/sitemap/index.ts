@@ -2,12 +2,14 @@ import Hexo, { TemplateLocals } from "hexo";
 import moment from "moment";
 import { getCacheFolder } from "../utils";
 import { create as createXML } from "xmlbuilder2";
-import { readFileSync } from "fs";
+import { readFileSync, statSync } from "fs";
 import { join } from "path";
 import hexoIs from "../hexo/hexo-is";
 import { HexoIs } from "../hexo/hexo-is/is";
 import "js-prototypes/src/globals";
 import { writeFile } from "../fm";
+import log from "../log";
+import scheduler from "../scheduler";
 
 interface sitemapItem {
   loc: string;
@@ -50,16 +52,26 @@ export function sitemap_post(this: Hexo, content: string, data: TemplateLocals) 
       priority: "1",
       changefreq: "daily"
     });
-
-  const temp = join(getCacheFolder("sitemap"), "post-sitemap.xml");
-  writeFile(temp, createXML(obj).end({ prettyPrint: true }));
   const post = getPageData(data);
   if (post) {
-    obj.urlset.url.push({
-      loc: post.permalink,
-      lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
-      changefreq: "weekly",
-      priority: "0.6"
+    if (post.is.post) {
+      if (!post.updated) {
+        const stats = statSync(post.full_source);
+        post.updated = moment(stats.mtime);
+      }
+      obj.urlset.url.push({
+        loc: post.permalink,
+        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    const temp = join(hexo.public_dir, "post-sitemap.xml");
+
+    scheduler.add("writeCacheFile", () => {
+      log.log("sitemap saved", temp);
+      writeFile(temp, createXML(obj).end({ prettyPrint: true }));
     });
   }
 

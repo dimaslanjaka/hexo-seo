@@ -87,8 +87,7 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
       description = data.page.excerpt;
     }
   }
-  if (description)
-    Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());
+  if (description) Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());
 
   // set schema author
   let author: SchemaAuthor;
@@ -162,14 +161,8 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
   }
 
   // set schema genres
-  Schema.set(
-    "genre",
-    keywords.unique().removeEmpties().map(trimText).join(",")
-  );
-  Schema.set(
-    "keywords",
-    keywords.unique().removeEmpties().map(trimText).join(",")
-  );
+  Schema.set("genre", keywords.unique().removeEmpties().map(trimText).join(","));
+  Schema.set("keywords", keywords.unique().removeEmpties().map(trimText).join(","));
 
   const schemahtml = `<script type="application/ld+json">${Schema}</script>`;
   // to reduce javascript head memories
@@ -177,10 +170,7 @@ function fixSchema(this: Hexo, content: string, data: HexoSeo): string {
   if (mode != "regex") {
     const dom = new _JSDOM(content);
     dom.document.head.insertAdjacentHTML("beforeend", schemahtml);
-    if (
-      typeof this.config.seo.html.fix == "boolean" &&
-      this.config.seo.html.fix
-    ) {
+    if (typeof this.config.seo.html.fix == "boolean" && this.config.seo.html.fix) {
       content = dom.serialize();
     } else {
       content = document.documentElement.outerHTML;

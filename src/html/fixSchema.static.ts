@@ -13,8 +13,8 @@ import schemaHomepage from "./schema/homepage";
 
 export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
-
   const is = hexoIs(data);
+  /*
   if (is.archive) {
     dump("data-archive.txt", extractSimplePageData(data));
   } else if (is.post) {
@@ -25,7 +25,7 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
     dump("data-category.txt", extractSimplePageData(data));
   } else if (is.tag) {
     dump("data-tag.txt", extractSimplePageData(data));
-  }
+  }*/
 
   let schemahtml: string;
   if (is.home) {
