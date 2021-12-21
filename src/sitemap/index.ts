@@ -25,13 +25,28 @@ interface sitemapObj {
 interface sitemapGroup {
   post: sitemapObj;
   page: sitemapObj;
+  tag: sitemapObj;
+  category: sitemapObj;
 }
 const sitemapGroup: sitemapGroup = {
   post: undefined,
-  page: undefined
+  page: undefined,
+  tag: undefined,
+  category: undefined
 };
+interface SitemapIndex {
+  sitemapindex: {
+    sitemap: SitemapIndexItem[];
+  };
+}
+interface SitemapIndexItem {
+  sitemap: {
+    loc: string;
+    lastmod: string;
+  };
+}
 
-function initSitemap(type: string | "post" | "page") {
+function initSitemap(type: string | "post" | "page" | "category" | "tag") {
   if (!sitemapGroup[type]) {
     const sourceXML = join(__dirname, "views/" + type + "-sitemap.xml");
     if (!existsSync(sourceXML)) throw "Source " + sourceXML + " Not Found";
@@ -65,7 +80,7 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
   if (locals.get("posts").length === 0) {
     return;
   }
-  const groups = ["post", "page"];
+  const groups = ["post", "page", "category", "tag"];
   groups.forEach((group) => {
     if (!sitemapGroup[group]) initSitemap(group);
     if (sitemapGroup[group].urlset.url.length === 0) {
@@ -83,15 +98,20 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
       // copy xsl
       const destXSL = join(hexo.public_dir, "sitemap.xsl");
       const sourceXSL = join(__dirname, "views/sitemap.xsl");
-      copyFile(sourceXSL, destXSL, (err) => {
-        if (!err) log.log("XSL sitemap copied to " + destXSL);
-      });
+      copyFileSync(sourceXSL, destXSL);
+      log.log("XSL sitemap copied to " + destXSL);
     });
 
     if (post.is.post || post.is.page) {
+      // if post updated not found, get source file last modified time
       if (!post.updated) {
         const stats = statSync(post.full_source);
         post.updated = moment(stats.mtime);
+      }
+    } else {
+      // if post updated not found on archive etc
+      if (!post.updated) {
+        post.updated = moment(Date.now());
       }
     }
     if (post.is.post) {
@@ -101,13 +121,66 @@ export function sitemap(this: Hexo, _content: string, data: TemplateLocals) {
         changefreq: "weekly",
         priority: "0.6"
       });
-
-      scheduler.add("writeSitemapPost", () => {
-        const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
-        log.log("post sitemap saved", destPostSitemap);
-        writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));
+    } else if (post.is.page) {
+      sitemapGroup["page"].urlset.url.push({
+        loc: post.permalink,
+        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        changefreq: "weekly",
+        priority: "0.8"
+      });
+    } else if (post.is.category) {
+      sitemapGroup["category"].urlset.url.push({
+        loc: post.permalink,
+        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        changefreq: "weekly",
+        priority: "0.2"
+      });
+    } else if (post.is.tag) {
+      sitemapGroup["tag"].urlset.url.push({
+        loc: post.permalink,
+        lastmod: post.updated.format("YYYY-MM-DDTHH:mm:ssZ"),
+        changefreq: "weekly",
+        priority: "0.2"
       });
     }
+
+    scheduler.add("writeSitemap", () => {
+      const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
+      writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));
+      log.log("post sitemap saved", destPostSitemap);
+
+      const destPageSitemap = join(hexo.public_dir, "page-sitemap.xml");
+      writeFile(destPageSitemap, createXML(sitemapGroup["page"]).end({ prettyPrint: true }));
+      log.log("page sitemap saved", destPageSitemap);
+
+      const destTagSitemap = join(hexo.public_dir, "tag-sitemap.xml");
+      writeFile(destTagSitemap, createXML(sitemapGroup["tag"]).end({ prettyPrint: true }));
+      log.log("tag sitemap saved", destTagSitemap);
+
+      const destCategorySitemap = join(hexo.public_dir, "category-sitemap.xml");
+      writeFile(destCategorySitemap, createXML(sitemapGroup["category"]).end({ prettyPrint: true }));
+      log.log("category sitemap saved", destCategorySitemap);
+
+      sitemapIndex(hexo);
+    });
   }
 }
 export default sitemap;
+
+export function sitemapIndex(hexoinstance: Hexo = null) {
+  const sourceXML = join(__dirname, "views/sitemap.xml");
+  if (!existsSync(sourceXML)) throw "Source " + sourceXML + " Not Found";
+  const doc = createXML(readFileSync(sourceXML).toString());
+  const sitemapIndex = <SitemapIndex>new Object(doc.end({ format: "object" }));
+  /*sitemapIndex.sitemapindex["sitemap"] = [
+    { loc: "xx", lastmod: "xx" },
+    { loc: "xx", lastmod: "xx" }
+  ];*/
+  sitemapIndex.sitemapindex.sitemap = [];
+  if (!hexoinstance && typeof hexo != "undefined") {
+    hexoinstance = hexo;
+  }
+  const destIndexSitemap = join(hexo.public_dir, "category-sitemap.xml");
+  writeFile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
+  log.log("index sitemap saved", destIndexSitemap);
+}
