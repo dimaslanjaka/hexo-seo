@@ -21,7 +21,8 @@
     "**/__tests__/**",
     "**/dist/**",
     "**/node_modules/**",
-    "**/.git/**"
+    "**/.git/**",
+    "test"
   ],
   "include": [
     "src/index.ts",
