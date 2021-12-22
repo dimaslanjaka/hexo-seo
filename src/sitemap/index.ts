@@ -5,12 +5,12 @@ import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
 import { join } from "path";
 import hexoIs from "../hexo/hexo-is";
 import { HexoIs } from "../hexo/hexo-is/is";
-import "js-prototypes/src/globals";
 import { writeFile } from "../fm";
 import log from "../log";
 import scheduler from "../scheduler";
 import { parse as nodeHtmlParser } from "node-html-parser";
-import { dump, getPackageFile } from "../utils";
+import { ReturnConfig } from "../config";
+import "js-prototypes/src/globals";
 
 interface sitemapItem {
   loc: string;
@@ -74,13 +74,9 @@ export function getPageData(data: TemplateLocals) {
 }
 
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
-export function sitemap(this: Hexo, content: string, data: TemplateLocals) {
+export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
   const hexo = this;
-  if (!hexo.config.seo) {
-    log.error("hexo-seo config not set");
-    return;
-  }
-  if (hexo.config.seo.sitemap === false) {
+  if (HSconfig.sitemap === false) {
     log.error("hexo-seo config sitemap not set");
     return;
   }
@@ -94,16 +90,16 @@ export function sitemap(this: Hexo, content: string, data: TemplateLocals) {
   if (["posts", "pages"].some((info) => locals.get(info).length === 0)) {
     return;
   }
+
   // parse html
-  const root = nodeHtmlParser(content);
-  const linksitemap = root.querySelector('link[rel="sitemap"]');
+  const linksitemap = dom.querySelector('link[rel="sitemap"]');
   if (linksitemap) {
     linksitemap.setAttribute("href", "/sitemap.xml");
     linksitemap.setAttribute("type", "application/xml");
     linksitemap.setAttribute("rel", "sitemap");
     linksitemap.setAttribute("title", "Sitemap");
   } else {
-    root.querySelector("head").innerHTML +=
+    dom.querySelector("head").innerHTML +=
       '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
   }
 
@@ -119,6 +115,7 @@ export function sitemap(this: Hexo, content: string, data: TemplateLocals) {
       });
     }
   });
+
   const post = getPageData(data);
   if (post) {
     scheduler.add("copySitemapXSL", () => {
@@ -164,9 +161,6 @@ export function sitemap(this: Hexo, content: string, data: TemplateLocals) {
       sitemapIndex(hexo);
     });
   }
-
-  content = root.toString();
-  return content;
 }
 export default sitemap;
 
