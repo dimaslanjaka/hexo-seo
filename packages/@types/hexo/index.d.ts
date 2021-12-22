@@ -338,6 +338,7 @@ declare namespace Hexo {
     interface Category extends Tag {
       parent: string;
     }
+    type All = Hexo.Locals.Post & Hexo.Locals.Page & Hexo.Locals.Category & Hexo.Locals.Tag;
   }
 
   namespace extend {

@@ -12,6 +12,7 @@ import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
 import { isDev } from ".";
 import "js-prototypes/src/globals";
+import pkg from "../package.json";
 
 export interface Objek extends Object {
   [key: string]: any;
@@ -98,4 +99,21 @@ export function getCacheFolder(folderName = "") {
     root = hexo.base_dir;
   }
   return path.join(root, "build/hexo-seo", folderName);
+}
+
+/**
+ * get current package folder
+ * @returns
+ */
+export function getPackageFolder() {
+  return path.join(process.cwd(), "node_modules", pkg.name);
+}
+
+/**
+ * Get current package file
+ * @param name
+ * @returns
+ */
+export function getPackageFile(pathname: string) {
+  return path.join(getPackageFolder(), pathname);
 }
