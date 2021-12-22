@@ -13,6 +13,7 @@ import { isExternal } from "./fixHyperlinks";
 import parseUrl from "url-parse";
 import { isDev } from "../";
 import fixSchemaStatic from "./fixSchema.static";
+import sitemap from "../sitemap";
 
 export function getPath(data: HexoSeo) {
   if (data.page) {

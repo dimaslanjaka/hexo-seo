@@ -41,9 +41,11 @@ export interface defaultSeoOptions {
    * Generate schema article
    */
   schema?: boolean;
+  sitemap?: boolean;
 }
 
 export interface ReturnConfig {
+  sitemap: boolean;
   js: jsMinifyOptions;
   css: cssMinifyOptions;
   img: imgOptions;
