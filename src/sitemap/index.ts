@@ -8,7 +8,7 @@ import { HexoIs } from "../hexo/hexo-is/is";
 import { writeFile } from "../fm";
 import log from "../log";
 import scheduler from "../scheduler";
-import { parse as nodeHtmlParser } from "node-html-parser";
+import { HTMLElement } from "node-html-parser";
 import { ReturnConfig } from "../config";
 import "js-prototypes/src/globals";
 
@@ -126,7 +126,9 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
       log.log("XSL sitemap copied to " + destXSL);
     });
 
-    if (post.is.post || post.is.page) {
+    const isPagePost = post.is.post || post.is.page;
+
+    if (isPagePost) {
       // if post updated not found, get source file last modified time
       if (!post.updated) {
         const stats = statSync(post.full_source);
@@ -149,17 +151,19 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
       });
     }
 
-    scheduler.add("writeSitemap", () => {
-      const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
-      writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));
-      log.log("post sitemap saved", destPostSitemap);
+    if (isPagePost) {
+      scheduler.add("writeSitemap", () => {
+        const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
+        writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));
+        log.log("post sitemap saved", destPostSitemap);
 
-      const destPageSitemap = join(hexo.public_dir, "page-sitemap.xml");
-      writeFile(destPageSitemap, createXML(sitemapGroup["page"]).end({ prettyPrint: true }));
-      log.log("page sitemap saved", destPageSitemap);
+        const destPageSitemap = join(hexo.public_dir, "page-sitemap.xml");
+        writeFile(destPageSitemap, createXML(sitemapGroup["page"]).end({ prettyPrint: true }));
+        log.log("page sitemap saved", destPageSitemap);
 
-      sitemapIndex(hexo);
-    });
+        sitemapIndex(hexo);
+      });
+    }
   }
 }
 export default sitemap;

@@ -1,5 +1,5 @@
 import { CheerioAPI } from "cheerio";
-import Hexo from "hexo";
+import Hexo, { TemplateLocals } from "hexo";
 import { isValidUrlPattern } from "../../../utils/url";
 import mainSchema from "./model3.json";
 
@@ -10,7 +10,13 @@ export type SchemaAuthor = ObjectConstructor & {
   url?: string;
 };
 
-export type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag;
+export type HexoSeo = Hexo &
+  Hexo.View &
+  Hexo.Locals.Category &
+  Hexo.Locals.Page &
+  Hexo.Locals.Post &
+  Hexo.Locals.Tag &
+  TemplateLocals;
 
 export interface SchemaArticleOptions {
   /**
