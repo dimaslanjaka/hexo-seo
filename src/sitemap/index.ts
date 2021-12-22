@@ -118,16 +118,7 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
 
   const post = getPageData(data);
   if (post) {
-    scheduler.add("copySitemapXSL", () => {
-      // copy xsl
-      const destXSL = join(hexo.public_dir, "sitemap.xsl");
-      const sourceXSL = join(__dirname, "views/sitemap.xsl");
-      copyFileSync(sourceXSL, destXSL);
-      log.log("XSL sitemap copied to " + destXSL);
-    });
-
     const isPagePost = post.is.post || post.is.page;
-
     if (isPagePost) {
       // if post updated not found, get source file last modified time
       if (!post.updated) {
@@ -153,6 +144,12 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
 
     if (isPagePost) {
       scheduler.add("writeSitemap", () => {
+        // copy xsl
+        const destXSL = join(hexo.public_dir, "sitemap.xsl");
+        const sourceXSL = join(__dirname, "views/sitemap.xsl");
+        copyFileSync(sourceXSL, destXSL);
+        log.log("XSL sitemap copied to " + destXSL);
+
         const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
         writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));
         log.log("post sitemap saved", destPostSitemap);

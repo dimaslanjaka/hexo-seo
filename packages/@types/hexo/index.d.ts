@@ -895,8 +895,9 @@ export type PageDataOfficial = Hexo.Locals.Post | Hexo.Locals.Page
   | TagPage;
 /**
  * Aliasing
+ * * IndexPage, ArchivePage, CategoryPage, TagPage
  */
-export interface PageData extends Hexo.Locals.Post, Hexo.Locals.Page, Hexo.Locals.Category, Hexo.Locals.Tag, IndexPage, ArchivePage, CategoryPage, TagPage {
+export interface PageData extends Hexo.Locals.Post, Hexo.Locals.Page, Hexo.Locals.Category, Hexo.Locals.Tag {
   [key: string]: any;
 }
 
@@ -947,4 +948,4 @@ interface TagPage extends IndexPage {
   tag: string;
 }
 
-export = Hexo;
+export default Hexo;
