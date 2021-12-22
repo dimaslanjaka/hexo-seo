@@ -2,7 +2,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-console */
 /* eslint-disable new-cap */
-/* eslint-disable import/order */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { exec } = require("child_process");
 const { writeFileSync, readFileSync } = require("fs");
@@ -17,44 +16,41 @@ const Moment = require("moment");
 const { join } = require("path");
 
 function updateChangelog(callback) {
-  exec(
-    'git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes',
-    (err, stdout, stderr) => {
-      const std = stdout
-        .split("\n")
-        .filter(
-          /**
-           * filter non-empty
-           * @param {string} el
-           * @returns {boolean}
-           */
-          function (el) {
-            return el != null && el.trim().length > 0;
-          }
-        )
-        .map(
-          /**
-           * Trim
-           * @param {string} str
-           * @returns {string}
-           */
-          function (str) {
-            return str.trim();
-          }
-        );
-      const date = Moment().format("YYYY-MM-DDTHH:mm:ss");
-      let build = `\n\n## [${packages.version}] ${date}\n`;
-      std.forEach((str) => {
-        build += `- ${str}\n`;
-      });
+  exec('git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes', (err, stdout, stderr) => {
+    const std = stdout
+      .split("\n")
+      .filter(
+        /**
+         * filter non-empty
+         * @param {string} el
+         * @returns {boolean}
+         */
+        function (el) {
+          return el != null && el.trim().length > 0;
+        }
+      )
+      .map(
+        /**
+         * Trim
+         * @param {string} str
+         * @returns {string}
+         */
+        function (str) {
+          return str.trim();
+        }
+      );
+    const date = Moment().format("YYYY-MM-DDTHH:mm:ss");
+    let build = `\n\n## [${packages.version}] ${date}\n`;
+    std.forEach((str) => {
+      build += `- ${str}\n`;
+    });
 
-      const changelog = join(__dirname, "CHANGELOG.md");
-      let readChangelog = readFileSync(changelog).toString().trim();
-      readChangelog += build;
-      writeFileSync(changelog, readChangelog);
-      if (typeof callback === "function") callback();
-    }
-  );
+    const changelog = join(__dirname, "CHANGELOG.md");
+    let readChangelog = readFileSync(changelog).toString().trim();
+    readChangelog += build;
+    writeFileSync(changelog, readChangelog);
+    if (typeof callback === "function") callback();
+  });
 }
 
 if (typeof version === "object") {
@@ -77,8 +73,7 @@ if (typeof version === "object") {
             // add to git
             updateChangelog(() => {
               exec("git add .", (err) => {
-                if (!err)
-                  exec(`git commit -m "Update release ${version.toString()}"`);
+                if (!err) exec(`git commit -m "Update release ${version.toString()}"`);
               });
             });
           });

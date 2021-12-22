@@ -2,3 +2,7 @@
 	path = packages/js-prototypes
 	url = https://github.com/dimaslanjaka/js-prototypes.git
 	branch = master
+[submodule "test/demo"]
+	path = test/demo
+	url = https://github.com/dimaslanjaka/site.git
+	branch = test-demo

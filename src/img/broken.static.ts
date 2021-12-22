@@ -16,10 +16,7 @@ export default function (dom: _JSDOM, HSconfig: imgOptions, data: HexoSeo) {
       if (/^https?:\/\//.test(src) && src.length > 0) {
         return checkBrokenImg(src).then((check) => {
           if (typeof check == "object" && !check.success) {
-            logger.log("%s(IMG:broken) fixing %s", pkg.name, [
-              src,
-              check.resolved
-            ]);
+            logger.log("%s(IMG:broken) fixing %s", pkg.name, [src, check.resolved]);
             img.setAttribute("src", check.resolved);
             img.setAttribute("src-ori", check.original);
           }

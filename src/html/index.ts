@@ -8,11 +8,9 @@ import { CacheFile } from "../cache";
 import { md5 } from "../utils/md5-file";
 import logger from "../log";
 import Promise from "bluebird";
-import pkg from "../../package.json";
 import { parse as nodeHtmlParser } from "node-html-parser";
 import { isExternal } from "./fixHyperlinks";
 import parseUrl from "url-parse";
-import { dump } from "../utils";
 import { isDev } from "../";
 import fixSchemaStatic from "./fixSchema.static";
 
@@ -57,7 +55,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       //** fix invalid html */
       const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
       if (inv.length) logger.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
-      inv.forEach((el, i) => {
+      inv.forEach((el) => {
         el.remove();
       });
     }

@@ -23,7 +23,7 @@ declare global {
 
 
 
-interface Model<T> {
+export interface Model<T> {
   /**
    * Warehouse method
    * https://hexojs.github.io/warehouse/
@@ -338,6 +338,7 @@ declare namespace Hexo {
     interface Category extends Tag {
       parent: string;
     }
+    type All = Hexo.Locals.Post & Hexo.Locals.Page & Hexo.Locals.Category & Hexo.Locals.Tag;
   }
 
   namespace extend {
@@ -882,21 +883,29 @@ declare namespace Hexo {
     renderSync(options?: any): string;
   }
 }
-
-interface TemplateLocals {
-  /**
-   * Underscore object
-   */
-  _: underscore.UnderscoreStatic;
-  page:
-  | Hexo.Locals.Post
-  | Hexo.Locals.Page
+/**
+ * Aliasing
+ */
+export type PageDataOfficial = Hexo.Locals.Post | Hexo.Locals.Page
   | Hexo.Locals.Category
   | Hexo.Locals.Tag
   | IndexPage
   | ArchivePage
   | CategoryPage
   | TagPage;
+/**
+ * Aliasing
+ */
+export interface PageData extends Hexo.Locals.Post, Hexo.Locals.Page, Hexo.Locals.Category, Hexo.Locals.Tag, IndexPage, ArchivePage, CategoryPage, TagPage {
+  [key: string]: any;
+}
+
+export interface TemplateLocals {
+  /**
+   * Underscore object
+   */
+  _: underscore.UnderscoreStatic;
+  page: PageData;
   path: string;
   url: string;
 

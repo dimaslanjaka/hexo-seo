@@ -13,6 +13,7 @@ import htmlIndex from "./html/index";
 import bindProcessExit from "./utils/cleanup";
 import scheduler from "./scheduler";
 import sitemap from "./sitemap";
+import log from "./log";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -75,11 +76,8 @@ export default function (hexo: Hexo) {
   }
   // execute scheduled functions before process exit
   if (hexoCmd && hexoCmd != "clean") {
-    hexo.on("exit", () => {
-      console.log("[hexo.on(exit)] running functions on process exit");
-    });
     bindProcessExit("scheduler_on_exit", function () {
-      console.log("executing scheduled functions");
+      log.log("executing scheduled functions");
       scheduler.executeAll();
     });
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 // source of https://github.com/hexojs/hexo/blob/master/lib/plugins/helper/is.js
 
 "use strict";
@@ -94,7 +95,7 @@ export const tag = isTagHelper;
  * @param hexo
  * @returns
  */
-export default function (hexo: any) {
+export default function (hexo: any): HexoIs {
   const obj = {
     current: false,
     home: false,
@@ -119,4 +120,17 @@ export default function (hexo: any) {
     category: category.bind(hexo)(),
     tag: tag.bind(hexo)()
   };
+}
+
+export interface HexoIs {
+  current: boolean;
+  home: boolean;
+  post: boolean;
+  page: boolean;
+  archive: boolean;
+  year: boolean;
+  month: boolean;
+  category: boolean;
+  tag: boolean;
+  message?: string;
 }
