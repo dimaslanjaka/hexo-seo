@@ -78,6 +78,7 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
     });
 
     fixSchemaStatic(root, cfg, data);
+    sitemap(root, cfg, data);
 
     content = root.toString();
     if (allowCache) cache.set(md5(path0), content);

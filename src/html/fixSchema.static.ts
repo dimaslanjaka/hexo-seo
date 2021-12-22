@@ -30,7 +30,7 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
   let schemahtml: string;
   if (is.home) {
     dump("data-home.txt", extractSimplePageData(data));
-    const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
+    //const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
   } else {
     const Schema = new schemaArticles({ pretty: isDev, hexo: data });
     // set url
@@ -126,7 +126,7 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
     const schemaBreadcrumbs = [];
     if (data.page) {
       if (data.page.tags && data.page.tags.length > 0) {
-        data.page.tags.forEach((tag, index, tags) => {
+        data.page.tags.forEach((tag) => {
           keywords.push(tag["name"]);
           const o = { item: tag["permalink"], name: tag["name"] };
           schemaBreadcrumbs.push(<any>o);
