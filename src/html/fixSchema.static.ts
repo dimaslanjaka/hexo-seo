@@ -3,8 +3,7 @@ import { trimText } from "../utils/string";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
 import { getTextPartialHtml } from "./dom";
-import "../../packages/js-prototypes/src/String";
-import "../../packages/js-prototypes/src/Array";
+import "../../packages/js-prototypes/src/globals";
 import underscore from "underscore";
 import { dump, extractSimplePageData } from "../utils";
 import { HTMLElement } from "node-html-parser";
@@ -30,7 +29,7 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
   let schemahtml: string;
   if (is.home) {
     dump("data-home.txt", extractSimplePageData(data));
-    //const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
+    const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
   } else {
     const Schema = new schemaArticles({ pretty: isDev, hexo: data });
     // set url
