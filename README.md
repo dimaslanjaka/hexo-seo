@@ -58,7 +58,8 @@ seo:
         safari10: true
   # add rich snippets on every posts and pages
   schema: true
-  img: # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
+  # [inactive] this function still under development
+  img: 
     # fix broken images
     broken: false
     # default broken images
