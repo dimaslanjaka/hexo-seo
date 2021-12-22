@@ -1,8 +1,7 @@
 # hexo-seo
 Automated Hexo Seo Optimizer (under development)
 
-> this plugin builded with typescript and unfinished yet according issues
-> - [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
+> no more issues [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822), i created my own scheduler
 
 # Installation
 Using Git Repository (Development)
