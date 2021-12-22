@@ -76,6 +76,8 @@ seo:
       - webmanajemen.com
       - web-manajemen.blogspot.com
       - dimaslanjaka.github.io
+    # auto generate seo friendly sitemap at /sitemap.xml
+    sitemap: true 
 ```
 > this plugin will run the functions based on development mode or production mode
 
