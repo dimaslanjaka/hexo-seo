@@ -3,7 +3,7 @@ import { trimText } from "../utils/string";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
 import { getTextPartialHtml } from "./dom";
-import "js-prototypes/src/globals";
+import "js-prototypes";
 import underscore from "underscore";
 import { dumpOnce, extractSimplePageData } from "../utils";
 import { HTMLElement } from "node-html-parser";

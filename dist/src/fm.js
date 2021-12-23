@@ -26,7 +26,7 @@ exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exp
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
 var crypto_1 = __importDefault(require("crypto"));
-require("js-prototypes/src/globals");
+require("js-prototypes");
 /**
  * Temp folder
  */

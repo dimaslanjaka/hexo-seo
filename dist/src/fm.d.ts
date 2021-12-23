@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import "js-prototypes/src/globals";
+import "js-prototypes";
 /**
  * Temp folder
  */

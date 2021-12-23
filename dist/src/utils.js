@@ -31,7 +31,7 @@ var rimraf_1 = __importDefault(require("rimraf"));
 var util_1 = __importDefault(require("util"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 var _1 = require(".");
-require("js-prototypes/src/globals");
+require("js-prototypes");
 var package_json_1 = __importDefault(require("../package.json"));
 /**
  * is ignore pattern matching?

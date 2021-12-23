@@ -1,5 +1,5 @@
 import Hexo from "hexo";
-import "js-prototypes/src/globals";
+import "js-prototypes";
 export interface Objek extends Object {
     [key: string]: any;
 }

@@ -11,7 +11,7 @@ import utils from "util";
 import sanitizeFilename from "sanitize-filename";
 import { HexoSeo } from "./html/schema/article";
 import { isDev } from ".";
-import "js-prototypes/src/globals";
+import "js-prototypes";
 import pkg from "../package.json";
 
 export interface Objek extends Object {

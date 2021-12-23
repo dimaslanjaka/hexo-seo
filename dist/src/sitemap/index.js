@@ -32,7 +32,7 @@ var fm_1 = require("../fm");
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
 var archive_1 = __importStar(require("./archive"));
-require("js-prototypes/src/globals");
+require("js-prototypes");
 var cache_1 = require("../cache");
 var sitemapGroup = {
     post: undefined,
