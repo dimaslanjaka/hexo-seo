@@ -21,8 +21,6 @@ declare global {
   const hexo: Hexo;
 }
 
-
-
 export interface Model<T> {
   /**
    * Warehouse method
@@ -948,4 +946,6 @@ interface TagPage extends IndexPage {
   tag: string;
 }
 
+export = Hexo;
 export default Hexo;
+module.exports = Hexo;

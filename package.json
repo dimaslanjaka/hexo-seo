@@ -22,8 +22,7 @@
     "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "copy-files": "copyfiles -u 1 source/**/*.{html,css,js} lib/source/",
-    "build": "rm -rf dist && tsc && npm run copy-files"
+    "build": "rm -rf dist && gulp && tsc"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [
@@ -91,7 +90,6 @@
     "@types/url-parse": "^1.4.4",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
-    "copyfiles": "github:calvinmetcalf/copyfiles",
     "dotenv": "^10.0.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",

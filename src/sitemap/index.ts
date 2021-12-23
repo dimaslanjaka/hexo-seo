@@ -12,6 +12,9 @@ import { HTMLElement } from "node-html-parser";
 import { ReturnConfig } from "../config";
 import getCategoryTags from "./archive";
 import "js-prototypes/src/globals";
+import { CacheFile } from "../cache";
+import { md5 } from "../utils/md5-file";
+import { getPagePath } from "../html";
 
 interface sitemapItem {
   loc: string;
@@ -76,6 +79,9 @@ export function getPageData(data: TemplateLocals) {
 }
 
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
+const postUpdateDates: Date[] = [];
+const cache = new CacheFile("sitemap");
+
 export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
   if (!HSconfig.sitemap) {
     log.error("[hexo-seo][sitemap] config sitemap not set");

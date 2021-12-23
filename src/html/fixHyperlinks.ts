@@ -37,10 +37,7 @@ function fixHyperlinks(this: Hexo, content: string, data: HexoSeo) {
 
   const siteHost = parseUrl(this.config.url).hostname;
   if (!siteHost || siteHost.length < 1) {
-    this.log.error(
-      "%s(Anchor) failure to start, config {hexo.config.url} not set",
-      pkg.name
-    );
+    this.log.error("%s(Anchor) failure to start, config {hexo.config.url} not set", pkg.name);
     return content;
   }
 
@@ -52,29 +49,18 @@ function fixHyperlinks(this: Hexo, content: string, data: HexoSeo) {
       // only process anchor start with https?, otherwise abadoned
       if (/https?/gs.test(href)) {
         const parseHref = parseUrl(href);
-        let rels = el.getAttribute("rel")
-          ? el.getAttribute("rel").split(" ")
-          : [];
+        let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
         const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
         const internalArr = ["internal", "follow", "bookmark"];
         const external = isExternal(parseHref, hexo);
         // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
         if (external) {
-          rels = rels
-            .concat(externalArr)
-            .unique()
-            .hapusItemDariArrayLain(internalArr);
-          if (
-            typeof HSconfig.links.blank == "boolean" &&
-            HSconfig.links.blank
-          ) {
+          rels = rels.concat(externalArr).unique().hapusItemDariArrayLain(internalArr);
+          if (typeof HSconfig.links.blank == "boolean" && HSconfig.links.blank) {
             el.setAttribute("target", "_blank");
           }
         } else {
-          rels = rels
-            .concat(internalArr)
-            .unique()
-            .hapusItemDariArrayLain(externalArr);
+          rels = rels.concat(internalArr).unique().hapusItemDariArrayLain(externalArr);
         }
         el.setAttribute("rel", rels.join(" "));
       }
@@ -107,14 +93,8 @@ function fixHyperlinks(this: Hexo, content: string, data: HexoSeo) {
  * @param hexo
  * @returns
  */
-export function isExternal(
-  url: ReturnType<typeof parseUrl>,
-  hexo: Hexo
-): boolean {
-  const site =
-    typeof parseUrl(hexo.config.url).hostname == "string"
-      ? parseUrl(hexo.config.url).hostname
-      : null;
+export function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
+  const site = typeof parseUrl(hexo.config.url).hostname == "string" ? parseUrl(hexo.config.url).hostname : null;
   const cases = typeof url.hostname == "string" ? url.hostname.trim() : null;
   const config = getConfig(hexo);
   const allowed = Array.isArray(config.links.allow) ? config.links.allow : [];

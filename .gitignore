@@ -7,6 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 tmp
 .env
+build/
 
 # unused idea configuration
 .idea/vcs.xml
