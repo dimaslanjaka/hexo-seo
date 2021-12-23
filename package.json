@@ -32,6 +32,9 @@
     "auto",
     "seo"
   ],
+  "engines": {
+    "node": ">=8"
+  },
   "author": {
     "email": "dimaslanjaka@gmail.com",
     "name": "Dimas Lanjaka",

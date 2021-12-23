@@ -168,6 +168,7 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
 export default sitemap;
 
 export function sitemapIndex(hexoinstance: Hexo = null) {
+  log.log("Sitemap indexing...");
   const sourceXML = join(__dirname, "views/sitemap.xml");
   if (!existsSync(sourceXML)) throw "Source " + sourceXML + " Not Found";
   const sitemapIndexDoc = createXML(readFileSync(sourceXML).toString());
