@@ -5,31 +5,26 @@ import { isDev } from "..";
 import { getTextPartialHtml } from "./dom";
 import "js-prototypes/src/globals";
 import underscore from "underscore";
-import { dump, extractSimplePageData } from "../utils";
+import { dumpOnce, extractSimplePageData } from "../utils";
 import { HTMLElement } from "node-html-parser";
 import hexoIs from "../hexo/hexo-is";
 import schemaHomepage from "./schema/homepage";
+import log from "../log";
 
 export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
-  /*
-  if (is.archive) {
-    dump("data-archive.txt", extractSimplePageData(data));
-  } else if (is.post) {
-    dump("data-post.txt", extractSimplePageData(data));
-  } else if (is.page) {
-    dump("data-page.txt", extractSimplePageData(data));
-  } else if (is.category) {
-    dump("data-category.txt", extractSimplePageData(data));
-  } else if (is.tag) {
-    dump("data-tag.txt", extractSimplePageData(data));
-  }*/
 
   let schemahtml: string;
   if (is.home) {
-    dump("data-home.txt", extractSimplePageData(data));
+    dumpOnce("data-home.txt", extractSimplePageData(data));
     const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
+  } else if (is.archive) {
+    dumpOnce("data-archive.txt", extractSimplePageData(data));
+  } else if (is.category) {
+    dumpOnce("data-category.txt", extractSimplePageData(data));
+  } else if (is.tag) {
+    dumpOnce("data-tag.txt", extractSimplePageData(data));
   } else {
     const Schema = new schemaArticles({ pretty: isDev, hexo: data });
     // set url
@@ -44,10 +39,11 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
     if (url) Schema.setUrl(url);
 
     // sitelinks
-    Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace(
-      "https://www.webmanajemen.com",
-      data.config.url
-    );
+    Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate =
+      Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace(
+        "https://www.webmanajemen.com",
+        data.config.url
+      );
 
     let keywords: string[] = [];
     if (data.config.keywords) {
@@ -166,6 +162,7 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
     Schema.set("award", keywords.unique().removeEmpties().map(trimText).join(","));
 
     schemahtml = `<script type="application/ld+json">${Schema}</script>`;
+    log.log("schema created", title, url);
   }
   if (schemahtml) {
     const head = dom.getElementsByTagName("head")[0];
