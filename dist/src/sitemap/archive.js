@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getLatestFromArrayDates = void 0;
 var moment_1 = __importDefault(require("moment"));
 function getCategoryTags(hexo) {
     var groups = ["categories", "tags"];
@@ -35,9 +36,15 @@ function getCategoryTags(hexo) {
     });
     return groupfilter;
 }
+/**
+ * get latest date from array of date
+ * @param arr
+ * @returns
+ */
 function getLatestFromArrayDates(arr) {
     return new Date(Math.max.apply(null, arr.map(function (e) {
-        return e;
+        return e instanceof Date ? e : (0, moment_1.default)(e).toDate();
     })));
 }
+exports.getLatestFromArrayDates = getLatestFromArrayDates;
 exports.default = getCategoryTags;

@@ -1,7 +1,5 @@
 /// <reference types="node" />
-import "../packages/js-prototypes/src/String";
-import "../packages/js-prototypes/src/Array";
-import "../packages/js-prototypes/src/Object";
+import "js-prototypes/src/globals";
 /**
  * Temp folder
  */

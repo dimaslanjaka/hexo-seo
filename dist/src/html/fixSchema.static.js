@@ -7,7 +7,7 @@ var string_1 = require("../utils/string");
 var article_1 = __importDefault(require("./schema/article"));
 var __1 = require("..");
 var dom_1 = require("./dom");
-require("../../packages/js-prototypes/src/globals");
+require("js-prototypes/src/globals");
 var underscore_1 = __importDefault(require("underscore"));
 var utils_1 = require("../utils");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));

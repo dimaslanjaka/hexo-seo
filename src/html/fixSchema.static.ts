@@ -3,7 +3,7 @@ import { trimText } from "../utils/string";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 import { isDev } from "..";
 import { getTextPartialHtml } from "./dom";
-import "../../packages/js-prototypes/src/globals";
+import "js-prototypes/src/globals";
 import underscore from "underscore";
 import { dump, extractSimplePageData } from "../utils";
 import { HTMLElement } from "node-html-parser";
@@ -42,6 +42,12 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
       }
     }
     if (url) Schema.setUrl(url);
+
+    // sitelinks
+    Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace(
+      "https://www.webmanajemen.com",
+      data.config.url
+    );
 
     let keywords: string[] = [];
     if (data.config.keywords) {
