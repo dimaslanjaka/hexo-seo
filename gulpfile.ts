@@ -5,7 +5,7 @@ import del from "del";
 
 function build(done) {
   const deletedDirectoryPaths = del(["dist", "docs"]);
-  const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**"];
+  const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
   return Promise.resolve(deletedDirectoryPaths)
     .then(() => {
       gulp
