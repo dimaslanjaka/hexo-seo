@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "declaration": true,
+    "stripInternal": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "hexo-seo": [
+        "src/hexo-seo.ts"
+      ]
+    },
+    "rootDirs": [
+      "src"
+    ],
+    "allowJs": true,
+    "allowUnusedLabels": true,
+    "outDir": "./dist",
+    //"declarationDir": "./dist/@types",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "sourceRoot": "./",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "dist"
+  ],
+  "include": [
+    "src/**/*",
+    "packages/**/*",
+    "source/**/*"
+  ]
+}

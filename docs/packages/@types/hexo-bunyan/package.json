@@ -1,0 +1,24 @@
+{
+    "name": "@types/hexo-bunyan",
+    "version": "1.0.1",
+    "description": "TypeScript definitions for hexo-bunyan",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "segayuu",
+            "url": "https://github.com/segayuu",
+            "githubUsername": "segayuu"
+        }
+    ],
+    "main": "",
+    "repository": {
+        "type": "git",
+        "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/bunyan": "*"
+    },
+    "typesPublisherContentHash": "c060644f133d3d86089f67ceb6908bee5970a3430aa3c425ff948844ec30687b",
+    "typeScriptVersion": "2.1"
+}
