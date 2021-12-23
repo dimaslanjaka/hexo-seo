@@ -160,11 +160,8 @@ exports.sitemap = sitemap;
 exports.default = sitemap;
 function sitemapIndex(hexoinstance) {
     if (hexoinstance === void 0) { hexoinstance = null; }
-    log_1.default.log("Sitemap indexing...");
-    var sourceXML = (0, path_1.join)(__dirname, "views/sitemap.xml");
-    if (!(0, fs_1.existsSync)(sourceXML))
-        throw "Source " + sourceXML + " Not Found";
-    var sitemapIndexDoc = (0, xmlbuilder2_1.create)((0, fs_1.readFileSync)(sourceXML).toString());
+    var sourceIndexXML = (0, path_1.join)(__dirname, "views/sitemap.xml");
+    var sitemapIndexDoc = (0, xmlbuilder2_1.create)((0, fs_1.readFileSync)(sourceIndexXML).toString());
     var sitemapIndex = new Object(sitemapIndexDoc.end({ format: "object" }));
     sitemapIndex.sitemapindex.sitemap = [];
     if (!hexoinstance && typeof hexo != "undefined") {
@@ -172,19 +169,19 @@ function sitemapIndex(hexoinstance) {
     }
     // push post-sitemap.xml to sitemapindex
     var latestPostDate = (0, archive_1.getLatestFromArrayDates)(postUpdateDates);
+    log_1.default.log("latest updated post", latestPostDate);
     sitemapIndex.sitemapindex.sitemap.push({
         loc: hexo.config.url.toString() + "/post-sitemap.xml",
         lastmod: (0, moment_1.default)(latestPostDate).format("YYYY-MM-DDTHH:mm:ssZ")
     });
     // push page-sitemap.xml to sitemapindex
     var latestPageDate = (0, archive_1.getLatestFromArrayDates)(pageUpdateDates);
-    sitemapIndex.sitemapindex.sitemap.push({
-        loc: hexo.config.url.toString() + "/page-sitemap.xml",
-        lastmod: (0, moment_1.default)(latestPageDate).format("YYYY-MM-DDTHH:mm:ssZ")
-    });
-    var destIndexSitemap = (0, path_1.join)(hexo.public_dir, "sitemap.xml");
-    (0, fm_1.writeFile)(destIndexSitemap, (0, xmlbuilder2_1.create)(sitemapIndex).end({ prettyPrint: true }));
-    log_1.default.log("index sitemap saved", destIndexSitemap);
+    log_1.default.log("latest updated page", latestPageDate);
+    if ((0, moment_1.default)(latestPageDate).isValid())
+        sitemapIndex.sitemapindex.sitemap.push({
+            loc: hexo.config.url.toString() + "/page-sitemap.xml",
+            lastmod: (0, moment_1.default)(latestPageDate).format("YYYY-MM-DDTHH:mm:ssZ")
+        });
     // build tag-sitemap.xml
     var tags = categoryTagsInfo.tags;
     tags.map(function (tag) {
@@ -203,6 +200,7 @@ function sitemapIndex(hexoinstance) {
     var latestTagDate = (0, archive_1.getLatestFromArrayDates)(tags.map(function (tag) {
         return tag.latest;
     }));
+    log_1.default.log("latest updated tag", latestTagDate);
     sitemapIndex.sitemapindex.sitemap.push({
         loc: hexo.config.url.toString() + "/tag-sitemap.xml",
         lastmod: (0, moment_1.default)(latestTagDate).format("YYYY-MM-DDTHH:mm:ssZ")
@@ -225,9 +223,13 @@ function sitemapIndex(hexoinstance) {
     var latestCategoryDate = (0, archive_1.getLatestFromArrayDates)(categories.map(function (category) {
         return category.latest;
     }));
+    log_1.default.log("latest updated category", latestCategoryDate);
     sitemapIndex.sitemapindex.sitemap.push({
         loc: hexo.config.url.toString() + "/category-sitemap.xml",
         lastmod: (0, moment_1.default)(latestCategoryDate).format("YYYY-MM-DDTHH:mm:ssZ")
     });
+    var destIndexSitemap = (0, path_1.join)(hexo.public_dir, "sitemap.xml");
+    (0, fm_1.writeFile)(destIndexSitemap, (0, xmlbuilder2_1.create)(sitemapIndex).end({ prettyPrint: true }));
+    log_1.default.log("index sitemap saved", destIndexSitemap);
 }
 exports.sitemapIndex = sitemapIndex;

@@ -12,26 +12,24 @@ var underscore_1 = __importDefault(require("underscore"));
 var utils_1 = require("../utils");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var homepage_1 = __importDefault(require("./schema/homepage"));
+var log_1 = __importDefault(require("../log"));
 function default_1(dom, HSconfig, data) {
     if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
         return;
     var is = (0, hexo_is_1.default)(data);
-    /*
-    if (is.archive) {
-      dump("data-archive.txt", extractSimplePageData(data));
-    } else if (is.post) {
-      dump("data-post.txt", extractSimplePageData(data));
-    } else if (is.page) {
-      dump("data-page.txt", extractSimplePageData(data));
-    } else if (is.category) {
-      dump("data-category.txt", extractSimplePageData(data));
-    } else if (is.tag) {
-      dump("data-tag.txt", extractSimplePageData(data));
-    }*/
     var schemahtml;
     if (is.home) {
-        (0, utils_1.dump)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
+        (0, utils_1.dumpOnce)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
         var homepage = new homepage_1.default({ pretty: __1.isDev, hexo: data });
+    }
+    else if (is.archive) {
+        (0, utils_1.dumpOnce)("data-archive.txt", (0, utils_1.extractSimplePageData)(data));
+    }
+    else if (is.category) {
+        (0, utils_1.dumpOnce)("data-category.txt", (0, utils_1.extractSimplePageData)(data));
+    }
+    else if (is.tag) {
+        (0, utils_1.dumpOnce)("data-tag.txt", (0, utils_1.extractSimplePageData)(data));
     }
     else {
         var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
@@ -47,6 +45,9 @@ function default_1(dom, HSconfig, data) {
         }
         if (url)
             Schema.setUrl(url);
+        // sitelinks
+        Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate =
+            Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace("https://www.webmanajemen.com", data.config.url);
         var keywords_1 = [];
         if (data.config.keywords) {
             keywords_1 = keywords_1.concat(data.config.keywords.split(",").map(string_1.trimText));
@@ -156,6 +157,7 @@ function default_1(dom, HSconfig, data) {
         Schema.set("keywords", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
         Schema.set("award", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
         schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
+        log_1.default.log("schema created", title, url);
     }
     if (schemahtml) {
         var head = dom.getElementsByTagName("head")[0];

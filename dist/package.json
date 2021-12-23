@@ -1,6 +1,6 @@
 {
     "name": "hexo-seo",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "description": "Automated Hexo Seo Optimizer",
     "main": "index.js",
     "files": [
@@ -60,7 +60,7 @@
         "imagemin-webp": "^5.0.0",
         "imagemin-zopfli": "^7.0.0",
         "jquery": "^3.6.0",
-        "js-prototypes": "github:dimaslanjaka/js-prototypes",
+        "js-prototypes": "file:packages/js-prototypes",
         "jsdom": "^18.1.0",
         "lodash": "^4.17.21",
         "minimatch": "^3.0.4",
@@ -98,6 +98,7 @@
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
         "prettier": "^2.4.1",
+        "prompt": "^1.2.0",
         "rimraf": "^3.0.2",
         "sinon": "^12.0.1",
         "typescript": "^4.4.4"

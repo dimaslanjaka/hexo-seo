@@ -15,7 +15,7 @@ var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
 var fixHyperlinks_1 = require("./fixHyperlinks");
 var url_parse_1 = __importDefault(require("url-parse"));
-var __1 = require("../");
+var __1 = require("..");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var sitemap_1 = __importDefault(require("../sitemap"));
 function getPagePath(data) {

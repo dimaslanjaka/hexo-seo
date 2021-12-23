@@ -13,6 +13,12 @@ export declare const isIgnore: (path0: string, exclude: string | string[], hexo?
  */
 export declare function extractSimplePageData(data: any, additional?: any[]): any;
 /**
+ * Dump once
+ * @param filename
+ * @param obj
+ */
+export declare function dumpOnce(filename: string, ...obj: any): void;
+/**
  * Dump large objects
  * @param filename
  * @param obj

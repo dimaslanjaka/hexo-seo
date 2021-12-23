@@ -97,3 +97,20 @@
 
 ## [1.0.25] 2021-11-26T23:58:13
 - Migrate Using `node-html-parser`
+
+## [1.0.26] 2021-12-23T22:19:07
+- 49aef5c : Bump lodash from 4.17.12 to 4.17.21 in /packages/yoastseo-sitemap Bumps [lodash](https://github.com/lodash/lodash) from 4.17.12 to 4.17.21.
+- - [Release notes](https://github.com/lodash/lodash/releases)
+- - [Commits](https://github.com/lodash/lodash/compare/4.17.12...4.17.21)
+- ---
+- updated-dependencies:
+- - dependency-name: lodash
+- dependency-type: direct:production
+- ...
+- Signed-off-by: dependabot[bot] <support@github.com> Mon Dec 20 19:03:49 2021 +0000
+- e13cc8f : Update  Mon Dec 20 01:34:04 2021 +0700
+- 6160e21 : +gitignore  Sat Nov 27 11:34:05 2021 +0700
+- e0b0fa7 : +gitignore  Sat Nov 27 11:26:50 2021 +0700
+- 4fad743 : try fix  Sat Nov 27 11:26:06 2021 +0700
+- a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
+- 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
