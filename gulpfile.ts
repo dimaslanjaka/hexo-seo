@@ -10,15 +10,9 @@ function build(done) {
     .then(() => {
       gulp
         .src(
-          [
-            //"./.gitmodules",
-            "./*.{json,js,md}",
-            "./lib/**/*",
-            "./src/**/*",
-            "./packages/**/*",
-            "./dist/**/*",
-            "./source/**/*"
-          ].concat(exclude),
+          ["./*.{json,js,md}", "./lib/**/*", "./src/**/*", "./packages/**/*", "./dist/**/*", "./source/**/*"].concat(
+            exclude
+          ),
           { base: ".", dot: true }
         )
         .pipe(gulp.dest("./docs"));
