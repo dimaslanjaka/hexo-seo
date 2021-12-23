@@ -8,14 +8,15 @@ const countArticle = 1000;
 const posts = Array.from(Array(countArticle).keys()).map((n) => {
   const created = randomDate(new Date(2012, 0, 1), new Date());
   const updated = randomDate(new Date(2012, 0, 1), created);
+  const current = n + 1;
   return {
-    title: "Post " + n,
+    title: "Post " + current,
     date: created,
-    tags: ["random post", n.toString().includes("5") ? "post has 5" : "untagged"].removeEmpties(),
-    category: ["random post", n.toString().includes("0") ? "post has 0" : "uncategorized"].removeEmpties(),
+    tags: ["random post", current.toString().includes("5") ? "post has 5" : "untagged"].removeEmpties(),
+    category: ["random post", current.toString().includes("0") ? "post has 0" : "uncategorized"].removeEmpties(),
     updated: updated,
-    content: "This is content of post " + n,
-    filename: "post-" + n + ".md"
+    content: "This is content of post " + current,
+    filename: "post-" + current + ".md"
   };
 });
 const sourceDir = join(__dirname, "demo/source/_posts/random");
@@ -29,7 +30,7 @@ posts.forEach((post) => {
   delete post.content;
   delete post.filename;
   const header = yaml.stringify(post);
-  const build = `---\n${header}\n${content}`;
+  const build = `---\n${header}---\n${content}`;
   writeFileSync(filepath, build);
 });
 
