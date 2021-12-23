@@ -1,29 +1,29 @@
 import gulp from "gulp";
 import concat from "gulp-concat";
 import Promise from "bluebird";
-import { rmSync } from "fs";
+import del from "del";
 import { join } from "path";
 
 function build(done) {
-  rmSync(join(__dirname, "docs"), { recursive: true, force: true });
-  rmSync(join(__dirname, "dist"), { recursive: true, force: true });
+  const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**"];
-  return Promise.resolve(
-    gulp
-      .src(
-        [
-          //"./.gitmodules",
-          "./*.{json,js,md}",
-          "./lib/**/*",
-          "./src/**/*",
-          "./packages/**/*",
-          "./dist/**/*",
-          "./source/**/*"
-        ].concat(exclude),
-        { base: ".", dot: true }
-      )
-      .pipe(gulp.dest("./docs"))
-  )
+  return Promise.resolve(deletedDirectoryPaths)
+    .then(() => {
+      gulp
+        .src(
+          [
+            //"./.gitmodules",
+            "./*.{json,js,md}",
+            "./lib/**/*",
+            "./src/**/*",
+            "./packages/**/*",
+            "./dist/**/*",
+            "./source/**/*"
+          ].concat(exclude),
+          { base: ".", dot: true }
+        )
+        .pipe(gulp.dest("./docs"));
+    })
     .then(() => {
       return gulp.src(["./packages/**/*"].concat(exclude), { base: ".", dot: true }).pipe(gulp.dest("./dist"));
     })
