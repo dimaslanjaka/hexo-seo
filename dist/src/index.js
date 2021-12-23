@@ -1,4 +1,3 @@
-/* global hexo */
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -14,14 +13,16 @@ var fm_1 = require("./fm");
 var index_1 = __importDefault(require("./html/index"));
 var cleanup_1 = __importDefault(require("./utils/cleanup"));
 var scheduler_1 = __importDefault(require("./scheduler"));
+var log_1 = __importDefault(require("./log"));
+var config_1 = __importDefault(require("./config"));
 var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv["development"] == "boolean" && argv["development"];
 // set NODE_ENV = "development"
-var env = process.env.NODE_ENV &&
-    process.env.NODE_ENV.toString().toLowerCase() === "development";
+var env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase() === "development";
 // define is development
 exports.isDev = arg || env;
+// core
 function default_1(hexo) {
     // return if hexo-seo configuration unavailable
     if (typeof hexo.config.seo == "undefined") {
@@ -72,32 +73,19 @@ function default_1(hexo) {
     }
     // execute scheduled functions before process exit
     if (hexoCmd && hexoCmd != "clean") {
-        hexo.on("exit", function () {
-            console.log("Scheduling functions on process exit");
-        });
         (0, cleanup_1.default)("scheduler_on_exit", function () {
-            console.log("executing scheduled functions");
+            log_1.default.log("executing scheduled functions");
             scheduler_1.default.executeAll();
         });
     }
     // bind configuration
-    // hexo.config.seo = getConfig(hexo);
+    hexo.config.seo = (0, config_1.default)(hexo);
     // minify javascripts
     hexo.extend.filter.register("after_render:js", js_1.default);
     // minify css
     hexo.extend.filter.register("after_render:css", css_1.default);
     // all in one html fixer
     hexo.extend.filter.register("after_render:html", index_1.default);
-    // fix external link
-    //hexo.extend.filter.register("after_render:html", fixHyperlinks);
-    // fix image attributes
-    //hexo.extend.filter.register("after_render:html", usingJSDOM);
-    // fix schema meta
-    //hexo.extend.filter.register("after_render:html", fixSchema);
-    // fix invalid link[/.js, /.css]
-    //hexo.extend.filter.register("after_render:html", fixInvalid);
-    // minify html
-    //hexo.extend.filter.register("after_generate", minHtml);
     // register source to hexo middleware
     // hexo-seo available in server http://localhost:4000/hexo-seo
     /*hexo.extend.filter.register("server_middleware", function (app) {

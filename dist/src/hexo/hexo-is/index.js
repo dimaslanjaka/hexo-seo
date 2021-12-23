@@ -52,9 +52,6 @@ var hexoIs = function (hexo) {
         return ix;
     }
 };
-function dumper() {
-    hexoIsDump(arguments, "arg");
-}
 /**
  * Dump variable to file
  * @param toDump

@@ -21,7 +21,8 @@ export declare const tag: typeof isTagHelper;
  * @param hexo
  * @returns
  */
-export default function (hexo: any): {
+export default function (hexo: any): HexoIs;
+export interface HexoIs {
     current: boolean;
     home: boolean;
     post: boolean;
@@ -31,16 +32,6 @@ export default function (hexo: any): {
     month: boolean;
     category: boolean;
     tag: boolean;
-    message: string;
-} | {
-    current: any;
-    home: any;
-    post: any;
-    page: any;
-    archive: any;
-    year: any;
-    month: any;
-    category: any;
-    tag: any;
-};
+    message?: string;
+}
 export {};

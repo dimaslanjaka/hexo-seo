@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 // source of https://github.com/hexojs/hexo/blob/master/lib/plugins/helper/is.js
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

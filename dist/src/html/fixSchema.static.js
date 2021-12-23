@@ -7,8 +7,7 @@ var string_1 = require("../utils/string");
 var article_1 = __importDefault(require("./schema/article"));
 var __1 = require("..");
 var dom_1 = require("./dom");
-require("../../packages/js-prototypes/src/String");
-require("../../packages/js-prototypes/src/Array");
+require("../../packages/js-prototypes/src/globals");
 var underscore_1 = __importDefault(require("underscore"));
 var utils_1 = require("../utils");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
@@ -17,21 +16,18 @@ function default_1(dom, HSconfig, data) {
     if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
         return;
     var is = (0, hexo_is_1.default)(data);
+    /*
     if (is.archive) {
-        (0, utils_1.dump)("data-archive.txt", (0, utils_1.extractSimplePageData)(data));
-    }
-    else if (is.post) {
-        (0, utils_1.dump)("data-post.txt", (0, utils_1.extractSimplePageData)(data));
-    }
-    else if (is.page) {
-        (0, utils_1.dump)("data-page.txt", (0, utils_1.extractSimplePageData)(data));
-    }
-    else if (is.category) {
-        (0, utils_1.dump)("data-category.txt", (0, utils_1.extractSimplePageData)(data));
-    }
-    else if (is.tag) {
-        (0, utils_1.dump)("data-tag.txt", (0, utils_1.extractSimplePageData)(data));
-    }
+      dump("data-archive.txt", extractSimplePageData(data));
+    } else if (is.post) {
+      dump("data-post.txt", extractSimplePageData(data));
+    } else if (is.page) {
+      dump("data-page.txt", extractSimplePageData(data));
+    } else if (is.category) {
+      dump("data-category.txt", extractSimplePageData(data));
+    } else if (is.tag) {
+      dump("data-tag.txt", extractSimplePageData(data));
+    }*/
     var schemahtml;
     if (is.home) {
         (0, utils_1.dump)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
@@ -129,7 +125,7 @@ function default_1(dom, HSconfig, data) {
         var schemaBreadcrumbs_1 = [];
         if (data.page) {
             if (data.page.tags && data.page.tags.length > 0) {
-                data.page.tags.forEach(function (tag, index, tags) {
+                data.page.tags.forEach(function (tag) {
                     keywords_1.push(tag["name"]);
                     var o = { item: tag["permalink"], name: tag["name"] };
                     schemaBreadcrumbs_1.push(o);
