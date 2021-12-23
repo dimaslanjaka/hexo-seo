@@ -16,13 +16,12 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
-    "clean": "rm -rf dist",
     "ts:normal": "npx tsc -p tsconfig.json",
     "ts:build": "npx tsc -p tsconfig.build.json && npm run ts:defs && npm run ts:cjs && npm run ts:es",
     "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "build": "rm -rf dist && gulp && tsc"
+    "build": "gulp && tsc"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [
