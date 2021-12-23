@@ -178,7 +178,6 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
 export default sitemap;
 
 export function sitemapIndex(hexoinstance: Hexo = null) {
-  log.log("Sitemap indexing...");
   const sourceIndexXML = join(__dirname, "views/sitemap.xml");
   const sitemapIndexDoc = createXML(readFileSync(sourceIndexXML).toString());
   const sitemapIndex = <SitemapIndex>new Object(sitemapIndexDoc.end({ format: "object" }));
@@ -189,6 +188,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
 
   // push post-sitemap.xml to sitemapindex
   const latestPostDate = getLatestFromArrayDates(postUpdateDates);
+  log.log("latest updated post", latestPostDate);
   sitemapIndex.sitemapindex.sitemap.push({
     loc: hexo.config.url.toString() + "/post-sitemap.xml",
     lastmod: moment(latestPostDate).format("YYYY-MM-DDTHH:mm:ssZ")
@@ -196,6 +196,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
 
   // push page-sitemap.xml to sitemapindex
   const latestPageDate = getLatestFromArrayDates(pageUpdateDates);
+  log.log("latest updated page", latestPageDate);
   if (moment(latestPageDate).isValid())
     sitemapIndex.sitemapindex.sitemap.push({
       loc: hexo.config.url.toString() + "/page-sitemap.xml",
@@ -223,6 +224,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
       return tag.latest;
     })
   );
+  log.log("latest updated tag", latestTagDate);
   sitemapIndex.sitemapindex.sitemap.push({
     loc: hexo.config.url.toString() + "/tag-sitemap.xml",
     lastmod: moment(latestTagDate).format("YYYY-MM-DDTHH:mm:ssZ")
@@ -249,6 +251,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
       return category.latest;
     })
   );
+  log.log("latest updated category", latestCategoryDate);
   sitemapIndex.sitemapindex.sitemap.push({
     loc: hexo.config.url.toString() + "/category-sitemap.xml",
     lastmod: moment(latestCategoryDate).format("YYYY-MM-DDTHH:mm:ssZ")

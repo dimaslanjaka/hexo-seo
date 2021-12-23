@@ -11,7 +11,7 @@ import Promise from "bluebird";
 import { parse as nodeHtmlParser } from "node-html-parser";
 import { isExternal } from "./fixHyperlinks";
 import parseUrl from "url-parse";
-import { isDev } from "../";
+import { isDev } from "..";
 import fixSchemaStatic from "./fixSchema.static";
 import sitemap from "../sitemap";
 
