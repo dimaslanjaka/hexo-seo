@@ -41,7 +41,6 @@ jobs:
       - run: gulp
         id: gulp
       - run: |
-          cp .gitmodules docs/
           cp .gitignore docs/
           cp .eslintrc docs/
           cp .eslintignore docs/
