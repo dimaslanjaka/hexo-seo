@@ -16,13 +16,12 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts,.json --fix",
-    "clean": "rm -rf dist",
     "ts:normal": "npx tsc -p tsconfig.json",
     "ts:build": "npx tsc -p tsconfig.build.json && npm run ts:defs && npm run ts:cjs && npm run ts:es",
     "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "build": "rm -rf dist && gulp && tsc"
+    "build": "gulp && tsc"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [
@@ -60,7 +59,7 @@
     "imagemin-webp": "^5.0.0",
     "imagemin-zopfli": "^7.0.0",
     "jquery": "^3.6.0",
-    "js-prototypes": "file:packages/js-prototypes",
+    "js-prototypes": "github:dimaslanjaka/js-prototypes",
     "jsdom": "^18.1.0",
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
@@ -90,6 +89,7 @@
     "@types/url-parse": "^1.4.4",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
+    "del": "^6.0.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
