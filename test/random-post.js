@@ -3,7 +3,7 @@ const { join } = require("path");
 const yaml = require("yaml");
 const moment = require("moment");
 
-const countArticle = 100;
+const countArticle = 1000;
 const posts = Array.from(Array(countArticle).keys()).map((n) => {
   const created = randomDate(new Date(2012, 0, 1), new Date());
   const updated = randomDate(new Date(2012, 0, 1), created);
