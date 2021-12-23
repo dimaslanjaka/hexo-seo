@@ -45,12 +45,17 @@ function getCategoryTags(hexo: Hexo) {
   return groupfilter;
 }
 
-function getLatestFromArrayDates(arr) {
+/**
+ * get latest date from array of date
+ * @param arr
+ * @returns
+ */
+export function getLatestFromArrayDates(arr: string[] | Date[]) {
   return new Date(
     Math.max.apply(
       null,
-      arr.map(function (e) {
-        return e;
+      arr.map(function (e: string | Date) {
+        return e instanceof Date ? e : moment(e).toDate();
       })
     )
   );
