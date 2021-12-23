@@ -112,10 +112,7 @@ var articleSchema = /** @class */ (function () {
             }
             //author["config"]
         }
-        this.schema.author.name =
-            this.schema.publisher.name =
-                this.schema.editor =
-                    authorName;
+        this.schema.author.name = this.schema.publisher.name = this.schema.editor = authorName;
         // determine author image
         var authorImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
         if (author["image"]) {

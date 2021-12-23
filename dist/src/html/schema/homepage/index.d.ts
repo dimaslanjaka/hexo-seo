@@ -1,6 +1,6 @@
 import data from "./data-index.json";
 import { SchemaArticleOptions } from "../article";
-import Hexo from "hexo";
+import { TemplateLocals } from "hexo";
 declare type articleListElement = typeof data.mainEntity.itemListElement[0];
 export interface homepageArticle extends ObjectConstructor, articleListElement {
     [key: string]: any;
@@ -30,7 +30,7 @@ declare class schemaHomepage {
         };
     };
     options: SchemaArticleOptions;
-    hexo: Hexo;
+    hexo: TemplateLocals;
     constructor(options?: SchemaArticleOptions);
     addArticle(article: {
         author?: {

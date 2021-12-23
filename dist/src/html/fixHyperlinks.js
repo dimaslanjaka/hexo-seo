@@ -39,28 +39,19 @@ function fixHyperlinks(content, data) {
             // only process anchor start with https?, otherwise abadoned
             if (/https?/gs.test(href)) {
                 var parseHref = (0, url_parse_1.default)(href);
-                var rels = el.getAttribute("rel")
-                    ? el.getAttribute("rel").split(" ")
-                    : [];
+                var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
                 var externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
                 var internalArr = ["internal", "follow", "bookmark"];
                 var external_1 = isExternal(parseHref, hexo);
                 // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
                 if (external_1) {
-                    rels = rels
-                        .concat(externalArr)
-                        .unique()
-                        .hapusItemDariArrayLain(internalArr);
-                    if (typeof HSconfig.links.blank == "boolean" &&
-                        HSconfig.links.blank) {
+                    rels = rels.concat(externalArr).unique().hapusItemDariArrayLain(internalArr);
+                    if (typeof HSconfig.links.blank == "boolean" && HSconfig.links.blank) {
                         el.setAttribute("target", "_blank");
                     }
                 }
                 else {
-                    rels = rels
-                        .concat(internalArr)
-                        .unique()
-                        .hapusItemDariArrayLain(externalArr);
+                    rels = rels.concat(internalArr).unique().hapusItemDariArrayLain(externalArr);
                 }
                 el.setAttribute("rel", rels.join(" "));
             }
@@ -94,9 +85,7 @@ function fixHyperlinks(content, data) {
  * @returns
  */
 function isExternal(url, hexo) {
-    var site = typeof (0, url_parse_1.default)(hexo.config.url).hostname == "string"
-        ? (0, url_parse_1.default)(hexo.config.url).hostname
-        : null;
+    var site = typeof (0, url_parse_1.default)(hexo.config.url).hostname == "string" ? (0, url_parse_1.default)(hexo.config.url).hostname : null;
     var cases = typeof url.hostname == "string" ? url.hostname.trim() : null;
     var config = (0, config_1.default)(hexo);
     var allowed = Array.isArray(config.links.allow) ? config.links.allow : [];

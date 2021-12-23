@@ -1,4 +1,3 @@
-/* eslint-disable import/no-import-module-exports */
 /* global hexo */
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -24,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dump = exports.extractSimplePageData = exports.isIgnore = void 0;
+exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.extractSimplePageData = exports.isIgnore = void 0;
 var minimatch_1 = __importDefault(require("minimatch"));
 var path_1 = __importDefault(require("path"));
 var fs = __importStar(require("fs"));
@@ -32,8 +31,8 @@ var rimraf_1 = __importDefault(require("rimraf"));
 var util_1 = __importDefault(require("util"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 var _1 = require(".");
-var md5Cache = {};
-var fileCache = {};
+require("js-prototypes/src/globals");
+var package_json_1 = __importDefault(require("../package.json"));
 /**
  * is ignore pattern matching?
  */
@@ -68,11 +67,18 @@ function extractSimplePageData(data, additional) {
     if (data) {
         delete data["_raw"];
         delete data["raw"];
+        delete data["_model"];
         delete data["_content"];
         delete data["content"];
         delete data["site"];
         delete data["more"];
         delete data["excerpt"];
+    }
+    if (additional.forEach) {
+        additional.forEach(function (key) {
+            if (typeof key == "string")
+                delete data[key];
+        });
     }
     return data;
 }
@@ -101,10 +107,40 @@ var dump = function (filename) {
     }
     var buildLog = "";
     for (var index = 0; index < obj.length; index++) {
-        buildLog +=
-            util_1.default.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
+        buildLog += util_1.default.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
     }
     fs.writeFileSync(loc, buildLog);
     console.log("dump results saved to " + path_1.default.resolve(loc));
 };
 exports.dump = dump;
+/**
+ * get cache folder location
+ * @param folderName
+ * @returns
+ */
+function getCacheFolder(folderName) {
+    if (folderName === void 0) { folderName = ""; }
+    var root = process.cwd();
+    if (typeof hexo != "undefined") {
+        root = hexo.base_dir;
+    }
+    return path_1.default.join(root, "build/hexo-seo", folderName);
+}
+exports.getCacheFolder = getCacheFolder;
+/**
+ * get current package folder
+ * @returns
+ */
+function getPackageFolder() {
+    return path_1.default.join(process.cwd(), "node_modules", package_json_1.default.name);
+}
+exports.getPackageFolder = getPackageFolder;
+/**
+ * Get current package file
+ * @param name
+ * @returns
+ */
+function getPackageFile(pathname) {
+    return path_1.default.join(getPackageFolder(), pathname);
+}
+exports.getPackageFile = getPackageFile;

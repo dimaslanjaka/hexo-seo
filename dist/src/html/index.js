@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPath = void 0;
+exports.getPagePath = void 0;
 require("../../packages/js-prototypes/src/String");
 require("../../packages/js-prototypes/src/Array");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
@@ -17,7 +17,8 @@ var fixHyperlinks_1 = require("./fixHyperlinks");
 var url_parse_1 = __importDefault(require("url-parse"));
 var __1 = require("../");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
-function getPath(data) {
+var sitemap_1 = __importDefault(require("../sitemap"));
+function getPagePath(data) {
     if (data.page) {
         if (data.page.full_source)
             return data.page.full_source;
@@ -27,14 +28,14 @@ function getPath(data) {
     if (data.path)
         return data.path;
 }
-exports.getPath = getPath;
+exports.getPagePath = getPagePath;
 var cache = new cache_1.CacheFile("index");
 function default_1(content, data) {
     var hexo = this;
     var path0;
     var allowCache = true;
-    if (getPath(data)) {
-        path0 = getPath(data);
+    if (getPagePath(data)) {
+        path0 = getPagePath(data);
     }
     else {
         allowCache = false;
@@ -48,9 +49,7 @@ function default_1(content, data) {
         a.forEach(function (el) {
             var href = el.getAttribute("href");
             if (/https?:\/\//.test(href)) {
-                var rels = el.getAttribute("rel")
-                    ? el.getAttribute("rel").split(" ")
-                    : [];
+                var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
                 rels = rels.removeEmpties().unique();
                 var parseHref = (0, url_parse_1.default)(href);
                 var external_1 = (0, fixHyperlinks_1.isExternal)(parseHref, hexo);
@@ -63,14 +62,12 @@ function default_1(content, data) {
             var inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
             if (inv.length)
                 log_1.default.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
-            inv.forEach(function (el, i) {
+            inv.forEach(function (el) {
                 el.remove();
             });
         }
         //** fix images attributes */
-        var title_1 = data.page && data.page.title && data.page.title.trim().length > 0
-            ? data.page.title
-            : data.config.title;
+        var title_1 = data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : data.config.title;
         root.querySelectorAll("img[src]").forEach(function (element) {
             if (!element.getAttribute("title")) {
                 //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
@@ -84,6 +81,7 @@ function default_1(content, data) {
             }
         });
         (0, fixSchema_static_1.default)(root, cfg_1, data);
+        (0, sitemap_1.default)(root, cfg_1, data);
         content = root.toString();
         if (allowCache)
             cache.set((0, md5_file_1.md5)(path0), content);

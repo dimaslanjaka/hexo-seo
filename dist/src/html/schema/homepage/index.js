@@ -28,8 +28,7 @@ var schemaHomepage = /** @class */ (function () {
             if (typeof article.author.name == "string") {
                 item.author.name = article.author.name;
             }
-            if (typeof article.author.url == "string" ||
-                Array.isArray(article.author.url)) {
+            if (typeof article.author.url == "string" || Array.isArray(article.author.url)) {
                 item.author.sameAs = article.author.url;
             }
         }

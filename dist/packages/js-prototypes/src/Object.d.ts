@@ -1,4 +1,4 @@
-/// <reference types="packages/js-prototypes/src/Object" />
+/// <reference types="js-prototypes/src/Object" />
 /**
  * Join object to separated string
  * @param obj Object

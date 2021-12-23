@@ -1,4 +1,4 @@
-/// <reference types="packages/js-prototypes/src/Array" />
+/// <reference types="js-prototypes/src/Array" />
 declare function array_filter(array: []): never[];
 /**
  * pick random from array

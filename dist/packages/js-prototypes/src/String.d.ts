@@ -1,2 +1,2 @@
-/// <reference types="packages/js-prototypes/src/String" />
-/// <reference types="packages/js-prototypes/src/globals" />
+/// <reference types="js-prototypes/src/String" />
+/// <reference types="js-prototypes/src/globals" />

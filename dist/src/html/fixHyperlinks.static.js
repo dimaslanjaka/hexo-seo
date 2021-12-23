@@ -14,9 +14,7 @@ function default_1(dom, HSconfig, data) {
             // only process anchor start with https?, otherwise abadoned
             if (/https?/gs.test(href)) {
                 var parseHref = (0, url_parse_1.default)(href);
-                var rels = el.getAttribute("rel")
-                    ? el.getAttribute("rel").split(" ")
-                    : [];
+                var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
                 var external_1 = (0, fixHyperlinks_1.isExternal)(parseHref, hexo);
                 rels = identifyRels(el, external_1, HSconfig);
                 el.setAttribute("rel", rels.join(" "));
@@ -43,19 +41,13 @@ function identifyRels(el, external, HSconfig) {
     var internalArr = ["internal", "follow", "bookmark"];
     // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
     if (external) {
-        rels = rels
-            .concat(externalArr)
-            .unique()
-            .hapusItemDariArrayLain(internalArr);
+        rels = rels.concat(externalArr).unique().hapusItemDariArrayLain(internalArr);
         if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
             el.setAttribute("target", "_blank");
         }
     }
     else {
-        rels = rels
-            .concat(internalArr)
-            .unique()
-            .hapusItemDariArrayLain(externalArr);
+        rels = rels.concat(internalArr).unique().hapusItemDariArrayLain(externalArr);
     }
     return rels;
 }
