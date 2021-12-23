@@ -63,6 +63,20 @@ export function extractSimplePageData(data: any, additional = []) {
   return data;
 }
 
+const dumpKeys = [];
+
+/**
+ * Dump once
+ * @param filename
+ * @param obj
+ */
+export function dumpOnce(filename: string, ...obj: any) {
+  if (!dumpKeys[filename]) {
+    dumpKeys[filename] = true;
+    dump(filename, obj);
+  }
+}
+
 let isFirst = true;
 
 /**
