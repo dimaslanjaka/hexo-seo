@@ -2,6 +2,7 @@ const { existsSync, mkdirSync, writeFileSync, rmSync } = require("fs");
 const { join } = require("path");
 const yaml = require("yaml");
 const moment = require("moment");
+require("js-prototypes/dist/libs/globals");
 
 const countArticle = 1000;
 const posts = Array.from(Array(countArticle).keys()).map((n) => {
@@ -10,6 +11,8 @@ const posts = Array.from(Array(countArticle).keys()).map((n) => {
   return {
     title: "Post " + n,
     date: created,
+    tags: ["random post", n.toString().includes("5") ? "post has 5" : "untagged"].removeEmpties(),
+    category: ["random post", n.toString().includes("0") ? "post has 0" : "uncategorized"].removeEmpties(),
     updated: updated,
     content: "This is content of post " + n,
     filename: "post-" + n + ".md"

@@ -43,6 +43,12 @@ export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo
     }
     if (url) Schema.setUrl(url);
 
+    // sitelinks
+    Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace(
+      "https://www.webmanajemen.com",
+      data.config.url
+    );
+
     let keywords: string[] = [];
     if (data.config.keywords) {
       keywords = keywords.concat(data.config.keywords.split(",").map(trimText));
