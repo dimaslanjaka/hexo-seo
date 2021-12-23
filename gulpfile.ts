@@ -2,7 +2,6 @@ import gulp from "gulp";
 import concat from "gulp-concat";
 import Promise from "bluebird";
 import del from "del";
-import { join } from "path";
 
 function build(done) {
   const deletedDirectoryPaths = del(["dist", "docs"]);
