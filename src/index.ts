@@ -11,6 +11,7 @@ import htmlIndex from "./html/index";
 import bindProcessExit from "./utils/cleanup";
 import scheduler from "./scheduler";
 import log from "./log";
+import getConfig from "./config";
 
 const argv = minimist(process.argv.slice(2));
 
@@ -81,7 +82,7 @@ export default function (hexo: Hexo) {
   }
 
   // bind configuration
-  // hexo.config.seo = getConfig(hexo);
+  hexo.config.seo = getConfig(hexo);
 
   // minify javascripts
   hexo.extend.filter.register("after_render:js", seoJs);
@@ -89,16 +90,6 @@ export default function (hexo: Hexo) {
   hexo.extend.filter.register("after_render:css", seoCss);
   // all in one html fixer
   hexo.extend.filter.register("after_render:html", htmlIndex);
-  // fix external link
-  //hexo.extend.filter.register("after_render:html", fixHyperlinks);
-  // fix image attributes
-  //hexo.extend.filter.register("after_render:html", usingJSDOM);
-  // fix schema meta
-  //hexo.extend.filter.register("after_render:html", fixSchema);
-  // fix invalid link[/.js, /.css]
-  //hexo.extend.filter.register("after_render:html", fixInvalid);
-  // minify html
-  //hexo.extend.filter.register("after_generate", minHtml);
 
   // register source to hexo middleware
   // hexo-seo available in server http://localhost:4000/hexo-seo

@@ -26,13 +26,13 @@ export interface SchemaArticleOptions {
   /**
    * Hexo instance
    */
-  hexo: Hexo;
+  hexo: TemplateLocals;
 }
 
 class articleSchema {
   schema = mainSchema;
   options: SchemaArticleOptions;
-  hexo: Hexo;
+  hexo: TemplateLocals;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;

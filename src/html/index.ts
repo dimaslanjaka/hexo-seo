@@ -1,4 +1,4 @@
-import Hexo from "hexo";
+import Hexo, { TemplateLocals } from "hexo";
 import { HexoSeo } from "./schema/article";
 import "../../packages/js-prototypes/src/String";
 import "../../packages/js-prototypes/src/Array";
@@ -15,7 +15,7 @@ import { isDev } from "../";
 import fixSchemaStatic from "./fixSchema.static";
 import sitemap from "../sitemap";
 
-export function getPath(data: HexoSeo) {
+export function getPagePath(data: HexoSeo | TemplateLocals) {
   if (data.page) {
     if (data.page.full_source) return data.page.full_source;
     if (data.page.path) return data.page.path;
@@ -28,8 +28,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
   const hexo = this;
   let path0: string;
   let allowCache = true;
-  if (getPath(data)) {
-    path0 = getPath(data);
+  if (getPagePath(data)) {
+    path0 = getPagePath(data);
   } else {
     allowCache = false;
     path0 = content;

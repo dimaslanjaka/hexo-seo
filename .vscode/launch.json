@@ -15,7 +15,7 @@
       "type": "node-terminal"
     },
     {
-      "command": "npx hexo generate --development",
+      "command": "npx hexo generate && npm run serve-static",
       "name": "[DEV] Demo Generate",
       "cwd": "${workspaceFolder}/test/demo",
       "env": {

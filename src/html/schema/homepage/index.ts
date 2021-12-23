@@ -1,6 +1,6 @@
 import data from "./data-index.json";
 import { SchemaArticleOptions } from "../article";
-import Hexo from "hexo";
+import Hexo, { TemplateLocals } from "hexo";
 
 type articleListElement = typeof data.mainEntity.itemListElement[0];
 export interface homepageArticle extends ObjectConstructor, articleListElement {
@@ -10,7 +10,7 @@ export interface homepageArticle extends ObjectConstructor, articleListElement {
 class schemaHomepage {
   schema = data;
   options: SchemaArticleOptions;
-  hexo: Hexo;
+  hexo: TemplateLocals;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;
@@ -18,11 +18,7 @@ class schemaHomepage {
     this.schema.mainEntity.itemListElement = [];
   }
 
-  addArticle(article: {
-    author?: { name?: string; image?: string; url?: string };
-    title: string;
-    image?: string;
-  }) {
+  addArticle(article: { author?: { name?: string; image?: string; url?: string }; title: string; image?: string }) {
     // get sample data
     const item = data.mainEntity.itemListElement[0];
 
@@ -39,10 +35,7 @@ class schemaHomepage {
       if (typeof article.author.name == "string") {
         item.author.name = article.author.name;
       }
-      if (
-        typeof article.author.url == "string" ||
-        Array.isArray(article.author.url)
-      ) {
+      if (typeof article.author.url == "string" || Array.isArray(article.author.url)) {
         item.author.sameAs = article.author.url;
       }
     }
