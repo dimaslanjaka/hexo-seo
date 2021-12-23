@@ -26,7 +26,7 @@ exports.isDev = arg || env;
 function default_1(hexo) {
     // return if hexo-seo configuration unavailable
     if (typeof hexo.config.seo == "undefined") {
-        console.error("ERROR", "seo options not found");
+        log_1.default.error("seo options not found");
         return;
     }
     var hexoCmd;
@@ -86,11 +86,5 @@ function default_1(hexo) {
     hexo.extend.filter.register("after_render:css", css_1.default);
     // all in one html fixer
     hexo.extend.filter.register("after_render:html", index_1.default);
-    // register source to hexo middleware
-    // hexo-seo available in server http://localhost:4000/hexo-seo
-    /*hexo.extend.filter.register("server_middleware", function (app) {
-      // Main routes
-      app.use(hexo.config.root, serveStatic(path.join(__dirname, "../source")));
-    });*/
 }
 exports.default = default_1;

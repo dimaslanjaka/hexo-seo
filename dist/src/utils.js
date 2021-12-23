@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.extractSimplePageData = exports.isIgnore = void 0;
+exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var minimatch_1 = __importDefault(require("minimatch"));
 var path_1 = __importDefault(require("path"));
 var fs = __importStar(require("fs"));
@@ -83,6 +83,23 @@ function extractSimplePageData(data, additional) {
     return data;
 }
 exports.extractSimplePageData = extractSimplePageData;
+var dumpKeys = [];
+/**
+ * Dump once
+ * @param filename
+ * @param obj
+ */
+function dumpOnce(filename) {
+    var obj = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        obj[_i - 1] = arguments[_i];
+    }
+    if (!dumpKeys[filename]) {
+        dumpKeys[filename] = true;
+        (0, exports.dump)(filename, obj);
+    }
+}
+exports.dumpOnce = dumpOnce;
 var isFirst = true;
 /**
  * Dump large objects
