@@ -2,6 +2,13 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+  },
+  "[javascript]": {
+    "editor.maxTokenizationLineLength": 2500,
+    "editor.formatOnSave": false,
+  },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

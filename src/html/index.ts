@@ -1,7 +1,7 @@
 import Hexo, { TemplateLocals } from "hexo";
 import { HexoSeo } from "./schema/article";
-import "../../packages/js-prototypes/src/String";
-import "../../packages/js-prototypes/src/Array";
+import "js-prototypes/src/String";
+import "js-prototypes/src/Array";
 import { identifyRels } from "./fixHyperlinks.static";
 import getConfig from "../config";
 import { CacheFile } from "../cache";

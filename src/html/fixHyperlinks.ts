@@ -3,7 +3,7 @@ import getConfig from "../config";
 import parseUrl from "url-parse";
 import { CacheFile } from "../cache";
 import { HexoSeo } from "./schema/article";
-import "../../packages/js-prototypes/src/Array";
+import "js-prototypes/src/Array";
 import pkg from "../../package.json";
 import { parseJSDOM } from "./dom";
 
