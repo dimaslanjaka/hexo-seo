@@ -96,10 +96,13 @@ let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
 const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
 const cache = new CacheFile("sitemap");
-
+let turnError = false;
 export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
   if (!HSconfig.sitemap) {
-    log.error("[hexo-seo][sitemap] config sitemap not set");
+    if (!turnError) {
+      turnError = true;
+      log.error("[hexo-seo][sitemap] config sitemap not set");
+    }
     return;
   }
   // set category and tag information of posts
