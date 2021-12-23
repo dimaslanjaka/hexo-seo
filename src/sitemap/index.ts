@@ -1,4 +1,4 @@
-import Hexo, { Model, TemplateLocals } from "hexo";
+import Hexo, { PageData, TemplateLocals } from "hexo";
 import moment from "moment";
 import { create as createXML } from "xmlbuilder2";
 import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
@@ -10,6 +10,7 @@ import log from "../log";
 import scheduler from "../scheduler";
 import { HTMLElement } from "node-html-parser";
 import { ReturnConfig } from "../config";
+import getCategoryTags from "./archive";
 import "js-prototypes/src/globals";
 
 interface sitemapItem {
@@ -55,10 +56,11 @@ function initSitemap(type: string | "post" | "page" | "category" | "tag") {
   }
 }
 
-export interface returnPageData extends Hexo.PageData {
+export interface returnPageData extends PageData {
   [key: string]: any;
   is: HexoIs;
 }
+
 /**
  * Extract Page Data
  * @param data
@@ -75,9 +77,8 @@ export function getPageData(data: TemplateLocals) {
 
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
 export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
-  const hexo = this;
-  if (HSconfig.sitemap === false) {
-    log.error("hexo-seo config sitemap not set");
+  if (!HSconfig.sitemap) {
+    log.error("[hexo-seo][sitemap] config sitemap not set");
     return;
   }
   // set category and tag information of posts
@@ -99,8 +100,9 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
     linksitemap.setAttribute("rel", "sitemap");
     linksitemap.setAttribute("title", "Sitemap");
   } else {
-    dom.querySelector("head").innerHTML +=
-      '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
+    const head = dom.getElementsByTagName("head");
+    if (head.length)
+      head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
   }
 
   const groups = ["post", "page", "category", "tag"];
@@ -165,47 +167,6 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
 }
 export default sitemap;
 
-interface objectCategoryTags {
-  permalink: string;
-  name: string;
-  latest: string;
-}
-interface returnCategoryTags {
-  tags: objectCategoryTags[];
-  categories: objectCategoryTags[];
-}
-function getCategoryTags(hexo: Hexo) {
-  const groups = ["categories", "tags"];
-  const locals = hexo.locals;
-  const groupfilter: returnCategoryTags = {
-    tags: [],
-    categories: []
-  };
-  groups.map((group) => {
-    const lastModifiedObject = (<Model<Hexo.Locals.Category | Hexo.Locals.Tag>>locals.get(group)).map((items) => {
-      if (items.posts) {
-        const archives = <Hexo.Locals.Category | Hexo.Locals.Tag>items;
-        const posts = archives.posts;
-        const latest = getLatestFromArrayDates(
-          posts.map((post) => {
-            return post.updated.toDate();
-          })
-        );
-        const permalink = new URL(hexo.config.url);
-        permalink.pathname = archives.path;
-
-        return <objectCategoryTags>{
-          permalink: permalink.toString(),
-          name: archives.name,
-          latest: moment(latest).format("YYYY-MM-DDTHH:mm:ssZ")
-        };
-      }
-    });
-    groupfilter[group] = lastModifiedObject;
-  });
-  return groupfilter;
-}
-
 export function sitemapIndex(hexoinstance: Hexo = null) {
   const sourceXML = join(__dirname, "views/sitemap.xml");
   if (!existsSync(sourceXML)) throw "Source " + sourceXML + " Not Found";
@@ -252,15 +213,4 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
   const destCategorySitemap = join(hexo.public_dir, "category-sitemap.xml");
   writeFile(destCategorySitemap, createXML(sitemapGroup["category"]).end({ prettyPrint: true }));
   log.log("category sitemap saved", destCategorySitemap);
-}
-
-function getLatestFromArrayDates(arr) {
-  return new Date(
-    Math.max.apply(
-      null,
-      arr.map(function (e) {
-        return e;
-      })
-    )
-  );
 }

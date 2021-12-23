@@ -1,5 +1,3 @@
-/* global hexo */
-
 "use strict";
 
 import Hexo from "hexo";
@@ -12,7 +10,6 @@ import { buildFolder, tmpFolder } from "./fm";
 import htmlIndex from "./html/index";
 import bindProcessExit from "./utils/cleanup";
 import scheduler from "./scheduler";
-import sitemap from "./sitemap";
 import log from "./log";
 
 const argv = minimist(process.argv.slice(2));
@@ -26,6 +23,7 @@ const env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase(
 // define is development
 export const isDev = arg || env;
 
+// core
 export default function (hexo: Hexo) {
   // return if hexo-seo configuration unavailable
   if (typeof hexo.config.seo == "undefined") {
