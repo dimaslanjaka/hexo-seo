@@ -1,6 +1,3 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference path="Object.d.ts" />
 Object.size = function (obj) {
     var size = 0, key;
     for (key in obj) {
@@ -37,7 +34,6 @@ Object.has = function (str) {
 };
 Object.each = function (callback) {
     for (var key in this) {
-        //callback.call(scope, key, this[key]);
         callback.call(this[key]);
     }
 };
@@ -51,20 +47,7 @@ Object.replaceKeyFrom = function (anotherObj) {
         op[newKey || key] = value;
         return op;
     }, {});
-    /*if (typeof anotherObj == 'object') {
-      for (const key in anotherObj) {
-        if (Object.prototype.hasOwnProperty.call(anotherObj, key)) {
-          const element = anotherObj[key];
-          def[key] = element;
-        }
-      }
-    }*/
 };
-/**
- * Join object to separated string
- * @param obj Object
- * @returns Joined string
- */
 function object_join(obj) {
     return Object.keys(obj)
         .map(function (k) {
@@ -72,23 +55,15 @@ function object_join(obj) {
     })
         .join(",");
 }
-/**
- * Extend Object
- * @param arg1
- * @param arg2
- * @returns
- */
 function extend_object(arg1, arg2) {
     var result = {};
     for (var prop in arg1) {
         if (arg1.hasOwnProperty(prop)) {
-            // error when using --strictNullChecks
             result[prop] = arg1[prop];
         }
     }
     for (var prop in arg2) {
         if (arg2.hasOwnProperty(prop)) {
-            // error when using --strictNullChecks
             result[prop] = arg2[prop];
         }
     }

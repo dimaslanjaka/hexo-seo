@@ -6,9 +6,15 @@
 		"outDir": "dist/libs",
 		"moduleResolution": "Node",
 		"declaration": true,
+		"removeComments": true,
 		"allowJs": true,
-		"typeRoots": ["./node_modules/@types", "./src"],
-		"types": ["node"],
+		"typeRoots": [
+			"./node_modules/@types",
+			"./src"
+		],
+		"types": [
+			"node"
+		],
 		"target": "ES5",
 		"lib": [
 			"DOM",
@@ -22,6 +28,13 @@
 			"ES2020"
 		]
 	},
-	"include": ["./src"],
-	"exclude": ["dist", "node_modules", "./dist/release/*.js", "./dist/**/*.js"]
+	"include": [
+		"./src"
+	],
+	"exclude": [
+		"dist",
+		"node_modules",
+		"./dist/release/*.js",
+		"./dist/**/*.js"
+	]
 }

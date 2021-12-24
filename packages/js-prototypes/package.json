@@ -1,6 +1,6 @@
 {
   "name": "js-prototypes",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "description": "",
   "main": "dist/release/bundle.js",
   "scripts": {
@@ -31,17 +31,17 @@
     "@types/gulp-typescript": "^2.13.0",
     "@types/merge2": "^1.3.1",
     "@types/node": "^16.10.1",
-    "gulp-terser": "^2.1.0"
-  },
-  "dependencies": {
-    "collections": "file:packages/collections",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
+    "gulp-terser": "^2.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "merge2": "^1.4.1",
     "terser": "^5.9.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "collections": "file:packages/collections"
   }
 }

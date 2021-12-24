@@ -11,7 +11,7 @@ import scheduler from "../scheduler";
 import { HTMLElement } from "node-html-parser";
 import { ReturnConfig } from "../config";
 import getCategoryTags, { getLatestFromArrayDates } from "./archive";
-import "js-prototypes/src/globals";
+import "js-prototypes";
 import { CacheFile } from "../cache";
 import { md5 } from "../utils/md5-file";
 import { getPagePath } from "../html";
