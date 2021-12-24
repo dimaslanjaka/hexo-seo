@@ -1,8 +1,6 @@
-if (typeof require == "function") {
-    ["Number", "Object", "String", "Array"].forEach(function (m) {
-        try {
-            require("./" + m);
-        }
-        catch (e) { }
-    });
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./Number");
+require("./Array");
+require("./Object");
+require("./String");

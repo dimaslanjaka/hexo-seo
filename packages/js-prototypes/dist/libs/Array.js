@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-prototype-builtins */
+/// <reference path="./Array.d.ts" />
 Array.prototype.shuffle = function () {
     var i = this.length, j, temp;
     if (i == 0)
@@ -107,17 +112,22 @@ Array.prototype.first = function (n) {
     }
 };
 Array.prototype.compact = function () {
+    //var changes = false;
     for (var i = 0; i < this.length; i++) {
+        // If element is non-existent, undefined or null, remove it.
         if (!this[i]) {
             this.splice(i, 1);
             i = i - 1;
+            //changes = true;
         }
     }
+    //if (!changes) return undefined;
     return this;
 };
 Array.prototype.deleteAt = function (index) {
     if (index < 0)
         index = this.length + index;
+    // If element is non-existent, return undefined:
     if (!this.hasOwnProperty(index))
         return undefined;
     var elem = this[index];
@@ -126,6 +136,7 @@ Array.prototype.deleteAt = function (index) {
 };
 Array.prototype.unset = function (value) {
     if (this.indexOf(value) != -1) {
+        // Make sure the value exists
         this.splice(this.indexOf(value), 1);
     }
     return this;
@@ -134,7 +145,7 @@ Array.prototype.exists = function (n) {
     return typeof this[n] !== "undefined";
 };
 if (!Array.prototype.hasOwnProperty("every")) {
-    Array.prototype.every = function (fun) {
+    Array.prototype.every = function (fun /*, thisp */) {
         "use strict";
         var t = Object(this);
         var len = t.length >>> 0;
@@ -169,8 +180,12 @@ Array.prototype.hapusItemDariArrayLain = function () {
 };
 Array.prototype.removeEmpties = function () {
     var filter = this.filter(function (el) {
-        var notnull = el != null &&
+        var notnull = 
+        // make sure element is not null
+        el != null &&
+            // make sure element is not undefined
             typeof el != "undefined";
+        // if element is string, make sure string length not zero
         if (typeof el == "string") {
             return notnull && el.trim().length > 0;
         }
@@ -183,6 +198,11 @@ function array_filter(array) {
         return el != null;
     });
 }
+/**
+ * pick random from array
+ * @param {Array<any>} arrays
+ * @param {boolean} unique Unique the arrays
+ */
 function array_rand(arrays, unique) {
     if (unique) {
         arrays = array_unique(arrays);
@@ -193,11 +213,21 @@ function array_rand(arrays, unique) {
         value: arrays[index]
     };
 }
+/**
+ * Array unique
+ * @param {Array<any>} arrays
+ */
 function array_unique(arrays) {
     return arrays.filter(function (item, pos, self) {
         return self.indexOf(item) == pos;
     });
 }
+/**
+ * Unset array
+ * @param {Array<any>} arrayName
+ * @param {String|number} key
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function array_unset(arrayName, key) {
     var x;
     var tmpArray = [];
@@ -208,11 +238,23 @@ function array_unset(arrayName, key) {
     }
     return tmpArray;
 }
+/**
+ * PHP shuffle array equivalent
+ * @param array
+ * @example
+ * var arr = [2, 11, 37, 42];
+ * shuffle(arr);
+ * console.log(arr); //return random
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
     while (0 !== currentIndex) {
+        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
+        // And swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -229,6 +271,11 @@ function arrayCompare(a1, a2) {
     }
     return true;
 }
+/**
+ * in_array PHP equivalent
+ * @param needle string etc
+ * @param haystack
+ */
 function inArray(needle, haystack) {
     var length = haystack.length;
     for (var i = 0; i < length; i++) {
@@ -243,12 +290,25 @@ function inArray(needle, haystack) {
     }
     return false;
 }
+/**
+ * in_array PHP equivalent
+ * @param needle string etc
+ * @param haystack
+ */
 function in_array(needle, haystack) {
     return inArray(needle, haystack);
 }
+/**
+ * get all keys
+ * @param haystack string etc
+ */
 function array_keys(haystack) {
     return Object.keys(haystack);
 }
+/**
+ * Shuffles array in place.
+ * @param a items An array containing the items.
+ */
 function array_shuffle(a) {
     var j, x, i;
     for (i = a.length - 1; i > 0; i--) {
@@ -259,19 +319,29 @@ function array_shuffle(a) {
     }
     return a;
 }
+/**
+ * Deep merge two or more objects into the first.
+ * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
+ * @param objects  The objects to merge together
+ * @returns Merged values of defaults and options
+ */
 function deepAssign() {
     var objects = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         objects[_i] = arguments[_i];
     }
+    // Make sure there are objects to merge
     var len = objects.length;
     if (len < 1)
         return;
     if (len < 2)
         return objects[0];
+    // Merge all objects into first
     for (var i = 1; i < len; i++) {
         for (var key in objects[i]) {
             if (objects[i].hasOwnProperty(key)) {
+                // If it's an object, recursively merge
+                // Otherwise, push to key
                 if (Object.prototype.toString.call(objects[i][key]) === "[object Object]") {
                     objects[0][key] = deepAssign(objects[0][key] || {}, objects[i][key]);
                 }
@@ -283,6 +353,12 @@ function deepAssign() {
     }
     return arguments[0];
 }
+/**
+ * Remove item from array
+ * @param arr
+ * @param value
+ * @returns
+ */
 function removeItem(arr, value) {
     var index = arr.indexOf(value);
     if (index > -1) {

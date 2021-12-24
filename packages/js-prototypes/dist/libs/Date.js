@@ -1,5 +1,6 @@
+/// <reference path="Date.d.ts" />
 Date.prototype.isHourAgo = function (hour) {
-    var hour = hour * 60 * 1000;
+    var hour = hour * 60 * 1000; /* ms */
     var hourago = Date.now() - hour;
     return hour > hourago;
 };
@@ -10,6 +11,7 @@ if (!Date.now) {
 }
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + h * 60 * 60 * 1000);
+    //this.setHours(this.getHours()+h);
     return this;
 };
 Date.prototype.addHours2 = function (hrs) {

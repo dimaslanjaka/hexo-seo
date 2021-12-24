@@ -1,4 +1,17 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="String.d.ts" />
+/// <reference path="globals.d.ts" />
 String.prototype.printf = function (obj) {
+    /*const isNode = new Function(
+      "try {return this===global;}catch(e){return false;}"
+    );
+  
+    if (isNode()) {
+      const util = require("util");
+      return util.format(this, obj);
+    }*/
     var useArguments = false;
     var _arguments = arguments;
     var i = -1;
@@ -32,7 +45,9 @@ String.prototype.parse_url = function () {
     var split;
     var i;
     var queries = [];
+    // Let the browser do the work
     parser.href = this.toString();
+    // Convert query string to object
     queries = parser.search.replace(/^\?/, "").split("&");
     for (i = 0; i < queries.length; i++) {
         split = queries[i].split("=");
@@ -50,6 +65,9 @@ String.prototype.parse_url = function () {
         protohost: parser.protocol + "//" + parser.host,
     };
 };
+/**
+ * Load css
+ */
 String.prototype.CSS = function () {
     var e = document.createElement("link");
     e.rel = "stylesheet";
@@ -100,7 +118,7 @@ String.prototype.truncate = function (n, useWordBoundary) {
     if (this.length <= n) {
         return this;
     }
-    var subString = this.substr(0, n - 1);
+    var subString = this.substr(0, n - 1); // the original check
     return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
 };
 String.prototype.isEmpty = function () {
@@ -110,6 +128,7 @@ String.prototype.isEmpty = function () {
     return false;
 };
 String.prototype.replaceArr = function (array, replacement) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var ori = this;
     array.map(function (str) {
         ori = ori.replace(str, replacement);
@@ -118,6 +137,7 @@ String.prototype.replaceArr = function (array, replacement) {
 };
 String.prototype.toHtmlEntities = function () {
     return this.replace(/./gm, function (s) {
+        // return "&#" + s.charCodeAt(0) + ";";
         return s.match(/[a-z0-9\s]+/i) ? s : "&#" + s.charCodeAt(0) + ";";
     });
 };

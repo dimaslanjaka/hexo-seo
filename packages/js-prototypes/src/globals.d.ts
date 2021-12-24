@@ -2,7 +2,7 @@
 /// <reference types="jquery" />
 /// <reference lib="dom" />
 
-declare const $: JQuery;
+//declare const $: JQuery;
 
 type jQuery = JQuery;
 
@@ -25,11 +25,11 @@ interface HTMLScriptElement extends HTMLElement {
 
 interface HTMLElement
   extends Element,
-  DocumentAndElementEventHandlers,
-  ElementCSSInlineStyle,
-  ElementContentEditable,
-  GlobalEventHandlers,
-  HTMLOrSVGElement {
+    DocumentAndElementEventHandlers,
+    ElementCSSInlineStyle,
+    ElementContentEditable,
+    GlobalEventHandlers,
+    HTMLOrSVGElement {
   mozMatchesSelector: (selectors: string) => boolean;
   msMatchesSelector: (selectors: string) => boolean;
 
@@ -113,12 +113,12 @@ interface Window {
 
 interface Document
   extends Node,
-  DocumentAndElementEventHandlers,
-  DocumentOrShadowRoot,
-  GlobalEventHandlers,
-  NonElementParentNode,
-  ParentNode,
-  XPathEvaluatorBase {
+    DocumentAndElementEventHandlers,
+    DocumentOrShadowRoot,
+    GlobalEventHandlers,
+    NonElementParentNode,
+    ParentNode,
+    XPathEvaluatorBase {
   /**
    * window.addEventListener
    *
@@ -131,18 +131,14 @@ interface Document
   attachEvent: any;
 
   /**
-   * See {@see Document.addEventListener}
+   * @see {@link Document.addEventListener}
    */
   listen<K extends keyof DocumentEventMap>(
     type: K,
     listener: (this: Document, ev: DocumentEventMap[K]) => any,
     options?: boolean | AddEventListenerOptions
   ): void;
-  listen(
-    type: string,
-    listener: EventListenerOrEventListenerObject,
-    options?: boolean | AddEventListenerOptions
-  ): void;
+  listen(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
   removeListener<K extends keyof DocumentEventMap>(
     type: K,
     listener: (this: Document, ev: DocumentEventMap[K]) => any,

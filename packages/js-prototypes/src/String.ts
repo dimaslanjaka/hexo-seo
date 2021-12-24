@@ -78,17 +78,17 @@ String.prototype.CSS = function () {
   const n = document.getElementsByTagName("head")[0];
   window.addEventListener
     ? window.addEventListener(
-        "load",
-        function () {
-          n.parentNode.insertBefore(e, n);
-        },
-        !1
-      )
+      "load",
+      function () {
+        n.parentNode.insertBefore(e, n);
+      },
+      !1
+    )
     : window.attachEvent
-    ? window.attachEvent("onload", function () {
+      ? window.attachEvent("onload", function () {
         n.parentNode.insertBefore(e, n);
       })
-    : (window.onload = function () {
+      : (window.onload = function () {
         n.parentNode.insertBefore(e, n);
       });
 };

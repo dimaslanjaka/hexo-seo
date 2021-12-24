@@ -1,4 +1,9 @@
 
+/* eslint-disable @typescript-eslint/no-this-alias */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-prototype-builtins */
+/// <reference path="./Array.d.ts" />
 Array.prototype.shuffle = function () {
     var i = this.length, j, temp;
     if (i == 0)
@@ -108,17 +113,22 @@ Array.prototype.first = function (n) {
     }
 };
 Array.prototype.compact = function () {
+    //var changes = false;
     for (var i = 0; i < this.length; i++) {
+        // If element is non-existent, undefined or null, remove it.
         if (!this[i]) {
             this.splice(i, 1);
             i = i - 1;
+            //changes = true;
         }
     }
+    //if (!changes) return undefined;
     return this;
 };
 Array.prototype.deleteAt = function (index) {
     if (index < 0)
         index = this.length + index;
+    // If element is non-existent, return undefined:
     if (!this.hasOwnProperty(index))
         return undefined;
     var elem = this[index];
@@ -127,6 +137,7 @@ Array.prototype.deleteAt = function (index) {
 };
 Array.prototype.unset = function (value) {
     if (this.indexOf(value) != -1) {
+        // Make sure the value exists
         this.splice(this.indexOf(value), 1);
     }
     return this;
@@ -135,7 +146,7 @@ Array.prototype.exists = function (n) {
     return typeof this[n] !== "undefined";
 };
 if (!Array.prototype.hasOwnProperty("every")) {
-    Array.prototype.every = function (fun) {
+    Array.prototype.every = function (fun /*, thisp */) {
         "use strict";
         var t = Object(this);
         var len = t.length >>> 0;
@@ -170,8 +181,12 @@ Array.prototype.hapusItemDariArrayLain = function () {
 };
 Array.prototype.removeEmpties = function () {
     var filter = this.filter(function (el) {
-        var notnull = el != null &&
+        var notnull = 
+        // make sure element is not null
+        el != null &&
+            // make sure element is not undefined
             typeof el != "undefined";
+        // if element is string, make sure string length not zero
         if (typeof el == "string") {
             return notnull && el.trim().length > 0;
         }
@@ -184,6 +199,11 @@ function array_filter(array) {
         return el != null;
     });
 }
+/**
+ * pick random from array
+ * @param {Array<any>} arrays
+ * @param {boolean} unique Unique the arrays
+ */
 function array_rand(arrays, unique) {
     if (unique) {
         arrays = array_unique(arrays);
@@ -194,11 +214,21 @@ function array_rand(arrays, unique) {
         value: arrays[index]
     };
 }
+/**
+ * Array unique
+ * @param {Array<any>} arrays
+ */
 function array_unique(arrays) {
     return arrays.filter(function (item, pos, self) {
         return self.indexOf(item) == pos;
     });
 }
+/**
+ * Unset array
+ * @param {Array<any>} arrayName
+ * @param {String|number} key
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function array_unset(arrayName, key) {
     var x;
     var tmpArray = [];
@@ -209,11 +239,23 @@ function array_unset(arrayName, key) {
     }
     return tmpArray;
 }
+/**
+ * PHP shuffle array equivalent
+ * @param array
+ * @example
+ * var arr = [2, 11, 37, 42];
+ * shuffle(arr);
+ * console.log(arr); //return random
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
     while (0 !== currentIndex) {
+        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
+        // And swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -230,6 +272,11 @@ function arrayCompare(a1, a2) {
     }
     return true;
 }
+/**
+ * in_array PHP equivalent
+ * @param needle string etc
+ * @param haystack
+ */
 function inArray(needle, haystack) {
     var length = haystack.length;
     for (var i = 0; i < length; i++) {
@@ -244,12 +291,25 @@ function inArray(needle, haystack) {
     }
     return false;
 }
+/**
+ * in_array PHP equivalent
+ * @param needle string etc
+ * @param haystack
+ */
 function in_array(needle, haystack) {
     return inArray(needle, haystack);
 }
+/**
+ * get all keys
+ * @param haystack string etc
+ */
 function array_keys(haystack) {
     return Object.keys(haystack);
 }
+/**
+ * Shuffles array in place.
+ * @param a items An array containing the items.
+ */
 function array_shuffle(a) {
     var j, x, i;
     for (i = a.length - 1; i > 0; i--) {
@@ -260,19 +320,29 @@ function array_shuffle(a) {
     }
     return a;
 }
+/**
+ * Deep merge two or more objects into the first.
+ * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
+ * @param objects  The objects to merge together
+ * @returns Merged values of defaults and options
+ */
 function deepAssign() {
     var objects = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         objects[_i] = arguments[_i];
     }
+    // Make sure there are objects to merge
     var len = objects.length;
     if (len < 1)
         return;
     if (len < 2)
         return objects[0];
+    // Merge all objects into first
     for (var i = 1; i < len; i++) {
         for (var key in objects[i]) {
             if (objects[i].hasOwnProperty(key)) {
+                // If it's an object, recursively merge
+                // Otherwise, push to key
                 if (Object.prototype.toString.call(objects[i][key]) === "[object Object]") {
                     objects[0][key] = deepAssign(objects[0][key] || {}, objects[i][key]);
                 }
@@ -284,6 +354,12 @@ function deepAssign() {
     }
     return arguments[0];
 }
+/**
+ * Remove item from array
+ * @param arr
+ * @param value
+ * @returns
+ */
 function removeItem(arr, value) {
     var index = arr.indexOf(value);
     if (index > -1) {
@@ -301,8 +377,9 @@ if (typeof module !== "undefined" && module.exports) {
     };
 }
 
+/// <reference path="Date.d.ts" />
 Date.prototype.isHourAgo = function (hour) {
-    var hour = hour * 60 * 1000;
+    var hour = hour * 60 * 1000; /* ms */
     var hourago = Date.now() - hour;
     return hour > hourago;
 };
@@ -313,6 +390,7 @@ if (!Date.now) {
 }
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + h * 60 * 60 * 1000);
+    //this.setHours(this.getHours()+h);
     return this;
 };
 Date.prototype.addHours2 = function (hrs) {
@@ -341,7 +419,7 @@ Number.prototype.getMS = function (type) {
 };
 Number.prototype.addHour = function (source) {
     var self = this;
-    var Hour = this * 60 * 1000;
+    var Hour = this * 60 * 1000; /* ms */
     if (!source)
         source = new Date();
     return new Date(source.getTime() + Hour).getTime();
@@ -350,6 +428,11 @@ Number.prototype.AddZero = function (b, c) {
     var l = String(b || 10).length - String(this).length + 1;
     return l > 0 ? new Array(l).join(c || "0") + this : this;
 };
+/**
+ * Odd or Even (Ganjil Genap);
+ * @param n
+ * @param type odd or even
+ */
 function oddoreven(n, type) {
     if (!type) {
         type = "odd";
@@ -361,8 +444,13 @@ function oddoreven(n, type) {
     }
     var hasil = time % 2;
     var rType = /^(odd|ganjil)$/.test(type) ? "1" : "0";
+    //return hasil == (type == ('odd' || 'ganjil') ? 1 : 0);
     return hasil.toString() == rType.toString();
 }
+/**
+ * strpad / startwith zero [0]
+ * @param {number} val
+ */
 function strpad(val) {
     if (val >= 10) {
         return val;
@@ -371,9 +459,19 @@ function strpad(val) {
         return "0" + val;
     }
 }
+/**
+ * is variable number?
+ * @param n
+ * @returns
+ */
 function isInt(n) {
     return Number(n) === n && n % 1 === 0;
 }
+/**
+ * is variable float?
+ * @param n
+ * @returns
+ */
 function isFloat(n) {
     return Number(n) === n && n % 1 !== 0;
 }
@@ -382,6 +480,9 @@ if (typeof module.exports != 'undefined') {
     global.isFloat = isFloat;
 }
 
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="Object.d.ts" />
 Object.size = function (obj) {
     var size = 0, key;
     for (key in obj) {
@@ -418,6 +519,7 @@ Object.has = function (str) {
 };
 Object.each = function (callback) {
     for (var key in this) {
+        //callback.call(scope, key, this[key]);
         callback.call(this[key]);
     }
 };
@@ -431,7 +533,20 @@ Object.replaceKeyFrom = function (anotherObj) {
         op[newKey || key] = value;
         return op;
     }, {});
+    /*if (typeof anotherObj == 'object') {
+      for (const key in anotherObj) {
+        if (Object.prototype.hasOwnProperty.call(anotherObj, key)) {
+          const element = anotherObj[key];
+          def[key] = element;
+        }
+      }
+    }*/
 };
+/**
+ * Join object to separated string
+ * @param obj Object
+ * @returns Joined string
+ */
 function object_join(obj) {
     return Object.keys(obj)
         .map(function (k) {
@@ -439,22 +554,43 @@ function object_join(obj) {
     })
         .join(",");
 }
+/**
+ * Extend Object
+ * @param arg1
+ * @param arg2
+ * @returns
+ */
 function extend_object(arg1, arg2) {
     var result = {};
     for (var prop in arg1) {
         if (arg1.hasOwnProperty(prop)) {
+            // error when using --strictNullChecks
             result[prop] = arg1[prop];
         }
     }
     for (var prop in arg2) {
         if (arg2.hasOwnProperty(prop)) {
+            // error when using --strictNullChecks
             result[prop] = arg2[prop];
         }
     }
     return result;
 }
 
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="String.d.ts" />
+/// <reference path="globals.d.ts" />
 String.prototype.printf = function (obj) {
+    /*const isNode = new Function(
+      "try {return this===global;}catch(e){return false;}"
+    );
+  
+    if (isNode()) {
+      const util = require("util");
+      return util.format(this, obj);
+    }*/
     var useArguments = false;
     var _arguments = arguments;
     var i = -1;
@@ -488,7 +624,9 @@ String.prototype.parse_url = function () {
     var split;
     var i;
     var queries = [];
+    // Let the browser do the work
     parser.href = this.toString();
+    // Convert query string to object
     queries = parser.search.replace(/^\?/, "").split("&");
     for (i = 0; i < queries.length; i++) {
         split = queries[i].split("=");
@@ -506,6 +644,9 @@ String.prototype.parse_url = function () {
         protohost: parser.protocol + "//" + parser.host,
     };
 };
+/**
+ * Load css
+ */
 String.prototype.CSS = function () {
     var e = document.createElement("link");
     e.rel = "stylesheet";
@@ -556,7 +697,7 @@ String.prototype.truncate = function (n, useWordBoundary) {
     if (this.length <= n) {
         return this;
     }
-    var subString = this.substr(0, n - 1);
+    var subString = this.substr(0, n - 1); // the original check
     return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
 };
 String.prototype.isEmpty = function () {
@@ -566,6 +707,7 @@ String.prototype.isEmpty = function () {
     return false;
 };
 String.prototype.replaceArr = function (array, replacement) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var ori = this;
     array.map(function (str) {
         ori = ori.replace(str, replacement);
@@ -574,6 +716,7 @@ String.prototype.replaceArr = function (array, replacement) {
 };
 String.prototype.toHtmlEntities = function () {
     return this.replace(/./gm, function (s) {
+        // return "&#" + s.charCodeAt(0) + ";";
         return s.match(/[a-z0-9\s]+/i) ? s : "&#" + s.charCodeAt(0) + ";";
     });
 };

@@ -6,7 +6,7 @@
 		"outDir": "dist/libs",
 		"moduleResolution": "Node",
 		"declaration": true,
-		"removeComments": true,
+		"removeComments": false,
 		"allowJs": true,
 		"typeRoots": [
 			"./node_modules/@types",
