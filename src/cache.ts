@@ -6,7 +6,7 @@ import logger from "./log";
 import scheduler from "./scheduler";
 import NodeCache from "node-cache";
 import { existsSync } from "fs";
-import "js-prototypes/src/Any";
+import "js-prototypes";
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
 
 /**
