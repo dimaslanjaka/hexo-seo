@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const depcheck = require("depcheck");
+const { writeFileSync } = require("fs");
+const { join } = require("path");
 
 const options = {
   ignoreBinPackage: false, // ignore the packages with bin entry
@@ -9,14 +11,20 @@ const options = {
     // files matching these patterns will be ignored
     "sandbox",
     "dist",
-    "bower_components"
+    "bower_components",
+    "node_modules",
+    "docs",
+    "exclude"
   ],
   ignoreMatches: [
     // ignore dependencies that matches these globs
-    "grunt-*"
+    "grunt-*",
+    "hexo-*",
+    "@typescript-eslint*"
   ],
   parsers: {
     // the target parsers
+    "**/*.ts": depcheck.parser.typescript,
     "**/*.js": depcheck.parser.es6,
     "**/*.jsx": depcheck.parser.jsx
   },
@@ -44,10 +52,5 @@ const options = {
 };
 
 depcheck(__dirname, options).then((unused) => {
-  console.log(unused.dependencies); // an array containing the unused dependencies
-  console.log(unused.devDependencies); // an array containing the unused devDependencies
-  console.log(unused.missing); // a lookup containing the dependencies missing in `package.json` and where they are used
-  console.log(unused.using); // a lookup indicating each dependency is used by which files
-  console.log(unused.invalidFiles); // files that cannot access or parse
-  console.log(unused.invalidDirs); // directories that cannot access
+  writeFileSync(join(__dirname, "unused.md"), "```json\n" + JSON.stringify(unused, null, 2) + "\n```");
 });

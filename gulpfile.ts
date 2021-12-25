@@ -3,8 +3,11 @@ import concat from "gulp-concat";
 import Promise from "bluebird";
 import del from "del";
 
+function clean() {
+  return del(["dist", "docs"]);
+}
+
 function build(done) {
-  //const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
   return Promise.all(exclude)
@@ -41,3 +44,4 @@ function build(done) {
 }
 
 exports.default = gulp.series(build);
+exports.clean = gulp.series(clean);
