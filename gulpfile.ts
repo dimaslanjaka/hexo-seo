@@ -9,7 +9,8 @@ function build(done) {
   const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
-  return Promise.all([deletedDirectoryPaths, exec("npx tsc")])
+  return Promise.resolve(deletedDirectoryPaths)
+    .then(() => exec("npx tsc"))
     .then(() => {
       console.log("copy sitemaps xml to dist");
       return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
