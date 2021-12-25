@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.identifyRels = void 0;
-var fixHyperlinks_1 = require("./fixHyperlinks");
+var types_1 = require("./types");
 var url_parse_1 = __importDefault(require("url-parse"));
 function default_1(dom, HSconfig, data) {
     var a = dom.document.querySelectorAll("a[href]");
@@ -15,7 +15,7 @@ function default_1(dom, HSconfig, data) {
             if (/https?/gs.test(href)) {
                 var parseHref = (0, url_parse_1.default)(href);
                 var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
-                var external_1 = (0, fixHyperlinks_1.isExternal)(parseHref, hexo);
+                var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = identifyRels(el, external_1, HSconfig);
                 el.setAttribute("rel", rels.join(" "));
             }
@@ -29,7 +29,7 @@ function default_1(dom, HSconfig, data) {
                 else {
                     textContent = el.textContent;
                 }
-                el.setAttribute("title", (0, fixHyperlinks_1.formatAnchorText)(textContent));
+                el.setAttribute("title", (0, types_1.formatAnchorText)(textContent));
             }
         });
     }

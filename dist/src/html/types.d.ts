@@ -1,7 +1,5 @@
-import Hexo from "hexo";
 import parseUrl from "url-parse";
-import { HexoSeo } from "./schema/article";
-import "js-prototypes";
+import Hexo from "hexo";
 export interface hyperlinkOptions {
     enable: boolean;
     blank: boolean;
@@ -12,7 +10,6 @@ export interface hyperlinkOptions {
     allow?: string[];
 }
 export declare function formatAnchorText(text: string): string;
-declare function fixHyperlinks(this: Hexo, content: string, data: HexoSeo): string;
 /**
  * is url external link
  * @param url
@@ -20,4 +17,3 @@ declare function fixHyperlinks(this: Hexo, content: string, data: HexoSeo): stri
  * @returns
  */
 export declare function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean;
-export default fixHyperlinks;

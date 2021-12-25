@@ -12,7 +12,7 @@ var md5_file_1 = require("../utils/md5-file");
 var log_1 = __importDefault(require("../log"));
 var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
-var fixHyperlinks_1 = require("./fixHyperlinks");
+var types_1 = require("./types");
 var url_parse_1 = __importDefault(require("url-parse"));
 var __1 = require("..");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
@@ -51,7 +51,7 @@ function default_1(content, data) {
                 var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
                 rels = rels.removeEmpties().unique();
                 var parseHref = (0, url_parse_1.default)(href);
-                var external_1 = (0, fixHyperlinks_1.isExternal)(parseHref, hexo);
+                var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                 el.setAttribute("rel", rels.join(" "));
             }

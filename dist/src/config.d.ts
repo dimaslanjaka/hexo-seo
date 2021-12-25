@@ -4,7 +4,7 @@ import { jsMinifyOptions } from "./minifier/js";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { cssMinifyOptions } from "./minifier/css";
 import { imgOptions } from "./img/index.old";
-import { hyperlinkOptions } from "./html/fixHyperlinks";
+import { hyperlinkOptions } from "./html/types";
 export interface seoOptions extends HexoConfig {
     seo?: defaultSeoOptions;
 }
