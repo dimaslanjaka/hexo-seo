@@ -61,7 +61,7 @@ seo:
   # add rich snippets on every posts and pages
   schema: true
   # [inactive] this function still under development
-  img: 
+  img:
     # fix broken images
     broken: false
     # default broken images
@@ -80,15 +80,13 @@ seo:
       - web-manajemen.blogspot.com
       - dimaslanjaka.github.io
     # auto generate seo friendly sitemap at /sitemap.xml
-    sitemap: true 
+    sitemap: true
 ```
 > this plugin will run the functions based on development mode or production mode
 
 **development mode**
 ```shell
 set NODE_ENV=development && hexo server
-# or
-hexo server --development
 ```
 
 # Preview
