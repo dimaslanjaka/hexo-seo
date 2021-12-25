@@ -123,3 +123,6 @@
 
 ## [1.0.29] 2021-12-25T21:43:08
 - Update publish script
+
+## [1.0.30] 2021-12-26T03:07:54
+- 9d955ce : fix sitemap.xsl not found  Sun Dec 26 03:06:05 2021 +0700
