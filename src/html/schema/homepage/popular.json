@@ -1,0 +1,14 @@
+{
+  "@context": "http://schema.org",
+  "@type": "ItemList",
+  "name": "Popular Articles",
+  "numberOfItems": "1",
+  "itemListOrder": "Descending",
+  "itemListElement": [
+    {
+      "@type": "Article",
+      "position": "1",
+      "headline": "I am Popular Article"
+    }
+  ]
+}
