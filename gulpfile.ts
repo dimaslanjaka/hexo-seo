@@ -30,8 +30,8 @@ function build(done) {
           dot: true
         })
         .pipe(gulp.dest("./docs"));
-    })
-    .finally(done);
+      return done();
+    });
 }
 
 function readme() {
