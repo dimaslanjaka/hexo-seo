@@ -27,10 +27,7 @@ function fixAttributes(this: Hexo, content: string, data: HexoSeo) {
   }
 
   const HSconfig = getConfig(this);
-  const title =
-    data.page && data.page.title && data.page.title.trim().length > 0
-      ? data.page.title
-      : this.config.title;
+  const title = data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : this.config.title;
   const isChanged = cF.isFileChanged(path0);
 
   if (isChanged) {
@@ -60,11 +57,7 @@ function fixAttributes(this: Hexo, content: string, data: HexoSeo) {
     cF.set(path0, content);
     return content;
   }
-  logger.log(
-    "%s(IMG:attr) cached [%s]",
-    pkg.name,
-    path0.replace(this.base_dir, "")
-  );
+  logger.log("%s(IMG:attr) cached [%s]", pkg.name, path0.replace(this.base_dir, ""));
   content = cF.get(path0, "");
   return content;
 }
