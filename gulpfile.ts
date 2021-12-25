@@ -11,6 +11,10 @@ function build(done) {
 
   return Promise.all([deletedDirectoryPaths, exec("tsc")])
     .then(() => {
+      console.log("copy xml to dist");
+      return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
+    })
+    .then(() => {
       console.log("copy dist to master build");
       return gulp.src("./dist/**/*").pipe(gulp.dest("./docs/dist"));
     })
