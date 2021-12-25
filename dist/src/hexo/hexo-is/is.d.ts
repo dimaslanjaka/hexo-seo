@@ -1,4 +1,4 @@
-declare function isCurrentHelper(path: string | undefined, strict: any): any;
+declare function isCurrentHelper(path: string, strict: any): any;
 declare function isHomeHelper(): boolean;
 declare function isPostHelper(): boolean;
 declare function isPageHelper(): boolean;

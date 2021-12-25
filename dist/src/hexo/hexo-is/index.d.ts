@@ -8,7 +8,7 @@ import Hexo, { TemplateLocals } from "hexo";
  * @param hexo
  * @returns
  */
-declare const hexoIs: (hexo: Hexo | Hexo.View | TemplateLocals) => import("./is").HexoIs | undefined;
+declare const hexoIs: (hexo: Hexo | Hexo.View | TemplateLocals) => import("./is").HexoIs;
 /**
  * Dump variable to file
  * @param toDump

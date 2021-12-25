@@ -12,7 +12,7 @@ export interface returnPageData extends PageData {
  * @param data
  * @returns
  */
-export declare function getPageData(data: TemplateLocals): returnPageData | undefined;
+export declare function getPageData(data: TemplateLocals): returnPageData;
 export declare function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals): void;
 export default sitemap;
 export declare function sitemapIndex(hexoinstance?: Hexo): void;
