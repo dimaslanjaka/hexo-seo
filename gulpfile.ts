@@ -7,7 +7,7 @@ function clean() {
   return del(["dist", "docs"]);
 }
 
-function build(done) {
+function build(done: gulp.TaskFunctionCallback) {
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
   return Promise.all(exclude)
@@ -43,5 +43,5 @@ function build(done) {
     });
 }
 
-exports.default = gulp.series(build);
-exports.clean = gulp.series(clean);
+gulp.task("default", build);
+gulp.task("clean", clean);
