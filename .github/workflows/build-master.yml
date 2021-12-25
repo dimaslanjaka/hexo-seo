@@ -38,6 +38,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm i -g npm gulp-cli typescript
       - run: npm install
+      - run: tsc
       - run: npm run build
         id: build
       - run: |
