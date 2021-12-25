@@ -38,5 +38,5 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - run: npm install
-      - run: cd test/demo && npm un hexo-blogger-xml && npm i ./../../
+      - run: cd test/demo && npm un hexo-blogger-xml hexo-adsense && npm i ./../../
       - run: cd test/demo && hexo generate
