@@ -4,10 +4,10 @@ import Promise from "bluebird";
 import del from "del";
 
 function build(done) {
-  const deletedDirectoryPaths = del(["dist", "docs"]);
+  //const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
-  return Promise.resolve(deletedDirectoryPaths)
+  return Promise.all(exclude)
     .then(() => {
       console.log("copy sitemaps xml to dist");
       return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
