@@ -10,6 +10,7 @@ tmp
 build/
 docs/
 *.tgz
+exclude/
 
 # unused idea configuration
 .idea/vcs.xml
