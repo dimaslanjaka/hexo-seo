@@ -23,8 +23,9 @@ function build(done) {
       return gulp.src(["./dist/**/*"].concat(exclude)).pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
+      console.log("copy source to master build");
       gulp
-        .src(["./*.{json,js,md}", "./lib/**/*", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
+        .src(["./*.{json,js,md}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
           base: ".",
           dot: true
         })
