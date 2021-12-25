@@ -13,7 +13,7 @@ function build(done) {
   return Promise.all(exclude)
     .then(() => {
       console.log("copy sitemaps xml to dist");
-      return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
+      return gulp.src("./src/**/*.{xml,xsl}").pipe(gulp.dest("./dist/src"));
     })
     .then(() => {
       console.log("copy packages to dist");
