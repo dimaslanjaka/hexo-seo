@@ -66,7 +66,7 @@ function hexoIsDump(toDump, name) {
         fs.mkdirSync(path_1.default.dirname(loc), { recursive: true });
     }
     fs.writeFileSync(loc, dump);
-    log.log(package_json_1.default.name + ": dump saved to: " + path_1.default.resolve(loc));
+    log.log("".concat(package_json_1.default.name, ": dump saved to: ").concat(path_1.default.resolve(loc)));
 }
 exports.hexoIsDump = hexoIsDump;
 exports.default = hexoIs;

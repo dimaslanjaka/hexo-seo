@@ -51,7 +51,7 @@ exports.parseJSDOM = parseJSDOM;
  * @returns
  */
 function getTextPartialHtml(text, options) {
-    dom = new _JSDOM("<div id=\"parseJSDOM\">" + text + "</div>", options);
+    dom = new _JSDOM("<div id=\"parseJSDOM\">".concat(text, "</div>"), options);
     var document = dom.window.document;
     return document.querySelector("div#parseJSDOM").textContent;
 }

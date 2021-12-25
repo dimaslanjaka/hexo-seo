@@ -103,7 +103,7 @@ function default_1(str, data) {
                     if (result.code && result.code.length > 0) {
                         saved = (((str.length - result.code.length) / str.length) *
                             100).toFixed(2);
-                        log_1.default.log("%s(JS): %s [%s saved]", package_json_1.default.name, path0, saved + "%");
+                        log_1.default.log("%s(JS): %s [%s saved]", package_json_1.default.name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
                         cache.setCache(path0, str);
@@ -111,7 +111,7 @@ function default_1(str, data) {
                     return [3 /*break*/, 5];
                 case 4:
                     e_1 = _a.sent();
-                    log_1.default.error("Minifying " + path0 + " error", e_1);
+                    log_1.default.error("Minifying ".concat(path0, " error"), e_1);
                     // minify error, return original js
                     return [2 /*return*/, str];
                 case 5: return [3 /*break*/, 8];
