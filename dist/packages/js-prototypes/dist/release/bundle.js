@@ -730,10 +730,3 @@ String.prototype.includesArray = function (substrings) {
     var _this = this;
     return substrings.some(function (v) { return _this.includes(v); });
 };
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-require("./Array");
-require("./String");
-require("./Object");
-require("./Number");

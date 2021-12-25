@@ -1,5 +1,5 @@
 import { Objek } from "./utils";
-import "js-prototypes/src/Any";
+import "js-prototypes";
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM

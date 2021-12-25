@@ -85,11 +85,7 @@ declare class Hexo extends EventEmitter {
   /**
    * Any console command can be called explicitly using the call method on the Hexo instance.
    */
-  call(
-    name: string,
-    args?: any,
-    fn?: (err: any, value: any) => void
-  ): Promise<any>;
+  call(name: string, args?: any, fn?: (err: any, value: any) => void): Promise<any>;
 
   call(name: string, fn?: (err: any, value: any) => void): Promise<any>;
 
@@ -234,18 +230,12 @@ declare class Hexo extends EventEmitter {
   /**
    * Emitted before processing begins. This event returns a path representing the root directory of the box.
    */
-  on(
-    ev: "processBefore",
-    fn: (type: Hexo.Box.File["type"], path: string) => void
-  ): this;
+  on(ev: "processBefore", fn: (type: Hexo.Box.File["type"], path: string) => void): this;
 
   /**
    * Emitted after processing finishes. This event returns a path representing the root directory of the box.
    */
-  on(
-    ev: "processAfter",
-    fn: (type: Hexo.Box.File["type"], path: string) => void
-  ): this;
+  on(ev: "processAfter", fn: (type: Hexo.Box.File["type"], path: string) => void): this;
 
   /**
    * Emitted after initialization finishes.
@@ -289,7 +279,7 @@ declare namespace Hexo {
       pages: Hexo.Locals.Page;
       categories: Hexo.Locals.Category;
       tags: Hexo.Locals.Tag;
-      data: object;
+      data: Record<string, unknown>;
     };
 
     /**
@@ -341,22 +331,9 @@ declare namespace Hexo {
 
   namespace extend {
     interface Console {
-      register(
-        name: string,
-        desc: string,
-        options: Console.Options,
-        fn: (args: ParsedArgs) => void
-      ): void;
-      register(
-        name: string,
-        options: Console.Options,
-        fn: (args: ParsedArgs) => void
-      ): void;
-      register(
-        name: string,
-        desc: string,
-        fn: (args: ParsedArgs) => void
-      ): void;
+      register(name: string, desc: string, options: Console.Options, fn: (args: ParsedArgs) => void): void;
+      register(name: string, options: Console.Options, fn: (args: ParsedArgs) => void): void;
+      register(name: string, desc: string, fn: (args: ParsedArgs) => void): void;
       register(name: string, fn: (args: ParsedArgs) => void): void;
     }
     namespace Console {
@@ -394,11 +371,7 @@ declare namespace Hexo {
     }
 
     interface Filter {
-      register(
-        type: string,
-        fn: (data: any, ...args: any[]) => any,
-        priority?: number
-      ): any;
+      register(type: string, fn: (data: any, ...args: any[]) => any, priority?: number): any;
       register(type: string, data: Hexo.View): any;
 
       /**
@@ -406,10 +379,7 @@ declare namespace Hexo {
        */
       register(
         type: "before_post_render",
-        fn: (data: {
-          content: string;
-          [key: string]: any;
-        }) => { content: string;[key: string]: any } | void,
+        fn: (data: { content: string; [key: string]: any }) => { content: string; [key: string]: any } | void,
         priority?: number
       ): void;
 
@@ -418,10 +388,7 @@ declare namespace Hexo {
        */
       register(
         type: "after_post_render",
-        fn: (data: {
-          content: string;
-          [key: string]: any;
-        }) => { content: string;[key: string]: any } | void,
+        fn: (data: { content: string; [key: string]: any }) => { content: string; [key: string]: any } | void,
         priority?: number
       ): void;
 
@@ -433,11 +400,7 @@ declare namespace Hexo {
       /**
        * Executed before generation begins.
        */
-      register(
-        type: "before_generate",
-        fn: (data: any) => any,
-        priority?: number
-      ): void;
+      register(type: "before_generate", fn: (data: any) => any, priority?: number): void;
 
       /**
        * Executed after generation finishes.
@@ -447,11 +410,7 @@ declare namespace Hexo {
       /**
        * Modify [local variables](https://hexo.io/docs/variables) in templates.
        */
-      register(
-        type: "template_locals",
-        fn: (locals: TemplateLocals) => TemplateLocals | void,
-        priority?: number
-      ): void;
+      register(type: "template_locals", fn: (locals: TemplateLocals) => TemplateLocals | void, priority?: number): void;
 
       /**
        * Executed after Hexo is initialized – this will run right after `hexo.init` completes.
@@ -470,21 +429,14 @@ declare namespace Hexo {
       /**
        * Used to determine the permalink of posts.
        */
-      register(
-        type: "post_permalink",
-        fn: (permalink: string) => string,
-        priority?: number
-      ): void;
+      register(type: "post_permalink", fn: (permalink: string) => string, priority?: number): void;
 
       /**
        * Executed after rendering finishes. You can see rendering for more info.
        */
       register(
         type: "after_render:html",
-        fn: (
-          result: string,
-          data: { path: string; text: string;[key: string]: any }
-        ) => string | void,
+        fn: (result: string, data: { path: string; text: string; [key: string]: any }) => string | void,
         priority?: number
       ): void;
 
@@ -496,11 +448,7 @@ declare namespace Hexo {
       /**
        * Add middleware to the server. app is a Connect instance.
        */
-      register(
-        type: "server_middleware",
-        fn: (app: connect.Server) => connect.Server | void,
-        priority?: number
-      ): void;
+      register(type: "server_middleware", fn: (app: connect.Server) => connect.Server | void, priority?: number): void;
 
       unregister(type: string, fn: (...args: any[]) => any): void;
       exec(type: string, data?: any, options?: Filter.Options): any;
@@ -524,11 +472,7 @@ declare namespace Hexo {
         name: string,
         fn: (
           locals: Site
-        ) =>
-          | Generator.Return
-          | Generator.Return[]
-          | Bluebird<Generator.Return>
-          | Bluebird<Generator.Return[]>
+        ) => Generator.Return | Generator.Return[] | Bluebird<Generator.Return> | Bluebird<Generator.Return[]>
       ): void;
     }
     namespace Generator {
@@ -554,17 +498,11 @@ declare namespace Hexo {
     }
 
     interface Migrator {
-      register(
-        name: string,
-        fn: (args: ParsedArgs, fn: (err: any) => void) => void
-      ): void;
+      register(name: string, fn: (args: ParsedArgs, fn: (err: any) => void) => void): void;
     }
 
     interface Processor {
-      register(
-        pattern: RegExp | string | ((str: string) => any),
-        fn: (file: Box.File) => void
-      ): void;
+      register(pattern: RegExp | string | ((str: string) => any), fn: (file: Box.File) => void): void;
       register(fn: (file: Box.File) => void): void;
     }
 
@@ -600,11 +538,7 @@ declare namespace Hexo {
     }
 
     interface Tag {
-      register(
-        name: string,
-        fn: (args: string[], content: string | undefined) => string,
-        options?: Tag.Options
-      ): void;
+      register(name: string, fn: (args: string[], content: string | undefined) => string, options?: Tag.Options): void;
     }
     namespace Tag {
       interface Options {
@@ -623,10 +557,7 @@ declare namespace Hexo {
     /**
      * The `set` method takes a string, a `Buffer` or a function.
      */
-    set(
-      path: string,
-      data: string | Buffer | util.Pattern<boolean> | Router.Data
-    ): this;
+    set(path: string, data: string | Buffer | util.Pattern<boolean> | Router.Data): this;
 
     /**
      * Remove a Path
@@ -653,9 +584,7 @@ declare namespace Hexo {
       readonly modified: boolean;
     }
 
-    type Callback =
-      | ((err: any, result: string) => void)
-      | (() => Promise<string>);
+    type Callback = ((err: any, result: string) => void) | (() => Promise<string>);
   }
 
   interface Scaffold {
@@ -692,10 +621,7 @@ declare namespace Hexo {
      * You can use path matching as described above to restrict what exactly the processor should process.
      * Register a new processor with the `addProcessor` method.
      */
-    addProcessor(
-      pattern: string | RegExp | util.Pattern<boolean>,
-      fn: (file: Box.File) => void
-    ): void;
+    addProcessor(pattern: string | RegExp | util.Pattern<boolean>, fn: (file: Box.File) => void): void;
   }
   namespace Box {
     interface File {
@@ -729,17 +655,12 @@ declare namespace Hexo {
         },
         fn?: (err: any, result: string | Buffer) => void
       ): Promise<string | Buffer>;
-      read(
-        fn?: (err: any, result: string | Buffer) => void
-      ): Promise<string | Buffer>;
+      read(fn?: (err: any, result: string | Buffer) => void): Promise<string | Buffer>;
 
       /**
        * Read a file synchronously
        */
-      readSync(option?: {
-        encoding?: string | null | undefined;
-        flag?: string | undefined;
-      }): string | Buffer;
+      readSync(option?: { encoding?: string | null | undefined; flag?: string | undefined }): string | Buffer;
 
       /**
        * Read the status of a file
@@ -755,10 +676,7 @@ declare namespace Hexo {
        * Render a file
        */
       render(fn?: (err: any, result: string) => void): Promise<string>;
-      render(
-        option?: any,
-        fn?: (err: any, result: string) => void
-      ): Promise<string>;
+      render(option?: any, fn?: (err: any, result: string) => void): Promise<string>;
 
       /**
        * Render a file synchronously
@@ -768,15 +686,8 @@ declare namespace Hexo {
   }
 
   interface Render {
-    render(
-      data: Render.Data,
-      option?: any,
-      fn?: (err: any, result: string) => void
-    ): Promise<string>;
-    render(
-      data: Render.Data,
-      fn?: (err: any, result: string) => void
-    ): Promise<string>;
+    render(data: Render.Data, option?: any, fn?: (err: any, result: string) => void): Promise<string>;
+    render(data: Render.Data, fn?: (err: any, result: string) => void): Promise<string>;
     renderSync(data: Render.Data, option?: any): string;
 
     /**
@@ -806,28 +717,16 @@ declare namespace Hexo {
     /**
      * Create a Post
      */
-    create(
-      data: Post.Data,
-      replace?: boolean,
-      fn?: (err: any) => void
-    ): Promise<void>;
+    create(data: Post.Data, replace?: boolean, fn?: (err: any) => void): Promise<void>;
     create(data: Post.Data, fn?: (err: any) => void): Promise<void>;
 
     /**
      * Publish a Draft
      */
-    publish(
-      data: Post.Data,
-      replace?: boolean,
-      fn?: (err: any) => void
-    ): Promise<void>;
+    publish(data: Post.Data, replace?: boolean, fn?: (err: any) => void): Promise<void>;
     publish(data: Post.Data, fn?: (err: any) => void): Promise<void>;
 
-    render(
-      source: string | null | undefined,
-      data: Post.RenderData,
-      fn: (err: any) => void
-    ): Promise<void>;
+    render(source: string | null | undefined, data: Post.RenderData, fn: (err: any) => void): Promise<void>;
   }
   namespace Post {
     interface Data {
@@ -869,10 +768,7 @@ declare namespace Hexo {
     /**
      * Remove a View
      */
-    render(
-      options?: any,
-      fn?: (err: any, result: string) => void
-    ): Promise<string>;
+    render(options?: any, fn?: (err: any, result: string) => void): Promise<string>;
     render(fn: (err: any, result: string) => void): Promise<any>;
 
     /**
@@ -884,7 +780,9 @@ declare namespace Hexo {
 /**
  * Aliasing
  */
-export type PageDataOfficial = Hexo.Locals.Post | Hexo.Locals.Page
+export type PageDataOfficial =
+  | Hexo.Locals.Post
+  | Hexo.Locals.Page
   | Hexo.Locals.Category
   | Hexo.Locals.Tag
   | IndexPage
@@ -924,7 +822,7 @@ interface IndexPage {
   total?: number | undefined;
   current?: number | undefined;
   current_url?: string | undefined;
-  posts?: object | undefined;
+  posts?: Record<string, unknown> | undefined;
   prev?: number | undefined;
   prev_link?: string | undefined;
   next?: number | undefined;

@@ -1,4 +1,4 @@
-import "./Array";
-import "./String";
-import "./Object";
 import "./Number";
+import "./Array";
+import "./Object";
+import "./String";
