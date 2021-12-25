@@ -8,7 +8,7 @@ import { md5 } from "../utils/md5-file";
 import logger from "../log";
 import Promise from "bluebird";
 import { parse as nodeHtmlParser } from "node-html-parser";
-import { isExternal } from "./fixHyperlinks";
+import { isExternal } from "./types";
 import parseUrl from "url-parse";
 import { isDev } from "..";
 import fixSchemaStatic from "./fixSchema.static";

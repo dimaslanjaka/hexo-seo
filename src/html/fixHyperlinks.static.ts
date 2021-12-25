@@ -1,5 +1,5 @@
 import { _JSDOM } from "./dom";
-import { formatAnchorText, hyperlinkOptions, isExternal } from "./fixHyperlinks";
+import { formatAnchorText, hyperlinkOptions, isExternal } from "./types";
 import { HexoSeo } from "./schema/article";
 import parseUrl from "url-parse";
 
