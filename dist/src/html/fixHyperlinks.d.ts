@@ -1,7 +1,7 @@
 import Hexo from "hexo";
 import parseUrl from "url-parse";
 import { HexoSeo } from "./schema/article";
-import "js-prototypes/src/Array";
+import "js-prototypes";
 export interface hyperlinkOptions {
     enable: boolean;
     blank: boolean;

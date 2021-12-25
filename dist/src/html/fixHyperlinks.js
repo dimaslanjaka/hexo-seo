@@ -7,7 +7,7 @@ exports.isExternal = exports.formatAnchorText = void 0;
 var config_1 = __importDefault(require("../config"));
 var url_parse_1 = __importDefault(require("url-parse"));
 var cache_1 = require("../cache");
-require("js-prototypes/src/Array");
+require("js-prototypes");
 var package_json_1 = __importDefault(require("../../package.json"));
 var dom_1 = require("./dom");
 var cache = new cache_1.CacheFile("hyperlink");
