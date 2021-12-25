@@ -16,7 +16,7 @@ const Moment = require("moment");
 const { join } = require("path");
 
 function updateChangelog(callback) {
-  exec('git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes', (err, stdout, stderr) => {
+  exec('git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes', (_err, stdout, _stderr) => {
     const std = stdout
       .split("\n")
       .filter(
@@ -63,11 +63,11 @@ if (typeof version === "object") {
       packages.version = version.toString();
       writeFileSync("./package.json", JSON.stringify(packages, null, 2));
       console.log("Compiling...");
-      exec("npm run build", (err, stdout, stderr) => {
+      exec("npm run build", (err, _stdout, stderr) => {
         if (!err) {
           console.log("Build Typescript Successfully");
-          console.log("Publishing");
-          exec("npm publish", (err, stdout, stderr) => {
+          console.log("Publishing...");
+          exec("npm publish", (_err, _stdout, _stderr) => {
             console.log("Packages Published Successfully");
 
             // add to git

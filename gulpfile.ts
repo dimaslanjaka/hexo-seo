@@ -19,6 +19,10 @@ function build(done) {
       return gulp.src("./dist/**/*").pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
+      console.log("copy packages to dist");
+      return gulp.src(["./packages/**/*"].concat(exclude), { base: ".", dot: true }).pipe(gulp.dest("./dist"));
+    })
+    .then(() => {
       gulp
         .src(["./*.{json,js,md}", "./lib/**/*", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
           base: ".",
@@ -26,9 +30,7 @@ function build(done) {
         })
         .pipe(gulp.dest("./docs"));
     })
-    .then(() => {
-      return gulp.src(["./packages/**/*"].concat(exclude), { base: ".", dot: true }).pipe(gulp.dest("./dist"));
-    })
+
     .finally(done);
 }
 
