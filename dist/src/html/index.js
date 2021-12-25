@@ -4,8 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPagePath = void 0;
-require("js-prototypes/src/String");
-require("js-prototypes/src/Array");
+require("js-prototypes");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var config_1 = __importDefault(require("../config"));
 var cache_1 = require("../cache");
