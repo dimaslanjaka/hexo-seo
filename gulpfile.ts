@@ -9,7 +9,7 @@ function build(done) {
   const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
-  return Promise.all([deletedDirectoryPaths, exec("tsc")])
+  return Promise.all([deletedDirectoryPaths, exec("npx tsc")])
     .then(() => {
       console.log("copy sitemaps xml to dist");
       return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
@@ -24,7 +24,11 @@ function build(done) {
     })
     .then(() => {
       console.log("copy main js to master build");
-      return gulp.src(["./index.*"].concat(exclude)).pipe(gulp.dest("./docs"));
+      return gulp.src("./index.*").pipe(gulp.dest("./docs"));
+    })
+    .then(() => {
+      console.log("build readme master build");
+      return gulp.src(["./README.md", "./CHANGELOG.md"]).pipe(concat("README.md")).pipe(gulp.dest("./docs"));
     })
     .then(() => {
       console.log("copy source to master build");
@@ -38,9 +42,4 @@ function build(done) {
     });
 }
 
-function readme() {
-  return gulp.src(["./README.md", "./CHANGELOG.md"]).pipe(concat("README.md")).pipe(gulp.dest("./docs"));
-}
-
-exports.default = gulp.series(build, readme);
-exports.copy = gulp.series(build);
+exports.default = gulp.series(build);
