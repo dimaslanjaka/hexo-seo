@@ -41,6 +41,7 @@ jobs:
       - run: tsc
       - run: npm run build
         id: build
+      - run: ls docs
       - run: |
           cp .eslintrc docs/
           cp .eslintignore docs/
