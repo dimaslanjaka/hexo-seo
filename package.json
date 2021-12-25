@@ -21,7 +21,7 @@
     "ts:defs": "npx tsc -p tsconfig.build.json --declaration --outDir ./dist/types --emitDeclarationOnly",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "build": "tsc && gulp",
+    "build": "gulp",
     "prototypes": "npm i ./packages/js-prototypes && npm i git+https://github.com/dimaslanjaka/js-prototypes.git"
   },
   "repository": "dimaslanjaka/hexo-seo",

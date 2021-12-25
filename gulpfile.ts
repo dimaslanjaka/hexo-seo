@@ -2,13 +2,16 @@ import gulp from "gulp";
 import concat from "gulp-concat";
 import Promise from "bluebird";
 import del from "del";
+import { exec as sysexec } from "child_process";
+const exec = Promise.promisify(sysexec);
 
 function build(done) {
   const deletedDirectoryPaths = del(["dist", "docs"]);
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
-  return Promise.resolve(deletedDirectoryPaths)
+
+  return Promise.all([deletedDirectoryPaths, exec("tsc")])
     .then(() => {
-      return gulp.src("./dist/**/*").pipe(gulp.dest("./docs"));
+      return gulp.src("./dist/**/*").pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
       gulp
