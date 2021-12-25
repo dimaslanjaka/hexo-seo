@@ -38,15 +38,15 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm i -g npm gulp-cli typescript
       - run: npm install
-      - run: gulp
-        id: gulp
+      - run: npm run build
+        id: build
       - run: |
           cp .gitignore docs/
           cp .eslintrc docs/
           cp .eslintignore docs/
           cp LICENSE docs/
       - name: Deploy Master Branch 🚀
-        if: steps.gulp.outcome == 'success' && steps.gulp.conclusion == 'success'
+        if: steps.build.outcome == 'success' && steps.build.conclusion == 'success'
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: master # The branch the action should deploy to.
