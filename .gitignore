@@ -8,7 +8,7 @@ lerna-debug.log*
 tmp
 .env
 build/
-#docs/
+docs/
 
 # unused idea configuration
 .idea/vcs.xml
