@@ -1,9 +1,30 @@
 Unused dependencies
 * clean-css
 * hexo-log
+* imagemin
+* imagemin-giflossy
+* imagemin-gifsicle
+* imagemin-jpeg-recompress
+* imagemin-jpegtran
+* imagemin-mozjpeg
+* imagemin-optipng
+* imagemin-pngquant
+* imagemin-svgo
+* imagemin-webp
+* imagemin-zopfli
+* jquery
+* lodash
+* parse5
+* prompts
+* serve-static
+* xmlbuilder2
 Unused devDependencies
 * @types/clean-css
 * @types/hexo-log
+* dotenv
+* eslint-plugin-import
+* prompt
+* sinon
 Missing dependencies
 * depcheck: ./unused.js
-* htmlparser2: ./src/html/dom.test.ts
+* chalk: ./src/scheduler.ts

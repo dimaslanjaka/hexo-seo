@@ -1,9 +1,7 @@
-"use strict";
+
 module.exports = describeMultiMap;
 function describeMultiMap(MultiMap, values) {
-    it("should be constructable", function () {
-        var accountsMultiMap = new MultiMap();
-    });
-}
-;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXVsdGktbWFwLXNwZWMuanMiLCJzb3VyY2VSb290IjoiLi8iLCJzb3VyY2VzIjpbInBhY2thZ2VzL2pzLXByb3RvdHlwZXMvcGFja2FnZXMvY29sbGVjdGlvbnMvdGVzdC9zcGVjL211bHRpLW1hcC1zcGVjLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQSxNQUFNLENBQUMsT0FBTyxHQUFHLGdCQUFnQixDQUFDO0FBQ2xDLFNBQVMsZ0JBQWdCLENBQUMsUUFBUSxFQUFFLE1BQU07SUFDekMsRUFBRSxDQUFDLHlCQUF5QixFQUFFO1FBQzdCLElBQUksZ0JBQWdCLEdBQUcsSUFBSSxRQUFRLEVBQUUsQ0FBQTtJQUN0QyxDQUFDLENBQUMsQ0FBQztBQUNKLENBQUM7QUFBQSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiXG5tb2R1bGUuZXhwb3J0cyA9IGRlc2NyaWJlTXVsdGlNYXA7XG5mdW5jdGlvbiBkZXNjcmliZU11bHRpTWFwKE11bHRpTWFwLCB2YWx1ZXMpIHtcblx0aXQoXCJzaG91bGQgYmUgY29uc3RydWN0YWJsZVwiLCBmdW5jdGlvbiAoKSB7XG5cdFx0dmFyIGFjY291bnRzTXVsdGlNYXAgPSBuZXcgTXVsdGlNYXAoKVxuXHR9KTtcbn07Il19
+	it("should be constructable", function () {
+		var accountsMultiMap = new MultiMap()
+	});
+};

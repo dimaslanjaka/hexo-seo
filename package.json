@@ -57,10 +57,8 @@
     "imagemin-svgo": "^7.0.0",
     "imagemin-webp": "^5.0.0",
     "imagemin-zopfli": "^7.0.0",
-    "jquery": "^3.6.0",
     "js-prototypes": "github:dimaslanjaka/js-prototypes",
     "jsdom": "^18.1.0",
-    "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
@@ -68,8 +66,6 @@
     "node-html-parser": "^5.1.0",
     "node-libcurl": "^2.3.3",
     "object-assign": "^4.1.1",
-    "parse5": "^6.0.1",
-    "prompts": "^2.4.2",
     "sanitize-filename": "^1.6.3",
     "serve-static": "github:expressjs/serve-static",
     "terser": "^5.9.0",
@@ -99,7 +95,6 @@
     "prettier": "^2.4.1",
     "prompt": "^1.2.0",
     "rimraf": "^3.0.2",
-    "sinon": "^12.0.1",
     "typescript": "^4.5.4"
   },
   "peerDependencies": {

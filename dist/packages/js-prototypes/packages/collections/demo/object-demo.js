@@ -1,6 +1,7 @@
-"use strict";
+
 require("../shim-object");
-Object.forEach({ a: 10, b: 20 }, function (value, key) {
+
+Object.forEach({a: 10, b: 20}, function (value, key) {
     console.log(key + ": " + value);
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoib2JqZWN0LWRlbW8uanMiLCJzb3VyY2VSb290IjoiLi8iLCJzb3VyY2VzIjpbInBhY2thZ2VzL2pzLXByb3RvdHlwZXMvcGFja2FnZXMvY29sbGVjdGlvbnMvZGVtby9vYmplY3QtZGVtby5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQ0EsT0FBTyxDQUFDLGdCQUFnQixDQUFDLENBQUM7QUFFMUIsTUFBTSxDQUFDLE9BQU8sQ0FBQyxFQUFDLENBQUMsRUFBRSxFQUFFLEVBQUUsQ0FBQyxFQUFFLEVBQUUsRUFBQyxFQUFFLFVBQVUsS0FBSyxFQUFFLEdBQUc7SUFDL0MsT0FBTyxDQUFDLEdBQUcsQ0FBQyxHQUFHLEdBQUcsSUFBSSxHQUFHLEtBQUssQ0FBQyxDQUFDO0FBQ3BDLENBQUMsQ0FBQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiXG5yZXF1aXJlKFwiLi4vc2hpbS1vYmplY3RcIik7XG5cbk9iamVjdC5mb3JFYWNoKHthOiAxMCwgYjogMjB9LCBmdW5jdGlvbiAodmFsdWUsIGtleSkge1xuICAgIGNvbnNvbGUubG9nKGtleSArIFwiOiBcIiArIHZhbHVlKTtcbn0pO1xuXG4iXX0=
+
