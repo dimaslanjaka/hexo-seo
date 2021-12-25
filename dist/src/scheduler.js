@@ -41,7 +41,7 @@ var scheduler = /** @class */ (function () {
                 delete functions[key];
         }
         else {
-            log_1.default.error("function with key: ".concat(key, " is not function"));
+            log_1.default.error("function with key: " + key + " is not function");
         }
     };
     /**
