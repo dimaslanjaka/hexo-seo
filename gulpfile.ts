@@ -11,6 +11,7 @@ function build(done) {
 
   return Promise.all([deletedDirectoryPaths, exec("tsc")])
     .then(() => {
+      console.log("copy dist to master build");
       return gulp.src("./dist/**/*").pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
