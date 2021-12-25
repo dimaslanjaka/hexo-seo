@@ -21,6 +21,8 @@ npm i hexo-seo
 - Auto replace broken images
 - CSS JS HTML minifier
 - Auto add alternate and title of images
+- Auto add sitemap (forked from yoast seo wordpress plugin)
+- Tested on hexo instances with 1000 more posts and pages
 
 # Usage
 **Configuration**
