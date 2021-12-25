@@ -34,7 +34,7 @@ function build(done: gulp.TaskFunctionCallback) {
     .then(() => {
       console.log("copy source to master build");
       gulp
-        .src(["./*.{json,md}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
+        .src(["./*.{json}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
           base: ".",
           dot: true
         })
