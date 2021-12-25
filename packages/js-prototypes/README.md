@@ -12,11 +12,12 @@ usage
 // global automated shim to all prototypes (recommended)
 import "js-prototypes"
 
-// or via node typescript
+// import custom prototypes (typescript)
 import "js-prototypes/src/String";
-import "js-prototypes/src/globals";
+import "js-prototypes/src/Array";
+import "js-prototypes/src/Object";
 
-// or via node javascript
+// import global prototypes (javascript)
 import "js-prototypes/dist/libs/globals"; 
 ```
 
