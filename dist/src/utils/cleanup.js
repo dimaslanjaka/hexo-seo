@@ -13,11 +13,11 @@ var fns = [];
  */
 function exitHandler(options, exitCode) {
     Object.keys(fns).forEach(function (key) {
-        log_1.default.log("executing function key: ".concat(key));
+        log_1.default.log("executing function key: " + key);
         fns[key]();
     });
     if (options.cleanup)
-        log_1.default.log("clean exit(".concat(exitCode, ")"));
+        log_1.default.log("clean exit(" + exitCode + ")");
     if (options.exit)
         process.exit();
 }
