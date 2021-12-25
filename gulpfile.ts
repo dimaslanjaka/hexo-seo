@@ -8,13 +8,14 @@ function build(done) {
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
   return Promise.resolve(deletedDirectoryPaths)
     .then(() => {
+      return gulp.src("./dist/**/*").pipe(gulp.dest("./docs"));
+    })
+    .then(() => {
       gulp
-        .src(
-          ["./*.{json,js,md}", "./lib/**/*", "./src/**/*", "./packages/**/*", "./dist/**/*", "./source/**/*"].concat(
-            exclude
-          ),
-          { base: ".", dot: true }
-        )
+        .src(["./*.{json,js,md}", "./lib/**/*", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
+          base: ".",
+          dot: true
+        })
         .pipe(gulp.dest("./docs"));
     })
     .then(() => {

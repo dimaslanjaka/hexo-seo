@@ -156,7 +156,7 @@ function default_1(dom, HSconfig, data) {
         Schema.set("genre", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
         Schema.set("keywords", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
         Schema.set("award", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
-        schemahtml = "<script type=\"application/ld+json\">" + Schema + "</script>";
+        schemahtml = "<script type=\"application/ld+json\">".concat(Schema, "</script>");
         log_1.default.log("schema created", title, url);
     }
     if (schemahtml) {

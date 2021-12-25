@@ -1,8 +1,8 @@
 # hexo-seo
 Automated Hexo Seo Optimizer (under development)
 
-> this plugin builded with typescript and unfinished yet according issues
-> - [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
+> no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
+> this plugin already have schedule function
 
 # Installation
 Using Git Repository (Development)
@@ -21,6 +21,8 @@ npm i hexo-seo
 - Auto replace broken images
 - CSS JS HTML minifier
 - Auto add alternate and title of images
+- Auto add sitemap (forked from yoast seo wordpress plugin)
+- Tested on hexo instances with 1000 more posts and pages
 
 # Usage
 **Configuration**

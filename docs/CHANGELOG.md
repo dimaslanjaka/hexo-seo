@@ -114,3 +114,6 @@
 - 4fad743 : try fix  Sat Nov 27 11:26:06 2021 +0700
 - a879b12 : fix hexo-seo  Sat Nov 13 20:47:42 2021 +0700
 - 58cf87d : fix  Sat Nov 13 00:17:47 2021 +0700
+
+## [1.0.27] 2021-12-25T19:51:02
+- fix `js-prototypes` package
