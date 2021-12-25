@@ -15,7 +15,7 @@ export declare class _JSDOM {
      * @param html
      * @returns
      */
-    toNode(html: string): string;
+    toNode(html: string): string | null;
     /**
      * serializing html / fix invalid html
      * @returns serialized html
@@ -33,4 +33,4 @@ export declare function parseJSDOM(text: string): _JSDOM;
  * @param options
  * @returns
  */
-export declare function getTextPartialHtml(text: string, options?: jsdom.ConstructorOptions): string;
+export declare function getTextPartialHtml(text: string, options?: jsdom.ConstructorOptions): string | null;

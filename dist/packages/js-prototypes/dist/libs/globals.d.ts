@@ -1,4 +1,1 @@
-import "./Number";
-import "./Array";
-import "./Object";
-import "./String";
+export var __esModule: boolean;

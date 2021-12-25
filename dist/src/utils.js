@@ -127,7 +127,7 @@ var dump = function (filename) {
         buildLog += util_1.default.inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
     }
     fs.writeFileSync(loc, buildLog);
-    console.log("dump results saved to ".concat(path_1.default.resolve(loc)));
+    console.log("dump results saved to " + path_1.default.resolve(loc));
 };
 exports.dump = dump;
 /**
