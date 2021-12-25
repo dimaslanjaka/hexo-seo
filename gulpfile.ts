@@ -15,12 +15,12 @@ function build(done) {
       return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
     })
     .then(() => {
-      console.log("copy dist to master build");
-      return gulp.src("./dist/**/*").pipe(gulp.dest("./docs/dist"));
-    })
-    .then(() => {
       console.log("copy packages to dist");
       return gulp.src(["./packages/**/*"].concat(exclude), { base: ".", dot: true }).pipe(gulp.dest("./dist"));
+    })
+    .then(() => {
+      console.log("copy dist to master build");
+      return gulp.src(["./dist/**/*"].concat(exclude)).pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
       gulp
@@ -30,7 +30,6 @@ function build(done) {
         })
         .pipe(gulp.dest("./docs"));
     })
-
     .finally(done);
 }
 
