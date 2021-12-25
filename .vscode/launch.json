@@ -35,11 +35,12 @@
       "type": "node-terminal"
     },
     {
-      "command": "cd ../../ && hexo server --development",
-      "name": "[DEV] server",
+      "command": "hexo server",
+      "name": "[PROD] Demo Server",
       "env": {
         "NODE_ENV": "development"
       },
+      "cwd": "${workspaceFolder}/test/demo",
       "request": "launch",
       "type": "node-terminal"
     },
