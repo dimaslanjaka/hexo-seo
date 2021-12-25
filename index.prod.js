@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global hexo */
