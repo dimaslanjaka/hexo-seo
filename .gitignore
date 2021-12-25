@@ -9,6 +9,7 @@ tmp
 .env
 build/
 docs/
+*.tgz
 
 # unused idea configuration
 .idea/vcs.xml

@@ -23,9 +23,13 @@ function build(done) {
       return gulp.src(["./dist/**/*"].concat(exclude)).pipe(gulp.dest("./docs/dist"));
     })
     .then(() => {
+      console.log("copy main js to master build");
+      return gulp.src(["./index.*"].concat(exclude)).pipe(gulp.dest("./docs"));
+    })
+    .then(() => {
       console.log("copy source to master build");
       gulp
-        .src(["./*.{json,js,md}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
+        .src(["./*.{json,md}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
           base: ".",
           dot: true
         })
