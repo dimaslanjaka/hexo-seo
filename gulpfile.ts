@@ -11,7 +11,7 @@ function build(done) {
 
   return Promise.all([deletedDirectoryPaths, exec("tsc")])
     .then(() => {
-      console.log("copy xml to dist");
+      console.log("copy sitemaps xml to dist");
       return gulp.src("./src/**/*.xml").pipe(gulp.dest("./dist/src"));
     })
     .then(() => {
