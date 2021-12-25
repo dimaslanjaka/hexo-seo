@@ -2,6 +2,7 @@ import gulp from "gulp";
 import concat from "gulp-concat";
 import Promise from "bluebird";
 import del from "del";
+import { execSync } from "child_process";
 
 function clean() {
   return del(["dist", "docs"]);
@@ -12,7 +13,7 @@ function build(done: gulp.TaskFunctionCallback) {
 
   return Promise.all(exclude)
     .then(() => {
-      console.log("copy sitemaps xml to dist");
+      console.log("copy sitemaps xml/xsl to dist");
       return gulp.src("./src/**/*.{xml,xsl}").pipe(gulp.dest("./dist/src"));
     })
     .then(() => {
@@ -42,6 +43,10 @@ function build(done: gulp.TaskFunctionCallback) {
       return done();
     });
 }
+
+gulp.task("git", () => {
+  execSync("git");
+});
 
 gulp.task("default", build);
 gulp.task("clean", clean);

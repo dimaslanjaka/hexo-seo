@@ -19,7 +19,7 @@
     "ts:normal": "npx tsc -p tsconfig.json",
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-    "build": "npm run ts:normal && gulp",
+    "build": "gulp clean && npm run ts:normal && gulp",
     "prototypes": "npm i ./packages/js-prototypes && npm i git+https://github.com/dimaslanjaka/js-prototypes.git"
   },
   "repository": "dimaslanjaka/hexo-seo",
