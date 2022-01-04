@@ -6,7 +6,7 @@ var Shim = require("./shim");
 /*jshint evil:true */
 // reassigning causes eval to not use lexical scope.
 var globalEval = eval,
-    global = globalEval('this');
+  global = globalEval('this');
 /*jshint evil:false */
 
 global.List = require("./list");

@@ -4,3 +4,4 @@ require("./Number");
 require("./Array");
 require("./Object");
 require("./String");
+require("collections");

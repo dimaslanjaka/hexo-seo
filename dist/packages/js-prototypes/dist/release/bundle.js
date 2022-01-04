@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable no-prototype-builtins */
-/// <reference path="./Array.d.ts" />
+
 Array.prototype.shuffle = function () {
     var i = this.length, j, temp;
     if (i == 0)
@@ -377,7 +377,7 @@ if (typeof module !== "undefined" && module.exports) {
     };
 }
 
-/// <reference path="Date.d.ts" />
+
 Date.prototype.isHourAgo = function (hour) {
     var hour = hour * 60 * 1000; /* ms */
     var hourago = Date.now() - hour;
@@ -482,7 +482,7 @@ if (typeof module.exports != 'undefined') {
 
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference path="Object.d.ts" />
+
 Object.size = function (obj) {
     var size = 0, key;
     for (key in obj) {
@@ -580,7 +580,7 @@ function extend_object(arg1, arg2) {
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference path="String.d.ts" />
+
 /// <reference path="globals.d.ts" />
 String.prototype.printf = function (obj) {
     /*const isNode = new Function(

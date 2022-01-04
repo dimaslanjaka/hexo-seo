@@ -23,6 +23,23 @@ gulp.task("bundle-js", function () {
   return gulp
     .src(["dist/libs/*.js", "!dist/libs/globals.*"])
     .pipe(concat("bundle.js"))
+    .pipe(
+      through.obj((chunk: chunk, enc, cb) => {
+        let contents = chunk.contents.toString();
+        const source = chunk.path;
+        const regex = /\/\/\/.*<reference path=\"(.*)\".*\/>/gm;
+        let m: RegExpExecArray;
+        while ((m = regex.exec(contents)) !== null) {
+          // This is necessary to avoid infinite loops with zero-width matches
+          if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+          }
+          contents = contents.replace(m[0], "");
+        }
+        chunk.contents = Buffer.from(contents);
+        cb(null, chunk);
+      })
+    )
     .pipe(gulp.dest("./dist/release"));
 });
 
