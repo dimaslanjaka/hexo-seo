@@ -31,7 +31,7 @@
     "potentialAction": [
       {
         "@type": "SearchAction",
-        "id": "https://developers.google.com/search/docs/advanced/structured-data/sitelinks-searchbox",
+        "@id": "https://developers.google.com/search/docs/advanced/structured-data/sitelinks-searchbox",
         "target": {
           "@type": "EntryPoint",
           "urlTemplate": "https://www.webmanajemen.com/search?q={search_term_string}"
