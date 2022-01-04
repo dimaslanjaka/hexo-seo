@@ -10,8 +10,48 @@ import { HTMLElement } from "node-html-parser";
 import hexoIs from "../hexo/hexo-is";
 import schemaHomepage from "./schema/homepage";
 import log from "../log";
+import { TemplateLocals } from "hexo";
+import model from "./schema/article/model4.json";
 
-export default function (dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
+export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
+  if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
+  const is = hexoIs(data);
+  if (is.post) {
+    const breadcrumbs = model[0];
+    const article = model[1];
+    const sitelink = model[2];
+
+    const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
+    if (data.page) {
+      if (data.page.tags && data.page.tags.length > 0) {
+        data.page.tags.forEach((tag) => {
+          const o = {
+            "@type": "ListItem",
+            position: schemaBreadcrumbs.length + 1,
+            item: tag["permalink"],
+            name: tag["name"]
+          };
+          schemaBreadcrumbs.push(<any>o);
+        });
+      }
+
+      if (data.page.categories && data.page.categories.length > 0) {
+        data.page.categories.forEach((category) => {
+          const o = {
+            "@type": "ListItem",
+            position: schemaBreadcrumbs.length + 1,
+            item: category["permalink"],
+            name: category["name"]
+          };
+          schemaBreadcrumbs.push(<any>o);
+        });
+      }
+    }
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
 
