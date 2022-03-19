@@ -183,6 +183,14 @@ if (!Array.prototype.hasOwnProperty("every")) {
   };
 }
 
+if (typeof Array.prototype.move === "undefined") {
+  Array.prototype.move = function (from, to) {
+    let itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
+    this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
+    return this;
+  };
+}
+
 Array.prototype.hapusItemDariArrayLain = function (this: any[], ...arrayLain) {
   let thisArr = this;
   arrayLain.forEach((otherArr) => {
@@ -389,10 +397,6 @@ function removeItem<T>(arr: Array<T>, value: T): Array<T> {
   }
   return arr;
 }
-
-Array.prototype.move = function (from, to) {
-  this.splice(to, 0, this.splice(from, 1)[0]);
-};
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {

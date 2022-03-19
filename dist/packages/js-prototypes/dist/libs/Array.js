@@ -366,6 +366,9 @@ function removeItem(arr, value) {
     }
     return arr;
 }
+Array.prototype.move = function (from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+};
 if (typeof module !== "undefined" && module.exports) {
     module.exports = {
         array_shuffle: array_shuffle,
