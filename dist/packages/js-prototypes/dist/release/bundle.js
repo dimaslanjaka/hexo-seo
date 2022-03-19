@@ -166,6 +166,13 @@ if (!Array.prototype.hasOwnProperty("every")) {
         return true;
     };
 }
+if (typeof Array.prototype.move === "undefined") {
+    Array.prototype.move = function (from, to) {
+        var itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
+        this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
+        return this;
+    };
+}
 Array.prototype.hapusItemDariArrayLain = function () {
     var arrayLain = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -367,9 +374,6 @@ function removeItem(arr, value) {
     }
     return arr;
 }
-Array.prototype.move = function (from, to) {
-    this.splice(to, 0, this.splice(from, 1)[0]);
-};
 if (typeof module !== "undefined" && module.exports) {
     module.exports = {
         array_shuffle: array_shuffle,

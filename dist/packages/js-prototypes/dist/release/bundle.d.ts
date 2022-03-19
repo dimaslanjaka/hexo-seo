@@ -17,9 +17,9 @@ interface Array<T> {
 
   /**
    * Move item to another index
-   * @see {@link https://stackoverflow.com/a/7180095/6404439}
+   * @see {@link https://stackoverflow.com/a/70618791/6404439}
    */
-  move: (from: number, to: number) => void;
+  move: (from: number, to: number) => Array<T>;
 
   /**
    * Unique array of objects by key
