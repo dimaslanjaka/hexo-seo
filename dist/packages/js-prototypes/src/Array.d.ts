@@ -13,6 +13,12 @@ interface Array<T> {
   unique: () => Array<T>;
 
   /**
+   * Move item to another index
+   * @see {@link https://stackoverflow.com/a/7180095/6404439}
+   */
+  move: (from: number, to: number) => void;
+
+  /**
    * Unique array of objects by key
    * @see {@link https://stackoverflow.com/a/51537887}
    * @param key object key to check

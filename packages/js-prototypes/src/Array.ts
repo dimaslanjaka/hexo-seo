@@ -76,11 +76,7 @@ Array.prototype.unique = function (this: Array<any>) {
   return a;
 };
 
-Array.prototype.uniqueObjectKey = function (
-  this: Array<Record<string, unknown>>,
-  key,
-  removeNull = true
-) {
+Array.prototype.uniqueObjectKey = function (this: Array<Record<string, unknown>>, key, removeNull = true) {
   if (!key) return this;
   const resArr = [];
   this.filter(function (item) {
@@ -368,13 +364,8 @@ function deepAssign(...objects: Record<any, unknown>[]): Record<any, unknown> {
       if (objects[i].hasOwnProperty(key)) {
         // If it's an object, recursively merge
         // Otherwise, push to key
-        if (
-          Object.prototype.toString.call(objects[i][key]) === "[object Object]"
-        ) {
-          objects[0][key] = deepAssign(
-            <any>objects[0][key] || {},
-            <any>objects[i][key]
-          );
+        if (Object.prototype.toString.call(objects[i][key]) === "[object Object]") {
+          objects[0][key] = deepAssign(<any>objects[0][key] || {}, <any>objects[i][key]);
         } else {
           objects[0][key] = objects[i][key];
         }
@@ -398,6 +389,10 @@ function removeItem<T>(arr: Array<T>, value: T): Array<T> {
   }
   return arr;
 }
+
+Array.prototype.move = function (from, to) {
+  this.splice(to, 0, this.splice(from, 1)[0]);
+};
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
