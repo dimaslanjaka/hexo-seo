@@ -1,6 +1,6 @@
 {
   "name": "js-prototypes",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "",
   "main": "dist/release/bundle.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/dimaslanjaka/js-prototypes.git"
   },
-  "keywords": [],
+  "keywords": ["native", "javascript", "prototypes"],
   "author": "",
   "license": "ISC",
   "bugs": {
