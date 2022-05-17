@@ -7,7 +7,7 @@ Automated Hexo Seo Optimizer (under development)
 # Installation
 Using Git Repository (Development)
 ```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git
+npm i git+https://github.com/dimaslanjaka/hexo-seo.git#compiler
 ```
 Using NPM Repository (Production)
 ```shell
