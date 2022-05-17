@@ -5,12 +5,20 @@
  */
 interface Array<T> {
   /**
-   * Array unique
+   * Unique Array
    * @example
    * var duplicate = [1,2,1,2,3,4,5,6];
    * var unique = duplicate.unique(); // [1,2,3,4,5,6]
    */
   unique: () => Array<T>;
+
+  /**
+   * Unique string array case insensitive but keep one case sensitive result
+   * @see {@link https://stackoverflow.com/a/48731445/6404439}
+   * @example
+   * console.log(['James', 'james', 'bob', 'JaMeS', 'Bob'].uniqueStringArray()); // ["JaMeS", "Bob"]
+   */
+  uniqueStringArray: () => Array<string>;
 
   /**
    * Move item to another index

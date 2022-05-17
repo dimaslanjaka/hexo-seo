@@ -4,6 +4,31 @@
 /* eslint-disable prefer-rest-params */
 /* eslint-disable no-prototype-builtins */
 
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Array.prototype.shuffle = function () {
     var i = this.length, j, temp;
     if (i == 0)
@@ -67,6 +92,10 @@ Array.prototype.unique = function () {
         }
     }
     return a;
+};
+Array.prototype.uniqueStringArray = function () {
+    var filter = new Map(this.map(function (s) { return [s.toLowerCase(), s]; }));
+    return __spreadArray([], __read(filter.values()), false);
 };
 Array.prototype.uniqueObjectKey = function (key, removeNull) {
     if (removeNull === void 0) { removeNull = true; }
@@ -166,13 +195,11 @@ if (!Array.prototype.hasOwnProperty("every")) {
         return true;
     };
 }
-if (typeof Array.prototype.move === "undefined") {
-    Array.prototype.move = function (from, to) {
-        var itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
-        this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
-        return this;
-    };
-}
+Array.prototype.move = function (from, to) {
+    var itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
+    this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
+    return this;
+};
 Array.prototype.hapusItemDariArrayLain = function () {
     var arrayLain = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -420,6 +447,21 @@ if (typeof document != "undefined") {
     };
 }
 
+if (!("toJSON" in Error.prototype)) {
+    // https://stackoverflow.com/a/18391400/6404439
+    Object.defineProperty(Error.prototype, "toJSON", {
+        value: function () {
+            var alt = {};
+            Object.getOwnPropertyNames(this).forEach(function (key) {
+                alt[key] = this[key];
+            }, this);
+            return alt;
+        },
+        configurable: true,
+        writable: true
+    });
+}
+
 Number.prototype.getMS = function (type) {
     var self = this;
     return this * 60 * 1000;
@@ -490,6 +532,22 @@ if (typeof module.exports != 'undefined') {
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.size = function (obj) {
     var size = 0, key;
     for (key in obj) {
@@ -535,7 +593,7 @@ Object.isEmpty = function () {
 };
 Object.replaceKeyFrom = function (anotherObj) {
     return Object.entries(this).reduce(function (op, _a) {
-        var key = _a[0], value = _a[1];
+        var _b = __read(_a, 2), key = _b[0], value = _b[1];
         var newKey = anotherObj[key];
         op[newKey || key] = value;
         return op;
@@ -648,7 +706,7 @@ String.prototype.parse_url = function () {
         search: parser.search,
         searchObject: searchObject,
         hash: parser.hash,
-        protohost: parser.protocol + "//" + parser.host,
+        protohost: parser.protocol + "//" + parser.host
     };
 };
 /**
@@ -737,3 +795,9 @@ String.prototype.includesArray = function (substrings) {
     var _this = this;
     return substrings.some(function (v) { return _this.includes(v); });
 };
+if (typeof "".replaceAll != "function") {
+    String.prototype.replaceAll = function (search, replacement) {
+        var find = typeof search == "string" ? new RegExp(search, "g") : search;
+        return this.replace(find, replacement);
+    };
+}

@@ -1,8 +1,9 @@
 {
   "name": "js-prototypes",
-  "version": "1.0.17",
-  "description": "",
+  "version": "1.0.19",
+  "description": "Standard Javascript Prototype Helper",
   "main": "dist/release/bundle.js",
+  "types": "dist/release/bundle.d.ts",
   "scripts": {
     "build": "gulp"
   },
@@ -17,7 +18,11 @@
     "type": "git",
     "url": "git+https://github.com/dimaslanjaka/js-prototypes.git"
   },
-  "keywords": ["native", "javascript", "prototypes"],
+  "keywords": [
+    "native",
+    "javascript",
+    "prototypes"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

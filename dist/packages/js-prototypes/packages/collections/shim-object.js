@@ -36,7 +36,7 @@ Object.empty = Object.freeze(Object.create(null));
     @returns {Boolean} whether the given value is an object
 */
 Object.isObject = function (object) {
-    return Object(object) === object;
+  return Object(object) === object;
 };
 
 /**
@@ -60,24 +60,24 @@ Object.isObject = function (object) {
     the value through
 */
 Object.getValueOf = function (value) {
-    if (value && typeof value.valueOf === "function") {
-        value = value.valueOf();
-    }
-    return value;
+  if (value && typeof value.valueOf === "function") {
+    value = value.valueOf();
+  }
+  return value;
 };
 
 var hashMap = new WeakMap();
 Object.hash = function (object) {
-    if (object && typeof object.hash === "function") {
-        return "" + object.hash();
-    } else if (Object(object) === object) {
-        if (!hashMap.has(object)) {
-            hashMap.set(object, Math.random().toString(36).slice(2));
-        }
-        return hashMap.get(object);
-    } else {
-        return "" + object;
+  if (object && typeof object.hash === "function") {
+    return "" + object.hash();
+  } else if (Object(object) === object) {
+    if (!hashMap.has(object)) {
+      hashMap.set(object, Math.random().toString(36).slice(2));
     }
+    return hashMap.get(object);
+  } else {
+    return "" + object;
+  }
 };
 
 /**
@@ -93,7 +93,7 @@ Object.hash = function (object) {
 */
 var owns = Object.prototype.hasOwnProperty;
 Object.owns = function (object, key) {
-    return owns.call(object, key);
+  return owns.call(object, key);
 };
 
 /**
@@ -119,19 +119,19 @@ Object.owns = function (object, key) {
     @function external:Object.has
 */
 Object.has = function (object, key) {
-    if (typeof object !== "object") {
-        throw new Error("Object.has can't accept non-object: " + typeof object);
-    }
-    // forward to mapped collections that implement "has"
-    if (object && typeof object.has === "function") {
-        return object.has(key);
+  if (typeof object !== "object") {
+    throw new Error("Object.has can't accept non-object: " + typeof object);
+  }
+  // forward to mapped collections that implement "has"
+  if (object && typeof object.has === "function") {
+    return object.has(key);
     // otherwise report whether the key is on the prototype chain,
     // as long as it is not one of the methods on object.prototype
-    } else if (typeof key === "string") {
-        return key in object && object[key] !== Object.prototype[key];
-    } else {
-        throw new Error("Key must be a string for Object.has on plain objects");
-    }
+  } else if (typeof key === "string") {
+    return key in object && object[key] !== Object.prototype[key];
+  } else {
+    throw new Error("Key must be a string for Object.has on plain objects");
+  }
 };
 
 /**
@@ -158,17 +158,17 @@ Object.has = function (object, key) {
     @function external:Object.get
 */
 Object.get = function (object, key, value) {
-    if (typeof object !== "object") {
-        throw new Error("Object.get can't accept non-object: " + typeof object);
-    }
-    // forward to mapped collections that implement "get"
-    if (object && typeof object.get === "function") {
-        return object.get(key, value);
-    } else if (Object.has(object, key)) {
-        return object[key];
-    } else {
-        return value;
-    }
+  if (typeof object !== "object") {
+    throw new Error("Object.get can't accept non-object: " + typeof object);
+  }
+  // forward to mapped collections that implement "get"
+  if (object && typeof object.get === "function") {
+    return object.get(key, value);
+  } else if (Object.has(object, key)) {
+    return object[key];
+  } else {
+    return value;
+  }
 };
 
 /**
@@ -186,44 +186,43 @@ Object.get = function (object, key, value) {
     @function external:Object.set
 */
 Object.set = function (object, key, value) {
-    if (object && typeof object.set === "function") {
-        object.set(key, value);
-    } else {
-        object[key] = value;
-    }
+  if (object && typeof object.set === "function") {
+    object.set(key, value);
+  } else {
+    object[key] = value;
+  }
 };
 
 Object.addEach = function (target, source, overrides) {
-    var overridesExistingProperty = arguments.length === 3 ? overrides : true;
-    if (!source) {
-    } else if (typeof source.forEach === "function" && !source.hasOwnProperty("forEach")) {
-        // copy map-alikes
-        if (source.isMap === true) {
-            source.forEach(function (value, key) {
-                target[key] = value;
-            });
-        // iterate key value pairs of other iterables
-        } else {
-            source.forEach(function (pair) {
-                target[pair[0]] = pair[1];
-            });
-        }
-    } else if (typeof source.length === "number") {
-        // arguments, strings
-        for (var index = 0; index < source.length; index++) {
-            target[index] = source[index];
-        }
+  var overridesExistingProperty = arguments.length === 3 ? overrides : true;
+  if (!source) {
+  } else if (typeof source.forEach === "function" && !source.hasOwnProperty("forEach")) {
+    // copy map-alikes
+    if (source.isMap === true) {
+      source.forEach(function (value, key) {
+        target[key] = value;
+      });
+      // iterate key value pairs of other iterables
     } else {
-        // copy other objects as map-alikes
-        for(var keys = Object.keys(source), i = 0, key;(key = keys[i]); i++) {
-            if(overridesExistingProperty || !Object.owns(target,key)) {
-                target[key] = source[key];
-            }
-        }
+      source.forEach(function (pair) {
+        target[pair[0]] = pair[1];
+      });
     }
-    return target;
+  } else if (typeof source.length === "number") {
+    // arguments, strings
+    for (var index = 0; index < source.length; index++) {
+      target[index] = source[index];
+    }
+  } else {
+    // copy other objects as map-alikes
+    for (var keys = Object.keys(source), i = 0, key; (key = keys[i]); i++) {
+      if (overridesExistingProperty || !Object.owns(target, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+  return target;
 };
-
 
 /*
 var defineEach = function defineEach(target, prototype) {
@@ -242,57 +241,54 @@ var defineEach = function defineEach(target, prototype) {
 }
 */
 Object.defineEach = function (target, source, overrides, configurable, enumerable, writable) {
-    var overridesExistingProperty = arguments.length === 3 ? overrides : true;
-    if (!source) {
-    } else if (typeof source.forEach === "function" && !source.hasOwnProperty("forEach")) {
-        // copy map-alikes
-        if (source.isMap === true) {
-            source.forEach(function (value, key) {
-                Object.defineProperty(target, key, {
-                    value: value,
-                    writable: writable,
-                    configurable: configurable,
-                    enumerable: enumerable
-                });
-            });
-        // iterate key value pairs of other iterables
-        } else {
-            source.forEach(function (pair) {
-                Object.defineProperty(target, pair[0], {
-                    value: pair[1],
-                    writable: writable,
-                    configurable: configurable,
-                    enumerable: enumerable
-                });
-
-            });
-        }
-    } else if (typeof source.length === "number") {
-        // arguments, strings
-        for (var index = 0; index < source.length; index++) {
-            Object.defineProperty(target, index, {
-                value: source[index],
-                writable: writable,
-                configurable: configurable,
-                enumerable: enumerable
-            });
-
-        }
+  var overridesExistingProperty = arguments.length === 3 ? overrides : true;
+  if (!source) {
+  } else if (typeof source.forEach === "function" && !source.hasOwnProperty("forEach")) {
+    // copy map-alikes
+    if (source.isMap === true) {
+      source.forEach(function (value, key) {
+        Object.defineProperty(target, key, {
+          value: value,
+          writable: writable,
+          configurable: configurable,
+          enumerable: enumerable
+        });
+      });
+      // iterate key value pairs of other iterables
     } else {
-        // copy other objects as map-alikes
-        for(var keys = Object.keys(source), i = 0, key;(key = keys[i]); i++) {
-            if(overridesExistingProperty || !Object.owns(target,key)) {
-                Object.defineProperty(target, key, {
-                    value: source[key],
-                    writable: writable,
-                    configurable: configurable,
-                    enumerable: enumerable
-                });
-
-            }
-        }
+      source.forEach(function (pair) {
+        Object.defineProperty(target, pair[0], {
+          value: pair[1],
+          writable: writable,
+          configurable: configurable,
+          enumerable: enumerable
+        });
+      });
     }
-    return target;
+  } else if (typeof source.length === "number") {
+    // arguments, strings
+    for (var index = 0; index < source.length; index++) {
+      Object.defineProperty(target, index, {
+        value: source[index],
+        writable: writable,
+        configurable: configurable,
+        enumerable: enumerable
+      });
+    }
+  } else {
+    // copy other objects as map-alikes
+    for (var keys = Object.keys(source), i = 0, key; (key = keys[i]); i++) {
+      if (overridesExistingProperty || !Object.owns(target, key)) {
+        Object.defineProperty(target, key, {
+          value: source[key],
+          writable: writable,
+          configurable: configurable,
+          enumerable: enumerable
+        });
+      }
+    }
+  }
+  return target;
 };
 
 /**
@@ -307,12 +303,12 @@ Object.defineEach = function (target, source, overrides, configurable, enumerabl
     callback
 */
 Object.forEach = function (object, callback, thisp) {
-
-    var keys = Object.keys(object), i = 0, iKey;
-    for(;(iKey = keys[i]);i++) {
-        callback.call(thisp, object[iKey], iKey, object);
-    }
-
+  var keys = Object.keys(object),
+    i = 0,
+    iKey;
+  for (; (iKey = keys[i]); i++) {
+    callback.call(thisp, object[iKey], iKey, object);
+  }
 };
 
 /**
@@ -330,11 +326,14 @@ Object.forEach = function (object, callback, thisp) {
     item in the object.
 */
 Object.map = function (object, callback, thisp) {
-    var keys = Object.keys(object), i = 0, result = [], iKey;
-    for(;(iKey = keys[i]);i++) {
-        result.push(callback.call(thisp, object[iKey], iKey, object));
-    }
-    return result;
+  var keys = Object.keys(object),
+    i = 0,
+    result = [],
+    iKey;
+  for (; (iKey = keys[i]); i++) {
+    result.push(callback.call(thisp, object[iKey], iKey, object));
+  }
+  return result;
 };
 
 /**
@@ -346,16 +345,16 @@ Object.map = function (object, callback, thisp) {
     object.
 */
 Object.values = function (object) {
-    return Object.map(object, Function.identity);
+  return Object.map(object, Function.identity);
 };
 
 // TODO inline document concat
 Object.concat = function () {
-    var object = {};
-    for (var i = 0; i < arguments.length; i++) {
-        Object.addEach(object, arguments[i]);
-    }
-    return object;
+  var object = {};
+  for (var i = 0; i < arguments.length; i++) {
+    Object.addEach(object, arguments[i]);
+  }
+  return object;
 };
 
 Object.from = Object.concat;
@@ -375,16 +374,16 @@ Object.from = Object.concat;
     @function external:Object.is
 */
 Object.is = function (x, y) {
-    if (x === y) {
-        // 0 === -0, but they are not identical
-        return x !== 0 || 1 / x === 1 / y;
-    }
-    // NaN !== NaN, but they are identical.
-    // NaNs are the only non-reflexive value, i.e., if x !== x,
-    // then x is a NaN.
-    // isNaN is broken: it converts its argument to number, so
-    // isNaN("foo") => true
-    return x !== x && y !== y;
+  if (x === y) {
+    // 0 === -0, but they are not identical
+    return x !== 0 || 1 / x === 1 / y;
+  }
+  // NaN !== NaN, but they are identical.
+  // NaNs are the only non-reflexive value, i.e., if x !== x,
+  // then x is a NaN.
+  // isNaN is broken: it converts its argument to number, so
+  // isNaN("foo") => true
+  return x !== x && y !== y;
 };
 
 /**
@@ -424,54 +423,51 @@ Object.is = function (x, y) {
     @function external:Object.equals
 */
 Object.equals = function (a, b, equals, memo) {
-    equals = equals || Object.equals;
-    //console.log("Object.equals: a:",a, "b:",b, "equals:",equals);
-    // unbox objects, but do not confuse object literals
-    a = Object.getValueOf(a);
-    b = Object.getValueOf(b);
-    if (a === b)
-        return true;
-    if (Object.isObject(a)) {
-        memo = memo || new WeakMap();
-        if (memo.has(a)) {
-            return true;
+  equals = equals || Object.equals;
+  //console.log("Object.equals: a:",a, "b:",b, "equals:",equals);
+  // unbox objects, but do not confuse object literals
+  a = Object.getValueOf(a);
+  b = Object.getValueOf(b);
+  if (a === b) return true;
+  if (Object.isObject(a)) {
+    memo = memo || new WeakMap();
+    if (memo.has(a)) {
+      return true;
+    }
+    memo.set(a, true);
+  }
+  if (Object.isObject(a) && typeof a.equals === "function") {
+    return a.equals(b, equals, memo);
+  }
+  // commutative
+  if (Object.isObject(b) && typeof b.equals === "function") {
+    return b.equals(a, equals, memo);
+  }
+  if (Object.isObject(a) && Object.isObject(b)) {
+    if (Object.getPrototypeOf(a) === Object.prototype && Object.getPrototypeOf(b) === Object.prototype) {
+      for (var name in a) {
+        if (!equals(a[name], b[name], equals, memo)) {
+          return false;
         }
-        memo.set(a, true);
-    }
-    if (Object.isObject(a) && typeof a.equals === "function") {
-        return a.equals(b, equals, memo);
-    }
-    // commutative
-    if (Object.isObject(b) && typeof b.equals === "function") {
-        return b.equals(a, equals, memo);
-    }
-    if (Object.isObject(a) && Object.isObject(b)) {
-        if (Object.getPrototypeOf(a) === Object.prototype && Object.getPrototypeOf(b) === Object.prototype) {
-            for (var name in a) {
-                if (!equals(a[name], b[name], equals, memo)) {
-                    return false;
-                }
-            }
-            for (var name in b) {
-                if (!(name in a) || !equals(b[name], a[name], equals, memo)) {
-                    return false;
-                }
-            }
-            return true;
+      }
+      for (var name in b) {
+        if (!(name in a) || !equals(b[name], a[name], equals, memo)) {
+          return false;
         }
+      }
+      return true;
     }
-    // NaN !== NaN, but they are equal.
-    // NaNs are the only non-reflexive value, i.e., if x !== x,
-    // then x is a NaN.
-    // isNaN is broken: it converts its argument to number, so
-    // isNaN("foo") => true
-    // We have established that a !== b, but if a !== a && b !== b, they are
-    // both NaN.
-    if (a !== a && b !== b)
-        return true;
-    if (!a || !b)
-        return a === b;
-    return false;
+  }
+  // NaN !== NaN, but they are equal.
+  // NaNs are the only non-reflexive value, i.e., if x !== x,
+  // then x is a NaN.
+  // isNaN is broken: it converts its argument to number, so
+  // isNaN("foo") => true
+  // We have established that a !== b, but if a !== a && b !== b, they are
+  // both NaN.
+  if (a !== a && b !== b) return true;
+  if (!a || !b) return a === b;
+  return false;
 };
 
 // Because a return value of 0 from a `compare` function  may mean either
@@ -511,25 +507,20 @@ Object.equals = function (a, b, equals, memo) {
     @function external:Object.compare
 */
 Object.compare = function (a, b) {
-    // unbox objects, but do not confuse object literals
-    // mercifully handles the Date case
-    a = Object.getValueOf(a);
-    b = Object.getValueOf(b);
-    if (a === b)
-        return 0;
-    var aType = typeof a;
-    var bType = typeof b;
-    if (aType === "number" && bType === "number")
-        return a - b;
-    if (aType === "string" && bType === "string")
-        return a < b ? -Infinity : Infinity;
-        // the possibility of equality elimiated above
-    if (a && typeof a.compare === "function")
-        return a.compare(b);
-    // not commutative, the relationship is reversed
-    if (b && typeof b.compare === "function")
-        return -b.compare(a);
-    return 0;
+  // unbox objects, but do not confuse object literals
+  // mercifully handles the Date case
+  a = Object.getValueOf(a);
+  b = Object.getValueOf(b);
+  if (a === b) return 0;
+  var aType = typeof a;
+  var bType = typeof b;
+  if (aType === "number" && bType === "number") return a - b;
+  if (aType === "string" && bType === "string") return a < b ? -Infinity : Infinity;
+  // the possibility of equality elimiated above
+  if (a && typeof a.compare === "function") return a.compare(b);
+  // not commutative, the relationship is reversed
+  if (b && typeof b.compare === "function") return -b.compare(a);
+  return 0;
 };
 
 /**
@@ -550,33 +541,33 @@ Object.compare = function (a, b) {
     @returns a copy of the value
 */
 Object.clone = function (value, depth, memo) {
-    value = Object.getValueOf(value);
-    memo = memo || new WeakMap();
-    if (depth === undefined) {
-        depth = Infinity;
-    } else if (depth === 0) {
-        return value;
-    }
-    if (Object.isObject(value)) {
-        if (!memo.has(value)) {
-            if (value && typeof value.clone === "function") {
-                memo.set(value, value.clone(depth, memo));
-            } else {
-                var prototype = Object.getPrototypeOf(value);
-                if (prototype === null || prototype === Object.prototype) {
-                    var clone = Object.create(prototype);
-                    memo.set(value, clone);
-                    for (var key in value) {
-                        clone[key] = Object.clone(value[key], depth - 1, memo);
-                    }
-                } else {
-                    throw new Error("Can't clone " + value);
-                }
-            }
-        }
-        return memo.get(value);
-    }
+  value = Object.getValueOf(value);
+  memo = memo || new WeakMap();
+  if (depth === undefined) {
+    depth = Infinity;
+  } else if (depth === 0) {
     return value;
+  }
+  if (Object.isObject(value)) {
+    if (!memo.has(value)) {
+      if (value && typeof value.clone === "function") {
+        memo.set(value, value.clone(depth, memo));
+      } else {
+        var prototype = Object.getPrototypeOf(value);
+        if (prototype === null || prototype === Object.prototype) {
+          var clone = Object.create(prototype);
+          memo.set(value, clone);
+          for (var key in value) {
+            clone[key] = Object.clone(value[key], depth - 1, memo);
+          }
+        } else {
+          throw new Error("Can't clone " + value);
+        }
+      }
+    }
+    return memo.get(value);
+  }
+  return value;
 };
 
 /**
@@ -587,15 +578,15 @@ Object.clone = function (value, depth, memo) {
     @returns this
 */
 Object.clear = function (object) {
-    if (object && typeof object.clear === "function") {
-        object.clear();
-    } else {
-        var keys = Object.keys(object),
-            i = keys.length;
-        while (i) {
-            i--;
-            delete object[keys[i]];
-        }
+  if (object && typeof object.clear === "function") {
+    object.clear();
+  } else {
+    var keys = Object.keys(object),
+      i = keys.length;
+    while (i) {
+      i--;
+      delete object[keys[i]];
     }
-    return object;
+  }
+  return object;
 };

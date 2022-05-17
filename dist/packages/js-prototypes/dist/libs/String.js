@@ -62,7 +62,7 @@ String.prototype.parse_url = function () {
         search: parser.search,
         searchObject: searchObject,
         hash: parser.hash,
-        protohost: parser.protocol + "//" + parser.host,
+        protohost: parser.protocol + "//" + parser.host
     };
 };
 /**
@@ -151,3 +151,9 @@ String.prototype.includesArray = function (substrings) {
     var _this = this;
     return substrings.some(function (v) { return _this.includes(v); });
 };
+if (typeof "".replaceAll != "function") {
+    String.prototype.replaceAll = function (search, replacement) {
+        var find = typeof search == "string" ? new RegExp(search, "g") : search;
+        return this.replace(find, replacement);
+    };
+}

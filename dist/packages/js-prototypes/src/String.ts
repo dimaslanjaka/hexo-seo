@@ -63,7 +63,7 @@ String.prototype.parse_url = function () {
     search: parser.search,
     searchObject: searchObject,
     hash: parser.hash,
-    protohost: parser.protocol + "//" + parser.host,
+    protohost: parser.protocol + "//" + parser.host
   };
 };
 
@@ -78,17 +78,17 @@ String.prototype.CSS = function () {
   const n = document.getElementsByTagName("head")[0];
   window.addEventListener
     ? window.addEventListener(
-      "load",
-      function () {
-        n.parentNode.insertBefore(e, n);
-      },
-      !1
-    )
+        "load",
+        function () {
+          n.parentNode.insertBefore(e, n);
+        },
+        !1
+      )
     : window.attachEvent
-      ? window.attachEvent("onload", function () {
+    ? window.attachEvent("onload", function () {
         n.parentNode.insertBefore(e, n);
       })
-      : (window.onload = function () {
+    : (window.onload = function () {
         n.parentNode.insertBefore(e, n);
       });
 };
@@ -171,3 +171,10 @@ String.fromHtmlEntities = function (str) {
 String.prototype.includesArray = function (substrings) {
   return substrings.some((v) => this.includes(v));
 };
+
+if (typeof "".replaceAll != "function") {
+  String.prototype.replaceAll = function (search, replacement) {
+    let find = typeof search == "string" ? new RegExp(search, "g") : search;
+    return this.replace(find, replacement);
+  };
+}

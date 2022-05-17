@@ -76,6 +76,11 @@ Array.prototype.unique = function (this: Array<any>) {
   return a;
 };
 
+Array.prototype.uniqueStringArray = function (this: Array<string>) {
+  const filter = new Map(this.map((s) => [s.toLowerCase(), s]));
+  return [...filter.values()];
+};
+
 Array.prototype.uniqueObjectKey = function (this: Array<Record<string, unknown>>, key, removeNull = true) {
   if (!key) return this;
   const resArr = [];
@@ -183,13 +188,11 @@ if (!Array.prototype.hasOwnProperty("every")) {
   };
 }
 
-if (typeof Array.prototype.move === "undefined") {
-  Array.prototype.move = function (from, to) {
-    let itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
-    this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
-    return this;
-  };
-}
+Array.prototype.move = function (from, to) {
+  let itemRemoved = this.splice(from, 1); // splice() returns the remove element as an array
+  this.splice(to, 0, itemRemoved[0]); // Insert itemRemoved into the target index
+  return this;
+};
 
 Array.prototype.hapusItemDariArrayLain = function (this: any[], ...arrayLain) {
   let thisArr = this;

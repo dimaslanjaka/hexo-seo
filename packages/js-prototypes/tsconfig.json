@@ -8,6 +8,7 @@
 		"declaration": true,
 		"removeComments": false,
 		"allowJs": true,
+		"downlevelIteration": true,
 		"typeRoots": [
 			"./node_modules/@types",
 			"./src"
