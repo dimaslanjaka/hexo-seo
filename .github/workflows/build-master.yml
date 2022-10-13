@@ -2,10 +2,10 @@ name: Build Master Branch
 
 on:
   push:
-    branches: [ compiler ]
+    branches: [compiler]
   #pull_request:
-    # The branches below must be a subset of the branches above
-    #branches: [ compiler ]
+  # The branches below must be a subset of the branches above
+  #branches: [ compiler ]
 
 # cancel previous workflows, run only one workflow
 concurrency:
@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: "16.x"
           cache: "npm"
-      - run: npm i -g npm gulp-cli typescript hexo-cli 
+      - run: npm i -g npm gulp-cli typescript hexo-cli
       - uses: actions/cache@v3
         with:
           path: ./node_modules
@@ -50,7 +50,7 @@ jobs:
         id: build
       - run: ls docs
       - run: |
-          cp dist docs/
+          cp -r dist/ docs/dist/
           cp .eslintrc docs/
           cp .eslintignore docs/
           cp LICENSE docs/
