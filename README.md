@@ -33,19 +33,22 @@ npm i hexo-seo
 # https://github.com/dimaslanjaka/hexo-seo
 seo:
   html:
+    enable: true
     # fix invalid html
     fix: true
     # exclude from minify
     exclude:
       - "*.min.{htm,html}"
   # minify css
-  css: # true, you can only put `true` (to minifying with default configurations) or `false` to disable css minification
+  css:
+    enable: true
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.css"
   # minify js
-  js: # true, you can only put `true` (to minifying with default configurations) or `false` to disable js minification
+  js:
+    enable: true
     # If you want to customize the js minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
@@ -59,9 +62,17 @@ seo:
         toplevel: true
         safari10: true
   # add rich snippets on every posts and pages
-  schema: true
-  # [inactive] this function still under development
+  schema:
+    article:
+      enable: true
+    breadcrumb:
+      enable: true
+    sitelink:
+      enable: true
+      searchUrl: https://www.webmanajemen.com/search?q=
+  # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
   img:
+    enable: true
     # fix broken images
     broken: false
     # default broken images
@@ -78,9 +89,9 @@ seo:
     exclude:
       - webmanajemen.com
       - web-manajemen.blogspot.com
-      - dimaslanjaka.github.io
-    # auto generate seo friendly sitemap at /sitemap.xml
-    sitemap: true
+  # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
+  # forked from yoast seo
+  sitemap: true
 ```
 > this plugin will run the functions based on development mode or production mode
 

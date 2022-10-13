@@ -1,70 +1,59 @@
 import { deepmerge } from "deepmerge-ts";
 import Hexo from "hexo";
-import HexoConfig from "hexo/HexoConfig";
 import { hyperlinkOptions } from "./html/types";
 import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { jsMinifyOptions } from "./minifier/js";
 
-export interface seoOptions extends HexoConfig {
-  seo?: defaultSeoOptions;
-}
-
-export interface defaultSeoOptions {
-  /**
-   * Optimize js
-   */
-  js?: boolean | jsMinifyOptions;
-  /**
-   * Optimize css
-   */
-  css?: boolean | cssMinifyOptions;
-  /**
-   * Optimize image
-   */
-  img?: boolean | imgOptions;
-  /**
-   * Minimize html
-   */
-  html?: boolean | htmlMinifyOptions;
-  /**
-   * Blog hostname
-   */
-  host?: string[];
-  /**
-   * Nofollow links
-   */
-  links?: hyperlinkOptions;
-  /**
-   * Generate schema article
-   */
-  schema?: boolean;
-  sitemap?: boolean;
+export interface Switcher {
+  enable: boolean;
 }
 
 export interface ReturnConfig {
   sitemap: boolean;
-  js: jsMinifyOptions;
-  css: cssMinifyOptions;
-  img: imgOptions;
-  html: htmlMinifyOptions;
-  links: hyperlinkOptions;
-  host: defaultSeoOptions["host"];
-  schema: boolean;
+  /**
+   * Optimize js
+   */
+  js: jsMinifyOptions & Switcher;
+  /**
+   * Optimize css
+   */
+  css: cssMinifyOptions & Switcher;
+  /**
+   * Optimize image
+   */
+  img: imgOptions & Switcher;
+  /**
+   * Minimize html
+   */
+  html: htmlMinifyOptions & Switcher;
+  /**
+   * Nofollow links
+   */
+  links: hyperlinkOptions & Switcher;
+  /**
+   * Blog hostname
+   */
+  host: string;
+  /**
+   * Generate schema article
+   */
+  schema: {
+    sitelink: Switcher;
+    article: Switcher;
+    breadcrumb: Switcher;
+  };
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 
 const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
   const defaultOpt: ReturnConfig = {
-    js: {
-      exclude: ["*.min.js"]
-    },
-    css: {
-      exclude: ["*.min.css"]
-    },
+    js: { enable: false, exclude: ["*.min.js"] },
+    css: { enable: false, exclude: ["*.min.css"] },
     html: {
+      enable: false,
       fix: false,
       exclude: [],
       collapseBooleanAttributes: true,
@@ -77,32 +66,30 @@ const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
       removeStyleLinkTypeAttributes: true,
       minifyJS: true,
       minifyCSS: true
-    } as htmlMinifyOptions,
+    } as any,
     //img: { default: source.img.fallback.public, onerror: "serverside" },
     img: {
+      enable: false,
       default:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
       onerror: "serverside"
     },
-    host: ["webmanajemen.com"],
+    host: new URL(hexo.config.url).host,
     links: {
       blank: true,
       enable: true,
       allow: ["webmanajemen.com"]
     },
-    schema: true,
+    schema: {
+      sitelink: {
+        enable: false
+      },
+      article: { enable: false },
+      breadcrumb: { enable: false }
+    },
     sitemap: false
   };
-  const seo: defaultSeoOptions = hexo.config.seo;
-  if (typeof seo.css === "boolean") {
-    if (seo.css) delete seo.css;
-  }
-  if (typeof seo.js === "boolean") {
-    if (seo.js) delete seo.js;
-  }
-  if (typeof seo.html === "boolean") {
-    if (seo.html) delete seo.html;
-  }
+  const seo: ReturnConfig = hexo.config.seo;
   if (typeof seo === "undefined") return <ReturnConfig>defaultOpt;
   return deepmerge(defaultOpt, seo) as ReturnConfig;
 };

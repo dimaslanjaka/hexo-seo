@@ -39,6 +39,8 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
 
   const schema = [];
 
+  if (HSconfig.schema.sitelink) sitelink.url = data.config.url;
+
   if (is.post) {
     const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
     if (data.page) {
