@@ -2,21 +2,22 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.getPagePath = void 0;
-require("js-prototypes");
-var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
-var config_1 = __importDefault(require("../config"));
-var cache_1 = require("../cache");
-var md5_file_1 = require("../utils/md5-file");
-var log_1 = __importDefault(require("../log"));
 var bluebird_1 = __importDefault(require("bluebird"));
+//import "js-prototypes";
 var node_html_parser_1 = require("node-html-parser");
-var types_1 = require("./types");
 var url_parse_1 = __importDefault(require("url-parse"));
-var __1 = require("..");
-var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
+var cache_1 = require("../cache");
+var config_1 = __importDefault(require("../config"));
+var hexo_seo_1 = require("../hexo-seo");
+var log_1 = __importDefault(require("../log"));
 var sitemap_1 = __importDefault(require("../sitemap"));
+var array_1 = require("../utils/array");
+var md5_file_1 = require("../utils/md5-file");
+var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
+var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
+var types_1 = require("./types");
 function getPagePath(data) {
     if (data.page) {
         if (data.page.full_source)
@@ -40,17 +41,18 @@ function default_1(content, data) {
         allowCache = false;
         path0 = content;
     }
-    if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || __1.isDev) {
+    if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
-        var cfg_1 = (0, config_1.default)(this);
+        var cfg_1 = (0, config_1["default"])(this);
         //** fix hyperlink */
         var a = root.querySelectorAll("a[href]");
         a.forEach(function (el) {
             var href = el.getAttribute("href");
             if (/https?:\/\//.test(href)) {
                 var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
-                rels = rels.removeEmpties().unique();
-                var parseHref = (0, url_parse_1.default)(href);
+                //rels = rels.removeEmpties().unique();
+                rels = (0, array_1.array_unique)((0, array_1.array_remove_empties)(rels));
+                var parseHref = (0, url_parse_1["default"])(href);
                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                 el.setAttribute("rel", rels.join(" "));
@@ -60,7 +62,7 @@ function default_1(content, data) {
             //** fix invalid html */
             var inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
             if (inv.length)
-                log_1.default.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
+                log_1["default"].log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
             inv.forEach(function (el) {
                 el.remove();
             });
@@ -79,8 +81,8 @@ function default_1(content, data) {
                 element.setAttribute("itemprop", "image");
             }
         });
-        (0, fixSchema_static_1.default)(root, cfg_1, data);
-        (0, sitemap_1.default)(root, cfg_1, data);
+        (0, fixSchema_static_1["default"])(root, cfg_1, data);
+        (0, sitemap_1["default"])(root, cfg_1, data);
         content = root.toString();
         if (allowCache)
             cache.set((0, md5_file_1.md5)(path0), content);
@@ -103,6 +105,6 @@ function default_1(content, data) {
     else {
         content = cache.getCache((0, md5_file_1.md5)(path0), content);
     }
-    return bluebird_1.default.resolve(content);
+    return bluebird_1["default"].resolve(content);
 }
-exports.default = default_1;
+exports["default"] = default_1;

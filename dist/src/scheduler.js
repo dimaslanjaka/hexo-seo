@@ -4,7 +4,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var log_1 = __importDefault(require("./log"));
 var functions = [];
 var scheduler = /** @class */ (function () {
@@ -41,7 +41,7 @@ var scheduler = /** @class */ (function () {
                 delete functions[key];
         }
         else {
-            log_1.default.error("function with key: ".concat(key, " is not function"));
+            log_1["default"].error("function with key: ".concat(key, " is not function"));
         }
     };
     /**
@@ -49,7 +49,7 @@ var scheduler = /** @class */ (function () {
      */
     scheduler.executeAll = function () {
         Object.keys(functions).forEach(function (key) {
-            log_1.default.log("executing", key);
+            log_1["default"].log("executing", key);
             functions[key]();
         });
         scheduler.clearArray(functions);
@@ -66,4 +66,4 @@ var scheduler = /** @class */ (function () {
     scheduler.postponeCounter = 0;
     return scheduler;
 }());
-exports.default = scheduler;
+exports["default"] = scheduler;

@@ -2,25 +2,63 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
+var hexo_seo_1 = require("../hexo-seo");
 var string_1 = require("../utils/string");
-var article_1 = __importDefault(require("./schema/article"));
-var __1 = require("..");
 var dom_1 = require("./dom");
-require("js-prototypes");
+var article_1 = __importDefault(require("./schema/article"));
 var underscore_1 = __importDefault(require("underscore"));
-var utils_1 = require("../utils");
 var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
-var homepage_1 = __importDefault(require("./schema/homepage"));
 var log_1 = __importDefault(require("../log"));
-function default_1(dom, HSconfig, data) {
+var utils_1 = require("../utils");
+var array_1 = require("../utils/array");
+var model4_json_1 = __importDefault(require("./schema/article/model4.json"));
+var homepage_1 = __importDefault(require("./schema/homepage"));
+function fixSchemaStatic(dom, HSconfig, data) {
     if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
         return;
-    var is = (0, hexo_is_1.default)(data);
+    var is = (0, hexo_is_1["default"])(data);
+    if (is.post) {
+        var breadcrumbs = model4_json_1["default"][0];
+        var article = model4_json_1["default"][1];
+        var sitelink = model4_json_1["default"][2];
+        var schemaBreadcrumbs_1 = [];
+        if (data.page) {
+            if (data.page.tags && data.page.tags.length > 0) {
+                data.page.tags.forEach(function (tag) {
+                    var o = {
+                        "@type": "ListItem",
+                        position: schemaBreadcrumbs_1.length + 1,
+                        item: tag["permalink"],
+                        name: tag["name"]
+                    };
+                    schemaBreadcrumbs_1.push(o);
+                });
+            }
+            if (data.page.categories && data.page.categories.length > 0) {
+                data.page.categories.forEach(function (category) {
+                    var o = {
+                        "@type": "ListItem",
+                        position: schemaBreadcrumbs_1.length + 1,
+                        item: category["permalink"],
+                        name: category["name"]
+                    };
+                    schemaBreadcrumbs_1.push(o);
+                });
+            }
+        }
+    }
+}
+exports["default"] = fixSchemaStatic;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function model3(dom, HSconfig, data) {
+    if (typeof HSconfig.schema === "boolean" && !HSconfig.schema)
+        return;
+    var is = (0, hexo_is_1["default"])(data);
     var schemahtml;
     if (is.home) {
         (0, utils_1.dumpOnce)("data-home.txt", (0, utils_1.extractSimplePageData)(data));
-        var homepage = new homepage_1.default({ pretty: __1.isDev, hexo: data });
+        var homepage = new homepage_1["default"]({ pretty: hexo_seo_1.isDev, hexo: data });
     }
     else if (is.archive) {
         (0, utils_1.dumpOnce)("data-archive.txt", (0, utils_1.extractSimplePageData)(data));
@@ -32,7 +70,7 @@ function default_1(dom, HSconfig, data) {
         (0, utils_1.dumpOnce)("data-tag.txt", (0, utils_1.extractSimplePageData)(data));
     }
     else {
-        var Schema = new article_1.default({ pretty: __1.isDev, hexo: data });
+        var Schema = new article_1["default"]({ pretty: hexo_seo_1.isDev, hexo: data });
         // set url
         var url = data.config.url;
         if (data.page) {
@@ -99,7 +137,7 @@ function default_1(dom, HSconfig, data) {
             body = data.content;
         }
         if (body) {
-            body = underscore_1.default.escape(body
+            body = underscore_1["default"].escape(body
                 .trim()
                 //.replace(/['“"{}\\”]+/gm, "")
                 .replace(/https?:\/\//gm, "//"));
@@ -123,25 +161,25 @@ function default_1(dom, HSconfig, data) {
       if (description)
         Schema.setDescription(description.replace(/[\W_-]+/gm, " ").trim());*/
         // prepare breadcrumbs
-        var schemaBreadcrumbs_1 = [];
+        var schemaBreadcrumbs_2 = [];
         if (data.page) {
             if (data.page.tags && data.page.tags.length > 0) {
                 data.page.tags.forEach(function (tag) {
                     keywords_1.push(tag["name"]);
                     var o = { item: tag["permalink"], name: tag["name"] };
-                    schemaBreadcrumbs_1.push(o);
+                    schemaBreadcrumbs_2.push(o);
                 });
             }
             if (data.page.categories && data.page.categories.length > 0) {
                 data.page.categories.forEach(function (category) {
                     keywords_1.push(category["name"]);
                     var o = { item: category["permalink"], name: category["name"] };
-                    schemaBreadcrumbs_1.push(o);
+                    schemaBreadcrumbs_2.push(o);
                 });
             }
         }
-        if (schemaBreadcrumbs_1.length > 0) {
-            Schema.setBreadcrumbs(schemaBreadcrumbs_1);
+        if (schemaBreadcrumbs_2.length > 0) {
+            Schema.setBreadcrumbs(schemaBreadcrumbs_2);
         }
         // set schema image
         var img = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
@@ -153,15 +191,15 @@ function default_1(dom, HSconfig, data) {
         }
         Schema.setImage(img);
         // set schema genres
-        Schema.set("genre", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
-        Schema.set("keywords", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
-        Schema.set("award", keywords_1.unique().removeEmpties().map(string_1.trimText).join(","));
+        var kwUnique = (0, array_1.array_remove_empties)((0, array_1.array_unique)(keywords_1));
+        Schema.set("genre", kwUnique.map(string_1.trimText).join(","));
+        Schema.set("keywords", kwUnique.map(string_1.trimText).join(","));
+        Schema.set("award", kwUnique.map(string_1.trimText).join(","));
         schemahtml = "<script type=\"application/ld+json\">".concat(Schema, "</script>");
-        log_1.default.log("schema created", title, url);
+        log_1["default"].log("schema created", title, url);
     }
     if (schemahtml) {
         var head = dom.getElementsByTagName("head")[0];
         head.insertAdjacentHTML("beforeend", schemahtml);
     }
 }
-exports.default = default_1;

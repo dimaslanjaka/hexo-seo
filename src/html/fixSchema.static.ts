@@ -1,17 +1,18 @@
 import { ReturnConfig } from "../config";
+import { isDev } from "../hexo-seo";
 import { trimText } from "../utils/string";
-import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
-import { isDev } from "..";
 import { getTextPartialHtml } from "./dom";
-import "js-prototypes";
-import underscore from "underscore";
-import { dumpOnce, extractSimplePageData } from "../utils";
-import { HTMLElement } from "node-html-parser";
-import hexoIs from "../hexo/hexo-is";
-import schemaHomepage from "./schema/homepage";
-import log from "../log";
+import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
+//import "js-prototypes";
 import { TemplateLocals } from "hexo";
+import { HTMLElement } from "node-html-parser";
+import underscore from "underscore";
+import hexoIs from "../hexo/hexo-is";
+import log from "../log";
+import { dumpOnce, extractSimplePageData } from "../utils";
+import { array_remove_empties, array_unique } from "../utils/array";
 import model from "./schema/article/model4.json";
+import schemaHomepage from "./schema/homepage";
 
 export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
@@ -197,9 +198,10 @@ function model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
     Schema.setImage(img);
 
     // set schema genres
-    Schema.set("genre", keywords.unique().removeEmpties().map(trimText).join(","));
-    Schema.set("keywords", keywords.unique().removeEmpties().map(trimText).join(","));
-    Schema.set("award", keywords.unique().removeEmpties().map(trimText).join(","));
+    const kwUnique = array_remove_empties(array_unique(keywords));
+    Schema.set("genre", kwUnique.map(trimText).join(","));
+    Schema.set("keywords", kwUnique.map(trimText).join(","));
+    Schema.set("award", kwUnique.map(trimText).join(","));
 
     schemahtml = `<script type="application/ld+json">${Schema}</script>`;
     log.log("schema created", title, url);

@@ -1,3 +1,3 @@
-import Hexo from "hexo";
-export declare const isDev: boolean;
-export default function (hexo: Hexo): void;
+import HexoSeo from "./hexo-seo";
+export { HexoSeo };
+export default HexoSeo;

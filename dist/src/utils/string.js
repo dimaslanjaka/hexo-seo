@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.trimText = void 0;
 function trimText(content) {
     if (typeof content === "string")

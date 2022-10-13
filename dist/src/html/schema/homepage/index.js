@@ -2,11 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var data_index_json_1 = __importDefault(require("./data-index.json"));
 var schemaHomepage = /** @class */ (function () {
     function schemaHomepage(options) {
-        this.schema = data_index_json_1.default;
+        this.schema = data_index_json_1["default"];
         this.options = options;
         this.hexo = options.hexo;
         // remove default articles
@@ -14,7 +14,7 @@ var schemaHomepage = /** @class */ (function () {
     }
     schemaHomepage.prototype.addArticle = function (article) {
         // get sample data
-        var item = data_index_json_1.default.mainEntity.itemListElement[0];
+        var item = data_index_json_1["default"].mainEntity.itemListElement[0];
         // set metadata
         item.headline = article.title;
         if (typeof article.image == "string")
@@ -55,4 +55,4 @@ var schemaHomepage = /** @class */ (function () {
     };
     return schemaHomepage;
 }());
-exports.default = schemaHomepage;
+exports["default"] = schemaHomepage;

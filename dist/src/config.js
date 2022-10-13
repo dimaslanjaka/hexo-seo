@@ -1,14 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var object_assign_1 = __importDefault(require("object-assign"));
-var cache_1 = __importDefault(require("./cache"));
-var cache = new cache_1.default();
+exports.__esModule = true;
+var deepmerge_ts_1 = require("deepmerge-ts");
+var path_1 = require("path");
+var persistent_cache_1 = require("persistent-cache");
+var cache = (0, persistent_cache_1.persistentCache)({ persist: true, name: "hexo-seo", base: (0, path_1.join)(process.cwd(), "tmp") });
 var getConfig = function (hexo, key) {
     if (key === void 0) { key = "config-hexo-seo"; }
-    if (!cache.getCache(key)) {
+    if (!cache.getSync(key, null)) {
         var defaultOpt = {
             js: {
                 exclude: ["*.min.js"]
@@ -32,7 +30,7 @@ var getConfig = function (hexo, key) {
             },
             //img: { default: source.img.fallback.public, onerror: "serverside" },
             img: {
-                default: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
+                "default": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
                 onerror: "serverside"
             },
             host: ["webmanajemen.com"],
@@ -56,10 +54,10 @@ var getConfig = function (hexo, key) {
             delete seo.js;
         if (typeof seo.html === "boolean")
             delete seo.html;
-        seo = (0, object_assign_1.default)(defaultOpt, seo);
-        cache.setCache(key, seo);
+        seo = (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo);
+        cache.setSync(key, seo);
         return seo;
     }
-    return cache.getCache(key);
+    return cache.getSync(key);
 };
-exports.default = getConfig;
+exports["default"] = getConfig;

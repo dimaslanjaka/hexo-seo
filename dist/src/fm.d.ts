@@ -1,5 +1,4 @@
 /// <reference types="node" />
-import "js-prototypes";
 /**
  * Temp folder
  */

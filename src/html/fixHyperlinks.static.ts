@@ -1,15 +1,17 @@
-import { _JSDOM } from "./dom";
-import { formatAnchorText, hyperlinkOptions, isExternal } from "./types";
-import { HexoSeo } from "./schema/article";
 import parseUrl from "url-parse";
+import { array_unique, remove_array_item_from } from "../utils/array";
+import { isValidHttpUrl } from "../utils/url";
+import { _JSDOM } from "./dom";
+import { HexoSeo } from "./schema/article";
+import { formatAnchorText, hyperlinkOptions, isExternal } from "./types";
 
-export default function (dom: _JSDOM, HSconfig: hyperlinkOptions, data: HexoSeo) {
+export default function (dom: _JSDOM, HSconfig: hyperlinkOptions, _data: HexoSeo) {
   const a = dom.document.querySelectorAll("a[href]");
   if (a.length) {
     a.forEach((el: HTMLAnchorElement) => {
       const href = el.href;
       // only process anchor start with https?, otherwise abadoned
-      if (/https?/gs.test(href)) {
+      if (isValidHttpUrl(href)) {
         const parseHref = parseUrl(href);
         let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
 
@@ -41,13 +43,14 @@ export function identifyRels(
   const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
   const internalArr = ["internal", "follow", "bookmark"];
   // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
+  const newRels = array_unique(rels.concat(externalArr));
   if (external) {
-    rels = rels.concat(externalArr).unique().hapusItemDariArrayLain(internalArr);
+    rels = remove_array_item_from(newRels, internalArr);
     if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
       el.setAttribute("target", "_blank");
     }
   } else {
-    rels = rels.concat(internalArr).unique().hapusItemDariArrayLain(externalArr);
+    rels = remove_array_item_from(newRels, externalArr);
   }
   return rels;
 }
