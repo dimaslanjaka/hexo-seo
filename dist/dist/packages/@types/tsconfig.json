@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "allowUmdGlobalAccess": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "noImplicitThis": false
+  }
+}

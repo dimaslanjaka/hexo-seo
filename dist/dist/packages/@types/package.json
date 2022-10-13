@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-package-types",
+  "version": "1.0.4",
+  "description": "Customized Package Types",
+  "main": "index.js",
+  "types": "typings/index.d.ts",
+  "files": [
+    "typings",
+    "index.js"
+  ],
+  "scripts": {
+    "postinstall": "npm i -D https://github.com/dimaslanjaka/nodejs-package-types#through2",
+    "uninstall": "npm un @types/through2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimaslanjaka/nodejs-package-types.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dimaslanjaka/nodejs-package-types/issues"
+  },
+  "homepage": "https://github.com/dimaslanjaka/nodejs-package-types#readme",
+  "devDependencies": {
+    "@types/node": "^18.8.4",
+    "@types/through2": "github:dimaslanjaka/nodejs-package-types#through2"
+  }
+}

@@ -38,6 +38,12 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     allowCache = false;
     path0 = content;
   }
+  let title = "";
+  if (data.page && data.page.title && data.page.title.trim().length > 0) {
+    title = data.page.title;
+  } else {
+    title = data.config.title;
+  }
 
   if (cache.isFileChanged(md5(path0)) || isDev) {
     const root = nodeHtmlParser(content);
@@ -56,7 +62,8 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
         rels = identifyRels(el, external, cfg.links);
         el.setAttribute("rel", rels.join(" "));
         if (isDev) el.setAttribute("hexo-seo", "true");
-        //console.log(href, "external=" + external);
+        if (!el.hasAttribute("alt")) el.setAttribute("alt", title);
+        if (!el.hasAttribute("title")) el.setAttribute("title", title);
       }
     });
 
@@ -72,8 +79,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     }
 
     //** fix images attributes */
-    const title =
-      data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : data.config.title;
+
     root.querySelectorAll("img[src]").forEach((element) => {
       if (!element.getAttribute("title")) {
         //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
