@@ -1,13 +1,13 @@
 "use strict";
 
+import chalk from "chalk";
 import CleanCSS from "clean-css";
-import getConfig from "../config";
 import Hexo from "hexo";
-import { isIgnore } from "../utils";
-import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
-import chalk from "chalk";
+import getConfig from "../config";
+import log from "../log";
+import { isIgnore } from "../utils";
 
 export type cssMinifyOptions = CleanCSS.Options & {
   enable?: boolean;
@@ -16,16 +16,12 @@ export type cssMinifyOptions = CleanCSS.Options & {
 
 const cache = new Cache();
 
-export default async function (this: Hexo, str: string, data: Hexo.View) {
+export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
   const isChanged = await cache.isFileChanged(path0);
 
   if (isChanged) {
-    log.log(
-      "%s is changed %s",
-      path0,
-      isChanged ? chalk.red(isChanged) : chalk.green(isChanged)
-    );
+    log.log("%s is changed %s", path0, isChanged ? chalk.red(isChanged) : chalk.green(isChanged));
     // if original file is changed, re-minify css
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;
@@ -48,10 +44,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     if (typeof options == "object") {
       try {
         const { styles } = await new CleanCSS(<any>options).minify(str);
-        const saved = (
-          ((str.length - styles.length) / str.length) *
-          100
-        ).toFixed(2);
+        const saved = (((str.length - styles.length) / str.length) * 100).toFixed(2);
         log.log("%s(CSS): %s [%s saved]", pkg.name, path0, saved + "%");
         str = styles;
         cache.set(path0, str);

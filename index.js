@@ -15,9 +15,11 @@ const env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase(
 
 // define is development
 const isDev = arg || env;
+// console.log("hexo-seo init", { isDev });
 
 if (typeof hexo !== "undefined") {
   global.hexo = hexo;
+
   if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     require("./index.prod");
   } else {

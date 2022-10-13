@@ -9,7 +9,7 @@ var minimist_1 = __importDefault(require("minimist"));
 var package_json_1 = __importDefault(require("../package.json"));
 var config_1 = __importDefault(require("./config"));
 var fm_1 = require("./fm");
-var index_1 = __importDefault(require("./html/index"));
+var html_1 = __importDefault(require("./html"));
 var log_1 = __importDefault(require("./log"));
 var css_1 = __importDefault(require("./minifier/css"));
 var js_1 = __importDefault(require("./minifier/js"));
@@ -24,6 +24,7 @@ var env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase() 
 exports.isDev = arg || env;
 // core
 function HexoSeo(hexo) {
+    //console.log("hexo-seo starting", { dev: env });
     // return if hexo-seo configuration unavailable
     if (typeof hexo.config.seo == "undefined") {
         log_1["default"].error("seo options not found");
@@ -73,6 +74,6 @@ function HexoSeo(hexo) {
     // minify css
     hexo.extend.filter.register("after_render:css", css_1["default"]);
     // all in one html fixer
-    hexo.extend.filter.register("after_render:html", index_1["default"]);
+    hexo.extend.filter.register("after_render:html", html_1["default"]);
 }
 exports["default"] = HexoSeo;

@@ -30,7 +30,8 @@ function getPagePath(data) {
 }
 exports.getPagePath = getPagePath;
 var cache = new cache_1.CacheFile("index");
-function default_1(content, data) {
+function HexoSeoHtml(content, data) {
+    console.log("filtering html", data.page.title);
     var hexo = this;
     var path0;
     var allowCache = true;
@@ -107,4 +108,4 @@ function default_1(content, data) {
     }
     return bluebird_1["default"].resolve(content);
 }
-exports["default"] = default_1;
+exports["default"] = HexoSeoHtml;

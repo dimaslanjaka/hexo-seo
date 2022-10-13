@@ -24,7 +24,8 @@ export function getPagePath(data: HexoSeo | TemplateLocals) {
 }
 
 const cache = new CacheFile("index");
-export default function (this: Hexo, content: string, data: HexoSeo) {
+export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
+  console.log("filtering html", data.page.title);
   const hexo = this;
   let path0: string;
   let allowCache = true;

@@ -39,15 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+var chalk_1 = __importDefault(require("chalk"));
 var clean_css_1 = __importDefault(require("clean-css"));
-var config_1 = __importDefault(require("../config"));
-var utils_1 = require("../utils");
-var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache_1 = __importDefault(require("../cache"));
-var chalk_1 = __importDefault(require("chalk"));
+var config_1 = __importDefault(require("../config"));
+var log_1 = __importDefault(require("../log"));
+var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
-function default_1(str, data) {
+function HexoSeoCss(str, data) {
     return __awaiter(this, void 0, void 0, function () {
         var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;
         return __generator(this, function (_a) {
@@ -78,8 +78,7 @@ function default_1(str, data) {
                     return [4 /*yield*/, new clean_css_1["default"](options).minify(str)];
                 case 3:
                     styles = (_a.sent()).styles;
-                    saved = (((str.length - styles.length) / str.length) *
-                        100).toFixed(2);
+                    saved = (((str.length - styles.length) / str.length) * 100).toFixed(2);
                     log_1["default"].log("%s(CSS): %s [%s saved]", package_json_1["default"].name, path0, saved + "%");
                     str = styles;
                     cache.set(path0, str);
@@ -99,4 +98,4 @@ function default_1(str, data) {
         });
     });
 }
-exports["default"] = default_1;
+exports["default"] = HexoSeoCss;

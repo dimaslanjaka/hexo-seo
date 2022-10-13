@@ -1,10 +1,10 @@
 import Hexo from "hexo";
+import assign from "object-assign";
 import { minify, MinifyOptions } from "terser";
-import log from "../log";
 import pkg from "../../package.json";
 import Cache from "../cache";
-import assign from "object-assign";
 import getConfig from "../config";
+import log from "../log";
 import { isIgnore } from "../utils";
 
 export interface jsMinifyOptions {
@@ -17,7 +17,7 @@ export interface jsMinifyOptions {
 
 const cache = new Cache();
 
-export default async function (this: Hexo, str: string, data: Hexo.View) {
+export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
   if (!path0) {
     log.error("%s(CSS) invalid path", pkg.name);
@@ -29,7 +29,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {
     // if original file is changed, re-minify js
-    const hexo: Hexo = this;
+    //const hexo: Hexo = this;
     let options: jsMinifyOptions = {
       exclude: ["*.min.js"]
     };
@@ -60,10 +60,7 @@ export default async function (this: Hexo, str: string, data: Hexo.View) {
     try {
       const result = await minify(str, minifyOptions);
       if (result.code && result.code.length > 0) {
-        const saved = (
-          ((str.length - result.code.length) / str.length) *
-          100
-        ).toFixed(2);
+        const saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
         log.log("%s(JS): %s [%s saved]", pkg.name, path0, `${saved}%`);
         str = result.code;
 

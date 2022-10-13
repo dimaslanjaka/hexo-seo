@@ -28,15 +28,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.sitemapIndex = exports.sitemap = exports.getPageData = void 0;
 var fs_1 = require("fs");
+var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_1 = __importDefault(require("moment"));
 var path_1 = require("path");
 var xmlbuilder2_1 = require("xmlbuilder2");
 var fm_1 = require("../fm");
-var hexo_is_1 = __importDefault(require("../hexo/hexo-is"));
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
 var archive_1 = __importStar(require("./archive"));
-//import "js-prototypes";
 var cache_1 = require("../cache");
 var sitemapGroup = {
     post: undefined,

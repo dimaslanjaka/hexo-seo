@@ -1,9 +1,9 @@
 {
     "name": "hexo-is",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Determine whether hexo is",
-    "main": "index.js",
-    "types": "index.d.ts",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "files": [
         "index.js",
         "index.d.ts",
@@ -20,9 +20,9 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/dimaslanjaka/hexo-seo.git",
-        "directory": "src/hexo/hexo-is"
+        "directory": "packages/hexo-is"
     },
-    "homepage": "https://github.com/dimaslanjaka/hexo-seo/tree/master/src/hexo/hexo-is#readme",
+    "homepage": "https://github.com/dimaslanjaka/hexo-seo/tree/master/packages/hexo-is#readme",
     "author": {
         "email": "dimaslanjaka@gmail.com",
         "name": "Dimas Lanjaka",
@@ -34,10 +34,9 @@
         "minimatch": "^3.0.4"
     },
     "devDependencies": {
+        "@types/hexo": "https://gitpkg.now.sh/dimaslanjaka/nodejs-package-types/hexo?main",
+        "@types/node": "^18.8.5",
         "ts-node": "^10.4.0",
         "typescript": "^4.4.4"
-    },
-    "peerDependencies": {
-        "hexo": "5.4.0"
     }
 }
