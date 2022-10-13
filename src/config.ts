@@ -70,12 +70,11 @@ const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
       minifyJS: true,
       minifyCSS: true
     } as any,
-    //img: { default: source.img.fallback.public, onerror: "serverside" },
     img: {
       enable: false,
       default:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
-      onerror: "serverside"
+      onerror: "clientside"
     } as any,
     host: new URL(hexo.config.url).host,
     links: {

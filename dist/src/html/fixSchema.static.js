@@ -116,10 +116,10 @@ function fixSchemaStatic(dom, HSconfig, data) {
             article.image.url = thumbnail;
             article.author.name = author;
             article.publisher.name = author;
-            article.dateModified = (0, moment_timezone_1["default"])(String(data.page.updated))
+            article.dateModified = (0, moment_timezone_1["default"])(new Date(String(data.page.updated)))
                 .tz(data.config.timezone || "UTC")
                 .format();
-            article.datePublished = (0, moment_timezone_1["default"])(String(data.page.date))
+            article.datePublished = (0, moment_timezone_1["default"])(new Date(String(data.page.date)))
                 .tz(data.config.timezone || "UTC")
                 .format();
             schema.push(article);
