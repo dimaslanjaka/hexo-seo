@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.identifyRels = void 0;
-var array_1 = require("src/utils/array");
 var url_1 = require("src/utils/url");
 var url_parse_1 = __importDefault(require("url-parse"));
+var array_1 = require("../utils/array");
 var types_1 = require("./types");
-function default_1(dom, HSconfig, data) {
+function default_1(dom, HSconfig, _data) {
     var a = dom.document.querySelectorAll("a[href]");
     if (a.length) {
         a.forEach(function (el) {

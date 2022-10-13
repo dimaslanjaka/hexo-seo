@@ -6,11 +6,11 @@ import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
 //import "js-prototypes";
 import { TemplateLocals } from "hexo";
 import { HTMLElement } from "node-html-parser";
-import { array_remove_empties, array_unique } from "src/utils/array";
 import underscore from "underscore";
 import hexoIs from "../hexo/hexo-is";
 import log from "../log";
 import { dumpOnce, extractSimplePageData } from "../utils";
+import { array_remove_empties, array_unique } from "../utils/array";
 import model from "./schema/article/model4.json";
 import schemaHomepage from "./schema/homepage";
 

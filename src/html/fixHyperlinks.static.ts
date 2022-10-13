@@ -1,11 +1,11 @@
-import { array_unique, remove_array_item_from } from "src/utils/array";
 import { isValidHttpUrl } from "src/utils/url";
 import parseUrl from "url-parse";
+import { array_unique, remove_array_item_from } from "../utils/array";
 import { _JSDOM } from "./dom";
 import { HexoSeo } from "./schema/article";
 import { formatAnchorText, hyperlinkOptions, isExternal } from "./types";
 
-export default function (dom: _JSDOM, HSconfig: hyperlinkOptions, data: HexoSeo) {
+export default function (dom: _JSDOM, HSconfig: hyperlinkOptions, _data: HexoSeo) {
   const a = dom.document.querySelectorAll("a[href]");
   if (a.length) {
     a.forEach((el: HTMLAnchorElement) => {
