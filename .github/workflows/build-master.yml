@@ -23,35 +23,30 @@ jobs:
           timezoneMacos: "Asia/Jakarta"
           timezoneWindows: "Indonesia Standard Time"
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           token: "${{ secrets.GITHUB_TOKEN }}"
+          ref: "compiler"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Use Node.js 12.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
-      - run: npm i -g npm gulp-cli typescript hexo-cli
-      - name: Get npm cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
+          node-version: "16.x"
+          cache: "npm"
+      - run: npm i -g npm gulp-cli typescript hexo-cli 
+      - uses: actions/cache@v3
         with:
-          path: |
-            ${{ steps.npm-cache.outputs.dir }}
-            ./node_modules
+          path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: gulp
+      - run: npm run build
         id: build
       - run: ls docs
       - run: |
