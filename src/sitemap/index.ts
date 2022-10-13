@@ -1,17 +1,17 @@
 import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
 import Hexo, { PageData, TemplateLocals } from "hexo";
+import hexoIs from "hexo-is";
 import moment from "moment";
 import { HTMLElement } from "node-html-parser";
 import { join } from "path";
 import { create as createXML } from "xmlbuilder2";
 import { ReturnConfig } from "../config";
 import { writeFile } from "../fm";
-import hexoIs from "../hexo/hexo-is";
-import { HexoIs } from "../hexo/hexo-is/is";
 import log from "../log";
 import scheduler from "../scheduler";
 import getCategoryTags, { getLatestFromArrayDates } from "./archive";
 //import "js-prototypes";
+import { HexoIs } from "packages/hexo-is/dist/is";
 import { CacheFile } from "../cache";
 
 interface sitemapItem {

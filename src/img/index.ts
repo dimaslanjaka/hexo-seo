@@ -1,12 +1,12 @@
+import cheerio from "cheerio";
+import fileType from "file-type";
 import { existsSync } from "fs";
 import Hexo from "hexo";
 import path from "path";
 import sanitizeFilename from "sanitize-filename";
 import getConfig from "../config";
-import logger from "../log";
-import * as fileType from "file-type";
 import checkUrl from "../curl/check";
-import cheerio from "cheerio";
+import logger from "../log";
 
 /**
  * Get buffer from source
@@ -38,15 +38,12 @@ export const getBuffer = function (src: Buffer | string, hexo: Hexo) {
  * @returns
  */
 export const imageBuffer2base64 = async (buffer: Buffer) => {
-  const type = await fileType.fromBuffer(buffer);
+  const type = await fileType.fileTypeFromBuffer(buffer);
 
   return "data:" + type.mime + ";base64," + buffer.toString("base64");
 };
 
-const seoImage = async function (
-  /*$: CheerioAPI*/ content: string,
-  hexo: Hexo
-) {
+const seoImage = async function (/*$: CheerioAPI*/ content: string, hexo: Hexo) {
   const $ = cheerio.load(content);
   const title = $("title").text();
   const config = getConfig(hexo).img;
@@ -83,10 +80,7 @@ const seoImage = async function (
               // to avoid image error, and fix endless loop onerror images
               //const imgBuf = getBuffer(config.default, hexo);
               //const base64 = await imageBuffer2base64(imgBuf);
-              img.attr(
-                "onerror",
-                "this.onerror=null;this.src='" + config.default + "';"
-              );
+              img.attr("onerror", "this.onerror=null;this.src='" + config.default + "';");
             }
           } else {
             //logger.log("original image", img_src);
@@ -95,11 +89,7 @@ const seoImage = async function (
               if (!check) {
                 const new_img_src = config.default.toString();
                 //logger.log("default img", img_src);
-                logger.debug(
-                  "%s is broken, replaced with %s",
-                  img_src,
-                  new_img_src
-                );
+                logger.debug("%s is broken, replaced with %s", img_src, new_img_src);
                 img.attr("src", new_img_src);
               }
             }

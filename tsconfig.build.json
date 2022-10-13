@@ -1,4 +1,4 @@
-/* ONLY FOR VSCODE */
+/* FOR BUILD */
 {
   //"extends": "js-prototypes/tsconfig.json",
   "compilerOptions": {
@@ -25,7 +25,7 @@
     "test"
   ],
   "include": [
-    "src/index.ts",
-    "source/**/*"
+    "./src/index.ts",
+    "./source/**/*"
   ]
 }

@@ -1,12 +1,12 @@
-import logger from "../log";
-import { HexoSeo } from "../html/schema/article";
 import Hexo from "hexo";
-import getConfig from "../config";
-import hexoIs from "../hexo/hexo-is";
-import { dump, extractSimplePageData } from "../utils";
-import { CacheFile, releaseMemory } from "../cache";
-import pkg from "../../package.json";
+import hexoIs from "hexo-is";
 import { JSDOM } from "jsdom";
+import pkg from "../../package.json";
+import { CacheFile, releaseMemory } from "../cache";
+import getConfig from "../config";
+import { HexoSeo } from "../html/schema/article";
+import logger from "../log";
+import { dump, extractSimplePageData } from "../utils";
 
 const cF = new CacheFile("img-attr");
 

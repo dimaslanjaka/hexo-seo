@@ -1,8 +1,7 @@
-import { curly } from "node-libcurl";
-import logger from "../log";
-import { CacheFile } from "../cache";
-import { isDev } from "../index";
 import Promise from "bluebird";
+import { curly } from "node-libcurl";
+import { CacheFile } from "../cache";
+import { isDev } from "../hexo-seo";
 
 const cache = new CacheFile("curl");
 /**
@@ -22,8 +21,7 @@ const checkUrl = function (url: string | URL) {
         const statusCode = response.statusCode;
         const data = response.data;
         const headers = response.headers;
-        const result =
-          statusCode < 400 || statusCode >= 500 || statusCode === 200;
+        const result = statusCode < 400 || statusCode >= 500 || statusCode === 200;
         cache.set(url.toString(), { result, statusCode, data, headers });
         return { result, statusCode, data, headers };
       });
