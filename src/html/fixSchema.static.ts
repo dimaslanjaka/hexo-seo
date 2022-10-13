@@ -1,5 +1,6 @@
 import { TemplateLocals } from "hexo";
 import hexoIs from "hexo-is";
+import moment from "moment-timezone";
 import { HTMLElement } from "node-html-parser";
 import { BaseConfig } from "../config";
 import log from "../log";
@@ -23,6 +24,13 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   } else {
     title = data.config.title;
   }
+  // resolve description
+  let description = title;
+  if (data.page.description) {
+    description = data.page.description;
+  } else if (data.page.subtitle) {
+    description = data.page.subtitle;
+  }
   // resolve url
   let url = data.config.url;
   if (data.page) {
@@ -30,6 +38,27 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
       url = data.page.permalink;
     } else if (data.page.url) {
       url = data.page.url;
+    }
+  }
+
+  // resolve thumbnail
+  let thumbnail =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+  if (data.page) {
+    const photos = Array.isArray(data.page.photos) ? data.page.photos[0] : null;
+    const cover = data.page.cover || data.page.thumbnail;
+    if (cover) {
+      thumbnail = cover;
+    } else if (photos) {
+      thumbnail = photos;
+    }
+  }
+
+  // resolve author
+  let author = data.config.author;
+  if (data.page) {
+    if (data.page.author) {
+      author = data.page.author;
     }
   }
 
@@ -86,7 +115,18 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
     }
 
     if (HSconfig.schema.article.enable) {
-      //
+      article.mainEntityOfPage["@id"] = url;
+      article.headline = title;
+      article.description = description;
+      article.image.url = thumbnail;
+      article.author.name = author;
+      article.publisher.name = author;
+      article.dateModified = moment(String(data.page.updated))
+        .tz(data.config.timezone || "UTC")
+        .format();
+      article.datePublished = moment(String(data.page.date))
+        .tz(data.config.timezone || "UTC")
+        .format();
     }
   }
 
