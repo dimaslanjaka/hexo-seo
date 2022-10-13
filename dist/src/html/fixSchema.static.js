@@ -81,6 +81,9 @@ function fixSchemaStatic(dom, HSconfig, data) {
                 schema.push(breadcrumbs);
             }
         }
+        if (HSconfig.schema.article.enable) {
+            //
+        }
     }
     if (schema.length > 0) {
         var JSONschema = JSON.stringify(schema, null, 2);

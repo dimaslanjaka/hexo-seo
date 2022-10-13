@@ -84,6 +84,10 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
         schema.push(breadcrumbs);
       }
     }
+
+    if (HSconfig.schema.article.enable) {
+      //
+    }
   }
 
   if (schema.length > 0) {
