@@ -122,6 +122,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
             article.datePublished = (0, moment_timezone_1["default"])(String(data.page.date))
                 .tz(data.config.timezone || "UTC")
                 .format();
+            schema.push(article);
         }
     }
     if (schema.length > 0) {
