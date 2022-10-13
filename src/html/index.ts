@@ -1,18 +1,19 @@
-import Hexo, { TemplateLocals } from "hexo";
-import { HexoSeo } from "./schema/article";
-import "js-prototypes";
-import { identifyRels } from "./fixHyperlinks.static";
-import getConfig from "../config";
-import { CacheFile } from "../cache";
-import { md5 } from "../utils/md5-file";
-import logger from "../log";
 import Promise from "bluebird";
+import Hexo, { TemplateLocals } from "hexo";
+//import "js-prototypes";
 import { parse as nodeHtmlParser } from "node-html-parser";
-import { isExternal } from "./types";
+import { array_remove_empties, array_unique } from "src/utils/array";
 import parseUrl from "url-parse";
-import { isDev } from "..";
-import fixSchemaStatic from "./fixSchema.static";
+import { CacheFile } from "../cache";
+import getConfig from "../config";
+import { isDev } from "../hexo-seo";
+import logger from "../log";
 import sitemap from "../sitemap";
+import { md5 } from "../utils/md5-file";
+import { identifyRels } from "./fixHyperlinks.static";
+import fixSchemaStatic from "./fixSchema.static";
+import { HexoSeo } from "./schema/article";
+import { isExternal } from "./types";
 
 export function getPagePath(data: HexoSeo | TemplateLocals) {
   if (data.page) {
@@ -43,7 +44,8 @@ export default function (this: Hexo, content: string, data: HexoSeo) {
       const href = el.getAttribute("href");
       if (/https?:\/\//.test(href)) {
         let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
-        rels = rels.removeEmpties().unique();
+        //rels = rels.removeEmpties().unique();
+        rels = array_unique(array_remove_empties(rels));
         const parseHref = parseUrl(href);
         const external = isExternal(parseHref, hexo);
         rels = identifyRels(el, external, cfg.links);

@@ -1,12 +1,13 @@
+import { deepmerge } from "deepmerge-ts";
 import Hexo from "hexo";
 import HexoConfig from "hexo/HexoConfig";
-import assign from "object-assign";
-import { jsMinifyOptions } from "./minifier/js";
-import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
-import { cssMinifyOptions } from "./minifier/css";
-import { imgOptions } from "./img/index.old";
+import { join } from "path";
+import { persistentCache } from "persistent-cache";
 import { hyperlinkOptions } from "./html/types";
-import InMemory from "./cache";
+import { imgOptions } from "./img/index.old";
+import { cssMinifyOptions } from "./minifier/css";
+import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
+import { jsMinifyOptions } from "./minifier/js";
 
 export interface seoOptions extends HexoConfig {
   seo?: defaultSeoOptions;
@@ -55,10 +56,10 @@ export interface ReturnConfig {
   schema: boolean;
 }
 
-const cache = new InMemory();
+const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 
 const getConfig = function (hexo: Hexo, key = "config-hexo-seo"): ReturnConfig {
-  if (!cache.getCache(key)) {
+  if (!cache.getSync<ReturnConfig | null>(key, null)) {
     const defaultOpt: defaultSeoOptions = {
       js: {
         exclude: ["*.min.js"]
@@ -79,7 +80,7 @@ const getConfig = function (hexo: Hexo, key = "config-hexo-seo"): ReturnConfig {
         removeStyleLinkTypeAttributes: true,
         minifyJS: true,
         minifyCSS: true
-      },
+      } as htmlMinifyOptions,
       //img: { default: source.img.fallback.public, onerror: "serverside" },
       img: {
         default:
@@ -105,11 +106,11 @@ const getConfig = function (hexo: Hexo, key = "config-hexo-seo"): ReturnConfig {
     if (typeof seo.css === "boolean") delete seo.css;
     if (typeof seo.js === "boolean") delete seo.js;
     if (typeof seo.html === "boolean") delete seo.html;
-    seo = assign(defaultOpt, seo);
-    cache.setCache(key, seo);
+    seo = deepmerge(defaultOpt, seo);
+    cache.setSync(key, seo);
     return seo as ReturnConfig;
   }
-  return cache.getCache(key) as ReturnConfig;
+  return cache.getSync(key) as ReturnConfig;
 };
 
 export default getConfig;

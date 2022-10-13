@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 // source of https://github.com/hexojs/hexo/blob/master/lib/plugins/helper/is.js
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.tag = exports.category = exports.month = exports.year = exports.archive = exports.page = exports.post = exports.home = exports.current = void 0;
 function isCurrentHelper(path, strict) {
     if (path === void 0) { path = "/"; }
@@ -104,4 +104,4 @@ function default_1(hexo) {
         tag: exports.tag.bind(hexo)()
     };
 }
-exports.default = default_1;
+exports["default"] = default_1;

@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var terser_1 = require("terser");
 var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
@@ -46,7 +46,7 @@ var cache_1 = __importDefault(require("../cache"));
 var object_assign_1 = __importDefault(require("object-assign"));
 var config_1 = __importDefault(require("../config"));
 var utils_1 = require("../utils");
-var cache = new cache_1.default();
+var cache = new cache_1["default"]();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
         var path0, HSConfig, isChanged, hexo_1, options, minifyOptions, result, saved, e_1;
@@ -55,10 +55,10 @@ function default_1(str, data) {
                 case 0:
                     path0 = data.path;
                     if (!path0) {
-                        log_1.default.error("%s(CSS) invalid path", package_json_1.default.name);
+                        log_1["default"].error("%s(CSS) invalid path", package_json_1["default"].name);
                         return [2 /*return*/];
                     }
-                    HSConfig = (0, config_1.default)(this).js;
+                    HSConfig = (0, config_1["default"])(this).js;
                     // if option js is false, return original content
                     if (typeof HSConfig == "boolean" && !HSConfig)
                         return [2 /*return*/, str];
@@ -75,7 +75,7 @@ function default_1(str, data) {
                             return [2 /*return*/, str];
                     }
                     else if (typeof HSConfig == "object") {
-                        options = (0, object_assign_1.default)(options, HSConfig);
+                        options = (0, object_assign_1["default"])(options, HSConfig);
                         if ((0, utils_1.isIgnore)(path0, options.exclude))
                             return [2 /*return*/, str];
                     }
@@ -92,7 +92,7 @@ function default_1(str, data) {
                         }
                     };
                     if (typeof options.options == "object") {
-                        minifyOptions = (0, object_assign_1.default)(minifyOptions, options.options);
+                        minifyOptions = (0, object_assign_1["default"])(minifyOptions, options.options);
                     }
                     _a.label = 2;
                 case 2:
@@ -103,7 +103,7 @@ function default_1(str, data) {
                     if (result.code && result.code.length > 0) {
                         saved = (((str.length - result.code.length) / str.length) *
                             100).toFixed(2);
-                        log_1.default.log("%s(JS): %s [%s saved]", package_json_1.default.name, path0, "".concat(saved, "%"));
+                        log_1["default"].log("%s(JS): %s [%s saved]", package_json_1["default"].name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
                         cache.setCache(path0, str);
@@ -111,7 +111,7 @@ function default_1(str, data) {
                     return [3 /*break*/, 5];
                 case 4:
                     e_1 = _a.sent();
-                    log_1.default.error("Minifying ".concat(path0, " error"), e_1);
+                    log_1["default"].error("Minifying ".concat(path0, " error"), e_1);
                     // minify error, return original js
                     return [2 /*return*/, str];
                 case 5: return [3 /*break*/, 8];
@@ -125,4 +125,4 @@ function default_1(str, data) {
         });
     });
 }
-exports.default = default_1;
+exports["default"] = default_1;

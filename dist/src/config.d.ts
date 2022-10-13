@@ -1,10 +1,10 @@
 import Hexo from "hexo";
 import HexoConfig from "hexo/HexoConfig";
-import { jsMinifyOptions } from "./minifier/js";
-import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
-import { cssMinifyOptions } from "./minifier/css";
-import { imgOptions } from "./img/index.old";
 import { hyperlinkOptions } from "./html/types";
+import { imgOptions } from "./img/index.old";
+import { cssMinifyOptions } from "./minifier/css";
+import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
+import { jsMinifyOptions } from "./minifier/js";
 export interface seoOptions extends HexoConfig {
     seo?: defaultSeoOptions;
 }

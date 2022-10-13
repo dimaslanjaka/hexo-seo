@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -21,17 +25,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = void 0;
-var md5_file_1 = __importStar(require("./utils/md5-file"));
+var fs_1 = require("fs");
+var node_cache_1 = __importDefault(require("node-cache"));
 var path_1 = __importDefault(require("path"));
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
-var node_cache_1 = __importDefault(require("node-cache"));
-var fs_1 = require("fs");
-require("js-prototypes");
-var myCache = new node_cache_1.default({ stdTTL: 500, checkperiod: 520 });
+var md5_file_1 = __importStar(require("./utils/md5-file"));
+//import "js-prototypes";
+var myCache = new node_cache_1["default"]({ stdTTL: 500, checkperiod: 520 });
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -69,7 +73,7 @@ var Cache = /** @class */ (function () {
         return myCache.get(key) || fallback;
     };
     Cache.prototype.isFileChanged = function (filePath) {
-        return (0, md5_file_1.default)(filePath)
+        return (0, md5_file_1["default"])(filePath)
             .then(function (hash1) {
             var hash = Cache.md5Cache[filePath];
             Cache.md5Cache[filePath] = hash1;
@@ -80,8 +84,7 @@ var Cache = /** @class */ (function () {
                 return false;
             }
             return true;
-        })
-            .catch(function (err) {
+        })["catch"](function (err) {
             return true;
         });
     };
@@ -116,15 +119,15 @@ var CacheFile = /** @class */ (function () {
             var stack = new Error().stack.split("at")[2];
             hash = (0, md5_file_1.md5)(stack);
         }
-        this.dbFile = path_1.default.join(fm_1.buildFolder, "db-" + hash + ".json");
+        this.dbFile = path_1["default"].join(fm_1.buildFolder, "db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1.default.error("cache database lost");
-                log_1.default.error(e);
+                log_1["default"].error("cache database lost");
+                log_1["default"].error(e);
             }
         }
         if (typeof db == "object") {
@@ -138,8 +141,8 @@ var CacheFile = /** @class */ (function () {
         var _this = this;
         this.md5Cache[key] = value;
         // save cache on process exit
-        scheduler_1.default.add("writeCacheFile", function () {
-            log_1.default.log("saved cache", _this.dbFile);
+        scheduler_1["default"].add("writeCacheFile", function () {
+            log_1["default"].log("saved cache", _this.dbFile);
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
@@ -211,16 +214,16 @@ var CacheFile2 = /** @class */ (function () {
         var stack = new Error().stack.split("at")[2];
         hash = hash + "-" + (0, md5_file_1.md5)(stack);
         this.cacheHash = hash;
-        this.dbFile = path_1.default.join(fm_1.buildFolder, "db-" + hash + ".json");
-        this.dbFolder = path_1.default.join(fm_1.buildFolder, hash);
+        this.dbFile = path_1["default"].join(fm_1.buildFolder, "db-" + hash + ".json");
+        this.dbFolder = path_1["default"].join(fm_1.buildFolder, hash);
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1.default.error("cache database lost");
-                log_1.default.error(e);
+                log_1["default"].error("cache database lost");
+                log_1["default"].error(e);
             }
         }
         if (typeof db == "object") {
@@ -229,9 +232,9 @@ var CacheFile2 = /** @class */ (function () {
     }
     CacheFile2.prototype.getKeyLocation = function (key) {
         if (key.startsWith("/")) {
-            key = path_1.default.join((0, md5_file_1.md5)(path_1.default.dirname(key)), path_1.default.basename(key));
+            key = path_1["default"].join((0, md5_file_1.md5)(path_1["default"].dirname(key)), path_1["default"].basename(key));
         }
-        return path_1.default.join(this.dbFolder, key);
+        return path_1["default"].join(this.dbFolder, key);
     };
     CacheFile2.prototype.set = function (key, value) {
         if (!key && !value) {
@@ -242,11 +245,11 @@ var CacheFile2 = /** @class */ (function () {
         }
         var saveLocation = this.getKeyLocation(key);
         this.md5Cache[key] = saveLocation;
-        var dbLocation = path_1.default.join(this.dbFile);
+        var dbLocation = path_1["default"].join(this.dbFile);
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
-        scheduler_1.default.add("save-" + this.cacheHash, function () {
-            log_1.default.log("saving caches...", saveLocation, dbLocation);
+        scheduler_1["default"].add("save-" + this.cacheHash, function () {
+            log_1["default"].log("saving caches...", saveLocation, dbLocation);
             (0, fm_1.writeFile)(saveLocation, value);
             (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
         });
@@ -322,4 +325,4 @@ function releaseMemory() {
     }
 }
 exports.releaseMemory = releaseMemory;
-exports.default = Cache;
+exports["default"] = Cache;

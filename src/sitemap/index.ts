@@ -1,20 +1,18 @@
+import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
 import Hexo, { PageData, TemplateLocals } from "hexo";
 import moment from "moment";
-import { create as createXML } from "xmlbuilder2";
-import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
+import { HTMLElement } from "node-html-parser";
 import { join } from "path";
+import { create as createXML } from "xmlbuilder2";
+import { ReturnConfig } from "../config";
+import { writeFile } from "../fm";
 import hexoIs from "../hexo/hexo-is";
 import { HexoIs } from "../hexo/hexo-is/is";
-import { writeFile } from "../fm";
 import log from "../log";
 import scheduler from "../scheduler";
-import { HTMLElement } from "node-html-parser";
-import { ReturnConfig } from "../config";
 import getCategoryTags, { getLatestFromArrayDates } from "./archive";
-import "js-prototypes";
+//import "js-prototypes";
 import { CacheFile } from "../cache";
-import { md5 } from "../utils/md5-file";
-import { getPagePath } from "../html";
 
 interface sitemapItem {
   loc: string;

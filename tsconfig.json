@@ -1,6 +1,6 @@
 /* ONLY FOR VSCODE */
 {
-  "extends": "js-prototypes/tsconfig.json",
+  //"extends": "js-prototypes/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
@@ -22,10 +22,10 @@
     "**/dist/**",
     "**/node_modules/**",
     "**/.git/**",
-    "test"
+    "**/test/**"
   ],
   "include": [
-    "src/index.ts",
+    "src/**/*",
     "source/**/*"
   ]
 }

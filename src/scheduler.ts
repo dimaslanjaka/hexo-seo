@@ -1,7 +1,6 @@
 /** SCHEDULER JOB **/
 /*** Postpone executing functions ***/
 
-import chalk from "chalk";
 import logger from "./log";
 
 const functions: { [key: string]: () => any }[] = [];

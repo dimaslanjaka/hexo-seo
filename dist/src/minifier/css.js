@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var clean_css_1 = __importDefault(require("clean-css"));
 var config_1 = __importDefault(require("../config"));
 var utils_1 = require("../utils");
@@ -46,7 +46,7 @@ var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache_1 = __importDefault(require("../cache"));
 var chalk_1 = __importDefault(require("chalk"));
-var cache = new cache_1.default();
+var cache = new cache_1["default"]();
 function default_1(str, data) {
     return __awaiter(this, void 0, void 0, function () {
         var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;
@@ -58,16 +58,16 @@ function default_1(str, data) {
                 case 1:
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
-                    log_1.default.log("%s is changed %s", path0, isChanged ? chalk_1.default.red(isChanged) : chalk_1.default.green(isChanged));
+                    log_1["default"].log("%s is changed %s", path0, isChanged ? chalk_1["default"].red(isChanged) : chalk_1["default"].green(isChanged));
                     hexo_1 = this;
-                    options = (0, config_1.default)(hexo_1).css;
+                    options = (0, config_1["default"])(hexo_1).css;
                     // if option css is false, return original content
                     if (typeof options == "boolean" && !options)
                         return [2 /*return*/, str];
                     exclude = typeof options.exclude == "object" ? options.exclude : [];
                     if (path0 && exclude && exclude.length > 0) {
                         ignored = (0, utils_1.isIgnore)(path0, exclude);
-                        log_1.default.log("%s(CSS:exclude) %s %s %s", package_json_1.default.name, ignored ? chalk_1.default.red(ignored) : chalk_1.default.green(ignored), path0, exclude.join(", "));
+                        log_1["default"].log("%s(CSS:exclude) %s %s %s", package_json_1["default"].name, ignored ? chalk_1["default"].red(ignored) : chalk_1["default"].green(ignored), path0, exclude.join(", "));
                         if (ignored)
                             return [2 /*return*/, str];
                     }
@@ -75,23 +75,23 @@ function default_1(str, data) {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, new clean_css_1.default(options).minify(str)];
+                    return [4 /*yield*/, new clean_css_1["default"](options).minify(str)];
                 case 3:
                     styles = (_a.sent()).styles;
                     saved = (((str.length - styles.length) / str.length) *
                         100).toFixed(2);
-                    log_1.default.log("%s(CSS): %s [%s saved]", package_json_1.default.name, path0, saved + "%");
+                    log_1["default"].log("%s(CSS): %s [%s saved]", package_json_1["default"].name, path0, saved + "%");
                     str = styles;
                     cache.set(path0, str);
                     return [3 /*break*/, 5];
                 case 4:
                     err_1 = _a.sent();
-                    log_1.default.log("%d(CSS) %s %s", package_json_1.default.name, path0 + chalk_1.default.redBright("failed"));
-                    log_1.default.error(err_1);
+                    log_1["default"].log("%d(CSS) %s %s", package_json_1["default"].name, path0 + chalk_1["default"].redBright("failed"));
+                    log_1["default"].error(err_1);
                     return [3 /*break*/, 5];
                 case 5: return [3 /*break*/, 7];
                 case 6:
-                    log_1.default.log("%s(CSS) cached [%s]", package_json_1.default.name, path0.replace(this.base_dir, ""));
+                    log_1["default"].log("%s(CSS) cached [%s]", package_json_1["default"].name, path0.replace(this.base_dir, ""));
                     str = cache.get(path0, "");
                     _a.label = 7;
                 case 7: return [2 /*return*/, str];
@@ -99,4 +99,4 @@ function default_1(str, data) {
         });
     });
 }
-exports.default = default_1;
+exports["default"] = default_1;

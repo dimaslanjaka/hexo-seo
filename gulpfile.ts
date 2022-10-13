@@ -1,17 +1,21 @@
+import Bluebird from "bluebird";
+import { execSync } from "child_process";
+import { existsSync, rmSync } from "fs";
 import gulp from "gulp";
 import concat from "gulp-concat";
-import Promise from "bluebird";
-import del from "del";
-import { execSync } from "child_process";
+import { join } from "path";
 
 function clean() {
-  return del(["dist", "docs"]);
+  const paths = ["dist", "docs"].map((str) => join(__dirname, str)).filter((path) => existsSync(path));
+  return Bluebird.all(paths).each((str) => {
+    rmSync(str, { recursive: true, force: true });
+  });
 }
 
 function build(done: gulp.TaskFunctionCallback) {
   const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
 
-  return Promise.all(exclude)
+  return Bluebird.all(exclude)
     .then(() => {
       console.log("copy sitemaps xml/xsl to dist");
       return gulp.src("./src/**/*.{xml,xsl}").pipe(gulp.dest("./dist/src"));

@@ -11,5 +11,5 @@ export interface MinifyOptions extends htmlMinifyOptions {
      */
     exclude: string[];
 }
-declare const minHtml: (this: Hexo) => bluebird<string[]>;
+declare const minHtml: (this: Hexo) => bluebird<any[]>;
 export default minHtml;

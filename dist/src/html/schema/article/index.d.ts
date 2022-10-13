@@ -50,7 +50,7 @@ declare class articleSchema {
             url: string;
             potentialAction: {
                 "@type": string;
-                id: string;
+                "@id": string;
                 target: {
                     "@type": string;
                     urlTemplate: string;
@@ -124,7 +124,7 @@ declare class articleSchema {
             url: string;
             potentialAction: {
                 "@type": string;
-                id: string;
+                "@id": string;
                 target: {
                     "@type": string;
                     urlTemplate: string;

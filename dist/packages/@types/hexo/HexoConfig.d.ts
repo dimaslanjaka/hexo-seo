@@ -1,4 +1,5 @@
 import Hexo from "./index";
+
 interface HexoConfig {
   [key: string]: any;
   /**
@@ -24,7 +25,7 @@ interface HexoConfig {
   /**
    * The language of your website. Use a 2-lettter ISO-639-1 code. Default is en.
    */
-  readonly language: string;
+  readonly language: string | string[];
 
   /**
    * The timezone of your website. Hexo uses the setting on your computer by default.
@@ -198,10 +199,7 @@ interface HexoConfig {
   /**
    * Deployment settings
    */
-  readonly deploy:
-  | Hexo.extend.Deployer.Config
-  | Hexo.extend.Deployer.Config
-  | null;
+  readonly deploy: Hexo.extend.Deployer.Config | Hexo.extend.Deployer.Config | null;
 
   /**
    * Hexo by default ignores hidden files and folders, but setting this field will make Hexo process them

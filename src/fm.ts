@@ -1,7 +1,7 @@
+import crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import crypto from "crypto";
-import "js-prototypes";
+//import "js-prototypes";
 
 /**
  * Temp folder
