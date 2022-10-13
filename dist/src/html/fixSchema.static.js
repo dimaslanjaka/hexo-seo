@@ -39,8 +39,11 @@ function fixSchemaStatic(dom, HSconfig, data) {
     }
     var schema = [];
     // setup schema sitelink
-    if (HSconfig.schema.sitelink)
+    if (HSconfig.schema.sitelink && HSconfig.schema.sitelink.searchUrl) {
         sitelink.url = data.config.url;
+        sitelink.potentialAction.target = HSconfig.schema.sitelink.searchUrl;
+        schema.push(sitelink);
+    }
     if (is.post) {
         // setup breadcrumb on post
         if (HSconfig.schema.breadcrumb.enable) {

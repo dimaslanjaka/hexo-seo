@@ -4,31 +4,33 @@ import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { jsMinifyOptions } from "./minifier/js";
+import configData from "./_config_data.json";
 export interface Switcher {
     enable: boolean;
 }
-export interface ReturnConfig {
+export declare type AutoConfig = typeof configData;
+export interface BaseConfig {
     sitemap: boolean;
     /**
      * Optimize js
      */
-    js: jsMinifyOptions & Switcher;
+    js: jsMinifyOptions & Switcher & AutoConfig["js"];
     /**
      * Optimize css
      */
-    css: cssMinifyOptions & Switcher;
+    css: cssMinifyOptions & Switcher & AutoConfig["css"];
     /**
      * Optimize image
      */
-    img: imgOptions & Switcher;
+    img: imgOptions & Switcher & AutoConfig["img"];
     /**
      * Minimize html
      */
-    html: htmlMinifyOptions & Switcher;
+    html: htmlMinifyOptions & Switcher & AutoConfig["html"];
     /**
      * Nofollow links
      */
-    links: hyperlinkOptions & Switcher;
+    links: hyperlinkOptions & Switcher & AutoConfig["links"];
     /**
      * Blog hostname
      */
@@ -37,10 +39,10 @@ export interface ReturnConfig {
      * Generate schema article
      */
     schema: {
-        sitelink: Switcher;
-        article: Switcher;
-        breadcrumb: Switcher;
+        sitelink: Switcher & AutoConfig["schema"]["sitelink"];
+        article: Switcher & AutoConfig["schema"]["article"];
+        breadcrumb: Switcher & AutoConfig["schema"]["breadcrumb"];
     };
 }
-declare const getConfig: (hexo: Hexo, _key?: string) => ReturnConfig;
+declare const getConfig: (hexo: Hexo, _key?: string) => BaseConfig;
 export default getConfig;

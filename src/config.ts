@@ -1,37 +1,40 @@
 import { deepmerge } from "deepmerge-ts";
+import { writeFileSync } from "fs";
 import Hexo from "hexo";
+import { join } from "path";
 import { hyperlinkOptions } from "./html/types";
 import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { jsMinifyOptions } from "./minifier/js";
+import configData from "./_config_data.json";
 
 export interface Switcher {
   enable: boolean;
 }
-
-export interface ReturnConfig {
+export type AutoConfig = typeof configData;
+export interface BaseConfig {
   sitemap: boolean;
   /**
    * Optimize js
    */
-  js: jsMinifyOptions & Switcher;
+  js: jsMinifyOptions & Switcher & AutoConfig["js"];
   /**
    * Optimize css
    */
-  css: cssMinifyOptions & Switcher;
+  css: cssMinifyOptions & Switcher & AutoConfig["css"];
   /**
    * Optimize image
    */
-  img: imgOptions & Switcher;
+  img: imgOptions & Switcher & AutoConfig["img"];
   /**
    * Minimize html
    */
-  html: htmlMinifyOptions & Switcher;
+  html: htmlMinifyOptions & Switcher & AutoConfig["html"];
   /**
    * Nofollow links
    */
-  links: hyperlinkOptions & Switcher;
+  links: hyperlinkOptions & Switcher & AutoConfig["links"];
   /**
    * Blog hostname
    */
@@ -40,18 +43,18 @@ export interface ReturnConfig {
    * Generate schema article
    */
   schema: {
-    sitelink: Switcher;
-    article: Switcher;
-    breadcrumb: Switcher;
+    sitelink: Switcher & AutoConfig["schema"]["sitelink"];
+    article: Switcher & AutoConfig["schema"]["article"];
+    breadcrumb: Switcher & AutoConfig["schema"]["breadcrumb"];
   };
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 
 const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
-  const defaultOpt: ReturnConfig = {
-    js: { enable: false, exclude: ["*.min.js"] },
-    css: { enable: false, exclude: ["*.min.css"] },
+  const defaultOpt: BaseConfig = {
+    js: { enable: false, exclude: ["*.min.js"] } as any,
+    css: { enable: false, exclude: ["*.min.css"] } as any,
     html: {
       enable: false,
       fix: false,
@@ -73,25 +76,26 @@ const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
       default:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
       onerror: "serverside"
-    },
+    } as any,
     host: new URL(hexo.config.url).host,
     links: {
       blank: true,
       enable: true,
       allow: ["webmanajemen.com"]
-    },
+    } as any,
     schema: {
       sitelink: {
         enable: false
       },
       article: { enable: false },
       breadcrumb: { enable: false }
-    },
+    } as any,
     sitemap: false
   };
-  const seo: ReturnConfig = hexo.config.seo;
-  if (typeof seo === "undefined") return <ReturnConfig>defaultOpt;
-  return deepmerge(defaultOpt, seo) as ReturnConfig;
+  const seo: BaseConfig = hexo.config.seo;
+  writeFileSync(join(__dirname, "_config_data.json"), JSON.stringify(seo, null, 2));
+  if (typeof seo === "undefined") return <BaseConfig>defaultOpt;
+  return deepmerge(defaultOpt, seo) as BaseConfig;
 };
 
 export default getConfig;

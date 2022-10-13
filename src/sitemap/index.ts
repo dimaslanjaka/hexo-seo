@@ -5,7 +5,7 @@ import moment from "moment";
 import { HTMLElement } from "node-html-parser";
 import { dirname, join } from "path";
 import { create as createXML } from "xmlbuilder2";
-import { ReturnConfig } from "../config";
+import { BaseConfig } from "../config";
 import { writeFile } from "../fm";
 import log from "../log";
 import scheduler from "../scheduler";
@@ -95,7 +95,7 @@ const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
 const cache = new CacheFile("sitemap");
 let turnError = false;
-export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
+export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
   if (!HSconfig.sitemap) {
     if (!turnError) {
       turnError = true;

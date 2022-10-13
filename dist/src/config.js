@@ -1,6 +1,8 @@
 "use strict";
 exports.__esModule = true;
 var deepmerge_ts_1 = require("deepmerge-ts");
+var fs_1 = require("fs");
+var path_1 = require("path");
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 var getConfig = function (hexo, _key) {
     if (_key === void 0) { _key = "config-hexo-seo"; }
@@ -44,6 +46,7 @@ var getConfig = function (hexo, _key) {
         sitemap: false
     };
     var seo = hexo.config.seo;
+    (0, fs_1.writeFileSync)((0, path_1.join)(__dirname, "_config_data.json"), JSON.stringify(seo, null, 2));
     if (typeof seo === "undefined")
         return defaultOpt;
     return (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo);

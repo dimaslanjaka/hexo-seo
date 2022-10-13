@@ -1,4 +1,4 @@
-import { ReturnConfig } from "../config";
+import { BaseConfig } from "../config";
 import { isDev } from "../hexo-seo";
 import { trimText } from "../utils/string";
 import { getTextPartialHtml } from "./dom";
@@ -14,7 +14,7 @@ import { array_remove_empties, array_unique } from "../utils/array";
 import model from "./schema/article/model4.json";
 import schemaHomepage from "./schema/homepage";
 
-export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
+export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
   const is = hexoIs(data);
   const breadcrumbs = model[0];
   const article = model[1];
@@ -39,7 +39,11 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
   const schema = [];
 
   // setup schema sitelink
-  if (HSconfig.schema.sitelink) sitelink.url = data.config.url;
+  if (HSconfig.schema.sitelink && HSconfig.schema.sitelink.searchUrl) {
+    sitelink.url = data.config.url;
+    sitelink.potentialAction.target = HSconfig.schema.sitelink.searchUrl;
+    schema.push(sitelink);
+  }
 
   if (is.post) {
     // setup breadcrumb on post
@@ -98,7 +102,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
+function _model3(dom: HTMLElement, HSconfig: BaseConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
 
