@@ -17,11 +17,29 @@ import schemaHomepage from "./schema/homepage";
 export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
-  if (is.post) {
-    const breadcrumbs = model[0];
-    const article = model[1];
-    const sitelink = model[2];
+  const breadcrumbs = model[0];
+  const article = model[1];
+  const sitelink = model[2];
+  // resolve title
+  let title = "";
+  if (data.page && data.page.title && data.page.title.trim().length > 0) {
+    title = data.page.title;
+  } else {
+    title = data.config.title;
+  }
+  // resolve url
+  let url = data.config.url;
+  if (data.page) {
+    if (data.page.permalink) {
+      url = data.page.permalink;
+    } else if (data.page.url) {
+      url = data.page.url;
+    }
+  }
 
+  const schema = [];
+
+  if (is.post) {
     const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
     if (data.page) {
       if (data.page.tags && data.page.tags.length > 0) {
@@ -32,7 +50,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
             item: tag["permalink"],
             name: tag["name"]
           };
-          schemaBreadcrumbs.push(<any>o);
+          schemaBreadcrumbs.push(o);
         });
       }
 
@@ -47,12 +65,35 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
           schemaBreadcrumbs.push(<any>o);
         });
       }
+
+      schemaBreadcrumbs.push({
+        "@type": "ListItem",
+        position: schemaBreadcrumbs.length + 1,
+        item: url,
+        name: title
+      });
+    }
+
+    if (schemaBreadcrumbs.length > 0) {
+      breadcrumbs.itemListElement = schemaBreadcrumbs;
+      schema.push(breadcrumbs);
+    }
+  }
+
+  if (schema.length > 0) {
+    const JSONschema = JSON.stringify(schema, null, 2);
+    const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
+    log.log("schema created", title, url);
+
+    if (schemahtml) {
+      const head = dom.getElementsByTagName("head")[0];
+      head.insertAdjacentHTML("beforeend", schemahtml);
     }
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
+function _model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
   if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
 
@@ -203,7 +244,7 @@ function model3(dom: HTMLElement, HSconfig: ReturnConfig, data: HexoSeo) {
     Schema.set("keywords", kwUnique.map(trimText).join(","));
     Schema.set("award", kwUnique.map(trimText).join(","));
 
-    schemahtml = `<script type="application/ld+json">${Schema}</script>`;
+    schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${Schema}</script>\n\n`;
     log.log("schema created", title, url);
   }
   if (schemahtml) {
