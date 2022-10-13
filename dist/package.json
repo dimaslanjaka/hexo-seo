@@ -19,7 +19,8 @@
         "ts:normal": "npx tsc -p tsconfig.build.json",
         "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
         "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
-        "build": "gulp clean && npm run ts:normal && gulp",
+        "build": "npm run ts:normal && gulp",
+        "clean": "gulp clean",
         "update": "npx npm-check-updates -u -x chalk,hexo"
     },
     "repository": "dimaslanjaka/hexo-seo",
@@ -74,6 +75,8 @@
         "@types/url-parse": "^1.4.8",
         "@typescript-eslint/eslint-plugin": "^5.40.0",
         "@typescript-eslint/parser": "^5.40.0",
+        "cross-env": "^7.0.3",
+        "cross-spawn": "^7.0.3",
         "dotenv": "^16.0.3",
         "eslint": "^8.25.0",
         "eslint-config-prettier": "^8.5.0",

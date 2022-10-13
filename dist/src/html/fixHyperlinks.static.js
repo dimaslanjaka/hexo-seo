@@ -39,18 +39,18 @@ function default_1(dom, HSconfig, _data) {
 exports["default"] = default_1;
 function identifyRels(el, external, HSconfig) {
     var rels = [];
-    var externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
+    var externalArr = ["nofollow", "noopener", "noreferer", "noreferrer", "external"];
     var internalArr = ["internal", "follow", "bookmark"];
     // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
-    var newRels = (0, array_1.array_unique)(rels.concat(externalArr));
+    var newRels = (0, array_1.array_unique)(rels);
     if (external) {
-        rels = (0, array_1.remove_array_item_from)(newRels, internalArr);
+        rels = (0, array_1.remove_array_item_from)(newRels.concat(externalArr), internalArr);
         if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
             el.setAttribute("target", "_blank");
         }
     }
     else {
-        rels = (0, array_1.remove_array_item_from)(newRels, externalArr);
+        rels = (0, array_1.remove_array_item_from)(newRels.concat(internalArr), externalArr);
     }
     return rels;
 }

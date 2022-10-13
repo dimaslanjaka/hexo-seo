@@ -68,12 +68,19 @@ function HexoSeo(hexo) {
         });
     }
     // bind configuration
-    hexo.config.seo = (0, config_1["default"])(hexo);
-    // minify javascripts
-    hexo.extend.filter.register("after_render:js", js_1["default"]);
-    // minify css
-    hexo.extend.filter.register("after_render:css", css_1["default"]);
-    // all in one html fixer
-    hexo.extend.filter.register("after_render:html", html_1["default"]);
+    var config = (0, config_1["default"])(hexo);
+    hexo.config.seo = config;
+    if (config.js) {
+        // minify javascripts
+        hexo.extend.filter.register("after_render:js", js_1["default"]);
+    }
+    if (config.css) {
+        // minify css
+        hexo.extend.filter.register("after_render:css", css_1["default"]);
+    }
+    if (config.html) {
+        // all in one html fixer
+        hexo.extend.filter.register("after_render:html", html_1["default"]);
+    }
 }
 exports["default"] = HexoSeo;

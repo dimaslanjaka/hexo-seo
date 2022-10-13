@@ -26,7 +26,13 @@ function array_unique(arrays) {
     });
 }
 exports.array_unique = array_unique;
+/**
+ * Remove array item from another array
+ * @param myArray
+ * @param toRemove
+ * @returns
+ */
 function remove_array_item_from(myArray, toRemove) {
-    return myArray.filter(function (ar) { return !toRemove.find(function (rm) { return rm.name === ar.name && ar.place === rm.place; }); });
+    return myArray.filter(function (el) { return !toRemove.includes(el); });
 }
 exports.remove_array_item_from = remove_array_item_from;

@@ -18,6 +18,11 @@ var md5_file_1 = require("../utils/md5-file");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var types_1 = require("./types");
+/**
+ * get page full source
+ * @param data
+ * @returns
+ */
 function getPagePath(data) {
     if (data.page) {
         if (data.page.full_source)
@@ -33,23 +38,22 @@ var cache = new cache_1.CacheFile("index");
 function HexoSeoHtml(content, data) {
     console.log("filtering html", data.page.title);
     var hexo = this;
-    var path0;
+    var path0 = getPagePath(data);
     var allowCache = true;
-    if (getPagePath(data)) {
-        path0 = getPagePath(data);
-    }
-    else {
+    if (!path0) {
         allowCache = false;
         path0 = content;
     }
     if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
         var cfg_1 = (0, config_1["default"])(this);
-        //** fix hyperlink */
+        //** fix external hyperlink */
         var a = root.querySelectorAll("a[href]");
         a.forEach(function (el) {
-            var href = el.getAttribute("href");
-            if (/https?:\/\//.test(href)) {
+            var href = String(el.getAttribute("href")).trim();
+            if (href.startsWith("//"))
+                href = "http:" + href;
+            if (/^https?:\/\//.test(href)) {
                 var rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
                 //rels = rels.removeEmpties().unique();
                 rels = (0, array_1.array_unique)((0, array_1.array_remove_empties)(rels));
@@ -57,6 +61,8 @@ function HexoSeoHtml(content, data) {
                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                 el.setAttribute("rel", rels.join(" "));
+                el.setAttribute("hexo-seo", "true");
+                //console.log(href, "external=" + external);
             }
         });
         if (cfg_1.html.fix) {

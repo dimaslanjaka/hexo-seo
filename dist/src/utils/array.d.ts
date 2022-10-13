@@ -9,4 +9,10 @@ export declare function array_remove_empties<T extends any[]>(arr: T): any[];
  * @param arrays
  */
 export declare function array_unique<T extends any[]>(arrays: T): T;
-export declare function remove_array_item_from<T extends any[]>(myArray: T, toRemove: T): T;
+/**
+ * Remove array item from another array
+ * @param myArray
+ * @param toRemove
+ * @returns
+ */
+export declare function remove_array_item_from<T extends any[]>(myArray: T, toRemove: T): any[];

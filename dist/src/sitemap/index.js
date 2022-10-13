@@ -149,9 +149,16 @@ function sitemap(dom, HSconfig, data) {
             scheduler_1["default"].add("writeSitemap", function () {
                 // copy xsl
                 var destXSL = (0, path_1.join)(hexo.public_dir, "sitemap.xsl");
+                if (!(0, fs_1.existsSync)((0, path_1.dirname)(destXSL)))
+                    (0, fs_1.mkdirSync)((0, path_1.dirname)(destXSL), { recursive: true });
                 var sourceXSL = (0, path_1.join)(__dirname, "views/sitemap.xsl");
-                (0, fs_1.copyFileSync)(sourceXSL, destXSL);
-                log_1["default"].log("XSL sitemap copied to " + destXSL);
+                if ((0, fs_1.existsSync)(sourceXSL)) {
+                    (0, fs_1.copyFileSync)(sourceXSL, destXSL);
+                    log_1["default"].log("XSL sitemap copied to " + destXSL);
+                }
+                else {
+                    log_1["default"].error("XSL sitemap not found");
+                }
                 var destPostSitemap = (0, path_1.join)(hexo.public_dir, "post-sitemap.xml");
                 (0, fm_1.writeFile)(destPostSitemap, (0, xmlbuilder2_1.create)(sitemapGroup["post"]).end({ prettyPrint: true }));
                 log_1["default"].log("post sitemap saved", destPostSitemap);
