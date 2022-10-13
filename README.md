@@ -296,3 +296,4 @@ hexo clean # this will cleaning temporarily folders of this plugin
 ## [1.0.35] 2022-10-13T14:19:36
 - b54a027 : 1.0.35  Thu Oct 13 14:18:09 2022 +0700
 - 8fc7082 : init  Thu Oct 13 13:35:11 2022 +0700
+-         : fix schema breadcrumb, article, and sitelink using model v4
