@@ -15,7 +15,6 @@ import model from "./schema/article/model4.json";
 import schemaHomepage from "./schema/homepage";
 
 export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig, data: TemplateLocals) {
-  if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
   const is = hexoIs(data);
   const breadcrumbs = model[0];
   const article = model[1];
@@ -39,46 +38,50 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: ReturnConfig
 
   const schema = [];
 
+  // setup schema sitelink
   if (HSconfig.schema.sitelink) sitelink.url = data.config.url;
 
   if (is.post) {
-    const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
-    if (data.page) {
-      if (data.page.tags && data.page.tags.length > 0) {
-        data.page.tags.forEach((tag) => {
-          const o = {
-            "@type": "ListItem",
-            position: schemaBreadcrumbs.length + 1,
-            item: tag["permalink"],
-            name: tag["name"]
-          };
-          schemaBreadcrumbs.push(o);
+    // setup breadcrumb on post
+    if (HSconfig.schema.breadcrumb.enable) {
+      const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
+      if (data.page) {
+        if (data.page.tags && data.page.tags.length > 0) {
+          data.page.tags.forEach((tag) => {
+            const o = {
+              "@type": "ListItem",
+              position: schemaBreadcrumbs.length + 1,
+              item: tag["permalink"],
+              name: tag["name"]
+            };
+            schemaBreadcrumbs.push(o);
+          });
+        }
+
+        if (data.page.categories && data.page.categories.length > 0) {
+          data.page.categories.forEach((category) => {
+            const o = {
+              "@type": "ListItem",
+              position: schemaBreadcrumbs.length + 1,
+              item: category["permalink"],
+              name: category["name"]
+            };
+            schemaBreadcrumbs.push(<any>o);
+          });
+        }
+
+        schemaBreadcrumbs.push({
+          "@type": "ListItem",
+          position: schemaBreadcrumbs.length + 1,
+          item: url,
+          name: title
         });
       }
 
-      if (data.page.categories && data.page.categories.length > 0) {
-        data.page.categories.forEach((category) => {
-          const o = {
-            "@type": "ListItem",
-            position: schemaBreadcrumbs.length + 1,
-            item: category["permalink"],
-            name: category["name"]
-          };
-          schemaBreadcrumbs.push(<any>o);
-        });
+      if (schemaBreadcrumbs.length > 0) {
+        breadcrumbs.itemListElement = schemaBreadcrumbs;
+        schema.push(breadcrumbs);
       }
-
-      schemaBreadcrumbs.push({
-        "@type": "ListItem",
-        position: schemaBreadcrumbs.length + 1,
-        item: url,
-        name: title
-      });
-    }
-
-    if (schemaBreadcrumbs.length > 0) {
-      breadcrumbs.itemListElement = schemaBreadcrumbs;
-      schema.push(breadcrumbs);
     }
   }
 

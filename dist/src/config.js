@@ -5,13 +5,10 @@ var deepmerge_ts_1 = require("deepmerge-ts");
 var getConfig = function (hexo, _key) {
     if (_key === void 0) { _key = "config-hexo-seo"; }
     var defaultOpt = {
-        js: {
-            exclude: ["*.min.js"]
-        },
-        css: {
-            exclude: ["*.min.css"]
-        },
+        js: { enable: false, exclude: ["*.min.js"] },
+        css: { enable: false, exclude: ["*.min.css"] },
         html: {
+            enable: false,
             fix: false,
             exclude: [],
             collapseBooleanAttributes: true,
@@ -27,31 +24,26 @@ var getConfig = function (hexo, _key) {
         },
         //img: { default: source.img.fallback.public, onerror: "serverside" },
         img: {
+            enable: false,
             "default": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
             onerror: "serverside"
         },
-        host: ["webmanajemen.com"],
+        host: new URL(hexo.config.url).host,
         links: {
             blank: true,
             enable: true,
             allow: ["webmanajemen.com"]
         },
-        schema: true,
+        schema: {
+            sitelink: {
+                enable: false
+            },
+            article: { enable: false },
+            breadcrumb: { enable: false }
+        },
         sitemap: false
     };
     var seo = hexo.config.seo;
-    if (typeof seo.css === "boolean") {
-        if (seo.css)
-            delete seo.css;
-    }
-    if (typeof seo.js === "boolean") {
-        if (seo.js)
-            delete seo.js;
-    }
-    if (typeof seo.html === "boolean") {
-        if (seo.html)
-            delete seo.html;
-    }
     if (typeof seo === "undefined")
         return defaultOpt;
     return (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo);

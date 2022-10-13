@@ -54,7 +54,7 @@ function HexoSeoHtml(content, data) {
     if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
         var cfg_1 = (0, config_1["default"])(this);
-        //** fix external hyperlink */
+        //** fix hyperlink */
         var a = root.querySelectorAll("a[href]");
         a.forEach(function (el) {
             var href = String(el.getAttribute("href")).trim();
@@ -88,12 +88,14 @@ function HexoSeoHtml(content, data) {
         }
         //** fix images attributes */
         root.querySelectorAll("img[src]").forEach(function (element) {
-            if (!element.getAttribute("title")) {
+            var imgAlt = element.getAttribute("alt") || title;
+            var imgTitle = element.getAttribute("title") || imgAlt;
+            if (!element.hasAttribute("title")) {
                 //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
-                element.setAttribute("title", title);
+                element.setAttribute("title", imgTitle);
             }
-            if (!element.getAttribute("alt")) {
-                element.setAttribute("alt", title);
+            if (!element.hasAttribute("alt")) {
+                element.setAttribute("alt", imgAlt);
             }
             if (!element.getAttribute("itemprop")) {
                 element.setAttribute("itemprop", "image");

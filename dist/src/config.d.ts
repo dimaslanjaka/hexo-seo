@@ -1,53 +1,46 @@
 import Hexo from "hexo";
-import HexoConfig from "hexo/HexoConfig";
 import { hyperlinkOptions } from "./html/types";
 import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { jsMinifyOptions } from "./minifier/js";
-export interface seoOptions extends HexoConfig {
-    seo?: defaultSeoOptions;
-}
-export interface defaultSeoOptions {
-    /**
-     * Optimize js
-     */
-    js?: boolean | jsMinifyOptions;
-    /**
-     * Optimize css
-     */
-    css?: boolean | cssMinifyOptions;
-    /**
-     * Optimize image
-     */
-    img?: boolean | imgOptions;
-    /**
-     * Minimize html
-     */
-    html?: boolean | htmlMinifyOptions;
-    /**
-     * Blog hostname
-     */
-    host?: string[];
-    /**
-     * Nofollow links
-     */
-    links?: hyperlinkOptions;
-    /**
-     * Generate schema article
-     */
-    schema?: boolean;
-    sitemap?: boolean;
+export interface Switcher {
+    enable: boolean;
 }
 export interface ReturnConfig {
     sitemap: boolean;
-    js: jsMinifyOptions;
-    css: cssMinifyOptions;
-    img: imgOptions;
-    html: htmlMinifyOptions;
-    links: hyperlinkOptions;
-    host: defaultSeoOptions["host"];
-    schema: boolean;
+    /**
+     * Optimize js
+     */
+    js: jsMinifyOptions & Switcher;
+    /**
+     * Optimize css
+     */
+    css: cssMinifyOptions & Switcher;
+    /**
+     * Optimize image
+     */
+    img: imgOptions & Switcher;
+    /**
+     * Minimize html
+     */
+    html: htmlMinifyOptions & Switcher;
+    /**
+     * Nofollow links
+     */
+    links: hyperlinkOptions & Switcher;
+    /**
+     * Blog hostname
+     */
+    host: string;
+    /**
+     * Generate schema article
+     */
+    schema: {
+        sitelink: Switcher;
+        article: Switcher;
+        breadcrumb: Switcher;
+    };
 }
 declare const getConfig: (hexo: Hexo, _key?: string) => ReturnConfig;
 export default getConfig;
