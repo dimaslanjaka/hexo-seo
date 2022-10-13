@@ -36,7 +36,7 @@ function getPagePath(data) {
 exports.getPagePath = getPagePath;
 var cache = new cache_1.CacheFile("index");
 function HexoSeoHtml(content, data) {
-    console.log("filtering html", data.page.title);
+    //console.log("filtering html", data.page.title);
     var hexo = this;
     var path0 = getPagePath(data);
     var allowCache = true;
