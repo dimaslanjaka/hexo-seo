@@ -1,13 +1,13 @@
 "use strict";
-import { minify, Options as htmlMinifyOptions } from "html-minifier-terser";
-import Hexo from "hexo";
-import { isIgnore } from "../utils";
-import getConfig from "../config";
 import bluebird from "bluebird";
+import Hexo from "hexo";
+import { minify, Options as htmlMinifyOptions } from "html-minifier-terser";
 import minimatch from "minimatch";
 import pkg from "../../package.json";
-import { streamToArray } from "../utils/stream";
+import getConfig from "../config";
 import logger from "../log";
+import { isIgnore } from "../utils";
+import { streamToArray } from "../utils/stream";
 
 export interface MinifyOptions extends htmlMinifyOptions {
   /**
@@ -50,9 +50,7 @@ const minHtml = function (this: Hexo) {
       .then((str) => {
         return minify(str, options).then((result) => {
           const len0 = result.length;
-          const saved = len0
-            ? (((len0 - result.length) / len0) * 100).toFixed(2)
-            : 0;
+          const saved = len0 ? (((len0 - result.length) / len0) * 100).toFixed(2) : 0;
           logger.log("%s(HTML): %s [ %s saved]", pkg.name, path0, saved + "%");
           route.set(path0, result);
           return result;

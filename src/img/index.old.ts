@@ -1,11 +1,11 @@
+import cheerio from "cheerio";
 import Hexo from "hexo";
-import logger from "../log";
-import getConfig from "../config";
 import minimatch from "minimatch";
+import { Stream } from "stream";
+import getConfig from "../config";
+import logger from "../log";
 import { isIgnore } from "../utils";
 import { streamToArray } from "../utils/stream";
-import cheerio from "cheerio";
-import { Stream } from "stream";
 
 export interface imgOptions {
   /**
@@ -72,7 +72,7 @@ export default async function (this: Hexo) {
     return processor(stream);
   });*/
 
-  return routes.map((path0, index, arr) => {
+  return routes.map((path0) => {
     const stream = route.get(path0);
     return processor(stream);
   });

@@ -40,17 +40,17 @@ export function identifyRels(
   HSconfig: hyperlinkOptions
 ) {
   let rels: string[] = [];
-  const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer"];
+  const externalArr = ["nofollow", "noopener", "noreferer", "noreferrer", "external"];
   const internalArr = ["internal", "follow", "bookmark"];
   // if external link, assign external rel attributes and remove items from internal attributes if exists, and will do the opposite if the internal link
-  const newRels = array_unique(rels.concat(externalArr));
+  const newRels = array_unique(rels);
   if (external) {
-    rels = remove_array_item_from(newRels, internalArr);
+    rels = remove_array_item_from(newRels.concat(externalArr), internalArr);
     if (typeof HSconfig.blank == "boolean" && HSconfig.blank) {
       el.setAttribute("target", "_blank");
     }
   } else {
-    rels = remove_array_item_from(newRels, externalArr);
+    rels = remove_array_item_from(newRels.concat(internalArr), externalArr);
   }
   return rels;
 }

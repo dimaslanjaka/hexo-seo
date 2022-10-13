@@ -72,12 +72,19 @@ export default function HexoSeo(hexo: Hexo) {
   }
 
   // bind configuration
-  hexo.config.seo = getConfig(hexo);
+  const config = getConfig(hexo);
+  hexo.config.seo = config;
 
-  // minify javascripts
-  hexo.extend.filter.register("after_render:js", HexoSeoJs);
-  // minify css
-  hexo.extend.filter.register("after_render:css", HexoSeoCss);
-  // all in one html fixer
-  hexo.extend.filter.register("after_render:html", HexoSeoHtml);
+  if (config.js) {
+    // minify javascripts
+    hexo.extend.filter.register("after_render:js", HexoSeoJs);
+  }
+  if (config.css) {
+    // minify css
+    hexo.extend.filter.register("after_render:css", HexoSeoCss);
+  }
+  if (config.html) {
+    // all in one html fixer
+    hexo.extend.filter.register("after_render:html", HexoSeoHtml);
+  }
 }

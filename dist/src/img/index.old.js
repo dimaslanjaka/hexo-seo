@@ -39,12 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var log_1 = __importDefault(require("../log"));
-var config_1 = __importDefault(require("../config"));
+var cheerio_1 = __importDefault(require("cheerio"));
 var minimatch_1 = __importDefault(require("minimatch"));
+var config_1 = __importDefault(require("../config"));
+var log_1 = __importDefault(require("../log"));
 var utils_1 = require("../utils");
 var stream_1 = require("../utils/stream");
-var cheerio_1 = __importDefault(require("cheerio"));
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
         var hexo, route, options, routes, processor;
@@ -93,7 +93,7 @@ function default_1() {
               const stream = route.get(path0);
               return processor(stream);
             });*/
-            return [2 /*return*/, routes.map(function (path0, index, arr) {
+            return [2 /*return*/, routes.map(function (path0) {
                     var stream = route.get(path0);
                     return processor(stream);
                 })];

@@ -21,6 +21,12 @@ export function array_unique<T extends any[]>(arrays: T) {
   }) as T;
 }
 
+/**
+ * Remove array item from another array
+ * @param myArray
+ * @param toRemove
+ * @returns
+ */
 export function remove_array_item_from<T extends any[]>(myArray: T, toRemove: T) {
-  return myArray.filter((ar) => !toRemove.find((rm) => rm.name === ar.name && ar.place === rm.place)) as T;
+  return myArray.filter((el) => !toRemove.includes(el));
 }
