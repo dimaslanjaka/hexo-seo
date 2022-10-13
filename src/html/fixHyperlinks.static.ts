@@ -1,6 +1,6 @@
-import { isValidHttpUrl } from "src/utils/url";
 import parseUrl from "url-parse";
 import { array_unique, remove_array_item_from } from "../utils/array";
+import { isValidHttpUrl } from "../utils/url";
 import { _JSDOM } from "./dom";
 import { HexoSeo } from "./schema/article";
 import { formatAnchorText, hyperlinkOptions, isExternal } from "./types";
