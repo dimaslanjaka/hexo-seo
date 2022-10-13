@@ -6,10 +6,10 @@ import minimist from "minimist";
 import pkg from "../package.json";
 import getConfig from "./config";
 import { buildFolder, tmpFolder } from "./fm";
-import htmlIndex from "./html/index";
+import HexoSeoHtml from "./html";
 import log from "./log";
-import seoCss from "./minifier/css";
-import seoJs from "./minifier/js";
+import HexoSeoCss from "./minifier/css";
+import HexoSeoJs from "./minifier/js";
 import scheduler from "./scheduler";
 import bindProcessExit from "./utils/cleanup";
 
@@ -26,6 +26,7 @@ export const isDev = arg || env;
 
 // core
 export default function HexoSeo(hexo: Hexo) {
+  //console.log("hexo-seo starting", { dev: env });
   // return if hexo-seo configuration unavailable
   if (typeof hexo.config.seo == "undefined") {
     log.error("seo options not found");
@@ -74,9 +75,9 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.config.seo = getConfig(hexo);
 
   // minify javascripts
-  hexo.extend.filter.register("after_render:js", seoJs);
+  hexo.extend.filter.register("after_render:js", HexoSeoJs);
   // minify css
-  hexo.extend.filter.register("after_render:css", seoCss);
+  hexo.extend.filter.register("after_render:css", HexoSeoCss);
   // all in one html fixer
-  hexo.extend.filter.register("after_render:html", htmlIndex);
+  hexo.extend.filter.register("after_render:html", HexoSeoHtml);
 }
