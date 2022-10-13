@@ -92,7 +92,7 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test/demo && npm un hexo-blogger-xml hexo-adsense && npm i https://github.com/dimaslanjaka/hexo-seo
+      - run: cd test/demo && npm i https://github.com/dimaslanjaka/hexo-seo
       - run: cd test/demo && hexo generate
 
   npm:
