@@ -1,9 +1,9 @@
-import { copyFileSync, existsSync, readFileSync, statSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "fs";
 import Hexo, { PageData, TemplateLocals } from "hexo";
 import hexoIs from "hexo-is";
 import moment from "moment";
 import { HTMLElement } from "node-html-parser";
-import { join } from "path";
+import { dirname, join } from "path";
 import { create as createXML } from "xmlbuilder2";
 import { ReturnConfig } from "../config";
 import { writeFile } from "../fm";
@@ -159,9 +159,14 @@ export function sitemap(dom: HTMLElement, HSconfig: ReturnConfig, data: Template
       scheduler.add("writeSitemap", () => {
         // copy xsl
         const destXSL = join(hexo.public_dir, "sitemap.xsl");
+        if (!existsSync(dirname(destXSL))) mkdirSync(dirname(destXSL), { recursive: true });
         const sourceXSL = join(__dirname, "views/sitemap.xsl");
-        copyFileSync(sourceXSL, destXSL);
-        log.log("XSL sitemap copied to " + destXSL);
+        if (existsSync(sourceXSL)) {
+          copyFileSync(sourceXSL, destXSL);
+          log.log("XSL sitemap copied to " + destXSL);
+        } else {
+          log.error("XSL sitemap not found");
+        }
 
         const destPostSitemap = join(hexo.public_dir, "post-sitemap.xml");
         writeFile(destPostSitemap, createXML(sitemapGroup["post"]).end({ prettyPrint: true }));

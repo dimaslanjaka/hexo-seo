@@ -15,6 +15,11 @@ import fixSchemaStatic from "./fixSchema.static";
 import { HexoSeo } from "./schema/article";
 import { isExternal } from "./types";
 
+/**
+ * get page full source
+ * @param data
+ * @returns
+ */
 export function getPagePath(data: HexoSeo | TemplateLocals) {
   if (data.page) {
     if (data.page.full_source) return data.page.full_source;
@@ -27,11 +32,9 @@ const cache = new CacheFile("index");
 export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
   console.log("filtering html", data.page.title);
   const hexo = this;
-  let path0: string;
+  let path0: string = getPagePath(data);
   let allowCache = true;
-  if (getPagePath(data)) {
-    path0 = getPagePath(data);
-  } else {
+  if (!path0) {
     allowCache = false;
     path0 = content;
   }
@@ -39,11 +42,12 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
   if (cache.isFileChanged(md5(path0)) || isDev) {
     const root = nodeHtmlParser(content);
     const cfg = getConfig(this);
-    //** fix hyperlink */
+    //** fix external hyperlink */
     const a = root.querySelectorAll("a[href]");
     a.forEach((el) => {
-      const href = el.getAttribute("href");
-      if (/https?:\/\//.test(href)) {
+      let href = String(el.getAttribute("href")).trim();
+      if (href.startsWith("//")) href = "http:" + href;
+      if (/^https?:\/\//.test(href)) {
         let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
         //rels = rels.removeEmpties().unique();
         rels = array_unique(array_remove_empties(rels));
@@ -51,6 +55,8 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
         const external = isExternal(parseHref, hexo);
         rels = identifyRels(el, external, cfg.links);
         el.setAttribute("rel", rels.join(" "));
+        el.setAttribute("hexo-seo", "true");
+        //console.log(href, "external=" + external);
       }
     });
 

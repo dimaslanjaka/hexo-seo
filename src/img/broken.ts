@@ -1,11 +1,10 @@
-import logger from "../log";
-import { HexoSeo } from "../html/schema/article";
+import Promise from "bluebird";
 import cheerio, { Cheerio, Element } from "cheerio";
 import Hexo from "hexo";
+import { CacheFile } from "../cache";
 import getConfig from "../config";
 import checkUrl from "../curl/check";
-import Promise from "bluebird";
-import { CacheFile } from "../cache";
+import { HexoSeo } from "../html/schema/article";
 
 const cache = new CacheFile("img-broken");
 
