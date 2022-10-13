@@ -1,53 +1,48 @@
 import Hexo from "hexo";
-import HexoConfig from "hexo/HexoConfig";
 import { hyperlinkOptions } from "./html/types";
 import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";
 import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
 import { jsMinifyOptions } from "./minifier/js";
-export interface seoOptions extends HexoConfig {
-    seo?: defaultSeoOptions;
+import configData from "./_config_data.json";
+export interface Switcher {
+    enable: boolean;
 }
-export interface defaultSeoOptions {
+export declare type AutoConfig = typeof configData;
+export interface BaseConfig {
+    sitemap: boolean;
     /**
      * Optimize js
      */
-    js?: boolean | jsMinifyOptions;
+    js: jsMinifyOptions & Switcher & AutoConfig["js"];
     /**
      * Optimize css
      */
-    css?: boolean | cssMinifyOptions;
+    css: cssMinifyOptions & Switcher & AutoConfig["css"];
     /**
      * Optimize image
      */
-    img?: boolean | imgOptions;
+    img: imgOptions & Switcher & AutoConfig["img"];
     /**
      * Minimize html
      */
-    html?: boolean | htmlMinifyOptions;
-    /**
-     * Blog hostname
-     */
-    host?: string[];
+    html: htmlMinifyOptions & Switcher & AutoConfig["html"];
     /**
      * Nofollow links
      */
-    links?: hyperlinkOptions;
+    links: hyperlinkOptions & Switcher & AutoConfig["links"];
+    /**
+     * Blog hostname
+     */
+    host: string;
     /**
      * Generate schema article
      */
-    schema?: boolean;
-    sitemap?: boolean;
+    schema: {
+        sitelink: Switcher & AutoConfig["schema"]["sitelink"];
+        article: Switcher & AutoConfig["schema"]["article"];
+        breadcrumb: Switcher & AutoConfig["schema"]["breadcrumb"];
+    };
 }
-export interface ReturnConfig {
-    sitemap: boolean;
-    js: jsMinifyOptions;
-    css: cssMinifyOptions;
-    img: imgOptions;
-    html: htmlMinifyOptions;
-    links: hyperlinkOptions;
-    host: defaultSeoOptions["host"];
-    schema: boolean;
-}
-declare const getConfig: (hexo: Hexo, _key?: string) => ReturnConfig;
+declare const getConfig: (hexo: Hexo, _key?: string) => BaseConfig;
 export default getConfig;

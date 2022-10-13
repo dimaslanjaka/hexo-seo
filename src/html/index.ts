@@ -48,7 +48,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
   if (cache.isFileChanged(md5(path0)) || isDev) {
     const root = nodeHtmlParser(content);
     const cfg = getConfig(this);
-    //** fix external hyperlink */
+    //** fix hyperlink */
     const a = root.querySelectorAll("a[href]");
     a.forEach((el) => {
       let href = String(el.getAttribute("href")).trim();
@@ -81,12 +81,14 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     //** fix images attributes */
 
     root.querySelectorAll("img[src]").forEach((element) => {
-      if (!element.getAttribute("title")) {
+      const imgAlt = element.getAttribute("alt") || title;
+      const imgTitle = element.getAttribute("title") || imgAlt;
+      if (!element.hasAttribute("title")) {
         //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
-        element.setAttribute("title", title);
+        element.setAttribute("title", imgTitle);
       }
-      if (!element.getAttribute("alt")) {
-        element.setAttribute("alt", title);
+      if (!element.hasAttribute("alt")) {
+        element.setAttribute("alt", imgAlt);
       }
       if (!element.getAttribute("itemprop")) {
         element.setAttribute("itemprop", "image");

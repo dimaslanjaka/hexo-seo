@@ -1,6 +1,6 @@
 {
     "name": "hexo-seo",
-    "version": "1.0.33",
+    "version": "1.0.34",
     "description": "Automated Hexo Seo Optimizer",
     "main": "index.js",
     "files": [
@@ -58,7 +58,7 @@
         "node-libcurl": "^2.3.4",
         "persistent-cache": "git+https://github.com/dimaslanjaka/persistent-cache#improve2",
         "sanitize-filename": "^1.6.3",
-        "serve-static": "github:expressjs/serve-static",
+        "serve-static": "^1.15.0",
         "terser": "^5.15.1",
         "ts-node": "^10.9.1",
         "underscore": "^1.13.6",
