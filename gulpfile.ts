@@ -12,8 +12,8 @@ function clean() {
   });
 }
 
-function build(done: gulp.TaskFunctionCallback) {
-  const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**"];
+function build(done: CallableFunction) {
+  const exclude = ["!**/node_modules/**", "!**/.git**", "!**/.github/**", "!**.gitmodules**", "!**/tmp"];
 
   return Bluebird.all(exclude)
     .then(() => {
@@ -30,7 +30,7 @@ function build(done: gulp.TaskFunctionCallback) {
     })
     .then(() => {
       console.log("copy main js to master build");
-      return gulp.src("./index.*").pipe(gulp.dest("./docs"));
+      return gulp.src(["./index.*", "./package.json"]).pipe(gulp.dest("./docs"));
     })
     .then(() => {
       console.log("build readme master build");
@@ -39,7 +39,7 @@ function build(done: gulp.TaskFunctionCallback) {
     .then(() => {
       console.log("copy source to master build");
       gulp
-        .src(["./*.{json}", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
+        .src(["./*.json", "./src/**/*", "./packages/**/*", "./source/**/*"].concat(exclude), {
           base: ".",
           dot: true
         })

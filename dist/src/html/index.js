@@ -36,13 +36,20 @@ function getPagePath(data) {
 exports.getPagePath = getPagePath;
 var cache = new cache_1.CacheFile("index");
 function HexoSeoHtml(content, data) {
-    console.log("filtering html", data.page.title);
+    //console.log("filtering html", data.page.title);
     var hexo = this;
     var path0 = getPagePath(data);
     var allowCache = true;
     if (!path0) {
         allowCache = false;
         path0 = content;
+    }
+    var title = "";
+    if (data.page && data.page.title && data.page.title.trim().length > 0) {
+        title = data.page.title;
+    }
+    else {
+        title = data.config.title;
     }
     if (cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev) {
         var root = (0, node_html_parser_1.parse)(content);
@@ -61,32 +68,38 @@ function HexoSeoHtml(content, data) {
                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                 el.setAttribute("rel", rels.join(" "));
-                el.setAttribute("hexo-seo", "true");
-                //console.log(href, "external=" + external);
+                if (hexo_seo_1.isDev)
+                    el.setAttribute("hexo-seo", "true");
+                if (!el.hasAttribute("alt"))
+                    el.setAttribute("alt", title);
+                if (!el.hasAttribute("title"))
+                    el.setAttribute("title", title);
             }
         });
         if (cfg_1.html.fix) {
             //** fix invalid html */
             var inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-            if (inv.length)
+            if (inv.length > 0) {
                 log_1["default"].log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
-            inv.forEach(function (el) {
-                el.remove();
-            });
+                inv.forEach(function (el) {
+                    el.remove();
+                });
+            }
         }
         //** fix images attributes */
-        var title_1 = data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : data.config.title;
         root.querySelectorAll("img[src]").forEach(function (element) {
             if (!element.getAttribute("title")) {
                 //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
-                element.setAttribute("title", title_1);
+                element.setAttribute("title", title);
             }
             if (!element.getAttribute("alt")) {
-                element.setAttribute("alt", title_1);
+                element.setAttribute("alt", title);
             }
             if (!element.getAttribute("itemprop")) {
                 element.setAttribute("itemprop", "image");
             }
+            if (hexo_seo_1.isDev)
+                element.setAttribute("hexo-seo", "true");
         });
         (0, fixSchema_static_1["default"])(root, cfg_1, data);
         (0, sitemap_1["default"])(root, cfg_1, data);
