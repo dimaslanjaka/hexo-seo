@@ -3,9 +3,9 @@ name: Test Demo
 on:
   push:
     branches: [ compiler ]
-  pull_request:
+  #pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ compiler ]
+    #branches: [ compiler ]
 
 # cancel previous workflows, run only one workflow
 concurrency:
@@ -24,22 +24,22 @@ jobs:
           timezoneMacos: "Asia/Jakarta"
           timezoneWindows: "Indonesia Standard Time"
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           token: "${{ secrets.GITHUB_TOKEN }}"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ${{ steps.npm-cache.outputs.dir }}
@@ -65,22 +65,22 @@ jobs:
           timezoneMacos: "Asia/Jakarta"
           timezoneWindows: "Indonesia Standard Time"
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           token: "${{ secrets.GITHUB_TOKEN }}"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Use Node.js 12.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ${{ steps.npm-cache.outputs.dir }}
@@ -106,22 +106,22 @@ jobs:
           timezoneMacos: "Asia/Jakarta"
           timezoneWindows: "Indonesia Standard Time"
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           token: "${{ secrets.GITHUB_TOKEN }}"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ${{ steps.npm-cache.outputs.dir }}
