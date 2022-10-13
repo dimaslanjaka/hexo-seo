@@ -61,18 +61,20 @@ function HexoSeoHtml(content, data) {
                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                 el.setAttribute("rel", rels.join(" "));
-                el.setAttribute("hexo-seo", "true");
+                if (hexo_seo_1.isDev)
+                    el.setAttribute("hexo-seo", "true");
                 //console.log(href, "external=" + external);
             }
         });
         if (cfg_1.html.fix) {
             //** fix invalid html */
             var inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-            if (inv.length)
+            if (inv.length > 0) {
                 log_1["default"].log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
-            inv.forEach(function (el) {
-                el.remove();
-            });
+                inv.forEach(function (el) {
+                    el.remove();
+                });
+            }
         }
         //** fix images attributes */
         var title_1 = data.page && data.page.title && data.page.title.trim().length > 0 ? data.page.title : data.config.title;
@@ -87,6 +89,8 @@ function HexoSeoHtml(content, data) {
             if (!element.getAttribute("itemprop")) {
                 element.setAttribute("itemprop", "image");
             }
+            if (hexo_seo_1.isDev)
+                element.setAttribute("hexo-seo", "true");
         });
         (0, fixSchema_static_1["default"])(root, cfg_1, data);
         (0, sitemap_1["default"])(root, cfg_1, data);

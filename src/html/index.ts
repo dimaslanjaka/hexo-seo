@@ -55,7 +55,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
         const external = isExternal(parseHref, hexo);
         rels = identifyRels(el, external, cfg.links);
         el.setAttribute("rel", rels.join(" "));
-        el.setAttribute("hexo-seo", "true");
+        if (isDev) el.setAttribute("hexo-seo", "true");
         //console.log(href, "external=" + external);
       }
     });
@@ -63,10 +63,12 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     if (cfg.html.fix) {
       //** fix invalid html */
       const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-      if (inv.length) logger.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
-      inv.forEach((el) => {
-        el.remove();
-      });
+      if (inv.length > 0) {
+        logger.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
+        inv.forEach((el) => {
+          el.remove();
+        });
+      }
     }
 
     //** fix images attributes */
@@ -83,6 +85,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
       if (!element.getAttribute("itemprop")) {
         element.setAttribute("itemprop", "image");
       }
+      if (isDev) element.setAttribute("hexo-seo", "true");
     });
 
     fixSchemaStatic(root, cfg, data);
