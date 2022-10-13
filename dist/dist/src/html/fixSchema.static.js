@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var hexo_is_1 = __importDefault(require("hexo-is"));
+var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var log_1 = __importDefault(require("../log"));
 var model4_json_1 = __importDefault(require("./schema/article/model4.json"));
 /**
@@ -25,6 +26,14 @@ function fixSchemaStatic(dom, HSconfig, data) {
     else {
         title = data.config.title;
     }
+    // resolve description
+    var description = title;
+    if (data.page.description) {
+        description = data.page.description;
+    }
+    else if (data.page.subtitle) {
+        description = data.page.subtitle;
+    }
     // resolve url
     var url = data.config.url;
     if (data.page) {
@@ -33,6 +42,25 @@ function fixSchemaStatic(dom, HSconfig, data) {
         }
         else if (data.page.url) {
             url = data.page.url;
+        }
+    }
+    // resolve thumbnail
+    var thumbnail = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+    if (data.page) {
+        var photos = Array.isArray(data.page.photos) ? data.page.photos[0] : null;
+        var cover = data.page.cover || data.page.thumbnail;
+        if (cover) {
+            thumbnail = cover;
+        }
+        else if (photos) {
+            thumbnail = photos;
+        }
+    }
+    // resolve author
+    var author = data.config.author;
+    if (data.page) {
+        if (data.page.author) {
+            author = data.page.author;
         }
     }
     var schema = [];
@@ -82,7 +110,18 @@ function fixSchemaStatic(dom, HSconfig, data) {
             }
         }
         if (HSconfig.schema.article.enable) {
-            //
+            article.mainEntityOfPage["@id"] = url;
+            article.headline = title;
+            article.description = description;
+            article.image.url = thumbnail;
+            article.author.name = author;
+            article.publisher.name = author;
+            article.dateModified = (0, moment_timezone_1["default"])(String(data.page.updated))
+                .tz(data.config.timezone || "UTC")
+                .format();
+            article.datePublished = (0, moment_timezone_1["default"])(String(data.page.date))
+                .tz(data.config.timezone || "UTC")
+                .format();
         }
     }
     if (schema.length > 0) {
