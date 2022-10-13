@@ -1,6 +1,6 @@
 {
     "name": "hexo-is",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Determine whether hexo is",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
