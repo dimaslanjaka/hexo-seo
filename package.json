@@ -58,7 +58,7 @@
     "node-libcurl": "^2.3.4",
     "persistent-cache": "git+https://github.com/dimaslanjaka/persistent-cache#improve2",
     "sanitize-filename": "^1.6.3",
-    "serve-static": "git+https://github.com/expressjs/serve-static",
+    "serve-static": "github:expressjs/serve-static",
     "terser": "^5.15.1",
     "ts-node": "^10.9.1",
     "underscore": "^1.13.6",
