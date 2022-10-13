@@ -3,6 +3,8 @@
 /* eslint-disable no-console */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-var-requires */
+/** npm run publish with auto changelog **/
+
 const { exec } = require("child_process");
 const { writeFileSync, readFileSync } = require("fs");
 const versionParser = require("./src/versionParser");
