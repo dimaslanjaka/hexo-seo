@@ -50,9 +50,12 @@ jobs:
         id: build
       - run: ls docs
       - run: |
+          cp dist docs/
           cp .eslintrc docs/
           cp .eslintignore docs/
           cp LICENSE docs/
+          cp package.json docs/
+          cp package-lock.json docs/
       - name: Deploy Master Branch 🚀
         if: steps.build.outcome == 'success' && steps.build.conclusion == 'success'
         uses: JamesIves/github-pages-deploy-action@4.1.7
