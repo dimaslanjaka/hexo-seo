@@ -127,6 +127,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
       article.datePublished = moment(String(data.page.date))
         .tz(data.config.timezone || "UTC")
         .format();
+      schema.push(article);
     }
   }
 
