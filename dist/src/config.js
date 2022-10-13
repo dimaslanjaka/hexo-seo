@@ -24,11 +24,10 @@ var getConfig = function (hexo, _key) {
             minifyJS: true,
             minifyCSS: true
         },
-        //img: { default: source.img.fallback.public, onerror: "serverside" },
         img: {
             enable: false,
             "default": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
-            onerror: "serverside"
+            onerror: "clientside"
         },
         host: new URL(hexo.config.url).host,
         links: {

@@ -67,6 +67,7 @@
     "xmlbuilder2": "^3.0.2"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.37",
     "@types/clean-css": "^4.2.6",
     "@types/hexo": "file:packages/@types/hexo",
     "@types/hexo-log": "file:packages/@types/hexo-log",

@@ -7,4 +7,4 @@ import { HexoSeo } from "./schema/article";
  * @returns
  */
 export declare function getPagePath(data: HexoSeo | TemplateLocals): string;
-export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo): Promise<string>;
+export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo): Promise<unknown>;

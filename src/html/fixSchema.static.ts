@@ -121,10 +121,10 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
       article.image.url = thumbnail;
       article.author.name = author;
       article.publisher.name = author;
-      article.dateModified = moment(String(data.page.updated))
+      article.dateModified = moment(new Date(String(data.page.updated)))
         .tz(data.config.timezone || "UTC")
         .format();
-      article.datePublished = moment(String(data.page.date))
+      article.datePublished = moment(new Date(String(data.page.date)))
         .tz(data.config.timezone || "UTC")
         .format();
       schema.push(article);
