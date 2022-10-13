@@ -3,9 +3,9 @@ name: Build Master Branch
 on:
   push:
     branches: [ compiler ]
-  pull_request:
+  #pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ compiler ]
+    #branches: [ compiler ]
 
 # cancel previous workflows, run only one workflow
 concurrency:
