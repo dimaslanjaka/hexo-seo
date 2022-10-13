@@ -1,5 +1,5 @@
 # hexo-seo
-Automated Hexo Seo Optimizer (under development)
+Automated Hexo Seo Optimizer
 
 > no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
 > this plugin already have schedule function
