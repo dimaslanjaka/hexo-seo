@@ -53,6 +53,7 @@ jobs:
       - run: cd test/demo && hexo generate
 
   git:
+    if: ${{ false }}  # disable for now cause git cache error
     name: Using GitHub Package
     runs-on: ubuntu-latest
     steps:
