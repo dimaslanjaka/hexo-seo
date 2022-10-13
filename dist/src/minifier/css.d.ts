@@ -4,4 +4,4 @@ export declare type cssMinifyOptions = CleanCSS.Options & {
     enable?: boolean;
     exclude?: string[];
 };
-export default function (this: Hexo, str: string, data: Hexo.View): Promise<string>;
+export default function HexoSeoCss(this: Hexo, str: string, data: Hexo.View): Promise<string>;

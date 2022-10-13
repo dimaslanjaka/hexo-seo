@@ -39,17 +39,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+var object_assign_1 = __importDefault(require("object-assign"));
 var terser_1 = require("terser");
-var log_1 = __importDefault(require("../log"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache_1 = __importDefault(require("../cache"));
-var object_assign_1 = __importDefault(require("object-assign"));
 var config_1 = __importDefault(require("../config"));
+var log_1 = __importDefault(require("../log"));
 var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
-function default_1(str, data) {
+function HexoSeoJs(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, HSConfig, isChanged, hexo_1, options, minifyOptions, result, saved, e_1;
+        var path0, HSConfig, isChanged, options, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -66,7 +66,6 @@ function default_1(str, data) {
                 case 1:
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
-                    hexo_1 = this;
                     options = {
                         exclude: ["*.min.js"]
                     };
@@ -101,8 +100,7 @@ function default_1(str, data) {
                 case 3:
                     result = _a.sent();
                     if (result.code && result.code.length > 0) {
-                        saved = (((str.length - result.code.length) / str.length) *
-                            100).toFixed(2);
+                        saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
                         log_1["default"].log("%s(JS): %s [%s saved]", package_json_1["default"].name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
@@ -125,4 +123,4 @@ function default_1(str, data) {
         });
     });
 }
-exports["default"] = default_1;
+exports["default"] = HexoSeoJs;

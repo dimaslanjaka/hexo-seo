@@ -1,7 +1,7 @@
 import Hexo, { PageData, TemplateLocals } from "hexo";
 import { HTMLElement } from "node-html-parser";
 import { ReturnConfig } from "../config";
-import { HexoIs } from "../hexo/hexo-is/is";
+import { HexoIs } from "packages/hexo-is/dist/is";
 export interface returnPageData extends PageData {
     [key: string]: any;
     is: HexoIs;
