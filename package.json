@@ -47,7 +47,7 @@
     "file-type": "^18.0.0",
     "hexo": "^5.4.0",
     "hexo-is": "file:packages/hexo-is",
-    "hexo-log": "^3.2.0",
+    "hexo-log": "^4.0.0",
     "html-minifier-terser": "^7.0.0",
     "jsdom": "^20.0.1",
     "minimatch": "^5.1.0",
