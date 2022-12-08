@@ -21,6 +21,7 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
   if (is.home) {
     dumpOnce("data-home.txt", extractSimplePageData(data));
     const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
+    console.log("[stash] homepage", homepage);
   } else if (is.archive) {
     dumpOnce("data-archive.txt", extractSimplePageData(data));
   } else if (is.category) {
