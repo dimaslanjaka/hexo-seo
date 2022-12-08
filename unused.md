@@ -320,10 +320,10 @@
     },
     "D:\\Repositories\\hexo-seo\\src\\html\\fixSchema-model3.static.ts": {
       "loc": {
-        "line": 148,
+        "line": 149,
         "column": 46
       },
-      "pos": 4772,
+      "pos": 4819,
       "code": "BABEL_PARSER_SYNTAX_ERROR",
       "reasonCode": "UnexpectedToken"
     },

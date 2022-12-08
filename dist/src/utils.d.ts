@@ -1,4 +1,4 @@
-import "nodejs-package-types/hexo";
+import "nodejs-package-types/typings/index";
 export interface Objek extends Object {
     [key: string]: any;
 }

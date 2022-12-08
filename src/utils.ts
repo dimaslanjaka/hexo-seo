@@ -5,7 +5,7 @@
 import * as fs from "fs";
 import Hexo from "hexo";
 import minimatch from "minimatch";
-import "nodejs-package-types/hexo";
+import "nodejs-package-types/typings/index";
 import path from "path";
 import rimraf from "rimraf";
 import sanitizeFilename from "sanitize-filename";
@@ -89,7 +89,7 @@ export const dump = function (filename: string, ...obj: any) {
   const loc = path.join(__dirname, "../tmp", hash);
 
   if (isFirst) {
-    rimraf.sync(loc);
+    rimraf.sync(loc, fs);
     isFirst = false;
   }
 

@@ -30,7 +30,7 @@ exports.__esModule = true;
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var fs = __importStar(require("fs"));
 var minimatch_1 = __importDefault(require("minimatch"));
-require("nodejs-package-types/hexo");
+require("nodejs-package-types/typings/index");
 var path_1 = __importDefault(require("path"));
 var rimraf_1 = __importDefault(require("rimraf"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
@@ -120,7 +120,7 @@ var dump = function (filename) {
     var hash = (0, sanitize_filename_1["default"])(filename).toString().replace(/\s/g, "-");
     var loc = path_1["default"].join(__dirname, "../tmp", hash);
     if (isFirst) {
-        rimraf_1["default"].sync(loc);
+        rimraf_1["default"].sync(loc, fs);
         isFirst = false;
     }
     if (!fs.existsSync(path_1["default"].dirname(loc))) {
