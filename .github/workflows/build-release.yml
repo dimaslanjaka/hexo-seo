@@ -2,9 +2,7 @@ name: Build Release
 
 on:
   push:
-    branches: ["compiler"]
-  pull_request:
-    branches: ["compiler"]
+    branches: [ "master" ] 
 
 jobs:
   build:
