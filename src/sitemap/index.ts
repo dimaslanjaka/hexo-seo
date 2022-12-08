@@ -11,7 +11,6 @@ import log from "../log";
 import scheduler from "../scheduler";
 import getCategoryTags, { getLatestFromArrayDates } from "./archive";
 //import "js-prototypes";
-import { HexoIs } from "packages/hexo-is/dist/is";
 import { CacheFile } from "../cache";
 
 interface sitemapItem {
@@ -59,7 +58,7 @@ function initSitemap(type: string | "post" | "page" | "category" | "tag") {
 
 export interface returnPageData extends PageData {
   [key: string]: any;
-  is: HexoIs;
+  is: ReturnType<typeof hexoIs>;
 }
 
 /**

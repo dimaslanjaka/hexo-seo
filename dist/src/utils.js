@@ -29,8 +29,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var fs = __importStar(require("fs"));
-//import "js-prototypes";
 var minimatch_1 = __importDefault(require("minimatch"));
+require("nodejs-package-types/hexo");
 var path_1 = __importDefault(require("path"));
 var rimraf_1 = __importDefault(require("rimraf"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));

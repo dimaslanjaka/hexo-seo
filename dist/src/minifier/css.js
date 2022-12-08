@@ -49,7 +49,7 @@ var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
 function HexoSeoCss(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, isChanged, hexo, options, exclude, ignored, styles, saved, err_1;
+        var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -59,8 +59,8 @@ function HexoSeoCss(str, data) {
                     isChanged = _a.sent();
                     if (!isChanged) return [3 /*break*/, 6];
                     log_1["default"].log("%s is changed %s", path0, isChanged ? chalk_1["default"].red(isChanged) : chalk_1["default"].green(isChanged));
-                    hexo = this;
-                    options = (0, config_1["default"])(hexo).css;
+                    hexo_1 = this;
+                    options = (0, config_1["default"])(hexo_1).css;
                     // if option css is false, return original content
                     if (typeof options == "boolean" && !options)
                         return [2 /*return*/, str];
