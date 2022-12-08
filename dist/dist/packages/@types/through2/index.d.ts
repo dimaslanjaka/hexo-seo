@@ -25,7 +25,8 @@ declare namespace through2 {
   /**
    * * `callback()` drop this data.\
     this makes the map work like `filter`,\
-    note: `callback(null,null)` is not the same, and will emit `null`
+    note: 
+   * * `callback(null,null)` is not the same, and will emit `null`
    * * `callback(null, newData)` turn data into newData
    * * `callback(error)` emit an error for this item.
    * * `callback(null,null)` emit nulled data
@@ -40,12 +41,18 @@ declare namespace through2 {
    * @example
    * gulp.src('*.*').pipe(through2.obj((vinyl, encoding, callback) => {
    *  if (vinyl.isNull() || vinyl.isStream()) return callback(); // skip null and stream object
-   *  file.contents = Buffer.from(file.contents).toString().replace('old', 'new');
-   *  this.push(file); // emit this file
-   *  callback(null, file); // emit new data
+   *  vinyl.contents = Buffer.from(vinyl.contents).toString().replace('old', 'new');
+   *  this.push(vinyl); // emit this file
+   *  callback(null, vinyl); // emit new data
+   * * // `callback()` drop this data
+   * * // `callback(null, newData)` emit data into newData
+   * * // `callback(error)` emit an error for this item.
+   * * // `callback(null,null)` emit nulled data
    * }));
    */
-  function obj(transform?: TransformFunction, flush?: FlushCallback): stream.Transform;
+   function obj(transform?: TransformFunction, flush?: FlushCallback): stream.Transform;
+
+   export type objFunc = typeof obj;
 
   /**
    * Creates a constructor for a custom Transform. This is useful when you
@@ -56,3 +63,4 @@ declare namespace through2 {
 }
 
 export = through2;
+//export default through2;

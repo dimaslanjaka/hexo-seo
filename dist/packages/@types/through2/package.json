@@ -1,0 +1,51 @@
+{
+    "name": "@types/through2",
+    "version": "2.0.38",
+    "description": "TypeScript definitions for through2 v",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Bart van der Schoor",
+            "url": "https://github.com/Bartvds",
+            "githubUsername": "Bartvds"
+        },
+        {
+            "name": "jedmao",
+            "url": "https://github.com/jedmao",
+            "githubUsername": "jedmao"
+        },
+        {
+            "name": "Georgios Valotasios",
+            "url": "https://github.com/valotas",
+            "githubUsername": "valotas"
+        },
+        {
+            "name": "Ben Chauvette",
+            "url": " https://github.com/bdchauvette"
+        },
+        {
+            "name": "TeamworkGuy2",
+            "url": "https://github.com/TeamworkGuy2",
+            "githubUsername": "TeamworkGuy2"
+        },
+        {
+            "name": "Alorel",
+            "url": "https://github.com/Alorel",
+            "githubUsername": "Alorel"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/through2"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "^12.x",
+        "@types/vinyl": "^2.0.6"
+    },
+    "typesPublisherContentHash": "2a4c35d2e75dcb619fd676b6dde1bd1455dc3654b0da10183b445c19a2cede2b",
+    "typeScriptVersion": "3.0"
+}

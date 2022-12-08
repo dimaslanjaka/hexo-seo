@@ -1,0 +1,15 @@
+{
+  "files.autoSave": "onWindowChange",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true, // let ESLint take formating and linting
+    "source.organizeImports": true // auto remove unused imports
+  },
+  "editor.formatOnPaste": false, // disable default vscode formatter
+  "editor.formatOnSave": false, // disable default vscode formatter
+  "[json]": {
+    "editor.formatOnSave": true // enable json formating with default vscode formatter
+  },
+  "files.exclude": {
+    "**/node_modules": true
+  },
+}

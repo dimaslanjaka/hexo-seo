@@ -18,17 +18,24 @@
     "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
     "directory": "types/hexo"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "node packer.js"
+  },
   "dependencies": {
     "@types/bluebird": "*",
     "@types/bunyan": "*",
     "@types/connect": "*",
-    "@types/hexo-util": "*",
+    "@types/hexo-util": "https://github.com/dimaslanjaka/nodejs-package-types/raw/main/hexo-util/release/types-hexo-util.tgz",
     "@types/minimist": "*",
     "@types/underscore": "*",
+    "fs-extra": "^11.1.0",
     "minimist": "^1.2.5",
-    "moment": "^2.19.4"
+    "moment": "^2.19.4",
+    "upath": "^2.0.1"
   },
   "typesPublisherContentHash": "c9475285227ee48f579221155907cdb70466e30eba6f1e3455d8fa3c4a7b6033",
-  "typeScriptVersion": "3.6"
+  "typeScriptVersion": "3.6",
+  "devDependencies": {
+    "cross-spawn": "^7.0.3"
+  }
 }

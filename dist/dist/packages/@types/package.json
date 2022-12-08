@@ -1,30 +1,60 @@
 {
   "name": "nodejs-package-types",
-  "version": "1.0.4",
+  "version": "1.1.1",
   "description": "Customized Package Types",
   "main": "index.js",
   "types": "typings/index.d.ts",
   "files": [
+    ".gitmodules",
+    "index.js",
     "typings",
-    "index.js"
+    "hexo",
+    "skeljs",
+    "through2",
+    "hexo-log",
+    "hexo-bunyan",
+    "hexo-util"
   ],
   "scripts": {
-    "postinstall": "npm i -D https://github.com/dimaslanjaka/nodejs-package-types#through2",
-    "uninstall": "npm un @types/through2"
+    "update": "npx npm-check-updates -u",
+    "build": "node packer.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dimaslanjaka/nodejs-package-types.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "types",
+    "typescript",
+    "markdown-it-abbr",
+    "markdown-it-sup",
+    "markdown-it-sub",
+    "through2"
+  ],
+  "author": {
+    "email": "dimaslanjaka@gmail.com",
+    "name": "L3n40x",
+    "url": "https://www.webmanajemen.com/about"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dimaslanjaka/nodejs-package-types/issues"
   },
   "homepage": "https://github.com/dimaslanjaka/nodejs-package-types#readme",
   "devDependencies": {
-    "@types/node": "^18.8.4",
-    "@types/through2": "github:dimaslanjaka/nodejs-package-types#through2"
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^18.11.8",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.1",
+    "cross-spawn": "^7.0.3",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "gulp": "^4.0.2",
+    "prettier": "^2.8.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.0",
+    "upath": "^2.0.1"
   }
 }

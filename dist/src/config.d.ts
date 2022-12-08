@@ -8,7 +8,7 @@ import configData from "./_config_data.json";
 export interface Switcher {
     enable: boolean;
 }
-export declare type AutoConfig = typeof configData;
+export type AutoConfig = typeof configData;
 export interface BaseConfig {
     sitemap: boolean;
     /**

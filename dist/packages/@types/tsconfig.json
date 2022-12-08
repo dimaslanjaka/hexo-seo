@@ -9,6 +9,19 @@
     "allowUmdGlobalAccess": true,
     "allowUnreachableCode": true,
     "allowUnusedLabels": true,
-    "noImplicitThis": false
-  }
+    "noImplicitThis": false,
+    "declaration": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "typings",
+    "hexo",
+    "skeljs",
+    "through2",
+    "hexo-log",
+    "hexo-bunyan",
+    "hexo-util"
+  ]
 }

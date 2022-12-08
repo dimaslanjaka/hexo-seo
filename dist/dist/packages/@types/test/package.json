@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "xpostinstall": "node postinstall.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dimas lanjaka <dimaslanjaka@gmail.com> (http://webmanajemen.com)",
   "license": "ISC",
   "devDependencies": {
-    "nodejs-package-types": "github:dimaslanjaka/nodejs-package-types"
+    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/tarball/main"
   }
 }

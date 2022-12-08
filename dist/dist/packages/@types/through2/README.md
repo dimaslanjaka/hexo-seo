@@ -1,5 +1,5 @@
 # Installation
-> `npm install --save https://github.com/dimaslanjaka/nodejs-package-types#through2`
+> `npm install --save-dev https://github.com/dimaslanjaka/nodejs-package-types#through2`
 
 # Summary
 This package contains type definitions for through2 v (https://github.com/rvagg/through2).

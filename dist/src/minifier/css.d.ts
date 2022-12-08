@@ -1,6 +1,6 @@
 import CleanCSS from "clean-css";
 import Hexo from "hexo";
-export declare type cssMinifyOptions = CleanCSS.Options & {
+export type cssMinifyOptions = CleanCSS.Options & {
     enable?: boolean;
     exclude?: string[];
 };

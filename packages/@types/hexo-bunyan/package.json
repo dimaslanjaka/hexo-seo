@@ -15,10 +15,17 @@
         "type": "git",
         "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
     },
-    "scripts": {},
+    "scripts": {
+        "build": "node packer.js"
+    },
     "dependencies": {
-        "@types/bunyan": "*"
+        "@types/bunyan": "*",
+        "fs-extra": "^11.1.0",
+        "upath": "^2.0.1"
     },
     "typesPublisherContentHash": "c060644f133d3d86089f67ceb6908bee5970a3430aa3c425ff948844ec30687b",
-    "typeScriptVersion": "2.1"
+    "typeScriptVersion": "2.1",
+    "devDependencies": {
+        "cross-spawn": "^7.0.3"
+    }
 }
