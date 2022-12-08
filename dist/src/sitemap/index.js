@@ -36,7 +36,6 @@ var fm_1 = require("../fm");
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
 var archive_1 = __importStar(require("./archive"));
-var cache_1 = require("../cache");
 var sitemapGroup = {
     post: undefined,
     page: undefined,
@@ -84,7 +83,7 @@ groups.forEach(function (group) {
 var categoryTagsInfo;
 var postUpdateDates = [];
 var pageUpdateDates = [];
-var cache = new cache_1.CacheFile("sitemap");
+// const cache = new CacheFile("sitemap");
 var turnError = false;
 function sitemap(dom, HSconfig, data) {
     if (!HSconfig.sitemap) {

@@ -1,10 +1,10 @@
 import Hexo, { PageData, TemplateLocals } from "hexo";
+import hexoIs from "hexo-is";
 import { HTMLElement } from "node-html-parser";
 import { BaseConfig } from "../config";
-import { HexoIs } from "packages/hexo-is/dist/is";
 export interface returnPageData extends PageData {
     [key: string]: any;
-    is: HexoIs;
+    is: ReturnType<typeof hexoIs>;
 }
 /**
  * Extract Page Data

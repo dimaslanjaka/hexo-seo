@@ -11,7 +11,6 @@ import log from "../log";
 import scheduler from "../scheduler";
 import getCategoryTags, { getLatestFromArrayDates } from "./archive";
 //import "js-prototypes";
-import { CacheFile } from "../cache";
 
 interface sitemapItem {
   loc: string;
@@ -92,7 +91,7 @@ groups.forEach((group) => {
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
 const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
-const cache = new CacheFile("sitemap");
+// const cache = new CacheFile("sitemap");
 let turnError = false;
 export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
   if (!HSconfig.sitemap) {
