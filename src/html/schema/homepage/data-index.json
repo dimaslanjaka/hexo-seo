@@ -1,0 +1,37 @@
+{
+  "@context": "http://schema.org",
+  "@type": "WebPage",
+  "@id": "https://google.com/webpage",
+  "title": "",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Recent Articles",
+    "itemListOrder": "Descending",
+    "itemListElement": [
+      {
+        "@type": "Article",
+        "position": "1",
+        "headline": "I am recent Article",
+        "author": {
+          "@type": "Person",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png",
+          "name": "Dimas Lanjaka",
+          "sameAs": "http://webmanajemen.com/"
+        },
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png"
+      },
+      {
+        "@type": "Article",
+        "position": "2",
+        "headline": "I am recent Article 2",
+        "author": {
+          "@type": "Person",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png",
+          "name": "Dimas Lanjaka",
+          "sameAs": "http://webmanajemen.com/"
+        },
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png"
+      }
+    ]
+  }
+}

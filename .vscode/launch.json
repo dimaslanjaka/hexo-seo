@@ -1,0 +1,90 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "npx hexo server --development",
+      "name": "[DEV] Demo Server",
+      "cwd": "${workspaceFolder}/test/demo",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npx hexo generate && npm run serve-static",
+      "name": "[DEV] Demo Generate",
+      "cwd": "${workspaceFolder}/test/demo",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npx hexo generate && npm run serve-static",
+      "name": "[PROD] Demo Generate",
+      "cwd": "${workspaceFolder}/test/demo",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "hexo server",
+      "name": "[PROD] Demo Server",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "cwd": "${workspaceFolder}/test/demo",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo clean && hexo server --development",
+      "name": "[DEV] clean server",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo server",
+      "name": "[PROD] server",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "cd ../../ && hexo server --debug",
+      "name": "[PROD-DEBUG] server",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "hexo generate",
+      "env": {
+        "NODE_OPTIONS": "--max_old_space_size=4096",
+        "NODE_ENV": "development"
+      },
+      "name": "[DEV] generate",
+      "cwd": "${workspaceFolder}/../../",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "hexo generate",
+      "env": {
+        "NODE_OPTIONS": "--max_old_space_size=4096"
+      },
+      "name": "[PROD] generate",
+      "cwd": "${workspaceFolder}/../../",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
+}
