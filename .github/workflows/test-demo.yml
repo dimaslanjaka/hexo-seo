@@ -3,7 +3,9 @@ name: Test Demo
 on:
   push:
     branches: [ "master" ]
-
+  pull_request:
+    branches: [ "master" ]
+    
 # cancel previous workflows, run only one workflow
 concurrency:
   group: test-demo-${{ github.event.push.number || github.event.pull_request.number || github.ref }}
