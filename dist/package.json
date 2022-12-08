@@ -24,7 +24,8 @@
         "postbuild": "node packer.js",
         "clean": "gulp clean",
         "update": "npx npm-check-updates -u -x chalk,hexo",
-        "postinstall": "node postinstall.js"
+        "postinstall": "node postinstall.js",
+        "test:install": "cd test/demo && npm install"
     },
     "repository": "dimaslanjaka/hexo-seo",
     "keywords": [
@@ -50,7 +51,7 @@
         "deepmerge-ts": "^4.2.2",
         "file-type": "^18.0.0",
         "hexo": "^5.4.0",
-        "hexo-is": "file:packages/hexo-is",
+        "hexo-is": "https://github.com/dimaslanjaka/hexo-is/tarball/master",
         "hexo-log": "^4.0.1",
         "html-minifier-terser": "^7.1.0",
         "jsdom": "^20.0.3",
@@ -73,8 +74,6 @@
     "devDependencies": {
         "@types/bluebird": "^3.5.38",
         "@types/clean-css": "^4.2.6",
-        "@types/hexo": "file:packages/@types/hexo",
-        "@types/hexo-log": "file:packages/@types/hexo-log",
         "@types/jsdom": "^20.0.1",
         "@types/node": "^18.11.11",
         "@types/object-assign": "^4.0.30",
@@ -90,6 +89,7 @@
         "eslint-plugin-prettier": "^4.2.1",
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
+        "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/tarball/main",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.1",
         "prompt": "^1.3.0",
