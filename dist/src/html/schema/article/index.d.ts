@@ -1,12 +1,12 @@
 import { CheerioAPI } from "cheerio";
 import Hexo, { TemplateLocals } from "hexo";
-export declare type SchemaAuthor = ObjectConstructor & {
+export type SchemaAuthor = ObjectConstructor & {
     image: string;
     name: string;
     sameAs?: string;
     url?: string;
 };
-export declare type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag & TemplateLocals;
+export type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag & TemplateLocals;
 export interface SchemaArticleOptions {
     /**
      * Print pretty style

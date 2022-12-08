@@ -6,7 +6,7 @@
   "files": [
     "dist",
     "src",
-    "packages",
+    "packages/**/*.tgz",
     "test.js",
     "*.md",
     "images",

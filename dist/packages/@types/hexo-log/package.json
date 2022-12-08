@@ -21,8 +21,15 @@
         "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
         "directory": "types/hexo-log"
     },
-    "scripts": {},
+    "scripts": {
+        "build": "node packer.js"
+    },
     "dependencies": {
-        "@types/hexo-bunyan": "file:../hexo-bunyan"
+        "@types/hexo-bunyan": "https://github.com/dimaslanjaka/nodejs-package-types/raw/main/hexo-bunyan/release/types-hexo-bunyan.tgz",
+        "fs-extra": "^11.1.0",
+        "upath": "^2.0.1"
+    },
+    "devDependencies": {
+        "cross-spawn": "^7.0.3"
     }
 }

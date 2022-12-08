@@ -1,5 +1,5 @@
 # Installation
-> `npm install --save @types/hexo`
+> `npm install --save-dev git+https://github.com/dimaslanjaka/nodejs-package-types.git#hexo`
 
 # Summary
 This package contains type definitions for hexo (https://hexo.io/).

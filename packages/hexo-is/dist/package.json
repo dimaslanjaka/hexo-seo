@@ -13,8 +13,9 @@
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "compile": "tsc && npm run hook",
-        "hook": "ts-node hook.ts"
+        "build": "tsc && npm run hook",
+        "hook": "ts-node hook.ts",
+        "postbuild": "node packer.js"
     },
     "keywords": [],
     "repository": {
@@ -30,12 +31,15 @@
     },
     "license": "ISC",
     "dependencies": {
+        "fs-extra": "^11.1.0",
         "hexo-log": "^3.0.0",
-        "minimatch": "^3.0.4"
+        "minimatch": "^3.0.4",
+        "upath": "^2.0.1"
     },
     "devDependencies": {
-        "@types/hexo": "https://gitpkg.now.sh/dimaslanjaka/nodejs-package-types/hexo?main",
+        "@types/hexo": "git+https://github.com/dimaslanjaka/nodejs-package-types#hexo",
         "@types/node": "^18.8.5",
+        "cross-spawn": "^7.0.3",
         "ts-node": "^10.4.0",
         "typescript": "^4.4.4"
     }

@@ -1,0 +1,28 @@
+{
+  "name": "@types/hexo-util",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "packer.js",
+    "*.ts",
+    "*.md"
+  ],
+  "scripts": {
+    "build": "node packer.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "types": "./dist/index.d.ts",
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.1.0",
+    "gulp": "^4.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3",
+    "upath": "^2.0.1"
+  }
+}
