@@ -6,7 +6,7 @@
   "files": [
     "dist",
     "src",
-    "packages/**/*.tgz",
+    "packages",
     "test.js",
     "*.md",
     "images",
@@ -24,7 +24,8 @@
     "postbuild": "node packer.js",
     "clean": "gulp clean",
     "update": "npx npm-check-updates -u -x chalk,hexo",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.js",
+    "test:install": "cd test/demo && npm install"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [
@@ -34,7 +35,8 @@
     "seo"
   ],
   "engines": {
-    "node": ">=8"
+    "node": ">=8",
+    "hexo": ">=6"
   },
   "author": {
     "email": "dimaslanjaka@gmail.com",
