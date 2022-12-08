@@ -50,7 +50,7 @@
     "clean-css": "^5.3.1",
     "deepmerge-ts": "^4.2.2",
     "file-type": "^18.0.0",
-    "hexo": "^5.4.0",
+    "hexo": "^6.3.0",
     "hexo-is": "https://github.com/dimaslanjaka/hexo-is/tarball/master",
     "hexo-log": "^4.0.1",
     "html-minifier-terser": "^7.1.0",
