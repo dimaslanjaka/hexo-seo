@@ -6,13 +6,13 @@
     "files": [
         "dist",
         "src",
-        "packages",
         "test.js",
         "*.md",
         "images",
         "source",
         "index.*",
-        "*.js"
+        "*.js",
+        "LICENSE"
     ],
     "scripts": {
         "lint": "eslint . --ext .ts",
