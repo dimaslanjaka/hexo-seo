@@ -21,10 +21,10 @@
     "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
     "build": "npm run ts:normal && gulp",
-    "postbuild": "node packer.js",
+    "postbuild": "node packer.js && node unused.js",
     "clean": "gulp clean",
     "update": "npx npm-check-updates -u -x chalk,hexo",
-    "postinstall": "node postinstall.js && node unused.js",
+    "postinstall": "node postinstall.js",
     "test:install": "cd test/demo && npm install"
   },
   "repository": "dimaslanjaka/hexo-seo",
