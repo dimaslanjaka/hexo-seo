@@ -24,7 +24,7 @@ Packages Links
 - Auto add anchor title (if not exists)
 - Auto determine anchor external link and nofollow them
 - ~Auto replace broken images~
-- ~CSS JS HTML minifier~
+- CSS JS HTML minifier
 - Auto add alternate and title of images
 - ~Auto add sitemap (forked from yoast seo wordpress plugin)~
 - Tested on hexo instances with 1000 more posts and pages
