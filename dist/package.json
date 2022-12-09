@@ -21,10 +21,10 @@
         "ts:cjs": "npx tsc -p tsconfigs/cjs.tsconfig.json",
         "ts:es": "npx tsc -p tsconfigs/es.tsconfig.json",
         "build": "npm run ts:normal && gulp",
-        "postbuild": "node packer.js",
+        "postbuild": "node packer.js && node unused.js",
         "clean": "gulp clean",
         "update": "npx npm-check-updates -u -x chalk,hexo",
-        "postinstall": "node postinstall.js && node unused.js",
+        "postinstall": "node postinstall.js",
         "test:install": "cd test/demo && npm install"
     },
     "repository": "dimaslanjaka/hexo-seo",
@@ -62,6 +62,7 @@
         "node-cache": "^5.1.2",
         "node-html-parser": "^6.1.4",
         "node-libcurl": "^3.0.0",
+        "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/main/release/nodejs-package-types.tgz",
         "persistent-cache": "https://github.com/dimaslanjaka/persistent-cache/tarball/improve2",
         "sanitize-filename": "^1.6.3",
         "serve-static": "^1.15.0",
@@ -90,7 +91,6 @@
         "eslint-plugin-prettier": "^4.2.1",
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
-        "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/main/release/nodejs-package-types.tgz",
         "nodemon": "^2.0.20",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.8.1",
@@ -99,7 +99,8 @@
         "typescript": "^4.9.4"
     },
     "optionalDependencies": {
-        "request": "^2.88.2",
-        "uuid": "^9.0.0"
+        "glob-parent": ">=6.0.2",
+        "request": ">=2.88.2",
+        "uuid": ">=9.0.0"
     }
 }
