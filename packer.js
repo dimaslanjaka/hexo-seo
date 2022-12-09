@@ -5,6 +5,7 @@ const { existsSync, renameSync, rmSync, mkdirpSync, writeFileSync } = require("f
 const GulpClient = require("gulp");
 const { join, dirname } = require("upath");
 const packagejson = require("./package.json");
+const crypto = require("crypto");
 
 // auto create tarball (tgz) on release folder
 // raw: https://raw.githubusercontent.com/dimaslanjaka/static-blog-generator-hexo/master/packages/gulp-sbg/packer.js
@@ -48,8 +49,6 @@ child.on("exit", function () {
         readDir.push(pkglock);
       }
       readDir.forEach((file, index, all) => {
-        const crypto = require("crypto");
-
         const sha1 = (path) =>
           new Promise((resolve, reject) => {
             const hash = crypto.createHash("sha1");
@@ -97,7 +96,8 @@ child.on("exit", function () {
 
         // write hashes info
         getPackageHashes().then((hashes) => {
-          writeFileSync(join(releaseDir, "metadata.json"), JSON.stringify(hashes));
+          writeFileSync(join(releaseDir, "metadata.json"), JSON.stringify(hashes, null, 2));
+          console.log(hashes);
         });
 
         console.log("=".repeat(20));
