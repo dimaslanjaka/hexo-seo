@@ -100,6 +100,7 @@
   },
   "optionalDependencies": {
     "glob-parent": ">=6.0.2",
+    "node.extend": "^1.1.7",
     "request": ">=2.88.2",
     "uuid": ">=9.0.0"
   }
