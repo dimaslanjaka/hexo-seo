@@ -6,12 +6,11 @@
     "files": [
         "dist",
         "src",
-        "test.js",
         "*.md",
         "images",
         "source",
-        "index.*",
         "*.js",
+        "package.json",
         "LICENSE"
     ],
     "scripts": {
