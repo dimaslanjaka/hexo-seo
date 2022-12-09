@@ -60,8 +60,8 @@
       "D:\\Repositories\\hexo-seo\\unused.js"
     ],
     "hexo": [
-      "D:\\Repositories\\hexo-seo\\test\\generate.js",
-      "D:\\Repositories\\hexo-seo\\test\\install.js",
+      "D:\\Repositories\\hexo-seo\\test\\testLocal.js",
+      "D:\\Repositories\\hexo-seo\\test\\testTarball.js",
       "D:\\Repositories\\hexo-seo\\src\\hexo-seo.ts",
       "D:\\Repositories\\hexo-seo\\src\\index.old.ts",
       "D:\\Repositories\\hexo-seo\\src\\utils.ts",
@@ -195,8 +195,8 @@
       "D:\\Repositories\\hexo-seo\\unused.js"
     ],
     "hexo": [
-      "D:\\Repositories\\hexo-seo\\test\\generate.js",
-      "D:\\Repositories\\hexo-seo\\test\\install.js",
+      "D:\\Repositories\\hexo-seo\\test\\testLocal.js",
+      "D:\\Repositories\\hexo-seo\\test\\testTarball.js",
       "D:\\Repositories\\hexo-seo\\src\\hexo-seo.ts",
       "D:\\Repositories\\hexo-seo\\src\\index.old.ts",
       "D:\\Repositories\\hexo-seo\\src\\utils.ts",
@@ -213,7 +213,8 @@
       "D:\\Repositories\\hexo-seo\\src\\html\\schema\\article\\index.ts"
     ],
     "hexo-util": [
-      "D:\\Repositories\\hexo-seo\\test\\install.js"
+      "D:\\Repositories\\hexo-seo\\test\\testLocal.js",
+      "D:\\Repositories\\hexo-seo\\test\\testTarball.js"
     ],
     "node-cache": [
       "D:\\Repositories\\hexo-seo\\src\\cache.ts"
