@@ -26,6 +26,34 @@ jobs:
           repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set env
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
+          echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
+          echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
+          echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
+          echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
+
+      - name: Get env
+        run: |
+          echo "branch      : $GITHUB_BRANCH"
+          echo "commit hash : $GITHUB_SHA_SHORT"
+          echo "commit url  : $GITHUB_COMMIT_URL"
+          echo "runner url  : $GITHUB_RUNNER_URL"
+          echo "cache npm   : $CACHE_NPM"
+          echo "cache yarn  : $CACHE_YARN"
+          echo "cache yarn2 : $CACHE_YARN2"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            $CACHE_NPM
+            $CACHE_YARN
+            $CACHE_YARN2
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Pull & update submodules recursively
         run: |
           git submodule update --init --recursive
@@ -36,26 +64,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          #cache: 'npm'
+          #cache-dependency-path: '**/package-lock.json'
 
       - name: Build
         run: |
           npm install
           npm run build
-
-      - name: Set env
-        run: |
-          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
-          echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
-      - name: Get env
-        run: |
-          echo "branch      : $GITHUB_BRANCH"
-          echo "commit hash : $GITHUB_SHA_SHORT"
-          echo "commit url  : $GITHUB_COMMIT_URL"
-          echo "runner url  : $GITHUB_RUNNER_URL"
 
       - name: Git setup user email
         if: matrix.node-version == '18.x' && matrix.architecture == 'x64'
