@@ -63,17 +63,29 @@ jobs:
         run: corepack enable
 
       - uses: actions/cache@v3
+        id: cache
         with:
           path: |
             $CACHE_NPM
             $CACHE_YARN
             $CACHE_YARN2
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          # ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ matrix.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: |
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-
+            ${{ runner.os }}-
+
+      - name: Install
+        run: npm install --legacy-peer-deps
+
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
 
       - name: Build
-        run: |
-          npm install
-          npm run build
+        run: npm run build
 
       - name: Git setup user email
         if: matrix.node-version == '18.x' && matrix.architecture == 'x64'
