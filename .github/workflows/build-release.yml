@@ -46,14 +46,6 @@ jobs:
           echo "cache yarn  : $CACHE_YARN"
           echo "cache yarn2 : $CACHE_YARN2"
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            $CACHE_NPM
-            $CACHE_YARN
-            $CACHE_YARN2
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-
       - name: Pull & update submodules recursively
         run: |
           git submodule update --init --recursive
@@ -66,6 +58,17 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           #cache: 'npm'
           #cache-dependency-path: '**/package-lock.json'
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            $CACHE_NPM
+            $CACHE_YARN
+            $CACHE_YARN2
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Build
         run: |
