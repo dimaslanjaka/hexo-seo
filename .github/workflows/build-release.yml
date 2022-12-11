@@ -19,7 +19,7 @@ jobs:
         node-version: [ 14.x, 16.x, 18.x ]
         architecture: [ x64, x86 ]
 
-    name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} # on ${{ matrix.os }}
+    name: Node ${{ matrix.node-version }} - ${{ matrix.architecture }} # on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
         with:
