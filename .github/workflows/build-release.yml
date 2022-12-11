@@ -8,6 +8,10 @@ name: Build Release
 on:
   push:
     branches: [ "master", "main" ]
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,7 +30,39 @@ jobs:
           repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
+      - name: Cleanup caches
+        if: ${{ false }}
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          REPO=${{ github.repository }}
+          BRANCH=${{ github.ref }}
+
+          echo "Fetching list of cache key"
+          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+
+          ## Setting this to not fail the workflow while deleting cache keys.
+          set +e
+          echo "Deleting caches..."
+          for cacheKey in $cacheKeysForPR
+          do
+              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+          done
+          echo "Done"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
+      - if: ${{ runner.os == 'Windows' }}
+        name: Use GNU tar
+        shell: cmd
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+
       - name: Set env
+        id: set-env
         run: |
           echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
@@ -35,6 +71,9 @@ jobs:
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
           echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
           echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
+          echo "cache-npm=$(npm config get cache)" >> $GITHUB_OUTPUT
+          echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Get env
         run: |
@@ -45,10 +84,6 @@ jobs:
           echo "cache npm   : $CACHE_NPM"
           echo "cache yarn  : $CACHE_YARN"
           echo "cache yarn2 : $CACHE_YARN2"
-
-      - run: mkdir undefined
-        continue-on-error: true
-        name: Create undefined folder for cache variables
 
       - name: Pull & update submodules recursively
         run: |
@@ -70,12 +105,11 @@ jobs:
         id: cache
         with:
           path: |
-            $CACHE_NPM
-            $CACHE_YARN
-            $CACHE_YARN2
-          # ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ matrix.os }}-${{ hashFiles('**/package-lock.json') }}
-          key: |
-            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+            ${{ steps.set-env.outputs.cache-npm }}
+            ${{ steps.set-env.outputs.cache-yarn }}
+            ${{ steps.set-env.outputs.cache-yarn2 }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+          restore-key: |
             ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
             ${{ runner.os }}-${{ matrix.node-version }}-
             ${{ runner.os }}-
