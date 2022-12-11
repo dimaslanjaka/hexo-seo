@@ -12,10 +12,11 @@ Automated Hexo Seo Optimizer
 | :--- | :--- |
 | full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 | repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
+| git repository | git+https://github.com/dimaslanjaka/hexo-seo.git |
 
 Using Git Repository (Development)
 ```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git
+npm i https://github.com/dimaslanjaka/hexo-seo/tarball/master
 ```
 Using NPM Repository (Production)
 ```shell
