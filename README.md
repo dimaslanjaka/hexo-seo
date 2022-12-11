@@ -1,9 +1,6 @@
 # hexo-seo
 Automated Hexo Seo Optimizer
 
-> no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
-> this plugin already have schedule function
-
 # Installation
 ### Packages Links
 > Using tarball is useful for git which not installed properly
@@ -116,6 +113,11 @@ set NODE_ENV=development && hexo server
 
 ![Google Rich Snippets](./images/rich-snippets-result.png)
 ![Schema Article](https://user-images.githubusercontent.com/12471057/142891853-7c00a941-26b6-4a69-9fcd-59b61505e920.png)
+
+# Issues
+- `hexo.on('exit')` not called at end of process
+> no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
+> this plugin already have schedule function
 
 # Troubleshoot
 
