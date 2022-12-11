@@ -16,7 +16,7 @@ Automated Hexo Seo Optimizer
 
 Using Git Repository (Development)
 ```shell
-npm i https://github.com/dimaslanjaka/hexo-seo/tarball/master
+npm i git+https://github.com/dimaslanjaka/hexo-seo.git
 ```
 Using NPM Repository (Production)
 ```shell
