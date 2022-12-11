@@ -5,6 +5,14 @@ Automated Hexo Seo Optimizer
 > this plugin already have schedule function
 
 # Installation
+
+> Using tarball is useful for git which not installed properly
+
+| description | link |
+| :--- | :--- |
+| full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
+
 Using Git Repository (Development)
 ```shell
 npm i git+https://github.com/dimaslanjaka/hexo-seo.git
