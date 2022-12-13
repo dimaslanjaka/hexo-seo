@@ -36,7 +36,7 @@ npm i hexo-seo
 # Usage
 **Configuration**
 
-[config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml)
+[config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml#L138)
 
 ```yaml
 # https://github.com/dimaslanjaka/hexo-seo
