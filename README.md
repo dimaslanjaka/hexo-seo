@@ -125,7 +125,7 @@ set NODE_ENV=development && hexo server
 ```shell
 sudo apt-get install libcurl4-openssl-dev -y
 # run below codes only if above package already installed
-rm -rf node_modules
+rm -rf node_modules/node-libcurl
 npm install node-libcurl --build-from-source
 ```
 
