@@ -4,6 +4,11 @@ const depcheck = require("depcheck");
 const { writeFileSync } = require("fs");
 const { join } = require("path");
 
+// Check dependencies using depcheck
+// repo   : https://github.com/dimaslanjaka/hexo-seo/blob/master/unused.js
+// raw    : https://raw.githubusercontent.com/dimaslanjaka/hexo-seo/master/unused.js
+// update : curl https://raw.githubusercontent.com/dimaslanjaka/hexo-seo/master/unused.js > unused.js
+
 const options = {
   ignoreBinPackage: false, // ignore the packages with bin entry
   skipMissing: false, // skip calculation of missing dependencies

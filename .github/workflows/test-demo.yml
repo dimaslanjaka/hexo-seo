@@ -2,10 +2,9 @@ name: Test Demo
 
 on:
   push:
-    branches: [ compiler ]
-  #pull_request:
-    # The branches below must be a subset of the branches above
-    #branches: [ compiler ]
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
 
 # cancel previous workflows, run only one workflow
 concurrency:
@@ -18,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set TimeZone
-        uses: szenius/set-timezone@v1.0
+        uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Asia/Jakarta"
           timezoneMacos: "Asia/Jakarta"
@@ -34,7 +33,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16.x"
-          cache: 'npm'
+          cache: "npm"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
@@ -49,16 +48,16 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test/demo && npm i ./../../
+      - run: cd test/demo && npm i ./../../ && npm update hexo-seo
       - run: cd test/demo && hexo generate
 
   git:
-    if: ${{ false }}  # disable for now cause git cache error
+    if: ${{ false }} # disable for now cause git cache error
     name: Using GitHub Package
     runs-on: ubuntu-latest
     steps:
       - name: Set TimeZone
-        uses: szenius/set-timezone@v1.0
+        uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Asia/Jakarta"
           timezoneMacos: "Asia/Jakarta"
@@ -79,9 +78,9 @@ jobs:
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node- 
+          restore-keys: ${{ runner.os }}-node-
       - run: npm install
-      - run: cd test/demo && npm install 'dimaslanjaka/hexo-seo#master'
+      - run: cd test/demo && npm install 'dimaslanjaka/hexo-seo#master' && npm update hexo-seo
       - run: cd test/demo && hexo generate
 
   npm:
@@ -89,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set TimeZone
-        uses: szenius/set-timezone@v1.0
+        uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Asia/Jakarta"
           timezoneMacos: "Asia/Jakarta"
@@ -122,5 +121,5 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test/demo && npm i hexo-seo
+      - run: cd test/demo && npm i hexo-seo && npm update hexo-seo
       - run: cd test/demo && hexo generate

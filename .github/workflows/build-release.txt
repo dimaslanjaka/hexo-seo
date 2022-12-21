@@ -1,25 +1,100 @@
 name: Build Release
 
+# automated packer.js
+# repo    : https://github.com/dimaslanjaka/nodejs-package-types/blob/main/.github/workflows/build-release.yml
+# raw     : https://raw.githubusercontent.com/dimaslanjaka/nodejs-package-types/main/.github/workflows/build-release.yml
+# update  : curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.github/workflows/build-release.yml > .github/workflows/build-release.yml
+
 on:
   push:
-    branches: ["compiler"]
+    branches: [ "master", "main" ]
+    paths-ignore:
+      - '**/*.tgz'
+      - '**/*.gz'
+      - '**/release/**'
   pull_request:
-    branches: ["compiler"]
+    types:
+      - closed
+    paths-ignore:
+      - '**/release/**'
+      - '**/*.tgz'
+      - '**/*.gz'
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        os: [ "ubuntu-latest", "macos-latest", "windows-latest" ]
+        node-version: [ 14.x, 16.x, 18.x ]
+        architecture: [ x86, x64 ]
+    
+    runs-on: ${{ matrix.os }}
 
+    name: Node ${{ matrix.node-version }} - ${{ matrix.os }}-${{ matrix.architecture }}
     steps:
       - uses: actions/checkout@v3
         with:
           repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
+      - name: Cleanup caches
+        if: matrix.node-version == '14.x' && matrix.architecture == 'x86' && runner.os == 'Linux' && contains(github.event.head_commit.message, 'clean')
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          REPO=${{ github.repository }}
+          BRANCH=${{ github.ref }}
+
+          echo "Fetching list of cache key"
+          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+
+          ## Setting this to not fail the workflow while deleting cache keys.
+          set +e
+          echo "Deleting caches..."
+          for cacheKey in $cacheKeysForPR
+          do
+              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+          done
+          echo "Done"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
+      - if: ${{ runner.os == 'Windows' }}
+        name: Use GNU tar 
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+        shell: cmd
+
+      - name: Set env
+        id: set-env
+        shell: bash
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
+          echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
+          echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
+          echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
+          echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
+          echo "cache-npm=$(npm config get cache)" >> $GITHUB_OUTPUT
+          echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Get env
+        run: |
+          echo "branch      : ${{ env.GITHUB_BRANCH }}"
+          echo "commit msg  : ${{ github.event.head_commit.message }}"
+          echo "commit hash : ${{ env.GITHUB_SHA_SHORT }}"
+          echo "commit url  : ${{ env.GITHUB_COMMIT_URL }}"
+          echo "runner url  : ${{ env.GITHUB_RUNNER_URL }}"
+          echo "cache npm   : ${{ env.CACHE_NPM }}"
+          echo "cache yarn  : ${{ env.CACHE_YARN }}"
+          echo "cache yarn2 : ${{ env.CACHE_YARN2 }}"
+ 
       - name: Pull & update submodules recursively
         run: |
           git submodule update --init --recursive
@@ -29,30 +104,55 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          #cache: 'npm'
+          #cache-dependency-path: '**/package-lock.json'
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ${{ steps.set-env.outputs.cache-npm }}
+            ${{ steps.set-env.outputs.cache-yarn }}
+            ${{ steps.set-env.outputs.cache-yarn2 }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+          restore-key: |
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-
+            ${{ runner.os }}-
+
+      - name: Install
+        run: npm install --legacy-peer-deps
+
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
 
       - name: Build
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
 
-      - name: Set env
-        run: |
-          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo "GITHUB_COMMIT_URL=https://github.com/dimaslanjaka/nodejs-package-types/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
-      - name: Get env
-        run: |
-          echo "branch      : $GITHUB_BRANCH"
-          echo "commit hash : $GITHUB_SHA_SHORT"
-          echo "commit url  : $GITHUB_COMMIT_URL"
-
-      - name: Push
-        #if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        if: matrix.node-version == '18.x'
+      - name: Git setup user email
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
         continue-on-error: true
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add release
-          git commit -am "Update build from $GITHUB_COMMIT_URL"
+      - run: git add release
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
+        continue-on-error: true
+      - run: git add dist
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
+        continue-on-error: true
+      - run: git add lib
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
+        continue-on-error: true
+      - name: Git push
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
+        continue-on-error: true
+        run: |
+          git commit -m "Update build from $GITHUB_COMMIT_URL" -m "commit hash: $GITHUB_SHA_SHORT" -m "commit url: $GITHUB_COMMIT_URL" -m "runner: $GITHUB_RUNNER_URL"
           git push

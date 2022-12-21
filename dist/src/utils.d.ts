@@ -1,4 +1,4 @@
-import "nodejs-package-types/typings/index";
+import "nodejs-package-types";
 export interface Objek extends Object {
     [key: string]: any;
 }

@@ -1,13 +1,19 @@
 # hexo-seo
 Automated Hexo Seo Optimizer
 
-> no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
-> this plugin already have schedule function
-
 # Installation
+### Packages Links
+> Using tarball is useful for git which not installed properly
+
+| description | link |
+| :--- | :--- |
+| full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
+| git repository | [git+https://github.com/dimaslanjaka/hexo-seo.git](https://github.com/dimaslanjaka/hexo-seo.git) |
+
 Using Git Repository (Development)
 ```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git#compiler
+npm i git+https://github.com/dimaslanjaka/hexo-seo.git
 ```
 Using NPM Repository (Production)
 ```shell
@@ -18,16 +24,19 @@ npm i hexo-seo
 
 - Auto add anchor title (if not exists)
 - Auto determine anchor external link and nofollow them
-- Auto replace broken images
+- ~Auto replace broken images~
 - CSS JS HTML minifier
 - Auto add alternate and title of images
-- Auto add sitemap (forked from yoast seo wordpress plugin)
+- ~Auto add sitemap (forked from yoast seo wordpress plugin)~
 - Tested on hexo instances with 1000 more posts and pages
+
+> ## The reason why some features are removed
+> Separated due to very high memory usage and risk of HEAP MEMORY errors. so I will merge it to https://github.com/dimaslanjaka/static-blog-generator as a specific task
 
 # Usage
 **Configuration**
 
-[config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml)
+[config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml#L138)
 
 ```yaml
 # https://github.com/dimaslanjaka/hexo-seo
@@ -105,13 +114,18 @@ set NODE_ENV=development && hexo server
 ![Google Rich Snippets](./images/rich-snippets-result.png)
 ![Schema Article](https://user-images.githubusercontent.com/12471057/142891853-7c00a941-26b6-4a69-9fcd-59b61505e920.png)
 
+# Issues
+- `hexo.on('exit')` not called at end of process
+> no more issue [Hexo On Exit Event](https://github.com/hexojs/hexo/issues/4822)
+> this plugin already have schedule function
+
 # Troubleshoot
 
 - node_libcurl binding not found
 ```shell
 sudo apt-get install libcurl4-openssl-dev -y
 # run below codes only if above package already installed
-rm -rf node_modules
+rm -rf node_modules/node-libcurl
 npm install node-libcurl --build-from-source
 ```
 

@@ -5,7 +5,7 @@
 import * as fs from "fs";
 import Hexo from "hexo";
 import minimatch from "minimatch";
-import "nodejs-package-types/typings/index";
+import "nodejs-package-types";
 import path from "path";
 import rimraf from "rimraf";
 import sanitizeFilename from "sanitize-filename";
