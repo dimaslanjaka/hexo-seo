@@ -1,7 +1,7 @@
 import { existsSync } from "fs";
 import NodeCache from "node-cache";
 import path from "path";
-import { buildFolder, readFile, writeFile } from "./fm";
+import { buildFolder, tmpFolder, readFile, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 import { Objek } from "./utils";
@@ -90,7 +90,7 @@ export class CacheFile {
       const stack = new Error().stack.split("at")[2];
       hash = md5(stack);
     }
-    this.dbFile = path.join(buildFolder, "db-" + hash + ".json");
+    this.dbFile = path.join(tmpFolder, "db-" + hash + ".json");
     let db = readFile(this.dbFile, { encoding: "utf8" }, {});
     if (typeof db != "object") {
       try {
