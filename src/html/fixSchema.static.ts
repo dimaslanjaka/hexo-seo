@@ -13,6 +13,9 @@ import model from "./schema/article/model4.json";
  * @param data
  */
 export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
+  if (!HSconfig.schema) {
+    return;
+  }
   const is = hexoIs(data);
   const breadcrumbs = model[0];
   const article = model[1];
@@ -73,7 +76,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
 
   if (is.post) {
     // setup breadcrumb on post
-    if (HSconfig.schema.breadcrumb.enable) {
+    if (HSconfig.schema.breadcrumb?.enable) {
       const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
       if (data.page) {
         if (data.page.tags && data.page.tags.length > 0) {
@@ -114,7 +117,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
       }
     }
 
-    if (HSconfig.schema.article.enable) {
+    if (HSconfig.schema.article?.enable) {
       article.mainEntityOfPage["@id"] = url;
       article.headline = title;
       article.description = description;
