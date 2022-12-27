@@ -19,6 +19,7 @@ on:
       - '**/release/**'
       - '**/*.tgz'
       - '**/*.gz'
+      - '**/test*/**'
   workflow_dispatch:
 
 jobs:
@@ -40,6 +41,7 @@ jobs:
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
       - name: Cleanup caches
+        shell: bash
         if: matrix.node-version == '14.x' && matrix.architecture == 'x86' && runner.os == 'Linux' && contains(github.event.head_commit.message, 'clean')
         run: |
           gh extension install actions/gh-actions-cache
@@ -119,7 +121,7 @@ jobs:
             ${{ steps.set-env.outputs.cache-yarn }}
             ${{ steps.set-env.outputs.cache-yarn2 }}
           key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
-          restore-key: |
+          restore-keys: |
             ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
             ${{ runner.os }}-${{ matrix.node-version }}-
             ${{ runner.os }}-
@@ -154,5 +156,5 @@ jobs:
         if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux'
         continue-on-error: true
         run: |
-          git commit -m "Update build from $GITHUB_COMMIT_URL" -m "commit hash: $GITHUB_SHA_SHORT" -m "commit url: $GITHUB_COMMIT_URL" -m "runner: $GITHUB_RUNNER_URL"
+          git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
           git push

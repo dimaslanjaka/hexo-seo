@@ -33,6 +33,7 @@ export default function HexoSeo(hexo: Hexo) {
     return;
   }
 
+  // detect hexo arguments
   let hexoCmd: string;
   if (hexo.env.args._ && hexo.env.args._.length > 0) {
     for (let i = 0; i < hexo.env.args._.length; i++) {
@@ -57,7 +58,7 @@ export default function HexoSeo(hexo: Hexo) {
 
   // clean build and temp folder on `hexo clean`
   if (hexoCmd && hexoCmd == "clean") {
-    console.log("%s cleaning build and temp folder", pkg.name);
+    console.log("["+pkg.name+"] cleaning build and temp folder");
     if (existsSync(tmpFolder)) rmdirSync(tmpFolder, { recursive: true });
     if (existsSync(buildFolder)) rmdirSync(buildFolder, { recursive: true });
     return;
