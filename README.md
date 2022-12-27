@@ -25,9 +25,9 @@ npm i hexo-seo
 - Auto add anchor title (if not exists)
 - Auto determine anchor external link and nofollow them
 - ~Auto replace broken images~
-- CSS JS HTML minifier
+- Auto compress CSS JS HTML
 - Auto add alternate and title of images
-- ~Auto add sitemap (forked from yoast seo wordpress plugin)~
+- Auto add sitemap (forked from yoast seo wordpress plugin)
 - Tested on hexo instances with 1000 more posts and pages
 
 > ## The reason why some features are removed
