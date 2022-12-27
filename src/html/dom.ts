@@ -51,10 +51,7 @@ export function parseJSDOM(text: string) {
  * @param options
  * @returns
  */
-export function getTextPartialHtml(
-  text: string,
-  options?: jsdom.ConstructorOptions
-) {
+export function getTextPartialHtml(text: string, options?: jsdom.ConstructorOptions) {
   dom = new _JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
   const document: Document = dom.window.document;
   return document.querySelector("div#parseJSDOM").textContent;

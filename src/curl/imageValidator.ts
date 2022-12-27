@@ -20,8 +20,7 @@ class imageValidator {
       try {
         return curly.get(url.toString()).then((res) => {
           const statusCode = res.statusCode;
-          const validStatusCode =
-            statusCode < 400 || statusCode >= 500 || statusCode === 200;
+          const validStatusCode = statusCode < 400 || statusCode >= 500 || statusCode === 200;
           if (validStatusCode) {
             if (typeof res.headers[0] == "object") {
               const headers = res.headers[0];

@@ -3,11 +3,7 @@ import { Objek } from "../utils";
 import { Stream } from "stream";
 
 export function isStream(stream) {
-  return (
-    stream !== null &&
-    typeof stream === "object" &&
-    typeof stream.pipe === "function"
-  );
+  return stream !== null && typeof stream === "object" && typeof stream.pipe === "function";
 }
 
 export function isWritableStream(stream) {

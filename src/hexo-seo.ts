@@ -58,7 +58,7 @@ export default function HexoSeo(hexo: Hexo) {
 
   // clean build and temp folder on `hexo clean`
   if (hexoCmd && hexoCmd == "clean") {
-    console.log("["+pkg.name+"] cleaning build and temp folder");
+    console.log("[" + pkg.name + "] cleaning build and temp folder");
     if (existsSync(tmpFolder)) rmdirSync(tmpFolder, { recursive: true });
     if (existsSync(buildFolder)) rmdirSync(buildFolder, { recursive: true });
     return;
