@@ -338,7 +338,7 @@
         "line": 107,
         "column": 17
       },
-      "pos": 3041,
+      "pos": 3070,
       "code": "BABEL_PARSER_SYNTAX_ERROR",
       "reasonCode": "UnexpectedToken"
     }

@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: dimaslanjaka/nodejs-package-types
+          # repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
