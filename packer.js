@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-escape */
 const { spawn } = require('cross-spawn');
-const { readdirSync, createReadStream, readFileSync } = require('fs');
-const { existsSync, renameSync, rmSync, mkdirpSync, writeFileSync } = require('fs-extra');
+const { existsSync, renameSync, rmSync, mkdirpSync, writeFileSync, readdirSync, createReadStream, readFileSync, statSync } = require('fs-extra');
 const GulpClient = require('gulp');
 const { join, dirname, toUnix } = require('upath');
 const packagejson = require('./package.json');
@@ -9,6 +8,7 @@ const crypto = require('crypto');
 // const os = require('os');
 
 // auto create tarball (tgz) on release folder
+// requred        : npm i -D https://github.com/dimaslanjaka/node-cross-spawn/tarball/typescript upath fs-extra gulp
 // raw            : https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js
 // github         : https://github.com/dimaslanjaka/nodejs-package-types/blob/main/packer.js
 // update         : curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js
@@ -58,9 +58,12 @@ child.on('exit', function () {
       readDir.forEach((file, index, all) => {
         sha1(file)
           .then((hash) => {
+            const stat = statSync(file);
+            const size = parseFloat(stat.size / Math.pow(1024, 1)).toFixed(2) + ' KB';
             hashes = Object.assign({}, hashes, {
               [toUnix(file).replace(toUnix(__dirname), '')]: {
-                hash
+                hash,
+                size
               }
             });
           })
