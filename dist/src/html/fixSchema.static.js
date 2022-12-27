@@ -14,6 +14,10 @@ var model4_json_1 = __importDefault(require("./schema/article/model4.json"));
  * @param data
  */
 function fixSchemaStatic(dom, HSconfig, data) {
+    var _a, _b;
+    if (!HSconfig.schema) {
+        return;
+    }
     var is = (0, hexo_is_1["default"])(data);
     var breadcrumbs = model4_json_1["default"][0];
     var article = model4_json_1["default"][1];
@@ -72,7 +76,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
     }
     if (is.post) {
         // setup breadcrumb on post
-        if (HSconfig.schema.breadcrumb.enable) {
+        if ((_a = HSconfig.schema.breadcrumb) === null || _a === void 0 ? void 0 : _a.enable) {
             var schemaBreadcrumbs_1 = [];
             if (data.page) {
                 if (data.page.tags && data.page.tags.length > 0) {
@@ -109,7 +113,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
                 schema.push(breadcrumbs);
             }
         }
-        if (HSconfig.schema.article.enable) {
+        if ((_b = HSconfig.schema.article) === null || _b === void 0 ? void 0 : _b.enable) {
             article.mainEntityOfPage["@id"] = url;
             article.headline = title;
             article.description = description;

@@ -6,9 +6,7 @@ exports.__esModule = true;
 exports.streamToArray = exports.streamToString = exports.isTransformStream = exports.isDuplexStream = exports.isReadableStream = exports.isWritableStream = exports.isStream = void 0;
 var bluebird_1 = __importDefault(require("bluebird"));
 function isStream(stream) {
-    return (stream !== null &&
-        typeof stream === "object" &&
-        typeof stream.pipe === "function");
+    return stream !== null && typeof stream === "object" && typeof stream.pipe === "function";
 }
 exports.isStream = isStream;
 function isWritableStream(stream) {

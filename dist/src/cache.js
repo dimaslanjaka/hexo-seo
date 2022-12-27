@@ -119,7 +119,7 @@ var CacheFile = /** @class */ (function () {
             var stack = new Error().stack.split("at")[2];
             hash = (0, md5_file_1.md5)(stack);
         }
-        this.dbFile = path_1["default"].join(fm_1.buildFolder, "db-" + hash + ".json");
+        this.dbFile = path_1["default"].join(fm_1.tmpFolder, "db-" + hash + ".json");
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
         if (typeof db != "object") {
             try {

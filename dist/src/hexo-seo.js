@@ -30,6 +30,7 @@ function HexoSeo(hexo) {
         log_1["default"].error("seo options not found");
         return;
     }
+    // detect hexo arguments
     var hexoCmd;
     if (hexo.env.args._ && hexo.env.args._.length > 0) {
         for (var i = 0; i < hexo.env.args._.length; i++) {
@@ -53,7 +54,7 @@ function HexoSeo(hexo) {
     }
     // clean build and temp folder on `hexo clean`
     if (hexoCmd && hexoCmd == "clean") {
-        console.log("%s cleaning build and temp folder", package_json_1["default"].name);
+        console.log("[" + package_json_1["default"].name + "] cleaning build and temp folder");
         if ((0, fs_1.existsSync)(fm_1.tmpFolder))
             (0, fs_1.rmdirSync)(fm_1.tmpFolder, { recursive: true });
         if ((0, fs_1.existsSync)(fm_1.buildFolder))

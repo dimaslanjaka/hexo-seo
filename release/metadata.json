@@ -15,9 +15,15 @@
     "hash": "ae4a6e5030d1502e980044c3570c74ab6d6b1c43"
   },
   "/release/hexo-seo.tgz": {
-    "hash": "ae4a6e5030d1502e980044c3570c74ab6d6b1c43"
+    "hash": "94f1bb0bb960204028f430fc5d19e82ac8ece667",
+    "size": "349.17 KB"
   },
   "/package-lock.json": {
-    "hash": "7e34df180f105a40a7b35ff9015f733a912692f1"
+    "hash": "79414ab80404d266faca418a0a105ae277eead6c",
+    "size": "557.93 KB"
+  },
+  "/release/hexo-seo-1.1.3.tgz": {
+    "hash": "94f1bb0bb960204028f430fc5d19e82ac8ece667",
+    "size": "349.17 KB"
   }
 }
