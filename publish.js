@@ -60,8 +60,6 @@ if (typeof version === 'object') {
     if (answer.toLowerCase() === 'no' || answer.toLowerCase() === 'n') {
       console.log('Publish Cancel');
     } else {
-      console.log('Updating version');
-      version.result.build++;
       packages.version = version.toString();
       writeFileSync('./package.json', JSON.stringify(packages, null, 2));
       console.log('Compiling...');
@@ -75,7 +73,11 @@ if (typeof version === 'object') {
             // add to git
             updateChangelog(() => {
               exec('git add .', (err) => {
-                if (!err) exec(`git commit -m "Update release ${version.toString()}"`);
+                if (!err) {
+                  console.log('Updating version');
+                  version.result.build++;
+                  exec(`git commit -m "Update release ${version.toString()}"`);
+                }
               });
             });
           });

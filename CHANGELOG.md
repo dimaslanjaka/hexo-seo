@@ -134,3 +134,12 @@
 - b54a027 : 1.0.35  Thu Oct 13 14:18:09 2022 +0700
 - 8fc7082 : init  Thu Oct 13 13:35:11 2022 +0700
 - compiler: fix schema breadcrumb, article, and sitelink using model v4
+
+## [1.1.5] 2022-12-31T21:25:40
+- bdf8fd5 : eslint fix  Sat Dec 31 21:24:33 2022 +0700
+- b63d2d1 : 1.1.4  Sat Dec 31 21:23:44 2022 +0700
+- dbcede8 : update deps  Sat Dec 31 21:23:14 2022 +0700
+- 630f1ac : update build  Wed Dec 21 14:18:54 2022 +0700
+- 71eb811 : add release builder  Fri Dec 9 00:40:01 2022 +0700
+- b54a027 : 1.0.35  Thu Oct 13 14:18:09 2022 +0700
+- 8fc7082 : init  Thu Oct 13 13:35:11 2022 +0700
