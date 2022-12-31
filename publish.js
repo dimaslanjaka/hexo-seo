@@ -5,22 +5,22 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** npm run publish with auto changelog **/
 
-const { exec } = require("child_process");
-const { writeFileSync, readFileSync } = require("fs");
-const versionParser = require("./src/versionParser");
-const readline = require("readline");
+const { exec } = require('child_process');
+const { writeFileSync, readFileSync } = require('fs');
+const versionParser = require('./src/versionParser');
+const readline = require('readline');
 
 const rl = readline.createInterface(process.stdin, process.stdout);
-const packages = require("./package.json");
+const packages = require('./package.json');
 
 const version = new versionParser(packages.version);
-const Moment = require("moment");
-const { join } = require("path");
+const Moment = require('moment');
+const { join } = require('path');
 
 function updateChangelog(callback) {
   exec('git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes', (_err, stdout, _stderr) => {
     const std = stdout
-      .split("\n")
+      .split('\n')
       .filter(
         /**
          * filter non-empty
@@ -41,49 +41,49 @@ function updateChangelog(callback) {
           return str.trim();
         }
       );
-    const date = Moment().format("YYYY-MM-DDTHH:mm:ss");
+    const date = Moment().format('YYYY-MM-DDTHH:mm:ss');
     let build = `\n\n## [${packages.version}] ${date}\n`;
     std.forEach((str) => {
       build += `- ${str}\n`;
     });
 
-    const changelog = join(__dirname, "CHANGELOG.md");
+    const changelog = join(__dirname, 'CHANGELOG.md');
     let readChangelog = readFileSync(changelog).toString().trim();
     readChangelog += build;
     writeFileSync(changelog, readChangelog);
-    if (typeof callback === "function") callback();
+    if (typeof callback === 'function') callback();
   });
 }
 
-if (typeof version === "object") {
-  rl.question("Overwrite? [yes]/no: ", function (answer) {
-    if (answer.toLowerCase() === "no" || answer.toLowerCase() === "n") {
-      console.log("Publish Cancel");
+if (typeof version === 'object') {
+  rl.question('Overwrite? [yes]/no: ', function (answer) {
+    if (answer.toLowerCase() === 'no' || answer.toLowerCase() === 'n') {
+      console.log('Publish Cancel');
     } else {
-      console.log("Updating version");
+      console.log('Updating version');
       version.result.build++;
       packages.version = version.toString();
-      writeFileSync("./package.json", JSON.stringify(packages, null, 2));
-      console.log("Compiling...");
-      exec("npm run build", (err, _stdout, stderr) => {
+      writeFileSync('./package.json', JSON.stringify(packages, null, 2));
+      console.log('Compiling...');
+      exec('npm run build', (err, _stdout, stderr) => {
         if (!err) {
-          console.log("Build Typescript Successfully");
-          console.log("Publishing...");
-          exec("npm publish", (_err, _stdout, _stderr) => {
-            console.log("Packages Published Successfully");
+          console.log('Build Typescript Successfully');
+          console.log('Publishing...');
+          exec('npm publish', (_err, _stdout, _stderr) => {
+            console.log('Packages Published Successfully');
 
             // add to git
             updateChangelog(() => {
-              exec("git add .", (err) => {
+              exec('git add .', (err) => {
                 if (!err) exec(`git commit -m "Update release ${version.toString()}"`);
               });
             });
           });
         } else {
-          console.log("Publish Failed, Rollback version");
+          console.log('Publish Failed, Rollback version');
           version.result.build--;
           packages.version = version.toString();
-          writeFileSync("./package.json", JSON.stringify(packages, null, 2));
+          writeFileSync('./package.json', JSON.stringify(packages, null, 2));
 
           console.log(stderr);
           throw err;
