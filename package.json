@@ -23,7 +23,7 @@
     "build:eslint": "npx eslint --fix --quiet postinstall.js",
     "postbuild": "node packer.js && node unused.js",
     "clean": "gulp clean",
-    "update": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.github/workflows/build-release.yml > .github/workflows/build-release.yml && curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js && npx npm-check-updates -u -x chalk,hexo && npm install --cache tmp/npm",
+    "update": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.github/workflows/build-release.yml > .github/workflows/build-release.yml && curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js && npx npm-check-updates -u -x chalk,hexo && npm install --cache tmp/npm",
     "postinstall": "node postinstall.js",
     "test:install": "cd test/demo && npm install"
   },

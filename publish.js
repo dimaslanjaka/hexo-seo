@@ -6,7 +6,7 @@
 /** npm run publish with auto changelog **/
 
 const { exec } = require('child_process');
-const { writeFileSync, readFileSync } = require('fs');
+const { writeFileSync } = require('fs');
 const versionParser = require('./src/versionParser');
 const readline = require('readline');
 
@@ -14,44 +14,13 @@ const rl = readline.createInterface(process.stdin, process.stdout);
 const packages = require('./package.json');
 
 const version = new versionParser(packages.version);
-const Moment = require('moment');
-const { join } = require('path');
 
 function updateChangelog(callback) {
-  exec('git log --reflog --pretty=format:"%h : %s %b %ad" --not --remotes', (_err, stdout, _stderr) => {
-    const std = stdout
-      .split('\n')
-      .filter(
-        /**
-         * filter non-empty
-         * @param {string} el
-         * @returns {boolean}
-         */
-        function (el) {
-          return el != null && el.trim().length > 0;
-        }
-      )
-      .map(
-        /**
-         * Trim
-         * @param {string} str
-         * @returns {string}
-         */
-        function (str) {
-          return str.trim();
-        }
-      );
-    const date = Moment().format('YYYY-MM-DDTHH:mm:ss');
-    let build = `\n\n## [${packages.version}] ${date}\n`;
-    std.forEach((str) => {
-      build += `- ${str}\n`;
-    });
-
-    const changelog = join(__dirname, 'CHANGELOG.md');
-    let readChangelog = readFileSync(changelog).toString().trim();
-    readChangelog += build;
-    writeFileSync(changelog, readChangelog);
-    if (typeof callback === 'function') callback();
+  exec('node changelog.js', (err, _stdout, _stderr) => {
+    if (!err) {
+      if (typeof callback === 'function') callback();
+    }
+    throw err;
   });
 }
 
