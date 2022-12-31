@@ -43,15 +43,13 @@
       "D:\\Repositories\\hexo-seo\\src\\index.old.ts"
     ],
     "cross-spawn": [
-      "D:\\Repositories\\hexo-seo\\packer.js",
-      "D:\\Repositories\\hexo-seo\\postinstall.js"
+      "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "fs-extra": [
       "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "upath": [
-      "D:\\Repositories\\hexo-seo\\packer.js",
-      "D:\\Repositories\\hexo-seo\\postinstall.js"
+      "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "moment": [
       "D:\\Repositories\\hexo-seo\\publish.js"
@@ -178,15 +176,13 @@
       "D:\\Repositories\\hexo-seo\\src\\index.old.ts"
     ],
     "cross-spawn": [
-      "D:\\Repositories\\hexo-seo\\packer.js",
-      "D:\\Repositories\\hexo-seo\\postinstall.js"
+      "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "fs-extra": [
       "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "upath": [
-      "D:\\Repositories\\hexo-seo\\packer.js",
-      "D:\\Repositories\\hexo-seo\\postinstall.js"
+      "D:\\Repositories\\hexo-seo\\packer.js"
     ],
     "moment": [
       "D:\\Repositories\\hexo-seo\\publish.js"
@@ -279,6 +275,15 @@
     ]
   },
   "invalidFiles": {
+    "D:\\Repositories\\hexo-seo\\postinstall.js": {
+      "loc": {
+        "line": 33,
+        "column": 2
+      },
+      "pos": 1151,
+      "code": "BABEL_PARSER_SYNTAX_ERROR",
+      "reasonCode": "IllegalReturn"
+    },
     "D:\\Repositories\\hexo-seo\\src\\config.ts": {
       "loc": {
         "line": 96,

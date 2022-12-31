@@ -9,23 +9,48 @@
     "hash": "dd2907279e85c5906e8397b92a45623efe409ea5"
   },
   "/release/hexo-seo-1.1.0.tgz": {
-    "hash": "74621c1738ca00ffc6c13900d337e31111e0c9a0",
+    "integrity": {
+      "sha1": "74621c1738ca00ffc6c13900d337e31111e0c9a0",
+      "sha256": "NY/cLTxxQqqmdMzK5P6KUVxyQnP3ClVOc/SUxyr0SL8=",
+      "md5": "d39f871896202fa18e7667e904c35346",
+      "sha512": "MQtu5RY3MYznb6o4VIG6Kt2+AXyu6Z+zB5scp0MRhBNuMpk1xFMlpZnfAgbHyglR6CKnJO+PWj7WNezm+tUSpg=="
+    },
     "size": "347.19 KB"
   },
   "/release/hexo-seo-1.1.2.tgz": {
-    "hash": "ae4a6e5030d1502e980044c3570c74ab6d6b1c43",
+    "integrity": {
+      "sha1": "ae4a6e5030d1502e980044c3570c74ab6d6b1c43",
+      "sha256": "IANU3SchR9jXMlja8GY7Ec9uVlXeyL/wWUarCjytAHQ=",
+      "md5": "cff019f5e6b6ac5707431b081ecfc224",
+      "sha512": "ydzmHEboAT7LI1YyznAJwD+NgaQD3lu4K4vNgAQEnTsJQAcUxj4Ic/doitmDEuoh7kPPJZYncSKutvCjNPaGLQ=="
+    },
     "size": "348.90 KB"
   },
   "/release/hexo-seo.tgz": {
-    "hash": "829e10b1372b2d9685b85d8ba5fc520c860e1df8",
-    "size": "348.06 KB"
+    "integrity": {
+      "sha1": "9b4432e30b19804a7017913a2663c69df1938f89",
+      "sha256": "gaEQ8hk6sF4blv/iU3Ca4FqbbetzWHvXSsHKiwm/f0c=",
+      "md5": "73557643ca13ce00fc9af04eabeddce2",
+      "sha512": "3bxSaHWvh+pTfh+qH/dkOqjHYlJho75gcCS5lTkIhSgQo1NjJH9TKw+ruk1mN4wCzTipaO9wH8AA0YONlaz1RA=="
+    },
+    "size": "352.66 KB"
   },
   "/package-lock.json": {
-    "hash": "14c8d286ae158873ccd898dbd00e904a544ef38e",
-    "size": "552.63 KB"
+    "integrity": {
+      "sha1": "95242b647cfe933ce07d0f76d318796a92a66ff2",
+      "sha256": "x5WCQd8YjuCINWp+vuFhc636yWOw0Igm06e66jofhg0=",
+      "md5": "a12b1fe1c8640d1fd516d93da846c059",
+      "sha512": "loc5Ox4sK7W10/XYaDL8J4/3DtUJ5Ov+rlQVVyxiykSpteI+fGVofBwGcy6UHdtVQWVRf85qtcS49s3kC1+3eA=="
+    },
+    "size": "557.93 KB"
   },
   "/release/hexo-seo-1.1.3.tgz": {
-    "hash": "829e10b1372b2d9685b85d8ba5fc520c860e1df8",
-    "size": "348.06 KB"
+    "integrity": {
+      "sha1": "9b4432e30b19804a7017913a2663c69df1938f89",
+      "sha256": "gaEQ8hk6sF4blv/iU3Ca4FqbbetzWHvXSsHKiwm/f0c=",
+      "md5": "73557643ca13ce00fc9af04eabeddce2",
+      "sha512": "3bxSaHWvh+pTfh+qH/dkOqjHYlJho75gcCS5lTkIhSgQo1NjJH9TKw+ruk1mN4wCzTipaO9wH8AA0YONlaz1RA=="
+    },
+    "size": "352.66 KB"
   }
 }
