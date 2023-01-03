@@ -3,6 +3,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global hexo */
 //require("dotenv").config();
+
+/*
 const path = require("path");
 const fs = require("fs");
 const argv = require("minimist")(process.argv.slice(2));
@@ -16,6 +18,7 @@ const env = process.env.NODE_ENV && /dev/i.test(process.env.NODE_ENV);
 // define is development
 const isDev = arg || env;
 // console.log("hexo-seo init", { isDev });
+*/
 
 if (typeof hexo !== "undefined") {
   global.hexo = hexo;
