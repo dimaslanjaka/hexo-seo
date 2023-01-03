@@ -11,7 +11,7 @@ const config = require("./config");
   if (existsSync(join(config.base, "node_modules/hexo-seo"))) {
     await rm(join(config.base, "node_modules/hexo-seo"), { recursive: true, force: true });
   }
-  await spawn("npm", ["install", "https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz"], {
+  await spawn("npm", ["install", "file:./../../release/hexo-seo.tgz"], {
     cwd: config.base
   });
   const hexo = new Hexo(config.base);
