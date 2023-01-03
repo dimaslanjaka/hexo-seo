@@ -3,7 +3,7 @@ Automated Hexo Seo Optimizer
 
 # Installation
 ### Packages Links
-> Using tarball is useful for git which not installed properly
+> Using tarball is useful for git which not installed properly or for you in chinese mainland
 
 | description | link |
 | :--- | :--- |
