@@ -19,10 +19,10 @@ const isDev = arg || env;
 
 if (typeof hexo !== "undefined") {
   global.hexo = hexo;
-
-  if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
+  require("./index.prod");
+  /*if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     require("./index.prod");
   } else {
     require("./index.dev");
-  }
+  }*/
 }
