@@ -54,7 +54,7 @@
     "hexo-is": "https://github.com/dimaslanjaka/hexo-is/tarball/master",
     "hexo-log": "^4.0.1",
     "html-minifier-terser": "^7.1.0",
-    "jsdom": "^20.0.3",
+    "jsdom": "^21.0.0",
     "minimatch": "^5.1.2",
     "minimist": "^1.2.7",
     "moment": "^2.29.4",
