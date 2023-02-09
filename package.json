@@ -21,7 +21,8 @@
     "clean": "gulp clean",
     "update": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js && npm-check-updates -u -x chalk,hexo",
     "post-install": "node postinstall.js --yarn --commit",
-    "test:install": "cd test/demo && npm install"
+    "test:install": "cd test/demo && npm install",
+    "pack": "node packer.js --yarn"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "keywords": [
