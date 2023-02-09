@@ -30,7 +30,7 @@ exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exp
 var crypto_1 = __importDefault(require("crypto"));
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
-//import "js-prototypes";
+
 /**
  * Temp folder
  */

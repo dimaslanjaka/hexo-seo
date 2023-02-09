@@ -1,6 +1,6 @@
 import Promise from "bluebird";
 import Hexo, { TemplateLocals } from "hexo";
-//import "js-prototypes";
+
 import { parse as nodeHtmlParser } from "node-html-parser";
 import parseUrl from "url-parse";
 import { CacheFile } from "../cache";

@@ -3,7 +3,7 @@ import { isDev } from "../hexo-seo";
 import { trimText } from "../utils/string";
 import { getTextPartialHtml } from "./dom";
 import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
-//import "js-prototypes";
+
 import hexoIs from "hexo-is";
 import { HTMLElement } from "node-html-parser";
 import underscore from "underscore";

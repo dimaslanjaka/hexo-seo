@@ -1,12 +1,12 @@
 import { existsSync } from "fs";
 import NodeCache from "node-cache";
 import path from "path";
-import { buildFolder, tmpFolder, readFile, writeFile } from "./fm";
+import { buildFolder, readFile, tmpFolder, writeFile } from "./fm";
 import logger from "./log";
 import scheduler from "./scheduler";
 import { Objek } from "./utils";
 import md5File, { md5, sync as md5FileSync } from "./utils/md5-file";
-//import "js-prototypes";
+
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
 
 /**

@@ -34,7 +34,7 @@ var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
 var md5_file_1 = __importStar(require("./utils/md5-file"));
-//import "js-prototypes";
+
 var myCache = new node_cache_1["default"]({ stdTTL: 500, checkperiod: 520 });
 /**
  * @summary IN MEMORY CACHE
