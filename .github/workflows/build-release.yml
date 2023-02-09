@@ -129,97 +129,34 @@ jobs:
         run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli
         if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: Install Legacy Peer Dependencies
-        run: npm install --legacy-peer-deps
-        id: install-legacy
-        shell: bash
-        continue-on-error: true
-
-      - name: Install Verbose
-        if: steps.install-legacy.outcome == 'failure'
-        id: install-verbose
-        continue-on-error: true
-        shell: bash
-        run: |
-          rm -rf node_modules
-          npm install --verbose
-
-      - name: Install Update Binary
-        id: install-update
-        if: steps.install-verbose.outcome == 'failure'
-        shell: bash
-        run: |
-          rm -rf node_modules
-          npm install --no-shrinkwrap --update-binary
-        continue-on-error: true
-
       - name: Clean Install
         id: install-clean
         shell: bash
-        if: steps.install-update.outcome == 'failure'
-        run: rm -rf node_modules package-lock.json && npm install
-
-      - name: Dump Installations
-        run: |
-          echo "install-legacy.outcome ${{ steps.install-legacy.outcome }}"
-          echo "install-legacy.conclusion ${{ steps.install-legacy.conclusion }}"
-          echo "install-verbose.outcome ${{ steps.install-verbose.outcome }}"
-          echo "install-verbose.conclusion ${{ steps.install-verbose.conclusion }}"
-          echo "install-update.outcome ${{ steps.install-update.outcome }}"
-          echo "install-update.conclusion ${{ steps.install-update.conclusion }}"
-          echo "install-clean.outcome ${{ steps.install-clean.outcome }}"
-          echo "install-clean.conclusion ${{ steps.install-clean.conclusion }}"
-
-      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        shell: bash
-        continue-on-error: true
-        run: npm list
+        run: rm -rf node_modules package-lock.json && yarn install
 
       - name: Build
-        run: npm run build
-
-      # https://github.com/marketplace/actions/verify-changed-files
-      - name: Check if there are changes
-        id: changes
-        uses: tj-actions/verify-changed-files@v13
-        with:
-          files: |
-            release
-            dist
-            lib
-            !node_modules
-            !tmp
-
-      - shell: bash
-        name: "What's changed?"
-        run: |
-          echo "Changed files: ${{ steps.changes.outputs.changed_files }}"
+        run: yarn build
 
       - name: Git setup user email
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
       - run: git add release
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add dist
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+
         continue-on-error: true
       - run: git add lib
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+
         continue-on-error: true
       - run: git add postinstall.js packer.js .github
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+
         continue-on-error: true
       - run: git pull -X theirs
         name: Pull before push
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - name: Git push
-        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
