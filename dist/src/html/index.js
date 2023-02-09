@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.getPagePath = void 0;
 var bluebird_1 = __importDefault(require("bluebird"));
-
 var node_html_parser_1 = require("node-html-parser");
 var url_parse_1 = __importDefault(require("url-parse"));
 var cache_1 = require("../cache");

@@ -1,5 +1,5 @@
 /* global hexo */
-"use strict";
+'use strict';
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -69,18 +69,18 @@ exports.isIgnore = isIgnore;
 function extractSimplePageData(data, additional) {
     if (additional === void 0) { additional = []; }
     if (data) {
-        delete data["_raw"];
-        delete data["raw"];
-        delete data["_model"];
-        delete data["_content"];
-        delete data["content"];
-        delete data["site"];
-        delete data["more"];
-        delete data["excerpt"];
+        delete data['_raw'];
+        delete data['raw'];
+        delete data['_model'];
+        delete data['_content'];
+        delete data['content'];
+        delete data['site'];
+        delete data['more'];
+        delete data['excerpt'];
     }
     if (additional.forEach) {
         additional.forEach(function (key) {
-            if (typeof key == "string")
+            if (typeof key == 'string')
                 delete data[key];
         });
     }
@@ -117,18 +117,18 @@ var dump = function (filename) {
     }
     if (!hexo_seo_1.isDev)
         return;
-    var hash = (0, sanitize_filename_1["default"])(filename).toString().replace(/\s/g, "-");
-    var loc = path_1["default"].join(__dirname, "../tmp", hash);
+    var hash = (0, sanitize_filename_1["default"])(filename).toString().replace(/\s/g, '-');
+    var loc = path_1["default"].join(__dirname, '../tmp', hash);
     if (isFirst) {
-        rimraf_1["default"].sync(loc, fs);
+        rimraf_1["default"].sync(loc);
         isFirst = false;
     }
     if (!fs.existsSync(path_1["default"].dirname(loc))) {
         fs.mkdirSync(path_1["default"].dirname(loc), { recursive: true });
     }
-    var buildLog = "";
+    var buildLog = '';
     for (var index = 0; index < obj.length; index++) {
-        buildLog += util_1["default"].inspect(obj[index], { showHidden: true, depth: null }) + "\n\n";
+        buildLog += util_1["default"].inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
     }
     fs.writeFileSync(loc, buildLog);
     console.log("dump results saved to ".concat(path_1["default"].resolve(loc)));
@@ -140,12 +140,12 @@ exports.dump = dump;
  * @returns
  */
 function getCacheFolder(folderName) {
-    if (folderName === void 0) { folderName = ""; }
+    if (folderName === void 0) { folderName = ''; }
     var root = process.cwd();
-    if (typeof hexo != "undefined") {
+    if (typeof hexo != 'undefined') {
         root = hexo.base_dir;
     }
-    return path_1["default"].join(root, "build/hexo-seo", folderName);
+    return path_1["default"].join(root, 'build/hexo-seo', folderName);
 }
 exports.getCacheFolder = getCacheFolder;
 /**
@@ -153,7 +153,7 @@ exports.getCacheFolder = getCacheFolder;
  * @returns
  */
 function getPackageFolder() {
-    return path_1["default"].join(process.cwd(), "node_modules", package_json_1["default"].name);
+    return path_1["default"].join(process.cwd(), 'node_modules', package_json_1["default"].name);
 }
 exports.getPackageFolder = getPackageFolder;
 /**
