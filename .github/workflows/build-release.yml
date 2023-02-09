@@ -130,12 +130,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Clean Install
-        id: install-clean
         shell: bash
         run: rm -rf node_modules package-lock.json && yarn install
 
-      - name: Build
-        run: yarn build
+      - run: yarn build
+      - run: yarn run pack
 
       - name: Git setup user email
         continue-on-error: true
