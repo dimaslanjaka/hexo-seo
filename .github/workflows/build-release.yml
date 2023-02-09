@@ -7,7 +7,7 @@ name: Build Release
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: ['master', 'main']
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
@@ -32,17 +32,12 @@ concurrency:
 jobs:
   build:
     strategy:
-      matrix:
-        #os: [ "windows-latest", "macos-11", "ubuntu-latest" ]
-        os: [ "ubuntu-latest" ]
-        node-version: [ '14', '16', '18' ]
-        #architecture: [ 'x86', 'x64' ]
       fail-fast: true
       max-parallel: 6
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
-    name: Node ${{ matrix.node-version }} - ${{ matrix.os }} #-${{ matrix.architecture }}
+    name: Build Release
     steps:
       - uses: actions/checkout@v3
         with:
