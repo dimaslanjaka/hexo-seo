@@ -12,6 +12,8 @@ on:
       - '**/*.tgz'
       - '**/*.gz'
       - '**/release/**'
+      - '**garbage-collector**'
+      - '**codeql**'
   pull_request:
     types:
       - closed
@@ -24,51 +26,28 @@ on:
 
 # run single job
 concurrency:
-  group: actions-${{ github.head_ref }}
+  group: build-release #actions-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ "windows-latest", "macos-11", "ubuntu-latest" ]
-        node-version: [ 14.x, 16.x, 18.x ]
-        architecture: [ x86, x64 ]
+        #os: [ "windows-latest", "macos-11", "ubuntu-latest" ]
+        os: [ "ubuntu-latest" ]
+        node-version: [ '14', '16', '18' ]
+        #architecture: [ 'x86', 'x64' ]
       fail-fast: true
       max-parallel: 6
 
     runs-on: ${{ matrix.os }}
 
-    name: Node ${{ matrix.node-version }} - ${{ matrix.os }}-${{ matrix.architecture }}
+    name: Node ${{ matrix.node-version }} - ${{ matrix.os }} #-${{ matrix.architecture }}
     steps:
       - uses: actions/checkout@v3
         with:
           # repository: dimaslanjaka/nodejs-package-types
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
-      - name: Cleanup caches
-        shell: bash
-        if: matrix.node-version == '14.x' && matrix.architecture == 'x86' && runner.os == 'Linux' && ( contains(github.event.head_commit.message, 'clean') || contains(github.event.head_commit.message, 'update deps') || contains(github.event.head_commit.message, 'update dependencies') )
-        run: |
-          gh extension install actions/gh-actions-cache
-
-          REPO=${{ github.repository }}
-          BRANCH=${{ github.ref }}
-
-          echo "Fetching list of cache key"
-          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
-
-          ## Setting this to not fail the workflow while deleting cache keys.
-          set +e
-          echo "Deleting caches..."
-          for cacheKey in $cacheKeysForPR
-          do
-              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
-          done
-          echo "Done"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
       - if: ${{ runner.os == 'Windows' }}
@@ -123,6 +102,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          #architecture: ${{ matrix.architecture }}
           #cache: 'npm'
           #cache-dependency-path: '**/package-lock.json'
 
@@ -138,6 +118,7 @@ jobs:
             ${{ steps.set-env.outputs.cache-yarn2 }}
           key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
             ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
             ${{ runner.os }}-${{ matrix.node-version }}-
             ${{ runner.os }}-
@@ -151,6 +132,7 @@ jobs:
 
       - name: Install Global Packages
         run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli
+        if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Install Legacy Peer Dependencies
         run: npm install --legacy-peer-deps
