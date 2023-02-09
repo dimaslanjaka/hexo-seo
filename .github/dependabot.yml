@@ -5,15 +5,15 @@
 
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-  ignore:
-      - dependency-name: "hexo"
-      - dependency-name: "chalk"
-        versions: ["5.x"]
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
+  - package-ecosystem: yarn
+    directory: '/'
+    schedule:
+      interval: daily
+    ignore:
+      - dependency-name: 'hexo'
+      - dependency-name: 'chalk'
+        versions: ['5.x']
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: daily

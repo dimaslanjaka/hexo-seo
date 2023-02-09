@@ -12,7 +12,6 @@ docs/
 *.tgz
 exclude/
 .yarn/cache
-yarn.lock
 
 # unused idea configuration
 .idea/vcs.xml
