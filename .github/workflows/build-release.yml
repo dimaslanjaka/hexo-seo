@@ -96,7 +96,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
           #architecture: ${{ matrix.architecture }}
           #cache: 'npm'
           #cache-dependency-path: '**/package-lock.json'
