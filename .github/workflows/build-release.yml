@@ -116,10 +116,10 @@ jobs:
             ${{ steps.set-env.outputs.cache-npm }}
             ${{ steps.set-env.outputs.cache-yarn }}
             ${{ steps.set-env.outputs.cache-yarn2 }}
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
             ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}
             ${{ runner.os }}-${{ matrix.node-version }}-
             ${{ runner.os }}-
 

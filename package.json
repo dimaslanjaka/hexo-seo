@@ -8,8 +8,7 @@
     "src",
     "images",
     "source",
-    "LICENSE",
-    "images"
+    "LICENSE"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
