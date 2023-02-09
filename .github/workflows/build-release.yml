@@ -92,10 +92,10 @@ jobs:
           git submodule update --recursive --remote
           git pull -X theirs
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           token: ${{ secrets.GITHUB_TOKEN }}
           #architecture: ${{ matrix.architecture }}
           #cache: 'npm'
@@ -111,11 +111,11 @@ jobs:
             ${{ steps.set-env.outputs.cache-npm }}
             ${{ steps.set-env.outputs.cache-yarn }}
             ${{ steps.set-env.outputs.cache-yarn2 }}
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}
+          key: ${{ runner.os }}-${{ matrix.architecture }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}
-            ${{ runner.os }}-${{ matrix.node-version }}-
+            ${{ runner.os }}-${{ matrix.architecture }}-
+            ${{ runner.os }}-${{ matrix.architecture }}
+            ${{ runner.os }}-
             ${{ runner.os }}-
 
       - name: Check Updates
