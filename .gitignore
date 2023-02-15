@@ -12,6 +12,8 @@ docs/
 *.tgz
 exclude/
 .yarn/cache
+.yarn/*.gz
+.yarn/versions
 
 # unused idea configuration
 .idea/vcs.xml
