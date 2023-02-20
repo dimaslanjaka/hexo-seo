@@ -54,7 +54,7 @@
     "hexo-log": "^4.0.1",
     "html-minifier-terser": "^7.1.0",
     "jsdom": "^21.1.0",
-    "minimatch": "^6.2.0",
+    "minimatch": "^7.0.0",
     "minimist": "^1.2.8",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.40",
