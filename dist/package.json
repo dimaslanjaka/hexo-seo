@@ -9,7 +9,8 @@
         "images",
         "source",
         "LICENSE",
-        "*.md"
+        "*.md",
+        "index*.js"
     ],
     "scripts": {
         "lint": "eslint . --ext .ts",
