@@ -1,4 +1,3 @@
-import Hexo from 'hexo';
 import 'nodejs-package-types';
 export interface Objek extends Object {
     [key: string]: any;

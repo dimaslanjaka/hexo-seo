@@ -17,4 +17,4 @@ export interface imgOptions {
     default?: string | Buffer;
     onerror?: "serverside" | "clientside";
 }
-export default function (this: Hexo): Promise<void[]>;
+export default function (this: Hexo): Promise<any>;
