@@ -1,3 +1,4 @@
+import Hexo from "hexo";
 import { hyperlinkOptions } from "./html/types";
 import { imgOptions } from "./img/index.old";
 import { cssMinifyOptions } from "./minifier/css";

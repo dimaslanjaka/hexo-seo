@@ -1,6 +1,6 @@
 {
     "name": "hexo-seo",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "description": "Automated Seo Optimizer For Hexo",
     "main": "index.js",
     "files": [
@@ -76,7 +76,7 @@
         "@types/clean-css": "^4.2.6",
         "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz",
         "@types/jsdom": "^21.1.0",
-        "@types/node": "^18.13.0",
+        "@types/node": "^18.14.0",
         "@types/object-assign": "^4.0.30",
         "@types/through2": "https://github.com/dimaslanjaka/nodejs-package-types/raw/through2/release/types-through2.tgz",
         "@types/url-parse": "^1.4.8",

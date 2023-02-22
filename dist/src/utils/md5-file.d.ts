@@ -7,5 +7,7 @@ import Promise = require("bluebird");
 declare function md5FileSync(path: any): string;
 /**
  * MD5
+ * @param {string} data
+ * @returns
  */
-declare const md5: any;
+declare function md5(data: string): string;
