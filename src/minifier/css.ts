@@ -19,8 +19,9 @@ const cache = new Cache();
 export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
   const isChanged = await cache.isFileChanged(path0);
+  const useCache = this.config.seo.cache;
 
-  if (isChanged) {
+  if (isChanged || !useCache) {
     log.log('%s is changed %s', path0, isChanged ? chalk.red(isChanged) : chalk.green(isChanged));
     // if original file is changed, re-minify css
     const hexo: Hexo = this;

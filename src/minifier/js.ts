@@ -27,7 +27,9 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
   // if option js is false, return original content
   if (typeof HSConfig == 'boolean' && !HSConfig) return str;
   const isChanged = await cache.isFileChanged(path0);
-  if (isChanged) {
+  const useCache = this.config.seo.cache;
+
+  if (isChanged || !useCache) {
     // if original file is changed, re-minify js
     //const hexo: Hexo = this;
     let options: jsMinifyOptions = {
@@ -75,6 +77,7 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
   } else {
     // get cached minified js
     str = await cache.getCache(path0, str);
+    log.log('%s(JS) cached [%s]', pkg.name, path0.replace(this.base_dir, ''));
   }
 
   return str;
