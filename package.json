@@ -106,5 +106,6 @@
     "node.extend": ">=2.0.2",
     "request": ">=2.88.2",
     "uuid": ">=9.0.0"
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }
