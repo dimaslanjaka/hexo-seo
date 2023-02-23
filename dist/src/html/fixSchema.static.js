@@ -22,7 +22,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
     var article = model4_json_1["default"][1];
     var sitelink = model4_json_1["default"][2];
     // resolve title
-    var title = "";
+    var title = '';
     if (data.page && data.page.title && data.page.title.trim().length > 0) {
         title = data.page.title;
     }
@@ -48,7 +48,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
         }
     }
     // resolve thumbnail
-    var thumbnail = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+    var thumbnail = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
     if (data.page) {
         var photos = Array.isArray(data.page.photos) ? data.page.photos[0] : null;
         var cover = data.page.cover || data.page.thumbnail;
@@ -81,10 +81,10 @@ function fixSchemaStatic(dom, HSconfig, data) {
                 if (data.page.tags && data.page.tags.length > 0) {
                     data.page.tags.forEach(function (tag) {
                         var o = {
-                            "@type": "ListItem",
+                            '@type': 'ListItem',
                             position: schemaBreadcrumbs_1.length + 1,
-                            item: tag["permalink"],
-                            name: tag["name"]
+                            item: tag['permalink'],
+                            name: tag['name']
                         };
                         schemaBreadcrumbs_1.push(o);
                     });
@@ -92,16 +92,16 @@ function fixSchemaStatic(dom, HSconfig, data) {
                 if (data.page.categories && data.page.categories.length > 0) {
                     data.page.categories.forEach(function (category) {
                         var o = {
-                            "@type": "ListItem",
+                            '@type': 'ListItem',
                             position: schemaBreadcrumbs_1.length + 1,
-                            item: category["permalink"],
-                            name: category["name"]
+                            item: category['permalink'],
+                            name: category['name']
                         };
                         schemaBreadcrumbs_1.push(o);
                     });
                 }
                 schemaBreadcrumbs_1.push({
-                    "@type": "ListItem",
+                    '@type': 'ListItem',
                     position: schemaBreadcrumbs_1.length + 1,
                     item: url,
                     name: title
@@ -113,17 +113,17 @@ function fixSchemaStatic(dom, HSconfig, data) {
             }
         }
         if (HSconfig.schema.article && HSconfig.schema.article.enable) {
-            article.mainEntityOfPage["@id"] = url;
+            article.mainEntityOfPage['@id'] = url;
             article.headline = title;
             article.description = description;
             article.image.url = thumbnail;
             article.author.name = author;
             article.publisher.name = author;
             article.dateModified = (0, moment_timezone_1["default"])(new Date(String(data.page.updated)))
-                .tz(data.config.timezone || "UTC")
+                .tz(data.config.timezone || 'UTC')
                 .format();
             article.datePublished = (0, moment_timezone_1["default"])(new Date(String(data.page.date)))
-                .tz(data.config.timezone || "UTC")
+                .tz(data.config.timezone || 'UTC')
                 .format();
             schema.push(article);
         }
@@ -131,10 +131,10 @@ function fixSchemaStatic(dom, HSconfig, data) {
     if (schema.length > 0) {
         var JSONschema = JSON.stringify(schema, null, 2);
         var schemahtml = "\n\n<script type=\"application/ld+json\" id=\"hexo-seo-schema\">".concat(JSONschema, "</script>\n\n");
-        log_1["default"].log("schema created", title, url);
+        log_1["default"].log('schema created', title, url);
         if (schemahtml) {
-            var head = dom.getElementsByTagName("head")[0];
-            head.insertAdjacentHTML("beforeend", schemahtml);
+            var head = dom.getElementsByTagName('head')[0];
+            head.insertAdjacentHTML('beforeend', schemahtml);
         }
     }
 }

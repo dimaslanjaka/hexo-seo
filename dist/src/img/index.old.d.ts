@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import Hexo from "hexo";
+import Hexo from 'hexo';
 export interface imgOptions {
     /**
      * exclude image patterns from optimization
@@ -15,6 +15,6 @@ export interface imgOptions {
      * default image fallback
      */
     default?: string | Buffer;
-    onerror?: "serverside" | "clientside";
+    onerror?: 'serverside' | 'clientside';
 }
 export default function (this: Hexo): Promise<void[]>;

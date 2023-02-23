@@ -8,7 +8,7 @@ exports.remove_array_item_from = exports.array_unique = exports.array_remove_emp
  */
 function array_remove_empties(arr) {
     return arr.filter(function (item) {
-        if (typeof item === "string")
+        if (typeof item === 'string')
             return item.length > 0;
         if (Array.isArray(item))
             return item.length > 0;

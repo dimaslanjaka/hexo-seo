@@ -33,8 +33,8 @@ var path = __importStar(require("path"));
 /**
  * Temp folder
  */
-exports.tmpFolder = path.join(process.cwd(), "tmp");
-exports.buildFolder = path.join(process.cwd(), "build/hexo-seo");
+exports.tmpFolder = path.join(process.cwd(), 'tmp');
+exports.buildFolder = path.join(process.cwd(), 'build/hexo-seo');
 /**
  * resolve dirname of file
  * @param filePath
@@ -66,12 +66,12 @@ function readFile(filePath, options, autocreate) {
     if (autocreate === void 0) { autocreate = undefined; }
     resolveFile(filePath);
     if (autocreate && !fs.existsSync(filePath)) {
-        if (typeof autocreate === "boolean") {
-            writeFile(filePath, "");
+        if (typeof autocreate === 'boolean') {
+            writeFile(filePath, '');
         }
         else if (autocreate) {
             var text = void 0;
-            if (Array.isArray(autocreate) || typeof autocreate === "object") {
+            if (Array.isArray(autocreate) || typeof autocreate === 'object') {
                 text = JSON.stringify(autocreate);
             }
             writeFile(filePath, text);
@@ -83,8 +83,8 @@ function readFile(filePath, options, autocreate) {
 exports.readFile = readFile;
 var BUFFER_SIZE = 8192;
 function md5FileSync(path) {
-    var fd = fs.openSync(path, "r");
-    var hash = crypto_1["default"].createHash("md5");
+    var fd = fs.openSync(path, 'r');
+    var hash = crypto_1["default"].createHash('md5');
     var buffer = Buffer.alloc(BUFFER_SIZE);
     try {
         var bytesRead = void 0;
@@ -96,18 +96,18 @@ function md5FileSync(path) {
     finally {
         fs.closeSync(fd);
     }
-    return hash.digest("hex");
+    return hash.digest('hex');
 }
 exports.md5FileSync = md5FileSync;
 function md5File(path) {
     return new Promise(function (resolve, reject) {
-        var output = crypto_1["default"].createHash("md5");
+        var output = crypto_1["default"].createHash('md5');
         var input = fs.createReadStream(path);
-        input.on("error", function (err) {
+        input.on('error', function (err) {
             reject(err);
         });
-        output.once("readable", function () {
-            resolve(output.read().toString("hex"));
+        output.once('readable', function () {
+            resolve(output.read().toString('hex'));
         });
         input.pipe(output);
     });

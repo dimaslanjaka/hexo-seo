@@ -1,5 +1,5 @@
-import parseUrl from "url-parse";
-import Hexo from "hexo";
+import parseUrl from 'url-parse';
+import Hexo from 'hexo';
 export interface hyperlinkOptions {
     enable: boolean;
     blank: boolean;

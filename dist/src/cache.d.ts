@@ -1,5 +1,5 @@
 /// <reference types="bluebird" />
-import { Objek } from "./utils";
+import { Objek } from './utils';
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM

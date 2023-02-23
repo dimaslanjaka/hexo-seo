@@ -6,7 +6,7 @@ exports.__esModule = true;
 exports.getLatestFromArrayDates = void 0;
 var moment_1 = __importDefault(require("moment"));
 function getCategoryTags(hexo) {
-    var groups = ["categories", "tags"];
+    var groups = ['categories', 'tags'];
     var locals = hexo.locals;
     var groupfilter = {
         tags: [],
@@ -28,7 +28,7 @@ function getCategoryTags(hexo) {
                 return {
                     permalink: permalink.toString(),
                     name: archives.name,
-                    latest: (0, moment_1["default"])(latest).format("YYYY-MM-DDTHH:mm:ssZ")
+                    latest: (0, moment_1["default"])(latest).format('YYYY-MM-DDTHH:mm:ssZ')
                 };
             }
         });

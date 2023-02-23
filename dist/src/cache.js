@@ -100,7 +100,7 @@ var Cache = /** @class */ (function () {
  */
 function resolveString(variable, encode) {
     if (encode === void 0) { encode = false; }
-    if (typeof variable === "number")
+    if (typeof variable === 'number')
         variable = variable.toString();
     if (Buffer.isBuffer(variable))
         variable = variable.toString();
@@ -115,21 +115,21 @@ var CacheFile = /** @class */ (function () {
         if (hash === void 0) { hash = null; }
         this.md5Cache = {};
         if (!hash) {
-            var stack = new Error().stack.split("at")[2];
+            var stack = new Error().stack.split('at')[2];
             hash = (0, md5_file_1.md5)(stack);
         }
-        this.dbFile = path_1["default"].join(fm_1.tmpFolder, "db-" + hash + ".json");
-        var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
-        if (typeof db != "object") {
+        this.dbFile = path_1["default"].join(fm_1.tmpFolder, 'db-' + hash + '.json');
+        var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
+        if (typeof db != 'object') {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1["default"].error("cache database lost");
+                log_1["default"].error('cache database lost');
                 log_1["default"].error(e);
             }
         }
-        if (typeof db == "object") {
+        if (typeof db == 'object') {
             this.md5Cache = db;
         }
     }
@@ -140,8 +140,8 @@ var CacheFile = /** @class */ (function () {
         var _this = this;
         this.md5Cache[key] = value;
         // save cache on process exit
-        scheduler_1["default"].add("writeCacheFile", function () {
-            log_1["default"].log("saved cache", _this.dbFile);
+        scheduler_1["default"].add('writeCacheFile', function () {
+            log_1["default"].log('saved cache', _this.dbFile);
             (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
@@ -171,7 +171,7 @@ var CacheFile = /** @class */ (function () {
      * @returns
      */
     CacheFile.prototype.isFileChanged = function (path0) {
-        if (typeof path0 != "string") {
+        if (typeof path0 != 'string') {
             //console.log("", typeof path0, path0);
             return true;
         }
@@ -179,11 +179,11 @@ var CacheFile = /** @class */ (function () {
             // get md5 hash from path0
             var pathMd5 = (0, md5_file_1.sync)(path0);
             // get index hash
-            var savedMd5 = this.md5Cache[path0 + "-hash"];
+            var savedMd5 = this.md5Cache[path0 + '-hash'];
             var result = savedMd5 != pathMd5;
             if (result) {
                 // set, if file hash is not found
-                this.md5Cache[path0 + "-hash"] = pathMd5;
+                this.md5Cache[path0 + '-hash'] = pathMd5;
             }
             return result;
         }
@@ -209,28 +209,28 @@ var CacheFile2 = /** @class */ (function () {
         /**
          * Unique cache id
          */
-        this.cacheHash = "";
-        var stack = new Error().stack.split("at")[2];
-        hash = hash + "-" + (0, md5_file_1.md5)(stack);
+        this.cacheHash = '';
+        var stack = new Error().stack.split('at')[2];
+        hash = hash + '-' + (0, md5_file_1.md5)(stack);
         this.cacheHash = hash;
-        this.dbFile = path_1["default"].join(fm_1.buildFolder, "db-" + hash + ".json");
+        this.dbFile = path_1["default"].join(fm_1.buildFolder, 'db-' + hash + '.json');
         this.dbFolder = path_1["default"].join(fm_1.buildFolder, hash);
-        var db = (0, fm_1.readFile)(this.dbFile, { encoding: "utf8" }, {});
-        if (typeof db != "object") {
+        var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
+        if (typeof db != 'object') {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1["default"].error("cache database lost");
+                log_1["default"].error('cache database lost');
                 log_1["default"].error(e);
             }
         }
-        if (typeof db == "object") {
+        if (typeof db == 'object') {
             this.md5Cache = db;
         }
     }
     CacheFile2.prototype.getKeyLocation = function (key) {
-        if (key.startsWith("/")) {
+        if (key.startsWith('/')) {
             key = path_1["default"].join((0, md5_file_1.md5)(path_1["default"].dirname(key)), path_1["default"].basename(key));
         }
         return path_1["default"].join(this.dbFolder, key);
@@ -247,8 +247,8 @@ var CacheFile2 = /** @class */ (function () {
         var dbLocation = path_1["default"].join(this.dbFile);
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
-        scheduler_1["default"].add("save-" + this.cacheHash, function () {
-            log_1["default"].log("saving caches...", saveLocation, dbLocation);
+        scheduler_1["default"].add('save-' + this.cacheHash, function () {
+            log_1["default"].log('saving caches...', saveLocation, dbLocation);
             (0, fm_1.writeFile)(saveLocation, value);
             (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
         });
@@ -262,14 +262,14 @@ var CacheFile2 = /** @class */ (function () {
      */
     CacheFile2.prototype.get = function (key, fallback) {
         if (fallback === void 0) { fallback = null; }
-        if (typeof this.dbTemp[key] == "undefined") {
+        if (typeof this.dbTemp[key] == 'undefined') {
             var saveLocation = this.getKeyLocation(key);
             if ((0, fs_1.existsSync)(saveLocation)) {
                 var readCache = (0, fm_1.readFile)(saveLocation).toString();
                 this.dbTemp[key] = readCache;
                 return readCache;
             }
-            if (typeof fallback === "function")
+            if (typeof fallback === 'function')
                 return fallback();
             return fallback;
         }
@@ -291,19 +291,19 @@ var CacheFile2 = /** @class */ (function () {
      * @returns
      */
     CacheFile2.prototype.isFileChanged = function (path0) {
-        if (typeof path0 != "string") {
+        if (typeof path0 != 'string') {
             //console.log("", typeof path0, path0);
             return true;
         }
         // get md5 hash from path0
         var pathMd5 = (0, md5_file_1.sync)(path0);
         // get index hash
-        var savedMd5 = this.md5Cache[path0 + "-hash"];
+        var savedMd5 = this.md5Cache[path0 + '-hash'];
         var isChanged = savedMd5 !== pathMd5;
         //console.log(savedMd5, pathMd5, result);
         if (isChanged) {
             // set, if file hash is not found
-            this.md5Cache[path0 + "-hash"] = pathMd5;
+            this.md5Cache[path0 + '-hash'] = pathMd5;
         }
         return isChanged;
     };

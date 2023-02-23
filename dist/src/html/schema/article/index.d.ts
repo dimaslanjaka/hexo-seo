@@ -1,5 +1,5 @@
-import { CheerioAPI } from "cheerio";
-import Hexo, { TemplateLocals } from "hexo";
+import { CheerioAPI } from 'cheerio';
+import Hexo, { TemplateLocals } from 'hexo';
 export type SchemaAuthor = ObjectConstructor & {
     image: string;
     name: string;

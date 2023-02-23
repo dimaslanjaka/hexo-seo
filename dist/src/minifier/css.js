@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -49,7 +49,7 @@ var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
 function HexoSeoCss(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, isChanged, hexo_1, options, exclude, ignored, styles, saved, err_1;
+        var path0, isChanged, useCache, hexo_1, options, exclude, ignored, styles, saved, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -57,21 +57,22 @@ function HexoSeoCss(str, data) {
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
-                    if (!isChanged) return [3 /*break*/, 6];
-                    log_1["default"].log("%s is changed %s", path0, isChanged ? chalk_1["default"].red(isChanged) : chalk_1["default"].green(isChanged));
+                    useCache = this.config.seo.cache;
+                    if (!(isChanged || !useCache)) return [3 /*break*/, 6];
+                    log_1["default"].log('%s is changed %s', path0, isChanged ? chalk_1["default"].red(isChanged) : chalk_1["default"].green(isChanged));
                     hexo_1 = this;
                     options = (0, config_1["default"])(hexo_1).css;
                     // if option css is false, return original content
-                    if (typeof options == "boolean" && !options)
+                    if (typeof options == 'boolean' && !options)
                         return [2 /*return*/, str];
-                    exclude = typeof options.exclude == "object" ? options.exclude : [];
+                    exclude = typeof options.exclude == 'object' ? options.exclude : [];
                     if (path0 && exclude && exclude.length > 0) {
                         ignored = (0, utils_1.isIgnore)(path0, exclude);
-                        log_1["default"].log("%s(CSS:exclude) %s %s %s", package_json_1["default"].name, ignored ? chalk_1["default"].red(ignored) : chalk_1["default"].green(ignored), path0, exclude.join(", "));
+                        log_1["default"].log('%s(CSS:exclude) %s %s %s', package_json_1["default"].name, ignored ? chalk_1["default"].red(ignored) : chalk_1["default"].green(ignored), path0, exclude.join(', '));
                         if (ignored)
                             return [2 /*return*/, str];
                     }
-                    if (!(typeof options == "object")) return [3 /*break*/, 5];
+                    if (!(typeof options == 'object')) return [3 /*break*/, 5];
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
@@ -79,19 +80,19 @@ function HexoSeoCss(str, data) {
                 case 3:
                     styles = (_a.sent()).styles;
                     saved = (((str.length - styles.length) / str.length) * 100).toFixed(2);
-                    log_1["default"].log("%s(CSS): %s [%s saved]", package_json_1["default"].name, path0, saved + "%");
+                    log_1["default"].log('%s(CSS): %s [%s saved]', package_json_1["default"].name, path0, saved + '%');
                     str = styles;
                     cache.set(path0, str);
                     return [3 /*break*/, 5];
                 case 4:
                     err_1 = _a.sent();
-                    log_1["default"].log("%d(CSS) %s %s", package_json_1["default"].name, path0 + chalk_1["default"].redBright("failed"));
+                    log_1["default"].log('%d(CSS) %s %s', package_json_1["default"].name, path0 + chalk_1["default"].redBright('failed'));
                     log_1["default"].error(err_1);
                     return [3 /*break*/, 5];
                 case 5: return [3 /*break*/, 7];
                 case 6:
-                    log_1["default"].log("%s(CSS) cached [%s]", package_json_1["default"].name, path0.replace(this.base_dir, ""));
-                    str = cache.get(path0, "");
+                    log_1["default"].log('%s(CSS) cached [%s]', package_json_1["default"].name, path0.replace(this.base_dir, ''));
+                    str = cache.get(path0, '');
                     _a.label = 7;
                 case 7: return [2 /*return*/, str];
             }

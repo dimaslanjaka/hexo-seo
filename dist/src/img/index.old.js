@@ -53,11 +53,11 @@ function default_1() {
             route = hexo.route;
             options = (0, config_1["default"])(hexo).img;
             routes = route.list().filter(function (path0) {
-                var choose = (0, minimatch_1["default"])(path0, "**/*.{htm,html}", { nocase: true });
-                if (typeof options == "object" && typeof options.exclude != "undefined") {
+                var choose = (0, minimatch_1["default"])(path0, '**/*.{htm,html}', { nocase: true });
+                if (typeof options == 'object' && typeof options.exclude != 'undefined') {
                     choose = choose && !(0, utils_1.isIgnore)(path0, options.exclude);
                 }
-                if (typeof hexo.config.skip_render != "undefined") {
+                if (typeof hexo.config.skip_render != 'undefined') {
                     // _config.yml skip_render https://hexo.io/docs/configuration.html#Directory
                     choose = choose && !(0, utils_1.isIgnore)(path0, hexo.config.skip_render);
                 }
@@ -66,19 +66,19 @@ function default_1() {
             processor = function (stream) {
                 (0, stream_1.streamToArray)(stream)
                     .then(function (arr) {
-                    return arr.join("");
+                    return arr.join('');
                 })
                     .then(function (str) {
                     try {
                         //dump("after_generate.txt", str);
                         //logger.log(typeof str, "str");
                         var $_1 = cheerio_1["default"].load(str);
-                        var title_1 = $_1("title").text();
-                        $_1("img").map(function (i, img) {
+                        var title_1 = $_1('title').text();
+                        $_1('img').map(function (i, img) {
                             // fix image alt
-                            var alt = $_1(img).attr("alt");
+                            var alt = $_1(img).attr('alt');
                             if (!alt || alt.trim().length === 0) {
-                                $_1(img).attr("alt", title_1);
+                                $_1(img).attr('alt', title_1);
                             }
                             //const src = $(img).attr("src");
                         });

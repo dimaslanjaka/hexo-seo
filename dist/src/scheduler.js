@@ -22,7 +22,7 @@ var scheduler = /** @class */ (function () {
      * Add function to postpone, the functions will be executed every 5 items added
      */
     scheduler.postpone = function (key, value) {
-        functions["postpone-" + key] = value;
+        functions['postpone-' + key] = value;
         scheduler.postponeCounter += 1;
         if (scheduler.postponeCounter == 5) {
             scheduler.executeAll();
@@ -35,7 +35,7 @@ var scheduler = /** @class */ (function () {
      */
     scheduler.execute = function (key, deleteAfter) {
         if (deleteAfter === void 0) { deleteAfter = true; }
-        if (typeof functions[key] == "function") {
+        if (typeof functions[key] == 'function') {
             functions[key]();
             if (deleteAfter)
                 delete functions[key];
@@ -49,7 +49,7 @@ var scheduler = /** @class */ (function () {
      */
     scheduler.executeAll = function () {
         Object.keys(functions).forEach(function (key) {
-            log_1["default"].log("executing", key);
+            log_1["default"].log('executing', key);
             functions[key]();
         });
         scheduler.clearArray(functions);

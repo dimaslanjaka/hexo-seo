@@ -22,7 +22,7 @@ export declare function writeFile(filePath: string, content: string): void;
  * @returns
  */
 export declare function readFile(filePath: string, options?: {
-    encoding?: "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "base64url" | "latin1" | "binary" | "hex" | null | undefined;
+    encoding?: 'ascii' | 'utf8' | 'utf-8' | 'utf16le' | 'ucs2' | 'ucs-2' | 'base64' | 'base64url' | 'latin1' | 'binary' | 'hex' | null | undefined;
     flag?: string | undefined;
 } | null, autocreate?: any): Buffer | string;
 export declare function md5FileSync(path: any): string;

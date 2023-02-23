@@ -1,4 +1,4 @@
-import Hexo from "hexo";
+import Hexo from 'hexo';
 interface objectCategoryTags {
     permalink: string;
     name: string;

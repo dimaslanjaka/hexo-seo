@@ -49,31 +49,32 @@ var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
 function HexoSeoJs(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, HSConfig, isChanged, options, minifyOptions, result, saved, e_1;
+        var path0, HSConfig, isChanged, useCache, options, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     path0 = data.path;
                     if (!path0) {
-                        log_1["default"].error("%s(CSS) invalid path", package_json_1["default"].name);
+                        log_1["default"].error('%s(CSS) invalid path', package_json_1["default"].name);
                         return [2 /*return*/];
                     }
                     HSConfig = (0, config_1["default"])(this).js;
                     // if option js is false, return original content
-                    if (typeof HSConfig == "boolean" && !HSConfig)
+                    if (typeof HSConfig == 'boolean' && !HSConfig)
                         return [2 /*return*/, str];
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
-                    if (!isChanged) return [3 /*break*/, 6];
+                    useCache = this.config.seo.cache;
+                    if (!(isChanged || !useCache)) return [3 /*break*/, 6];
                     options = {
-                        exclude: ["*.min.js"]
+                        exclude: ['*.min.js']
                     };
-                    if (typeof HSConfig === "boolean") {
+                    if (typeof HSConfig === 'boolean') {
                         if (!HSConfig)
                             return [2 /*return*/, str];
                     }
-                    else if (typeof HSConfig == "object") {
+                    else if (typeof HSConfig == 'object') {
                         options = (0, object_assign_1["default"])(options, HSConfig);
                         if ((0, utils_1.isIgnore)(path0, options.exclude))
                             return [2 /*return*/, str];
@@ -90,7 +91,7 @@ function HexoSeoJs(str, data) {
                             dead_code: true //remove unreachable code
                         }
                     };
-                    if (typeof options.options == "object") {
+                    if (typeof options.options == 'object') {
                         minifyOptions = (0, object_assign_1["default"])(minifyOptions, options.options);
                     }
                     _a.label = 2;
@@ -101,7 +102,7 @@ function HexoSeoJs(str, data) {
                     result = _a.sent();
                     if (result.code && result.code.length > 0) {
                         saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
-                        log_1["default"].log("%s(JS): %s [%s saved]", package_json_1["default"].name, path0, "".concat(saved, "%"));
+                        log_1["default"].log('%s(JS): %s [%s saved]', package_json_1["default"].name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
                         cache.setCache(path0, str);
@@ -117,6 +118,7 @@ function HexoSeoJs(str, data) {
                 case 7:
                     // get cached minified js
                     str = _a.sent();
+                    log_1["default"].log('%s(JS) cached [%s]', package_json_1["default"].name, path0.replace(this.base_dir, ''));
                     _a.label = 8;
                 case 8: return [2 /*return*/, str];
             }
