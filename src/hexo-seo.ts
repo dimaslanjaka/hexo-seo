@@ -76,11 +76,11 @@ export default function HexoSeo(hexo: Hexo) {
   const config = getConfig(hexo);
   hexo.config.seo = config;
 
-  if (config.js) {
+  if (config.js && config.js.enable) {
     // minify javascripts
     hexo.extend.filter.register('after_render:js', HexoSeoJs);
   }
-  if (config.css) {
+  if (config.css && config.css.enable) {
     // minify css
     hexo.extend.filter.register('after_render:css', HexoSeoCss);
   }
