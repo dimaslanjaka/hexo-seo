@@ -1,9 +1,9 @@
-import Promise from "bluebird";
-import { curly } from "node-libcurl";
-import { CacheFile } from "../cache";
-import { isDev } from "../hexo-seo";
+import Promise from 'bluebird';
+import { curly } from 'node-libcurl';
+import { CacheFile } from '../cache';
+import { isDev } from '../hexo-seo';
 
-const cache = new CacheFile("curl");
+const cache = new CacheFile('curl');
 /**
  * Check if url is exists
  */

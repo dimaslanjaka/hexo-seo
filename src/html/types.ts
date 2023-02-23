@@ -1,6 +1,6 @@
-import parseUrl from "url-parse";
-import getConfig from "../config";
-import Hexo from "hexo";
+import parseUrl from 'url-parse';
+import getConfig from '../config';
+import Hexo from 'hexo';
 
 export interface hyperlinkOptions {
   enable: boolean;
@@ -13,7 +13,7 @@ export interface hyperlinkOptions {
 }
 
 export function formatAnchorText(text: string) {
-  return text.replace(/['"]/gm, "");
+  return text.replace(/['"]/gm, '');
 }
 
 /**
@@ -23,8 +23,8 @@ export function formatAnchorText(text: string) {
  * @returns
  */
 export function isExternal(url: ReturnType<typeof parseUrl>, hexo: Hexo): boolean {
-  const site = typeof parseUrl(hexo.config.url).hostname == "string" ? parseUrl(hexo.config.url).hostname : null;
-  const cases = typeof url.hostname == "string" ? url.hostname.trim() : null;
+  const site = typeof parseUrl(hexo.config.url).hostname == 'string' ? parseUrl(hexo.config.url).hostname : null;
+  const cases = typeof url.hostname == 'string' ? url.hostname.trim() : null;
   const config = getConfig(hexo);
   const allowed = Array.isArray(config.links.allow) ? config.links.allow : [];
   const hosts = config.host;

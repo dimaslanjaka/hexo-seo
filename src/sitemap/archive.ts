@@ -1,5 +1,5 @@
-import Hexo, { Model } from "hexo";
-import moment from "moment";
+import Hexo, { Model } from 'hexo';
+import moment from 'moment';
 
 interface objectCategoryTags {
   permalink: string;
@@ -11,7 +11,7 @@ interface returnCategoryTags {
   categories: objectCategoryTags[];
 }
 function getCategoryTags(hexo: Hexo) {
-  const groups = ["categories", "tags"];
+  const groups = ['categories', 'tags'];
   const locals = hexo.locals;
   const groupfilter: returnCategoryTags = {
     tags: [],
@@ -36,7 +36,7 @@ function getCategoryTags(hexo: Hexo) {
         return <objectCategoryTags>{
           permalink: permalink.toString(),
           name: archives.name,
-          latest: moment(latest).format("YYYY-MM-DDTHH:mm:ssZ")
+          latest: moment(latest).format('YYYY-MM-DDTHH:mm:ssZ')
         };
       }
     });

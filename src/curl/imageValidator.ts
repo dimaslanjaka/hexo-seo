@@ -1,4 +1,4 @@
-import { curly } from "node-libcurl";
+import { curly } from 'node-libcurl';
 
 class imageValidator {
   /**
@@ -22,10 +22,10 @@ class imageValidator {
           const statusCode = res.statusCode;
           const validStatusCode = statusCode < 400 || statusCode >= 500 || statusCode === 200;
           if (validStatusCode) {
-            if (typeof res.headers[0] == "object") {
+            if (typeof res.headers[0] == 'object') {
               const headers = res.headers[0];
-              if (typeof headers["Content-Type"] == "string") {
-                if (headers["Content-Type"].includes("images/")) return true;
+              if (typeof headers['Content-Type'] == 'string') {
+                if (headers['Content-Type'].includes('images/')) return true;
               }
             }
           }

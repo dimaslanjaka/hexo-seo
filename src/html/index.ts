@@ -1,19 +1,19 @@
-import Promise from "bluebird";
-import Hexo, { TemplateLocals } from "hexo";
+import Promise from 'bluebird';
+import Hexo, { TemplateLocals } from 'hexo';
 
-import { parse as nodeHtmlParser } from "node-html-parser";
-import parseUrl from "url-parse";
-import { CacheFile } from "../cache";
-import getConfig from "../config";
-import { isDev } from "../hexo-seo";
-import logger from "../log";
-import sitemap from "../sitemap";
-import { array_remove_empties, array_unique } from "../utils/array";
-import { md5 } from "../utils/md5-file";
-import { identifyRels } from "./fixHyperlinks.static";
-import fixSchemaStatic from "./fixSchema.static";
-import { HexoSeo } from "./schema/article";
-import { isExternal } from "./types";
+import { parse as nodeHtmlParser } from 'node-html-parser';
+import parseUrl from 'url-parse';
+import { CacheFile } from '../cache';
+import getConfig from '../config';
+import { isDev } from '../hexo-seo';
+import logger from '../log';
+import sitemap from '../sitemap';
+import { array_remove_empties, array_unique } from '../utils/array';
+import { md5 } from '../utils/md5-file';
+import { identifyRels } from './fixHyperlinks.static';
+import fixSchemaStatic from './fixSchema.static';
+import { HexoSeo } from './schema/article';
+import { isExternal } from './types';
 
 /**
  * get page full source
@@ -28,7 +28,7 @@ export function getPagePath(data: HexoSeo | TemplateLocals) {
   if (data.path) return data.path;
 }
 
-const cache = new CacheFile("index");
+const cache = new CacheFile('index');
 export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
   //console.log("filtering html", data.page.title);
   const hexo = this;
@@ -38,7 +38,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     allowCache = false;
     path0 = content;
   }
-  let title = "";
+  let title = '';
   if (data.page && data.page.title && data.page.title.trim().length > 0) {
     title = data.page.title;
   } else {
@@ -51,21 +51,21 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
       const cfg = getConfig(this);
       //** fix hyperlink */
       if (cfg.links.enable) {
-        const a = root.querySelectorAll("a[href]");
+        const a = root.querySelectorAll('a[href]');
         a.forEach((el) => {
-          let href = String(el.getAttribute("href")).trim();
-          if (href.startsWith("//")) href = "http:" + href;
+          let href = String(el.getAttribute('href')).trim();
+          if (href.startsWith('//')) href = 'http:' + href;
           if (/^https?:\/\//.test(href)) {
-            let rels = el.getAttribute("rel") ? el.getAttribute("rel").split(" ") : [];
+            let rels = el.getAttribute('rel') ? el.getAttribute('rel').split(' ') : [];
             //rels = rels.removeEmpties().unique();
             rels = array_unique(array_remove_empties(rels));
             const parseHref = parseUrl(href);
             const external = isExternal(parseHref, hexo);
             rels = identifyRels(el, external, cfg.links);
-            el.setAttribute("rel", rels.join(" "));
-            if (isDev) el.setAttribute("hexo-seo", "true");
-            if (!el.hasAttribute("alt")) el.setAttribute("alt", title);
-            if (!el.hasAttribute("title")) el.setAttribute("title", title);
+            el.setAttribute('rel', rels.join(' '));
+            if (isDev) el.setAttribute('hexo-seo', 'true');
+            if (!el.hasAttribute('alt')) el.setAttribute('alt', title);
+            if (!el.hasAttribute('title')) el.setAttribute('title', title);
           }
         });
       }
@@ -74,7 +74,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
         //** fix invalid html */
         const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
         if (inv.length > 0) {
-          logger.log("invalid html found", inv.length, inv.length > 1 ? "items" : "item");
+          logger.log('invalid html found', inv.length, inv.length > 1 ? 'items' : 'item');
           inv.forEach((el) => {
             el.remove();
           });
@@ -83,25 +83,25 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
 
       //** fix images attributes */
       if (cfg.img.enable) {
-        root.querySelectorAll("img[src]").forEach((element) => {
-          const imgAlt = element.getAttribute("alt") || title;
-          const imgTitle = element.getAttribute("title") || imgAlt;
-          if (!element.hasAttribute("title")) {
+        root.querySelectorAll('img[src]').forEach((element) => {
+          const imgAlt = element.getAttribute('alt') || title;
+          const imgTitle = element.getAttribute('title') || imgAlt;
+          if (!element.hasAttribute('title')) {
             //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
-            element.setAttribute("title", imgTitle);
+            element.setAttribute('title', imgTitle);
           }
-          if (!element.hasAttribute("alt")) {
-            element.setAttribute("alt", imgAlt);
+          if (!element.hasAttribute('alt')) {
+            element.setAttribute('alt', imgAlt);
           }
-          if (!element.getAttribute("itemprop")) {
-            element.setAttribute("itemprop", "image");
+          if (!element.getAttribute('itemprop')) {
+            element.setAttribute('itemprop', 'image');
           }
           if (cfg.img.broken) {
-            if (cfg.img.onerror === "clientside") {
-              element.setAttribute("onerror", "this.src='" + cfg.img.default + "';");
+            if (cfg.img.onerror === 'clientside') {
+              element.setAttribute('onerror', "this.src='" + cfg.img.default + "';");
             }
           }
-          if (isDev) element.setAttribute("hexo-seo", "true");
+          if (isDev) element.setAttribute('hexo-seo', 'true');
         });
       }
 

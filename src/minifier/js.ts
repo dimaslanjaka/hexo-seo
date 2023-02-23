@@ -1,11 +1,11 @@
-import Hexo from "hexo";
-import assign from "object-assign";
-import { minify, MinifyOptions } from "terser";
-import pkg from "../../package.json";
-import Cache from "../cache";
-import getConfig from "../config";
-import log from "../log";
-import { isIgnore } from "../utils";
+import Hexo from 'hexo';
+import assign from 'object-assign';
+import { minify, MinifyOptions } from 'terser';
+import pkg from '../../package.json';
+import Cache from '../cache';
+import getConfig from '../config';
+import log from '../log';
+import { isIgnore } from '../utils';
 
 export interface jsMinifyOptions {
   /**
@@ -20,23 +20,23 @@ const cache = new Cache();
 export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View) {
   const path0 = data.path;
   if (!path0) {
-    log.error("%s(CSS) invalid path", pkg.name);
+    log.error('%s(CSS) invalid path', pkg.name);
     return;
   }
   const HSConfig = getConfig(this).js;
   // if option js is false, return original content
-  if (typeof HSConfig == "boolean" && !HSConfig) return str;
+  if (typeof HSConfig == 'boolean' && !HSConfig) return str;
   const isChanged = await cache.isFileChanged(path0);
   if (isChanged) {
     // if original file is changed, re-minify js
     //const hexo: Hexo = this;
     let options: jsMinifyOptions = {
-      exclude: ["*.min.js"]
+      exclude: ['*.min.js']
     };
 
-    if (typeof HSConfig === "boolean") {
+    if (typeof HSConfig === 'boolean') {
       if (!HSConfig) return str;
-    } else if (typeof HSConfig == "object") {
+    } else if (typeof HSConfig == 'object') {
       options = assign(options, HSConfig);
       if (isIgnore(path0, options.exclude)) return str;
     }
@@ -53,7 +53,7 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
         dead_code: true //remove unreachable code
       }
     };
-    if (typeof options.options == "object") {
+    if (typeof options.options == 'object') {
       minifyOptions = assign(minifyOptions, options.options);
     }
 
@@ -61,7 +61,7 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
       const result = await minify(str, minifyOptions);
       if (result.code && result.code.length > 0) {
         const saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
-        log.log("%s(JS): %s [%s saved]", pkg.name, path0, `${saved}%`);
+        log.log('%s(JS): %s [%s saved]', pkg.name, path0, `${saved}%`);
         str = result.code;
 
         // set new minified js cache

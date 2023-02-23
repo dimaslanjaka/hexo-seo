@@ -1,4 +1,4 @@
-import log from "hexo-log";
+import log from 'hexo-log';
 
 const logger: Console = <any>log({
   debug: false,

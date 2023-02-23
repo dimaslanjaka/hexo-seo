@@ -1,13 +1,13 @@
-import { deepmerge } from "deepmerge-ts";
-import { writeFileSync } from "fs";
-import Hexo from "hexo";
-import { join } from "path";
-import { hyperlinkOptions } from "./html/types";
-import { imgOptions } from "./img/index.old";
-import { cssMinifyOptions } from "./minifier/css";
-import { MinifyOptions as htmlMinifyOptions } from "./minifier/html";
-import { jsMinifyOptions } from "./minifier/js";
-import configData from "./_config_data.json";
+import { deepmerge } from 'deepmerge-ts';
+import { writeFileSync } from 'fs';
+import Hexo from 'hexo';
+import { join } from 'path';
+import { hyperlinkOptions } from './html/types';
+import { imgOptions } from './img/index.old';
+import { cssMinifyOptions } from './minifier/css';
+import { MinifyOptions as htmlMinifyOptions } from './minifier/html';
+import { jsMinifyOptions } from './minifier/js';
+import configData from './_config_data.json';
 
 export interface Switcher {
   enable: boolean;
@@ -18,23 +18,23 @@ export interface BaseConfig {
   /**
    * Optimize js
    */
-  js: jsMinifyOptions & Switcher & AutoConfig["js"];
+  js: jsMinifyOptions & Switcher & AutoConfig['js'];
   /**
    * Optimize css
    */
-  css: cssMinifyOptions & Switcher & AutoConfig["css"];
+  css: cssMinifyOptions & Switcher & AutoConfig['css'];
   /**
    * Optimize image
    */
-  img: imgOptions & Switcher & AutoConfig["img"];
+  img: imgOptions & Switcher & AutoConfig['img'];
   /**
    * Minimize html
    */
-  html: htmlMinifyOptions & Switcher & AutoConfig["html"];
+  html: htmlMinifyOptions & Switcher & AutoConfig['html'];
   /**
    * Nofollow links
    */
-  links: hyperlinkOptions & Switcher & AutoConfig["links"];
+  links: hyperlinkOptions & Switcher & AutoConfig['links'];
   /**
    * Blog hostname
    */
@@ -43,18 +43,18 @@ export interface BaseConfig {
    * Generate schema article
    */
   schema: {
-    sitelink: Switcher & AutoConfig["schema"]["sitelink"];
-    article: Switcher & AutoConfig["schema"]["article"];
-    breadcrumb: Switcher & AutoConfig["schema"]["breadcrumb"];
+    sitelink: Switcher & AutoConfig['schema']['sitelink'];
+    article: Switcher & AutoConfig['schema']['article'];
+    breadcrumb: Switcher & AutoConfig['schema']['breadcrumb'];
   };
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 
-const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
+const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const defaultOpt: BaseConfig = {
-    js: { enable: false, exclude: ["*.min.js"] } as any,
-    css: { enable: false, exclude: ["*.min.css"] } as any,
+    js: { enable: false, exclude: ['*.min.js'] } as any,
+    css: { enable: false, exclude: ['*.min.css'] } as any,
     html: {
       enable: false,
       fix: false,
@@ -73,14 +73,14 @@ const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
     img: {
       enable: false,
       default:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
-      onerror: "clientside"
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png',
+      onerror: 'clientside'
     } as any,
     host: new URL(hexo.config.url).host,
     links: {
       blank: true,
       enable: true,
-      allow: ["webmanajemen.com"]
+      allow: ['webmanajemen.com']
     } as any,
     schema: {
       sitelink: {
@@ -92,8 +92,8 @@ const getConfig = function (hexo: Hexo, _key = "config-hexo-seo") {
     sitemap: false
   };
   const seo: BaseConfig = hexo.config.seo;
-  writeFileSync(join(__dirname, "_config_data.json"), JSON.stringify(seo, null, 2));
-  if (typeof seo === "undefined") return <BaseConfig>defaultOpt;
+  writeFileSync(join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+  if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
   return deepmerge(defaultOpt, seo) as BaseConfig;
 };
 

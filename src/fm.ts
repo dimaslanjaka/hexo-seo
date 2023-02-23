@@ -1,13 +1,12 @@
-import crypto from "crypto";
-import * as fs from "fs";
-import * as path from "path";
-
+import crypto from 'crypto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Temp folder
  */
-export const tmpFolder = path.join(process.cwd(), "tmp");
-export const buildFolder = path.join(process.cwd(), "build/hexo-seo");
+export const tmpFolder = path.join(process.cwd(), 'tmp');
+export const buildFolder = path.join(process.cwd(), 'build/hexo-seo');
 
 /**
  * resolve dirname of file
@@ -40,17 +39,17 @@ export function readFile(
   filePath: string,
   options?: {
     encoding?:
-      | "ascii"
-      | "utf8"
-      | "utf-8"
-      | "utf16le"
-      | "ucs2"
-      | "ucs-2"
-      | "base64"
-      | "base64url"
-      | "latin1"
-      | "binary"
-      | "hex"
+      | 'ascii'
+      | 'utf8'
+      | 'utf-8'
+      | 'utf16le'
+      | 'ucs2'
+      | 'ucs-2'
+      | 'base64'
+      | 'base64url'
+      | 'latin1'
+      | 'binary'
+      | 'hex'
       | null
       | undefined;
     flag?: string | undefined;
@@ -59,11 +58,11 @@ export function readFile(
 ): Buffer | string {
   resolveFile(filePath);
   if (autocreate && !fs.existsSync(filePath)) {
-    if (typeof autocreate === "boolean") {
-      writeFile(filePath, "");
+    if (typeof autocreate === 'boolean') {
+      writeFile(filePath, '');
     } else if (autocreate) {
       let text;
-      if (Array.isArray(autocreate) || typeof autocreate === "object") {
+      if (Array.isArray(autocreate) || typeof autocreate === 'object') {
         text = JSON.stringify(autocreate);
       }
       writeFile(filePath, text);
@@ -76,8 +75,8 @@ export function readFile(
 const BUFFER_SIZE = 8192;
 
 export function md5FileSync(path) {
-  const fd = fs.openSync(path, "r");
-  const hash = crypto.createHash("md5");
+  const fd = fs.openSync(path, 'r');
+  const hash = crypto.createHash('md5');
   const buffer = Buffer.alloc(BUFFER_SIZE);
 
   try {
@@ -91,20 +90,20 @@ export function md5FileSync(path) {
     fs.closeSync(fd);
   }
 
-  return hash.digest("hex");
+  return hash.digest('hex');
 }
 
 export function md5File(path) {
   return new Promise((resolve, reject) => {
-    const output = crypto.createHash("md5");
+    const output = crypto.createHash('md5');
     const input = fs.createReadStream(path);
 
-    input.on("error", (err) => {
+    input.on('error', (err) => {
       reject(err);
     });
 
-    output.once("readable", () => {
-      resolve(output.read().toString("hex"));
+    output.once('readable', () => {
+      resolve(output.read().toString('hex'));
     });
 
     input.pipe(output);

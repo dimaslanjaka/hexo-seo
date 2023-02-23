@@ -1,7 +1,7 @@
-import { CheerioAPI } from "cheerio";
-import Hexo, { TemplateLocals } from "hexo";
-import { isValidUrlPattern } from "../../../utils/url";
-import mainSchema from "./model3.json";
+import { CheerioAPI } from 'cheerio';
+import Hexo, { TemplateLocals } from 'hexo';
+import { isValidUrlPattern } from '../../../utils/url';
+import mainSchema from './model3.json';
 
 export type SchemaAuthor = ObjectConstructor & {
   image: string;
@@ -74,10 +74,10 @@ class articleSchema {
     const build: typeof mainSchema.mainEntityOfPage.mainEntity.itemListElement = [];
     for (let index = 0; index < tags.length; index++) {
       const template = {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 0,
-        name: "Books",
-        item: "https://example.com/books"
+        name: 'Books',
+        item: 'https://example.com/books'
       };
       const tag = tags[index];
       template.position = index + 1;
@@ -98,16 +98,16 @@ class articleSchema {
   }
 
   setImage($: string | CheerioAPI) {
-    if (typeof $ === "string") {
+    if (typeof $ === 'string') {
       this.schema.image = $;
       return;
     }
 
-    const images = $("img");
+    const images = $('img');
     for (let index = 0; index < images.length; index++) {
       const image = $(images[index]);
-      const img = image.attr("src");
-      if (img && img.trim().startsWith("#") && img.trim().length > 0) {
+      const img = image.attr('src');
+      if (img && img.trim().startsWith('#') && img.trim().length > 0) {
         if (/^\/|https?/gs.test(img)) {
           this.schema.image = img;
           return;
@@ -116,7 +116,7 @@ class articleSchema {
     }
 
     this.schema.image =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png";
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png';
   }
 
   /**
@@ -125,26 +125,26 @@ class articleSchema {
    * @param author Author Options
    */
   setAuthor(author: SchemaAuthor) {
-    if (typeof author["author"] == "object") author = author["author"];
+    if (typeof author['author'] == 'object') author = author['author'];
 
     //console.log(author);
 
     // determine author name
-    let authorName = "Google";
-    if (typeof author == "string") {
+    let authorName = 'Google';
+    if (typeof author == 'string') {
       // if author option is string as default hexo
       authorName = author;
     } else {
       // try search author names
-      authorName = author["name"] || author["nick"] || author["nickname"];
-      if (!authorName && typeof this.hexo.config.author != "undefined") {
-        if (typeof this.hexo.config.author == "string") {
+      authorName = author['name'] || author['nick'] || author['nickname'];
+      if (!authorName && typeof this.hexo.config.author != 'undefined') {
+        if (typeof this.hexo.config.author == 'string') {
           authorName = this.hexo.config.author;
-        } else if (typeof this.hexo.config.author == "object") {
-          const findAuthorKey = ["name", "nick", "nickname"];
+        } else if (typeof this.hexo.config.author == 'object') {
+          const findAuthorKey = ['name', 'nick', 'nickname'];
           for (const key in findAuthorKey) {
             if (Object.prototype.hasOwnProperty.call(findAuthorKey, key)) {
-              if (typeof this.hexo.config.author[key] == "string") authorName = this.hexo.config.author[key];
+              if (typeof this.hexo.config.author[key] == 'string') authorName = this.hexo.config.author[key];
             }
           }
         }
@@ -155,32 +155,32 @@ class articleSchema {
 
     // determine author image
     let authorImage =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
-    if (author["image"]) {
-      authorImage = author["image"];
-    } else if (author["config"]) {
-      if (author["config"]["image"]) {
-        authorImage = author["config"]["image"];
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png';
+    if (author['image']) {
+      authorImage = author['image'];
+    } else if (author['config']) {
+      if (author['config']['image']) {
+        authorImage = author['config']['image'];
       }
     }
     this.schema.author.image = this.schema.publisher.logo.url = authorImage;
 
     // determine author url
-    let authorUrl = "https://webmanajemen.com";
-    if (author["url"]) {
-      authorUrl = author["url"];
-    } else if (author["sameAs"]) {
-      authorUrl = author["sameAs"];
-    } else if (typeof this.hexo.config == "object") {
-      if (typeof this.hexo.config.author == "object") {
-        const propertyAuhorSearch = ["link", "url", "web", "website"];
+    let authorUrl = 'https://webmanajemen.com';
+    if (author['url']) {
+      authorUrl = author['url'];
+    } else if (author['sameAs']) {
+      authorUrl = author['sameAs'];
+    } else if (typeof this.hexo.config == 'object') {
+      if (typeof this.hexo.config.author == 'object') {
+        const propertyAuhorSearch = ['link', 'url', 'web', 'website'];
         for (const key in propertyAuhorSearch) {
           if (Object.prototype.hasOwnProperty.call(propertyAuhorSearch, key)) {
-            if (typeof propertyAuhorSearch[key] == "string") {
+            if (typeof propertyAuhorSearch[key] == 'string') {
               authorUrl = propertyAuhorSearch[key];
               break;
             } else if (Array.isArray(propertyAuhorSearch[key])) {
-              if (typeof propertyAuhorSearch[key][0] == "string") {
+              if (typeof propertyAuhorSearch[key][0] == 'string') {
                 authorUrl = propertyAuhorSearch[key];
                 break;
               }

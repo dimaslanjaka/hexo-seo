@@ -2,4 +2,4 @@
 // Project: http://www.webmanajemen.com
 
 // Definitions by: DimasLanjaka <https://github.com/dimaslanjaka>
-declare module "hexo-seo" {}
+declare module 'hexo-seo' {}

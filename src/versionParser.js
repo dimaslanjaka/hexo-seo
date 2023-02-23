@@ -16,7 +16,7 @@ class versionParser {
    * @param {string} str
    */
   constructor(str) {
-    if (typeof str === "string") this.parseVersion(str);
+    if (typeof str === 'string') this.parseVersion(str);
   }
 
   /**
@@ -25,11 +25,11 @@ class versionParser {
    * @returns
    */
   parseVersion(str) {
-    if (typeof str !== "string") {
+    if (typeof str !== 'string') {
       //return false;
       throw `argument required string, found ${typeof str}`;
     }
-    const arr = str.split(".");
+    const arr = str.split('.');
 
     // parse int or default to 0
     this.result.major = parseInt(arr[0]) || 0;

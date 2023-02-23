@@ -1,10 +1,10 @@
-import { TemplateLocals } from "hexo";
-import hexoIs from "hexo-is";
-import moment from "moment-timezone";
-import { HTMLElement } from "node-html-parser";
-import { BaseConfig } from "../config";
-import log from "../log";
-import model from "./schema/article/model4.json";
+import { TemplateLocals } from 'hexo';
+import hexoIs from 'hexo-is';
+import moment from 'moment-timezone';
+import { HTMLElement } from 'node-html-parser';
+import { BaseConfig } from '../config';
+import log from '../log';
+import model from './schema/article/model4.json';
 
 /**
  * Fix Schema Model 4
@@ -21,7 +21,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   const article = model[1];
   const sitelink = model[2];
   // resolve title
-  let title = "";
+  let title = '';
   if (data.page && data.page.title && data.page.title.trim().length > 0) {
     title = data.page.title;
   } else {
@@ -46,7 +46,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
 
   // resolve thumbnail
   let thumbnail =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
   if (data.page) {
     const photos = Array.isArray(data.page.photos) ? data.page.photos[0] : null;
     const cover = data.page.cover || data.page.thumbnail;
@@ -82,10 +82,10 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
         if (data.page.tags && data.page.tags.length > 0) {
           data.page.tags.forEach((tag) => {
             const o = {
-              "@type": "ListItem",
+              '@type': 'ListItem',
               position: schemaBreadcrumbs.length + 1,
-              item: tag["permalink"],
-              name: tag["name"]
+              item: tag['permalink'],
+              name: tag['name']
             };
             schemaBreadcrumbs.push(o);
           });
@@ -94,17 +94,17 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
         if (data.page.categories && data.page.categories.length > 0) {
           data.page.categories.forEach((category) => {
             const o = {
-              "@type": "ListItem",
+              '@type': 'ListItem',
               position: schemaBreadcrumbs.length + 1,
-              item: category["permalink"],
-              name: category["name"]
+              item: category['permalink'],
+              name: category['name']
             };
             schemaBreadcrumbs.push(<any>o);
           });
         }
 
         schemaBreadcrumbs.push({
-          "@type": "ListItem",
+          '@type': 'ListItem',
           position: schemaBreadcrumbs.length + 1,
           item: url,
           name: title
@@ -118,17 +118,17 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
     }
 
     if (HSconfig.schema.article && HSconfig.schema.article.enable) {
-      article.mainEntityOfPage["@id"] = url;
+      article.mainEntityOfPage['@id'] = url;
       article.headline = title;
       article.description = description;
       article.image.url = thumbnail;
       article.author.name = author;
       article.publisher.name = author;
       article.dateModified = moment(new Date(String(data.page.updated)))
-        .tz(data.config.timezone || "UTC")
+        .tz(data.config.timezone || 'UTC')
         .format();
       article.datePublished = moment(new Date(String(data.page.date)))
-        .tz(data.config.timezone || "UTC")
+        .tz(data.config.timezone || 'UTC')
         .format();
       schema.push(article);
     }
@@ -137,11 +137,11 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   if (schema.length > 0) {
     const JSONschema = JSON.stringify(schema, null, 2);
     const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
-    log.log("schema created", title, url);
+    log.log('schema created', title, url);
 
     if (schemahtml) {
-      const head = dom.getElementsByTagName("head")[0];
-      head.insertAdjacentHTML("beforeend", schemahtml);
+      const head = dom.getElementsByTagName('head')[0];
+      head.insertAdjacentHTML('beforeend', schemahtml);
     }
   }
 }

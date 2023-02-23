@@ -5,7 +5,7 @@
  */
 export function array_remove_empties<T extends any[]>(arr: T) {
   return arr.filter((item) => {
-    if (typeof item === "string") return item.length > 0;
+    if (typeof item === 'string') return item.length > 0;
     if (Array.isArray(item)) return item.length > 0;
     return true;
   });

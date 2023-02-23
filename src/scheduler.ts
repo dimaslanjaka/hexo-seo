@@ -1,7 +1,7 @@
 /** SCHEDULER JOB **/
 /*** Postpone executing functions ***/
 
-import logger from "./log";
+import logger from './log';
 
 const functions: { [key: string]: () => any }[] = [];
 class scheduler {
@@ -18,7 +18,7 @@ class scheduler {
    * Add function to postpone, the functions will be executed every 5 items added
    */
   static postpone(key: string, value: () => any) {
-    functions["postpone-" + key] = value;
+    functions['postpone-' + key] = value;
     scheduler.postponeCounter += 1;
     if (scheduler.postponeCounter == 5) {
       scheduler.executeAll();
@@ -30,7 +30,7 @@ class scheduler {
    * @param key
    */
   static execute(key: string, deleteAfter = true) {
-    if (typeof functions[key] == "function") {
+    if (typeof functions[key] == 'function') {
       functions[key]();
       if (deleteAfter) delete functions[key];
     } else {
@@ -42,7 +42,7 @@ class scheduler {
    */
   static executeAll() {
     Object.keys(functions).forEach((key) => {
-      logger.log("executing", key);
+      logger.log('executing', key);
       functions[key]();
     });
     scheduler.clearArray(functions);

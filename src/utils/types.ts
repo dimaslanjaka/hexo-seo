@@ -1,4 +1,4 @@
-import Hexo from "hexo";
+import Hexo from 'hexo';
 
 export type MutableHexo = {
   -readonly [K in keyof Hexo]: Hexo[K];

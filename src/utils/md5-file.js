@@ -1,13 +1,13 @@
-const crypto = require("crypto");
-const fs = require("fs");
-const Promise = require("bluebird");
-const { memoize } = require("underscore");
+const crypto = require('crypto');
+const fs = require('fs');
+const Promise = require('bluebird');
+const { memoize } = require('underscore');
 
 const BUFFER_SIZE = 8192;
 
 function md5FileSync(path) {
-  const fd = fs.openSync(path, "r");
-  const hash = crypto.createHash("md5");
+  const fd = fs.openSync(path, 'r');
+  const hash = crypto.createHash('md5');
   const buffer = Buffer.alloc(BUFFER_SIZE);
 
   try {
@@ -21,20 +21,20 @@ function md5FileSync(path) {
     fs.closeSync(fd);
   }
 
-  return hash.digest("hex");
+  return hash.digest('hex');
 }
 
 function md5File(path) {
   return new Promise((resolve, reject) => {
-    const output = crypto.createHash("md5");
+    const output = crypto.createHash('md5');
     const input = fs.createReadStream(path);
 
-    input.on("error", (err) => {
+    input.on('error', (err) => {
       reject(err);
     });
 
-    output.once("readable", () => {
-      resolve(output.read().toString("hex"));
+    output.once('readable', () => {
+      resolve(output.read().toString('hex'));
     });
 
     input.pipe(output);
@@ -51,7 +51,7 @@ const md5 = memoize(
    * @returns
    */
   (data) => {
-    return crypto.createHash("md5").update(data).digest("hex");
+    return crypto.createHash('md5').update(data).digest('hex');
   }
 );
 

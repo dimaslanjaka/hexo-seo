@@ -1,11 +1,11 @@
-import { existsSync } from "fs";
-import NodeCache from "node-cache";
-import path from "path";
-import { buildFolder, readFile, tmpFolder, writeFile } from "./fm";
-import logger from "./log";
-import scheduler from "./scheduler";
-import { Objek } from "./utils";
-import md5File, { md5, sync as md5FileSync } from "./utils/md5-file";
+import { existsSync } from 'fs';
+import NodeCache from 'node-cache';
+import path from 'path';
+import { buildFolder, readFile, tmpFolder, writeFile } from './fm';
+import logger from './log';
+import scheduler from './scheduler';
+import { Objek } from './utils';
+import md5File, { md5, sync as md5FileSync } from './utils/md5-file';
 
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
 
@@ -74,7 +74,7 @@ class Cache {
  * @returns
  */
 export function resolveString(variable: any, encode = false) {
-  if (typeof variable === "number") variable = variable.toString();
+  if (typeof variable === 'number') variable = variable.toString();
   if (Buffer.isBuffer(variable)) variable = variable.toString();
 }
 
@@ -87,20 +87,20 @@ export class CacheFile {
   dbFile: string;
   constructor(hash = null) {
     if (!hash) {
-      const stack = new Error().stack.split("at")[2];
+      const stack = new Error().stack.split('at')[2];
       hash = md5(stack);
     }
-    this.dbFile = path.join(tmpFolder, "db-" + hash + ".json");
-    let db = readFile(this.dbFile, { encoding: "utf8" }, {});
-    if (typeof db != "object") {
+    this.dbFile = path.join(tmpFolder, 'db-' + hash + '.json');
+    let db = readFile(this.dbFile, { encoding: 'utf8' }, {});
+    if (typeof db != 'object') {
       try {
         db = JSON.parse(db.toString());
       } catch (e) {
-        logger.error("cache database lost");
+        logger.error('cache database lost');
         logger.error(e);
       }
     }
-    if (typeof db == "object") {
+    if (typeof db == 'object') {
       this.md5Cache = db;
     }
   }
@@ -110,8 +110,8 @@ export class CacheFile {
   set(key: string, value: any) {
     this.md5Cache[key] = value;
     // save cache on process exit
-    scheduler.add("writeCacheFile", () => {
-      logger.log("saved cache", this.dbFile);
+    scheduler.add('writeCacheFile', () => {
+      logger.log('saved cache', this.dbFile);
       writeFile(this.dbFile, JSON.stringify(this.md5Cache));
     });
   }
@@ -138,7 +138,7 @@ export class CacheFile {
    * @returns
    */
   isFileChanged(path0: string): boolean {
-    if (typeof path0 != "string") {
+    if (typeof path0 != 'string') {
       //console.log("", typeof path0, path0);
       return true;
     }
@@ -146,11 +146,11 @@ export class CacheFile {
       // get md5 hash from path0
       const pathMd5 = md5FileSync(path0);
       // get index hash
-      const savedMd5 = this.md5Cache[path0 + "-hash"];
+      const savedMd5 = this.md5Cache[path0 + '-hash'];
       const result = savedMd5 != pathMd5;
       if (result) {
         // set, if file hash is not found
-        this.md5Cache[path0 + "-hash"] = pathMd5;
+        this.md5Cache[path0 + '-hash'] = pathMd5;
       }
       return result;
     } catch (e) {
@@ -180,28 +180,28 @@ export class CacheFile2 {
   /**
    * Unique cache id
    */
-  cacheHash = "";
+  cacheHash = '';
   constructor(hash = null) {
-    const stack = new Error().stack.split("at")[2];
-    hash = hash + "-" + md5(stack);
+    const stack = new Error().stack.split('at')[2];
+    hash = hash + '-' + md5(stack);
     this.cacheHash = hash;
-    this.dbFile = path.join(buildFolder, "db-" + hash + ".json");
+    this.dbFile = path.join(buildFolder, 'db-' + hash + '.json');
     this.dbFolder = path.join(buildFolder, hash);
-    let db = readFile(this.dbFile, { encoding: "utf8" }, {});
-    if (typeof db != "object") {
+    let db = readFile(this.dbFile, { encoding: 'utf8' }, {});
+    if (typeof db != 'object') {
       try {
         db = JSON.parse(db.toString());
       } catch (e) {
-        logger.error("cache database lost");
+        logger.error('cache database lost');
         logger.error(e);
       }
     }
-    if (typeof db == "object") {
+    if (typeof db == 'object') {
       this.md5Cache = db;
     }
   }
   getKeyLocation(key: string) {
-    if (key.startsWith("/")) {
+    if (key.startsWith('/')) {
       key = path.join(md5(path.dirname(key)), path.basename(key));
     }
     return path.join(this.dbFolder, key);
@@ -217,8 +217,8 @@ export class CacheFile2 {
     const dbLocation = path.join(this.dbFile);
     const db = this.md5Cache;
     //dump("cache-" + this.cacheHash, db);
-    scheduler.add("save-" + this.cacheHash, function () {
-      logger.log("saving caches...", saveLocation, dbLocation);
+    scheduler.add('save-' + this.cacheHash, function () {
+      logger.log('saving caches...', saveLocation, dbLocation);
       writeFile(saveLocation, value);
       writeFile(dbLocation, JSON.stringify(db, null, 2));
     });
@@ -231,14 +231,14 @@ export class CacheFile2 {
    * @returns
    */
   get(key: string, fallback = null) {
-    if (typeof this.dbTemp[key] == "undefined") {
+    if (typeof this.dbTemp[key] == 'undefined') {
       const saveLocation = this.getKeyLocation(key);
       if (existsSync(saveLocation)) {
         const readCache = readFile(saveLocation).toString();
         this.dbTemp[key] = readCache;
         return readCache;
       }
-      if (typeof fallback === "function") return fallback();
+      if (typeof fallback === 'function') return fallback();
       return fallback;
     }
     return this.dbTemp[key];
@@ -258,19 +258,19 @@ export class CacheFile2 {
    * @returns
    */
   isFileChanged(path0: string): boolean {
-    if (typeof path0 != "string") {
+    if (typeof path0 != 'string') {
       //console.log("", typeof path0, path0);
       return true;
     }
     // get md5 hash from path0
     const pathMd5 = md5FileSync(path0);
     // get index hash
-    const savedMd5 = this.md5Cache[path0 + "-hash"];
+    const savedMd5 = this.md5Cache[path0 + '-hash'];
     const isChanged = savedMd5 !== pathMd5;
     //console.log(savedMd5, pathMd5, result);
     if (isChanged) {
       // set, if file hash is not found
-      this.md5Cache[path0 + "-hash"] = pathMd5;
+      this.md5Cache[path0 + '-hash'] = pathMd5;
     }
     return isChanged;
   }

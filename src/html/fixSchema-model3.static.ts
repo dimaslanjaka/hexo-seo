@@ -1,33 +1,33 @@
-import { BaseConfig } from "../config";
-import { isDev } from "../hexo-seo";
-import { trimText } from "../utils/string";
-import { getTextPartialHtml } from "./dom";
-import schemaArticles, { HexoSeo, SchemaAuthor } from "./schema/article";
+import { BaseConfig } from '../config';
+import { isDev } from '../hexo-seo';
+import { trimText } from '../utils/string';
+import { getTextPartialHtml } from './dom';
+import schemaArticles, { HexoSeo, SchemaAuthor } from './schema/article';
 
-import hexoIs from "hexo-is";
-import { HTMLElement } from "node-html-parser";
-import underscore from "underscore";
-import log from "../log";
-import { dumpOnce, extractSimplePageData } from "../utils";
-import { array_remove_empties, array_unique } from "../utils/array";
-import schemaHomepage from "./schema/homepage";
+import hexoIs from 'hexo-is';
+import { HTMLElement } from 'node-html-parser';
+import underscore from 'underscore';
+import log from '../log';
+import { dumpOnce, extractSimplePageData } from '../utils';
+import { array_remove_empties, array_unique } from '../utils/array';
+import schemaHomepage from './schema/homepage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: HexoSeo) {
-  if (typeof HSconfig.schema === "boolean" && !HSconfig.schema) return;
+  if (typeof HSconfig.schema === 'boolean' && !HSconfig.schema) return;
   const is = hexoIs(data);
 
   let schemahtml: string;
   if (is.home) {
-    dumpOnce("data-home.txt", extractSimplePageData(data));
+    dumpOnce('data-home.txt', extractSimplePageData(data));
     const homepage = new schemaHomepage({ pretty: isDev, hexo: data });
-    console.log("[stash] homepage", homepage);
+    console.log('[stash] homepage', homepage);
   } else if (is.archive) {
-    dumpOnce("data-archive.txt", extractSimplePageData(data));
+    dumpOnce('data-archive.txt', extractSimplePageData(data));
   } else if (is.category) {
-    dumpOnce("data-category.txt", extractSimplePageData(data));
+    dumpOnce('data-category.txt', extractSimplePageData(data));
   } else if (is.tag) {
-    dumpOnce("data-tag.txt", extractSimplePageData(data));
+    dumpOnce('data-tag.txt', extractSimplePageData(data));
   } else {
     const Schema = new schemaArticles({ pretty: isDev, hexo: data });
     // set url
@@ -44,13 +44,13 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
     // sitelinks
     Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate =
       Schema.schema.mainEntityOfPage.potentialAction[0].target.urlTemplate.replace(
-        "https://www.webmanajemen.com",
+        'https://www.webmanajemen.com',
         data.config.url
       );
 
     let keywords: string[] = [];
     if (data.config.keywords) {
-      keywords = keywords.concat(data.config.keywords.split(",").map(trimText));
+      keywords = keywords.concat(data.config.keywords.split(',').map(trimText));
     }
 
     // set title
@@ -63,24 +63,24 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
     // set schema author
     let author: SchemaAuthor;
     if (data.page) {
-      if (data.page["author"]) {
-        author = data.page["author"];
+      if (data.page['author']) {
+        author = data.page['author'];
       }
-    } else if (data["author"]) {
-      author = data["author"];
+    } else if (data['author']) {
+      author = data['author'];
     }
     if (author) Schema.setAuthor(author);
 
     // set schema date
     if (data.page) {
       if (data.page.date) {
-        Schema.set("dateCreated", data.page.date);
-        Schema.set("datePublished", data.page.date);
+        Schema.set('dateCreated', data.page.date);
+        Schema.set('datePublished', data.page.date);
       }
       if (data.page.modified) {
-        Schema.set("dateModified", data.page.modified);
+        Schema.set('dateModified', data.page.modified);
       } else if (data.page.updated) {
-        Schema.set("dateModified", data.page.updated);
+        Schema.set('dateModified', data.page.updated);
       }
     }
 
@@ -91,8 +91,8 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
         const getText = getTextPartialHtml(data.page.content);
         body = getText;
         if (!body || body.trim().length === 0) {
-          console.log("getText failed");
-          body = data.page.content.replace(/[\W_-]+/gm, " ");
+          console.log('getText failed');
+          body = data.page.content.replace(/[\W_-]+/gm, ' ');
         }
       }
     } else if (data.content) {
@@ -103,7 +103,7 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
         body
           .trim()
           //.replace(/['“"{}\\”]+/gm, "")
-          .replace(/https?:\/\//gm, "//")
+          .replace(/https?:\/\//gm, '//')
       );
       Schema.setArticleBody(body);
       // set schema description
@@ -131,16 +131,16 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
     if (data.page) {
       if (data.page.tags && data.page.tags.length > 0) {
         data.page.tags.forEach((tag) => {
-          keywords.push(tag["name"]);
-          const o = { item: tag["permalink"], name: tag["name"] };
+          keywords.push(tag['name']);
+          const o = { item: tag['permalink'], name: tag['name'] };
           schemaBreadcrumbs.push(<any>o);
         });
       }
 
       if (data.page.categories && data.page.categories.length > 0) {
         data.page.categories.forEach((category) => {
-          keywords.push(category["name"]);
-          const o = { item: category["permalink"], name: category["name"] };
+          keywords.push(category['name']);
+          const o = { item: category['permalink'], name: category['name'] };
           schemaBreadcrumbs.push(<any>o);
         });
       }
@@ -151,7 +151,7 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
 
     // set schema image
     let img =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png";
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
     if (data.photos && Array.isArray(data.photos) && data.photos.length > 0) {
       img = data.photos[0];
     } else if (data.cover) {
@@ -161,15 +161,15 @@ export function fixSchemaModel3(dom: HTMLElement, HSconfig: BaseConfig, data: He
 
     // set schema genres
     const kwUnique = array_remove_empties(array_unique(keywords));
-    Schema.set("genre", kwUnique.map(trimText).join(","));
-    Schema.set("keywords", kwUnique.map(trimText).join(","));
-    Schema.set("award", kwUnique.map(trimText).join(","));
+    Schema.set('genre', kwUnique.map(trimText).join(','));
+    Schema.set('keywords', kwUnique.map(trimText).join(','));
+    Schema.set('award', kwUnique.map(trimText).join(','));
 
     schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${Schema}</script>\n\n`;
-    log.log("schema created", title, url);
+    log.log('schema created', title, url);
   }
   if (schemahtml) {
-    const head = dom.getElementsByTagName("head")[0];
-    head.insertAdjacentHTML("beforeend", schemahtml);
+    const head = dom.getElementsByTagName('head')[0];
+    head.insertAdjacentHTML('beforeend', schemahtml);
   }
 }
