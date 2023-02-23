@@ -28,12 +28,12 @@
   },
   "/release/hexo-seo.tgz": {
     "integrity": {
-      "sha1": "bd0b727bad5ede0706acf6789960f15c21d32862",
-      "sha256": "JozLHBBaqda2GaZUoMWgVjJVbCLDmH1sSU1Wb+pntLQ=",
-      "md5": "18c3c6810d8d7d50d58e8c6315254db6",
-      "sha512": "hNcl9tZ6vowy5gC2MOpeDCcvafGzF2skAL7ZxQv/8G8XfxNuoKEvj25PdXyGRPDduSNfBIqqhes+ZJ7bv14pkQ=="
+      "sha1": "a10f9dda9b202ccbb71ff2d38322355d8cb004a1",
+      "sha256": "ISzVqqmPkIv9Y9XJz73myIKUfFYfE5s5aRcvaW+9GLs=",
+      "md5": "dd70ea75e29eea217982ace349a73007",
+      "sha512": "wetmv4k3bblEl9MGspZL3zaxXuSRu3F92w7hgKhY78ZU7Quzcg/Eaqc+hVALVAPFrqdrLpofAOX1PKZKLlc8LA=="
     },
-    "size": "443.31 KB"
+    "size": "398.31 KB"
   },
   "/package-lock.json": {
     "integrity": {
@@ -88,5 +88,14 @@
       "sha512": "hNcl9tZ6vowy5gC2MOpeDCcvafGzF2skAL7ZxQv/8G8XfxNuoKEvj25PdXyGRPDduSNfBIqqhes+ZJ7bv14pkQ=="
     },
     "size": "443.31 KB"
+  },
+  "/release/hexo-seo-1.1.9.tgz": {
+    "integrity": {
+      "sha1": "a10f9dda9b202ccbb71ff2d38322355d8cb004a1",
+      "sha256": "ISzVqqmPkIv9Y9XJz73myIKUfFYfE5s5aRcvaW+9GLs=",
+      "md5": "dd70ea75e29eea217982ace349a73007",
+      "sha512": "wetmv4k3bblEl9MGspZL3zaxXuSRu3F92w7hgKhY78ZU7Quzcg/Eaqc+hVALVAPFrqdrLpofAOX1PKZKLlc8LA=="
+    },
+    "size": "398.31 KB"
   }
 }

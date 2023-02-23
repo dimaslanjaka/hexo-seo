@@ -20,9 +20,9 @@ const isDev = arg || env;
 // console.log("hexo-seo init", { isDev });
 */
 
-if (typeof hexo !== "undefined") {
+if (typeof hexo !== 'undefined') {
   global.hexo = hexo;
-  require("./index.prod");
+  require('./index.prod');
   /*if (!isDev && fs.existsSync(path.join(__dirname, "dist"))) {
     require("./index.prod");
   } else {
