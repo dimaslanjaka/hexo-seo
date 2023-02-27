@@ -1,74 +1,56 @@
 {
-    "js": {
-        "enable": true,
-        "exclude": [
-            "*.min.js",
-            "**/*.min.js"
-        ],
-        "options": {
-            "compress": {
-                "dead_code": true
-            },
-            "mangle": {
-                "toplevel": true,
-                "safari10": true
-            }
-        }
+  "html": {
+    "enable": true,
+    "fix": true,
+    "exclude": [
+      "*.min.{htm,html}"
+    ]
+  },
+  "css": {
+    "enable": true,
+    "exclude": [
+      "**/*.min.css"
+    ]
+  },
+  "js": {
+    "enable": true,
+    "exclude": [
+      "**/*.min.js"
+    ],
+    "options": {
+      "compress": {
+        "dead_code": true
+      },
+      "mangle": {
+        "toplevel": true,
+        "safari10": true
+      }
+    }
+  },
+  "schema": {
+    "article": {
+      "enable": true
     },
-    "css": {
-        "enable": true,
-        "exclude": [
-            "*.min.css",
-            "**/*.min.css"
-        ]
+    "breadcrumb": {
+      "enable": true
     },
-    "html": {
-        "enable": true,
-        "fix": true,
-        "exclude": [
-            "*.min.{htm,html}"
-        ],
-        "collapseBooleanAttributes": true,
-        "collapseWhitespace": true,
-        "ignoreCustomComments": [
-            {}
-        ],
-        "removeComments": true,
-        "removeEmptyAttributes": true,
-        "removeScriptTypeAttributes": true,
-        "removeStyleLinkTypeAttributes": true,
-        "minifyJS": true,
-        "minifyCSS": true
-    },
-    "img": {
-        "enable": true,
-        "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-        "onerror": "clientside",
-        "broken": false
-    },
-    "host": "www.webmanajemen.com",
-    "links": {
-        "blank": true,
-        "enable": true,
-        "allow": [
-            "webmanajemen.com"
-        ],
-        "exclude": [
-            "webmanajemen.com",
-            "web-manajemen.blogspot.com"
-        ]
-    },
-    "schema": {
-        "sitelink": {
-            "enable": true,
-            "searchUrl": "https://www.webmanajemen.com/hexo-seo/search?q="
-        },
-        "article": {
-            "enable": true
-        },
-        "breadcrumb": {
-            "enable": true
-        }
-    },
-    "sitemap": true
+    "sitelink": {
+      "enable": true,
+      "searchUrl": "https://www.webmanajemen.com/search?q="
+    }
+  },
+  "img": {
+    "enable": true,
+    "broken": false,
+    "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+    "onerror": "serverside"
+  },
+  "links": {
+    "enable": true,
+    "exclude": [
+      "webmanajemen.com",
+      "web-manajemen.blogspot.com"
+    ]
+  },
+  "sitemap": true
 }
