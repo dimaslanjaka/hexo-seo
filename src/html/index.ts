@@ -21,6 +21,7 @@ import { HexoSeo } from './schema/article';
 import { isExternal } from './types';
 
 const logname = ansiColors.magentaBright('hexo-seo(html)');
+const logconcatname = ansiColors.magentaBright('hexo-seo(html-concat)');
 
 /**
  * get page full source
@@ -123,35 +124,42 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     });
     const filename = md5(path.basename(path0));
     const scriptContents = [];
-    hexo.log.info(logname, scripts.length + ' javascripts');
+    hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
     for (let i = 0; i < scripts.length; i++) {
-      const { src, textContent } = scripts[i];
-      if (typeof src === 'string') {
+      const script = scripts[i];
+      const { src, textContent } = script;
+      const separator = `\n\n/*--- ${src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
+      if (typeof src === 'string' && src.trim().length > 0) {
         // skip external javascript
-        if (src.startsWith('//') || src.startsWith('http')) continue;
+        if (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')) continue;
         /**
          * find js file from theme, source, post directories
          */
-        const sources = [
+        const originalSources = [
           path.join(cfg.theme_dir, 'source/js'),
           path.join(cfg.theme_dir, 'source'),
           cfg.source_dir,
           cfg.post_dir
-        ]
-          .map((dir) => path.join(dir, src))
-          .filter(fs.existsSync);
+        ].map((dir) => path.join(dir, src));
+        const sources = originalSources.filter(fs.existsSync);
         if (sources.length > 0) {
-          const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
-          console.log(rendered);
+          try {
+            const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
+            scriptContents.push(separator, rendered);
+          } catch (e) {
+            hexo.log.error(logconcatname, 'failed', src, e.message);
+          }
         } else {
-          hexo.log.error(logname, 'cannot find file', src);
+          hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
         }
       } else {
-        scriptContents.push(textContent);
+        scriptContents.push(separator, textContent);
       }
     }
 
-    hexo.log.info(logname, writefile(path.join(tmpFolder, filename + '.html'), dom.toString()).file);
+    const filePath = path.join(tmpFolder, 'html', filename);
+    hexo.log.info(logname, writefile(filePath + '.js', scriptContents.join('\n')).file);
+    hexo.log.info(logname, writefile(filePath + '.html', dom.toString()).file);
     window.close();
     // END concatenate javascripts
 

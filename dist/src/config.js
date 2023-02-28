@@ -47,9 +47,9 @@ var getConfig = function (hexo, _key) {
             breadcrumb: { enable: false }
         },
         sitemap: false,
-        theme_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.theme)),
-        source_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.source_dir)),
-        post_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.source_dir), '_posts')
+        theme_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
+        source_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source')),
+        post_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
     };
     var seo = hexo.config.seo;
     (0, fs_extra_1.writeFileSync)(upath_1["default"].join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));

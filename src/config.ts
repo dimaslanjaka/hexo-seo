@@ -112,9 +112,9 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
       breadcrumb: { enable: false }
     } as any,
     sitemap: false,
-    theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme)),
-    source_dir: path.join(process.cwd(), 'themes', String(hexo.config.source_dir)),
-    post_dir: path.join(process.cwd(), 'themes', String(hexo.config.source_dir), '_posts')
+    theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
+    source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
+    post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
   };
   const seo: BaseConfig = hexo.config.seo;
   writeFileSync(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
