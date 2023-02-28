@@ -6,6 +6,16 @@
   "configurations": [
     {
       "command": "yarn workspace wmi exec \"hexo clean\" && yarn workspace wmi exec \"hexo server --development\"",
+      "name": "workspace clean server",
+      "cwd": "${workspaceFolder}/../..",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "yarn workspace wmi exec \"hexo server --development\"",
       "name": "workspace server",
       "cwd": "${workspaceFolder}/../..",
       "env": {

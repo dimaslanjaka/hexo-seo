@@ -5,8 +5,8 @@ import * as path from 'path';
 /**
  * Temp folder
  */
-export const tmpFolder = path.join(process.cwd(), 'tmp');
-export const buildFolder = path.join(process.cwd(), 'build/hexo-seo');
+export const tmpFolder = path.join(process.cwd(), 'tmp/hexo-seo');
+export const buildFolder = path.join(tmpFolder, 'build');
 
 /**
  * resolve dirname of file

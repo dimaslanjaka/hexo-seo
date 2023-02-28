@@ -110,6 +110,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
 
       // concatenate javascripts
       const scripts = Array.from(root.querySelectorAll('script')).filter(function (el) {
+        if (!el.getAttribute('type')) return false;
         return el.getAttribute('type') === 'application/ld+json';
       });
       hexo.log.info(scripts.length + ' javascripts');
