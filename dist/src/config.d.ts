@@ -10,23 +10,11 @@ export interface Switcher {
 }
 export type AutoConfig = typeof configData;
 export interface BaseConfig {
-    /**
-     * use cache
-     */
-    cache: boolean;
-    /**
-     * generate YoastSEO Sitemap
-     */
     sitemap: boolean;
     /**
      * Optimize js
      */
-    js: jsMinifyOptions & Switcher & AutoConfig['js'] & {
-        /**
-         * concatenate js files
-         */
-        concat?: boolean;
-    };
+    js: jsMinifyOptions & Switcher & AutoConfig['js'];
     /**
      * Optimize css
      */
@@ -55,12 +43,6 @@ export interface BaseConfig {
         article: Switcher & AutoConfig['schema']['article'];
         breadcrumb: Switcher & AutoConfig['schema']['breadcrumb'];
     };
-    /**
-     * theme directory
-     */
-    readonly theme_dir: string;
-    readonly source_dir: string;
-    readonly post_dir: string;
 }
 declare const getConfig: (hexo: Hexo, _key?: string) => BaseConfig;
 export default getConfig;

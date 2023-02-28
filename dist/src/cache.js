@@ -27,10 +27,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = void 0;
-var fs_extra_1 = require("fs-extra");
+var fs_1 = require("fs");
 var node_cache_1 = __importDefault(require("node-cache"));
-var sbg_utility_1 = require("sbg-utility");
-var upath_1 = __importDefault(require("upath"));
+var path_1 = __importDefault(require("path"));
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
@@ -84,7 +83,7 @@ var Cache = /** @class */ (function () {
                 return false;
             }
             return true;
-        })["catch"](function (_err) {
+        })["catch"](function (err) {
             return true;
         });
     };
@@ -99,8 +98,8 @@ var Cache = /** @class */ (function () {
  * @param variable
  * @returns
  */
-function resolveString(variable, _encode) {
-    if (_encode === void 0) { _encode = false; }
+function resolveString(variable, encode) {
+    if (encode === void 0) { encode = false; }
     if (typeof variable === 'number')
         variable = variable.toString();
     if (Buffer.isBuffer(variable))
@@ -119,7 +118,7 @@ var CacheFile = /** @class */ (function () {
             var stack = new Error().stack.split('at')[2];
             hash = (0, md5_file_1.md5)(stack);
         }
-        this.dbFile = upath_1["default"].join(fm_1.tmpFolder, 'db-' + hash + '.json');
+        this.dbFile = path_1["default"].join(fm_1.tmpFolder, 'db-' + hash + '.json');
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
         if (typeof db != 'object') {
             try {
@@ -143,7 +142,7 @@ var CacheFile = /** @class */ (function () {
         // save cache on process exit
         scheduler_1["default"].add('writeCacheFile', function () {
             log_1["default"].log('saved cache', _this.dbFile);
-            (0, sbg_utility_1.writefile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
     CacheFile.prototype.has = function (key) {
@@ -214,8 +213,8 @@ var CacheFile2 = /** @class */ (function () {
         var stack = new Error().stack.split('at')[2];
         hash = hash + '-' + (0, md5_file_1.md5)(stack);
         this.cacheHash = hash;
-        this.dbFile = upath_1["default"].join(fm_1.buildFolder, 'db-' + hash + '.json');
-        this.dbFolder = upath_1["default"].join(fm_1.buildFolder, hash);
+        this.dbFile = path_1["default"].join(fm_1.buildFolder, 'db-' + hash + '.json');
+        this.dbFolder = path_1["default"].join(fm_1.buildFolder, hash);
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
         if (typeof db != 'object') {
             try {
@@ -232,9 +231,9 @@ var CacheFile2 = /** @class */ (function () {
     }
     CacheFile2.prototype.getKeyLocation = function (key) {
         if (key.startsWith('/')) {
-            key = upath_1["default"].join((0, md5_file_1.md5)(upath_1["default"].dirname(key)), upath_1["default"].basename(key));
+            key = path_1["default"].join((0, md5_file_1.md5)(path_1["default"].dirname(key)), path_1["default"].basename(key));
         }
-        return upath_1["default"].join(this.dbFolder, key);
+        return path_1["default"].join(this.dbFolder, key);
     };
     CacheFile2.prototype.set = function (key, value) {
         if (!key && !value) {
@@ -245,13 +244,13 @@ var CacheFile2 = /** @class */ (function () {
         }
         var saveLocation = this.getKeyLocation(key);
         this.md5Cache[key] = saveLocation;
-        var dbLocation = upath_1["default"].join(this.dbFile);
+        var dbLocation = path_1["default"].join(this.dbFile);
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
         scheduler_1["default"].add('save-' + this.cacheHash, function () {
             log_1["default"].log('saving caches...', saveLocation, dbLocation);
-            (0, sbg_utility_1.writefile)(saveLocation, value);
-            (0, sbg_utility_1.writefile)(dbLocation, JSON.stringify(db, null, 2));
+            (0, fm_1.writeFile)(saveLocation, value);
+            (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
         });
         this.dbTemp[key] = value;
     };
@@ -265,7 +264,7 @@ var CacheFile2 = /** @class */ (function () {
         if (fallback === void 0) { fallback = null; }
         if (typeof this.dbTemp[key] == 'undefined') {
             var saveLocation = this.getKeyLocation(key);
-            if ((0, fs_extra_1.existsSync)(saveLocation)) {
+            if ((0, fs_1.existsSync)(saveLocation)) {
                 var readCache = (0, fm_1.readFile)(saveLocation).toString();
                 this.dbTemp[key] = readCache;
                 return readCache;

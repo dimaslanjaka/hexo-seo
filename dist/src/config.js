@@ -1,17 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 var deepmerge_ts_1 = require("deepmerge-ts");
-var fs_extra_1 = require("fs-extra");
-var upath_1 = __importDefault(require("upath"));
+var fs_1 = require("fs");
+var path_1 = require("path");
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 var getConfig = function (hexo, _key) {
     if (_key === void 0) { _key = 'config-hexo-seo'; }
     var defaultOpt = {
-        cache: true,
-        js: { enable: false, concat: false, exclude: ['*.min.js'] },
+        js: { enable: false, exclude: ['*.min.js'] },
         css: { enable: false, exclude: ['*.min.css'] },
         html: {
             enable: false,
@@ -46,13 +42,10 @@ var getConfig = function (hexo, _key) {
             article: { enable: false },
             breadcrumb: { enable: false }
         },
-        sitemap: false,
-        theme_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
-        source_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source')),
-        post_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
+        sitemap: false
     };
     var seo = hexo.config.seo;
-    (0, fs_extra_1.writeFileSync)(upath_1["default"].join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+    (0, fs_1.writeFileSync)((0, path_1.join)(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
     if (typeof seo === 'undefined')
         return defaultOpt;
     return (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo);
