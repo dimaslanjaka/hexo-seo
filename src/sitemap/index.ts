@@ -4,9 +4,9 @@ import hexoIs from 'hexo-is';
 import moment from 'moment';
 import { HTMLElement } from 'node-html-parser';
 import { dirname, join } from 'path';
+import { writefile } from 'sbg-utility';
 import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
-import { writeFile } from '../fm';
 import log from '../log';
 import scheduler from '../scheduler';
 import getCategoryTags, { getLatestFromArrayDates } from './archive';
@@ -166,11 +166,11 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLo
         }
 
         const destPostSitemap = join(hexo.public_dir, 'post-sitemap.xml');
-        writeFile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
+        writefile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
         log.log('post sitemap saved', destPostSitemap);
 
         const destPageSitemap = join(hexo.public_dir, 'page-sitemap.xml');
-        writeFile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
+        writefile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
         log.log('page sitemap saved', destPageSitemap);
 
         sitemapIndex(hexo);
@@ -218,7 +218,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
     });
   });
   const destTagSitemap = join(hexo.public_dir, 'tag-sitemap.xml');
-  writeFile(destTagSitemap, createXML(sitemapGroup['tag']).end({ prettyPrint: true }));
+  writefile(destTagSitemap, createXML(sitemapGroup['tag']).end({ prettyPrint: true }));
   log.log('tag sitemap saved', destTagSitemap);
 
   // push tag-sitemap.xml to sitemapindex
@@ -245,7 +245,7 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
     });
   });
   const destCategorySitemap = join(hexo.public_dir, 'category-sitemap.xml');
-  writeFile(destCategorySitemap, createXML(sitemapGroup['category']).end({ prettyPrint: true }));
+  writefile(destCategorySitemap, createXML(sitemapGroup['category']).end({ prettyPrint: true }));
   log.log('category sitemap saved', destCategorySitemap);
 
   // push category-sitemap.xml to sitemapindex
@@ -261,6 +261,6 @@ export function sitemapIndex(hexoinstance: Hexo = null) {
   });
 
   const destIndexSitemap = join(hexo.public_dir, 'sitemap.xml');
-  writeFile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
+  writefile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
   log.log('index sitemap saved', destIndexSitemap);
 }

@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
+import { writefile } from 'sbg-utility';
 
 /**
  * Temp folder
@@ -18,15 +19,6 @@ export function resolveFile(filePath: string): string {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
   }
   return filePath;
-}
-
-/**
- * write file nested path
- * @param filePath
- */
-export function writeFile(filePath: string, content: string) {
-  resolveFile(filePath);
-  fs.writeFileSync(filePath, content);
 }
 
 /**
@@ -59,13 +51,13 @@ export function readFile(
   resolveFile(filePath);
   if (autocreate && !fs.existsSync(filePath)) {
     if (typeof autocreate === 'boolean') {
-      writeFile(filePath, '');
+      writefile(filePath, '');
     } else if (autocreate) {
       let text;
       if (Array.isArray(autocreate) || typeof autocreate === 'object') {
         text = JSON.stringify(autocreate);
       }
-      writeFile(filePath, text);
+      writefile(filePath, text);
     }
     return autocreate;
   }

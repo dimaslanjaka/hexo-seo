@@ -26,15 +26,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exports.writeFile = exports.resolveFile = exports.buildFolder = exports.tmpFolder = void 0;
+exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exports.resolveFile = exports.buildFolder = exports.tmpFolder = void 0;
 var crypto_1 = __importDefault(require("crypto"));
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
+var sbg_utility_1 = require("sbg-utility");
 /**
  * Temp folder
  */
-exports.tmpFolder = path.join(process.cwd(), 'tmp');
-exports.buildFolder = path.join(process.cwd(), 'build/hexo-seo');
+exports.tmpFolder = path.join(process.cwd(), 'tmp/hexo-seo');
+exports.buildFolder = path.join(exports.tmpFolder, 'build');
 /**
  * resolve dirname of file
  * @param filePath
@@ -48,15 +49,6 @@ function resolveFile(filePath) {
 }
 exports.resolveFile = resolveFile;
 /**
- * write file nested path
- * @param filePath
- */
-function writeFile(filePath, content) {
-    resolveFile(filePath);
-    fs.writeFileSync(filePath, content);
-}
-exports.writeFile = writeFile;
-/**
  * read file nested path
  * @param filePath
  * @param options
@@ -67,14 +59,14 @@ function readFile(filePath, options, autocreate) {
     resolveFile(filePath);
     if (autocreate && !fs.existsSync(filePath)) {
         if (typeof autocreate === 'boolean') {
-            writeFile(filePath, '');
+            (0, sbg_utility_1.writefile)(filePath, '');
         }
         else if (autocreate) {
             var text = void 0;
             if (Array.isArray(autocreate) || typeof autocreate === 'object') {
                 text = JSON.stringify(autocreate);
             }
-            writeFile(filePath, text);
+            (0, sbg_utility_1.writefile)(filePath, text);
         }
         return autocreate;
     }

@@ -31,8 +31,8 @@ var fs_1 = require("fs");
 var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_1 = __importDefault(require("moment"));
 var path_1 = require("path");
+var sbg_utility_1 = require("sbg-utility");
 var xmlbuilder2_1 = require("xmlbuilder2");
-var fm_1 = require("../fm");
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
 var archive_1 = __importStar(require("./archive"));
@@ -159,10 +159,10 @@ function sitemap(dom, HSconfig, data) {
                     log_1["default"].error('XSL sitemap not found');
                 }
                 var destPostSitemap = (0, path_1.join)(hexo.public_dir, 'post-sitemap.xml');
-                (0, fm_1.writeFile)(destPostSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['post']).end({ prettyPrint: true }));
+                (0, sbg_utility_1.writefile)(destPostSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['post']).end({ prettyPrint: true }));
                 log_1["default"].log('post sitemap saved', destPostSitemap);
                 var destPageSitemap = (0, path_1.join)(hexo.public_dir, 'page-sitemap.xml');
-                (0, fm_1.writeFile)(destPageSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['page']).end({ prettyPrint: true }));
+                (0, sbg_utility_1.writefile)(destPageSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['page']).end({ prettyPrint: true }));
                 log_1["default"].log('page sitemap saved', destPageSitemap);
                 sitemapIndex(hexo);
             });
@@ -207,7 +207,7 @@ function sitemapIndex(hexoinstance) {
         });
     });
     var destTagSitemap = (0, path_1.join)(hexo.public_dir, 'tag-sitemap.xml');
-    (0, fm_1.writeFile)(destTagSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['tag']).end({ prettyPrint: true }));
+    (0, sbg_utility_1.writefile)(destTagSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['tag']).end({ prettyPrint: true }));
     log_1["default"].log('tag sitemap saved', destTagSitemap);
     // push tag-sitemap.xml to sitemapindex
     var latestTagDate = (0, archive_1.getLatestFromArrayDates)(tags.map(function (tag) {
@@ -230,7 +230,7 @@ function sitemapIndex(hexoinstance) {
         });
     });
     var destCategorySitemap = (0, path_1.join)(hexo.public_dir, 'category-sitemap.xml');
-    (0, fm_1.writeFile)(destCategorySitemap, (0, xmlbuilder2_1.create)(sitemapGroup['category']).end({ prettyPrint: true }));
+    (0, sbg_utility_1.writefile)(destCategorySitemap, (0, xmlbuilder2_1.create)(sitemapGroup['category']).end({ prettyPrint: true }));
     log_1["default"].log('category sitemap saved', destCategorySitemap);
     // push category-sitemap.xml to sitemapindex
     var latestCategoryDate = (0, archive_1.getLatestFromArrayDates)(categories.map(function (category) {
@@ -242,7 +242,7 @@ function sitemapIndex(hexoinstance) {
         lastmod: (0, moment_1["default"])(latestCategoryDate).format('YYYY-MM-DDTHH:mm:ssZ')
     });
     var destIndexSitemap = (0, path_1.join)(hexo.public_dir, 'sitemap.xml');
-    (0, fm_1.writeFile)(destIndexSitemap, (0, xmlbuilder2_1.create)(sitemapIndex).end({ prettyPrint: true }));
+    (0, sbg_utility_1.writefile)(destIndexSitemap, (0, xmlbuilder2_1.create)(sitemapIndex).end({ prettyPrint: true }));
     log_1["default"].log('index sitemap saved', destIndexSitemap);
 }
 exports.sitemapIndex = sitemapIndex;

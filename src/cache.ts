@@ -1,7 +1,8 @@
 import { existsSync } from 'fs';
 import NodeCache from 'node-cache';
 import path from 'path';
-import { buildFolder, readFile, tmpFolder, writeFile } from './fm';
+import { writefile } from 'sbg-utility';
+import { buildFolder, readFile, tmpFolder } from './fm';
 import logger from './log';
 import scheduler from './scheduler';
 import { Objek } from './utils';
@@ -62,7 +63,7 @@ class Cache {
         }
         return true;
       })
-      .catch((err) => {
+      .catch((_err) => {
         return true;
       });
   }
@@ -73,7 +74,7 @@ class Cache {
  * @param variable
  * @returns
  */
-export function resolveString(variable: any, encode = false) {
+export function resolveString(variable: any, _encode = false) {
   if (typeof variable === 'number') variable = variable.toString();
   if (Buffer.isBuffer(variable)) variable = variable.toString();
 }
@@ -112,7 +113,7 @@ export class CacheFile {
     // save cache on process exit
     scheduler.add('writeCacheFile', () => {
       logger.log('saved cache', this.dbFile);
-      writeFile(this.dbFile, JSON.stringify(this.md5Cache));
+      writefile(this.dbFile, JSON.stringify(this.md5Cache));
     });
   }
   has(key: string): boolean {
@@ -219,8 +220,8 @@ export class CacheFile2 {
     //dump("cache-" + this.cacheHash, db);
     scheduler.add('save-' + this.cacheHash, function () {
       logger.log('saving caches...', saveLocation, dbLocation);
-      writeFile(saveLocation, value);
-      writeFile(dbLocation, JSON.stringify(db, null, 2));
+      writefile(saveLocation, value);
+      writefile(dbLocation, JSON.stringify(db, null, 2));
     });
     this.dbTemp[key] = value;
   }

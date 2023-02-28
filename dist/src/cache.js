@@ -30,6 +30,7 @@ exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolve
 var fs_1 = require("fs");
 var node_cache_1 = __importDefault(require("node-cache"));
 var path_1 = __importDefault(require("path"));
+var sbg_utility_1 = require("sbg-utility");
 var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
@@ -83,7 +84,7 @@ var Cache = /** @class */ (function () {
                 return false;
             }
             return true;
-        })["catch"](function (err) {
+        })["catch"](function (_err) {
             return true;
         });
     };
@@ -98,8 +99,8 @@ var Cache = /** @class */ (function () {
  * @param variable
  * @returns
  */
-function resolveString(variable, encode) {
-    if (encode === void 0) { encode = false; }
+function resolveString(variable, _encode) {
+    if (_encode === void 0) { _encode = false; }
     if (typeof variable === 'number')
         variable = variable.toString();
     if (Buffer.isBuffer(variable))
@@ -142,7 +143,7 @@ var CacheFile = /** @class */ (function () {
         // save cache on process exit
         scheduler_1["default"].add('writeCacheFile', function () {
             log_1["default"].log('saved cache', _this.dbFile);
-            (0, fm_1.writeFile)(_this.dbFile, JSON.stringify(_this.md5Cache));
+            (0, sbg_utility_1.writefile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
     CacheFile.prototype.has = function (key) {
@@ -249,8 +250,8 @@ var CacheFile2 = /** @class */ (function () {
         //dump("cache-" + this.cacheHash, db);
         scheduler_1["default"].add('save-' + this.cacheHash, function () {
             log_1["default"].log('saving caches...', saveLocation, dbLocation);
-            (0, fm_1.writeFile)(saveLocation, value);
-            (0, fm_1.writeFile)(dbLocation, JSON.stringify(db, null, 2));
+            (0, sbg_utility_1.writefile)(saveLocation, value);
+            (0, sbg_utility_1.writefile)(dbLocation, JSON.stringify(db, null, 2));
         });
         this.dbTemp[key] = value;
     };
