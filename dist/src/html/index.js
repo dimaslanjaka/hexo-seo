@@ -4,8 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.getPagePath = void 0;
+var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
+var path_1 = __importDefault(require("path"));
+var sbg_utility_1 = require("sbg-utility");
+var fm_1 = require("../fm");
 var url_parse_1 = __importDefault(require("url-parse"));
 var cache_1 = require("../cache");
 var config_1 = __importDefault(require("../config"));
@@ -17,6 +21,7 @@ var md5_file_1 = require("../utils/md5-file");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var types_1 = require("./types");
+var logname = ansi_colors_1["default"].magentaBright('hexo-seo(html)');
 /**
  * get page full source
  * @param data
@@ -121,8 +126,9 @@ function HexoSeoHtml(content, data) {
                     return false;
                 return el.getAttribute('type') === 'application/ld+json';
             });
-            hexo.log.info(scripts.length + ' javascripts');
+            hexo.log.info(logname, scripts.length + ' javascripts');
             content = root.toString();
+            hexo.log.info(logname, (0, sbg_utility_1.writefile)(path_1["default"].join(fm_1.tmpFolder, path_1["default"].basename(path0) + '.html'), content).file);
             if (allowCache)
                 cache.set((0, md5_file_1.md5)(path0), content);
         }

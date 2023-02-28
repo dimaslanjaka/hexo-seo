@@ -11,20 +11,18 @@
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "checkJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDirs": ["src", "source"]
   },
   "exclude": [
     "**/node_modules/**",
     "**/*.spec.ts",
     "**/*.test.ts",
     "**/__tests__/**",
-    "**/dist/**",
+    "**/dist",
     "**/node_modules/**",
     "**/.git/**",
     "**/test/**"
   ],
-  "include": [
-    "./src/**/*",
-    "./source/**/*"
-  ]
+  "include": ["./src/**/*", "./source/**/*"]
 }

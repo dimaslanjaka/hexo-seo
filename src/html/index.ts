@@ -1,7 +1,11 @@
+import ansiColors from 'ansi-colors';
 import Promise from 'bluebird';
 import Hexo, { TemplateLocals } from 'hexo';
 
 import { parse as nodeHtmlParser } from 'node-html-parser';
+import path from 'path';
+import { writefile } from 'sbg-utility';
+import { tmpFolder } from '../fm';
 import parseUrl from 'url-parse';
 import { CacheFile } from '../cache';
 import getConfig from '../config';
@@ -14,6 +18,8 @@ import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
 import { isExternal } from './types';
+
+const logname = ansiColors.magentaBright('hexo-seo(html)');
 
 /**
  * get page full source
@@ -113,9 +119,10 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
         if (!el.getAttribute('type')) return false;
         return el.getAttribute('type') === 'application/ld+json';
       });
-      hexo.log.info(scripts.length + ' javascripts');
+      hexo.log.info(logname, scripts.length + ' javascripts');
 
       content = root.toString();
+      hexo.log.info(logname, writefile(path.join(tmpFolder, path.basename(path0) + '.html'), content).file);
       if (allowCache) cache.set(md5(path0), content);
     } else {
       content = cache.getCache(md5(path0), content) as string;
