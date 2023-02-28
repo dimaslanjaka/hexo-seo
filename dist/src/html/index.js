@@ -9,15 +9,16 @@ var bluebird_1 = __importDefault(require("bluebird"));
 var node_html_parser_1 = require("node-html-parser");
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
-var fm_1 = require("../fm");
 var url_parse_1 = __importDefault(require("url-parse"));
 var cache_1 = require("../cache");
 var config_1 = __importDefault(require("../config"));
+var fm_1 = require("../fm");
 var hexo_seo_1 = require("../hexo-seo");
 var log_1 = __importDefault(require("../log"));
 var sitemap_1 = __importDefault(require("../sitemap"));
 var array_1 = require("../utils/array");
 var md5_file_1 = require("../utils/md5-file");
+var dom_1 = require("./dom");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var types_1 = require("./types");
@@ -120,15 +121,18 @@ function HexoSeoHtml(content, data) {
             }
             (0, fixSchema_static_1["default"])(root, cfg_1, data);
             (0, sitemap_1["default"])(root, cfg_1, data);
-            // concatenate javascripts
-            var scripts = Array.from(root.querySelectorAll('script')).filter(function (el) {
+            content = root.toString();
+            // START concatenate javascripts
+            var _a = (0, dom_1.parseJSDOM)(content), window_1 = _a.window, document_1 = _a.document;
+            var scripts = Array.from(document_1.querySelectorAll('script')).filter(function (el) {
                 if (!el.getAttribute('type'))
                     return false;
                 return el.getAttribute('type') === 'application/ld+json';
             });
             hexo.log.info(logname, scripts.length + ' javascripts');
-            content = root.toString();
             hexo.log.info(logname, (0, sbg_utility_1.writefile)(path_1["default"].join(fm_1.tmpFolder, path_1["default"].basename(path0) + '.html'), content).file);
+            window_1.close();
+            // END concatenate javascripts
             if (allowCache)
                 cache.set((0, md5_file_1.md5)(path0), content);
         }

@@ -5,15 +5,16 @@ import Hexo, { TemplateLocals } from 'hexo';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import path from 'path';
 import { writefile } from 'sbg-utility';
-import { tmpFolder } from '../fm';
 import parseUrl from 'url-parse';
 import { CacheFile } from '../cache';
 import getConfig from '../config';
+import { tmpFolder } from '../fm';
 import { isDev } from '../hexo-seo';
 import logger from '../log';
 import sitemap from '../sitemap';
 import { array_remove_empties, array_unique } from '../utils/array';
 import { md5 } from '../utils/md5-file';
+import { parseJSDOM } from './dom';
 import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
@@ -114,15 +115,20 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
       fixSchemaStatic(root, cfg, data);
       sitemap(root, cfg, data);
 
-      // concatenate javascripts
-      const scripts = Array.from(root.querySelectorAll('script')).filter(function (el) {
+      content = root.toString();
+
+      // START concatenate javascripts
+      const { window, document } = parseJSDOM(content);
+      const scripts = Array.from(document.querySelectorAll('script')).filter(function (el) {
         if (!el.getAttribute('type')) return false;
         return el.getAttribute('type') === 'application/ld+json';
       });
       hexo.log.info(logname, scripts.length + ' javascripts');
 
-      content = root.toString();
       hexo.log.info(logname, writefile(path.join(tmpFolder, path.basename(path0) + '.html'), content).file);
+      window.close();
+      // END concatenate javascripts
+
       if (allowCache) cache.set(md5(path0), content);
     } else {
       content = cache.getCache(md5(path0), content) as string;

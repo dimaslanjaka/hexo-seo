@@ -1,10 +1,33 @@
 'use strict';
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
 exports.isDev = void 0;
-var fs_1 = require("fs");
+var fs_1 = __importStar(require("fs"));
 var minimist_1 = __importDefault(require("minimist"));
 var package_json_1 = __importDefault(require("../package.json"));
 var config_1 = __importDefault(require("./config"));
@@ -56,9 +79,9 @@ function HexoSeo(hexo) {
     if (hexoCmd && hexoCmd == 'clean') {
         console.log('[' + package_json_1["default"].name + '] cleaning build and temp folder');
         if ((0, fs_1.existsSync)(fm_1.tmpFolder))
-            (0, fs_1.rmdirSync)(fm_1.tmpFolder, { recursive: true });
+            fs_1["default"].rmSync(fm_1.tmpFolder, { recursive: true, force: true });
         if ((0, fs_1.existsSync)(fm_1.buildFolder))
-            (0, fs_1.rmdirSync)(fm_1.buildFolder, { recursive: true });
+            fs_1["default"].rmSync(fm_1.buildFolder, { recursive: true, force: true });
         return;
     }
     // execute scheduled functions before process exit

@@ -41,7 +41,7 @@ exports._JSDOM = _JSDOM;
 var dom;
 function parseJSDOM(text) {
     dom = new _JSDOM(text);
-    return dom;
+    return { dom: dom, window: dom.window, document: dom.window.document };
 }
 exports.parseJSDOM = parseJSDOM;
 /**

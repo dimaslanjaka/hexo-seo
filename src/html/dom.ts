@@ -42,7 +42,7 @@ export class _JSDOM {
 let dom: _JSDOM;
 export function parseJSDOM(text: string) {
   dom = new _JSDOM(text);
-  return dom;
+  return { dom, window: dom.window, document: dom.window.document };
 }
 
 /**

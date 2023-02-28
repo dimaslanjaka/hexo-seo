@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/nodemon",
-  "exec": "npm run build",
+  "exec": "yarn build",
   "watch": [
     "./src/**/*.ts"
   ],

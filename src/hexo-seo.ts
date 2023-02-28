@@ -1,6 +1,6 @@
 'use strict';
 
-import { existsSync, rmdirSync } from 'fs';
+import fs, { existsSync } from 'fs';
 import Hexo from 'hexo';
 import minimist from 'minimist';
 import pkg from '../package.json';
@@ -59,8 +59,8 @@ export default function HexoSeo(hexo: Hexo) {
   // clean build and temp folder on `hexo clean`
   if (hexoCmd && hexoCmd == 'clean') {
     console.log('[' + pkg.name + '] cleaning build and temp folder');
-    if (existsSync(tmpFolder)) rmdirSync(tmpFolder, { recursive: true });
-    if (existsSync(buildFolder)) rmdirSync(buildFolder, { recursive: true });
+    if (existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
+    if (existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
     return;
   }
 
