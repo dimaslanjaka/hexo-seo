@@ -170,27 +170,34 @@ function HexoSeoHtml(content, data) {
                     scriptContents = [];
                     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
-                        var script, textContent, src, data_1, separator, originalSources, sources, rendered, e_1;
+                        var script, textContent, src, data_1, error_1, separator, originalSources, sources, rendered, e_1;
                         return __generator(this, function (_c) {
                             switch (_c.label) {
                                 case 0:
                                     script = scripts[i];
                                     textContent = script.textContent, src = script.src;
-                                    if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 2];
+                                    if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 4];
                                     if (src.startsWith('//')) {
                                         src = 'http:' + src;
                                     }
-                                    return [4 /*yield*/, axios_1["default"].get(src)];
+                                    _c.label = 1;
                                 case 1:
+                                    _c.trys.push([1, 3, , 4]);
+                                    return [4 /*yield*/, axios_1["default"].get(src)];
+                                case 2:
                                     data_1 = (_c.sent()).data;
                                     // replace text content (inner) string with response data
                                     textContent = data_1;
                                     // assign src as null
                                     src = null;
-                                    _c.label = 2;
-                                case 2:
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    error_1 = _c.sent();
+                                    hexo.log.error(logconcatname, 'download failed', error_1.message);
+                                    return [3 /*break*/, 4];
+                                case 4:
                                     separator = "\n\n/*--- ".concat(typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i, " --*/\n\n");
-                                    if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 9];
+                                    if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 11];
                                     originalSources = [
                                         // find from theme source directory
                                         upath_1["default"].join(cfg_1.theme_dir, 'source'),
@@ -202,29 +209,29 @@ function HexoSeoHtml(content, data) {
                                         upath_1["default"].join(cfg_1.post_dir, upath_1["default"].basename(path0))
                                     ].map(function (dir) { return upath_1["default"].join(dir, src); });
                                     sources = originalSources.filter(fs_extra_1["default"].existsSync);
-                                    if (!(sources.length > 0)) return [3 /*break*/, 7];
-                                    _c.label = 3;
-                                case 3:
-                                    _c.trys.push([3, 5, , 6]);
+                                    if (!(sources.length > 0)) return [3 /*break*/, 9];
+                                    _c.label = 5;
+                                case 5:
+                                    _c.trys.push([5, 7, , 8]);
                                     return [4 /*yield*/, hexo.render.render({ path: sources[0], engine: 'js' })];
-                                case 4:
+                                case 6:
                                     rendered = _c.sent();
                                     scriptContents.push(separator, rendered);
-                                    return [3 /*break*/, 6];
-                                case 5:
+                                    return [3 /*break*/, 8];
+                                case 7:
                                     e_1 = _c.sent();
                                     hexo.log.error(logconcatname, 'failed', src, e_1.message);
-                                    return [3 /*break*/, 6];
-                                case 6: return [3 /*break*/, 8];
-                                case 7:
-                                    hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
-                                    _c.label = 8;
+                                    return [3 /*break*/, 8];
                                 case 8: return [3 /*break*/, 10];
                                 case 9:
+                                    hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
+                                    _c.label = 10;
+                                case 10: return [3 /*break*/, 12];
+                                case 11:
                                     // push inner
                                     scriptContents.push(separator, textContent);
-                                    _c.label = 10;
-                                case 10: return [2 /*return*/];
+                                    _c.label = 12;
+                                case 12: return [2 /*return*/];
                             }
                         });
                     };

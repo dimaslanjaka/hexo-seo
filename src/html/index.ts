@@ -135,11 +135,15 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           if (src.startsWith('//')) {
             src = 'http:' + src;
           }
-          const { data } = await axios.get(src);
-          // replace text content (inner) string with response data
-          textContent = data;
-          // assign src as null
-          src = null;
+          try {
+            const { data } = await axios.get(src);
+            // replace text content (inner) string with response data
+            textContent = data;
+            // assign src as null
+            src = null;
+          } catch (error) {
+            hexo.log.error(logconcatname, 'download failed', error.message);
+          }
         }
         /**
          * indicator
