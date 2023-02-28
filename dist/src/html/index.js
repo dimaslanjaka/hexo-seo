@@ -116,7 +116,9 @@ function HexoSeoHtml(content, data) {
             (0, fixSchema_static_1["default"])(root, cfg_1, data);
             (0, sitemap_1["default"])(root, cfg_1, data);
             // concatenate javascripts
-            var scripts = Array.from(root.querySelectorAll('script'));
+            var scripts = Array.from(root.querySelectorAll('script')).filter(function (el) {
+                return el.getAttribute('type') === 'application/ld+json';
+            });
             hexo.log.info(scripts.length + ' javascripts');
             content = root.toString();
             if (allowCache)

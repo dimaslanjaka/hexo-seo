@@ -109,7 +109,9 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
       sitemap(root, cfg, data);
 
       // concatenate javascripts
-      const scripts = Array.from(root.querySelectorAll('script'));
+      const scripts = Array.from(root.querySelectorAll('script')).filter(function (el) {
+        return el.getAttribute('type') === 'application/ld+json';
+      });
       hexo.log.info(scripts.length + ' javascripts');
 
       content = root.toString();
