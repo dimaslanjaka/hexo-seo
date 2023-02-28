@@ -49,7 +49,7 @@ var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
 function HexoSeoJs(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, hexoCfg, HSConfig, isChanged, useCache, options, minifyOptions, result, saved, e_1;
+        var path0, hexoCfg, jsCfg, isChanged, useCache, options, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -59,9 +59,12 @@ function HexoSeoJs(str, data) {
                         return [2 /*return*/];
                     }
                     hexoCfg = (0, config_1["default"])(this);
-                    HSConfig = hexoCfg.js;
+                    jsCfg = hexoCfg.js;
                     // if option js is false, return original content
-                    if (typeof HSConfig == 'boolean' && !HSConfig)
+                    if (typeof jsCfg == 'boolean' && !jsCfg)
+                        return [2 /*return*/, str];
+                    // keep original js file when concatenate JS enabled
+                    if (jsCfg.concat)
                         return [2 /*return*/, str];
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
@@ -71,12 +74,12 @@ function HexoSeoJs(str, data) {
                     options = {
                         exclude: ['*.min.js']
                     };
-                    if (typeof HSConfig === 'boolean') {
-                        if (!HSConfig)
+                    if (typeof jsCfg === 'boolean') {
+                        if (!jsCfg)
                             return [2 /*return*/, str];
                     }
-                    else if (typeof HSConfig == 'object') {
-                        options = (0, object_assign_1["default"])(options, HSConfig);
+                    else if (typeof jsCfg == 'object') {
+                        options = (0, object_assign_1["default"])(options, jsCfg);
                         if ((0, utils_1.isIgnore)(path0, options.exclude))
                             return [2 /*return*/, str];
                     }

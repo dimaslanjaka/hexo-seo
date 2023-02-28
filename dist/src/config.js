@@ -8,7 +8,7 @@ var getConfig = function (hexo, _key) {
     if (_key === void 0) { _key = 'config-hexo-seo'; }
     var defaultOpt = {
         cache: true,
-        js: { enable: false, exclude: ['*.min.js'] },
+        js: { enable: false, concat: false, exclude: ['*.min.js'] },
         css: { enable: false, exclude: ['*.min.css'] },
         html: {
             enable: false,

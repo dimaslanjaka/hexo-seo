@@ -25,7 +25,14 @@ export interface BaseConfig {
   /**
    * Optimize js
    */
-  js: jsMinifyOptions & Switcher & AutoConfig['js'];
+  js: jsMinifyOptions &
+    Switcher &
+    AutoConfig['js'] & {
+      /**
+       * concatenate js files
+       */
+      concat?: boolean;
+    };
   /**
    * Optimize css
    */
@@ -61,7 +68,7 @@ export interface BaseConfig {
 const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const defaultOpt: BaseConfig = {
     cache: true,
-    js: { enable: false, exclude: ['*.min.js'] } as any,
+    js: { enable: false, concat: false, exclude: ['*.min.js'] } as any,
     css: { enable: false, exclude: ['*.min.css'] } as any,
     html: {
       enable: false,

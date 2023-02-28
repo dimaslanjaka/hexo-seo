@@ -24,9 +24,11 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
     return;
   }
   const hexoCfg = getConfig(this);
-  const HSConfig = hexoCfg.js;
+  const jsCfg = hexoCfg.js;
   // if option js is false, return original content
-  if (typeof HSConfig == 'boolean' && !HSConfig) return str;
+  if (typeof jsCfg == 'boolean' && !jsCfg) return str;
+  // keep original js file when concatenate JS enabled
+  if (jsCfg.concat) return str;
   const isChanged = await cache.isFileChanged(path0);
   const useCache = hexoCfg.cache;
 
@@ -37,10 +39,10 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
       exclude: ['*.min.js']
     };
 
-    if (typeof HSConfig === 'boolean') {
-      if (!HSConfig) return str;
-    } else if (typeof HSConfig == 'object') {
-      options = assign(options, HSConfig);
+    if (typeof jsCfg === 'boolean') {
+      if (!jsCfg) return str;
+    } else if (typeof jsCfg == 'object') {
+      options = assign(options, jsCfg);
       if (isIgnore(path0, options.exclude)) return str;
     }
 

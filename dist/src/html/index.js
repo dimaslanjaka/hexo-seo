@@ -115,6 +115,9 @@ function HexoSeoHtml(content, data) {
             }
             (0, fixSchema_static_1["default"])(root, cfg_1, data);
             (0, sitemap_1["default"])(root, cfg_1, data);
+            // concatenate javascripts
+            var scripts = Array.from(root.querySelectorAll('script'));
+            hexo.log.info(scripts.length + ' javascripts');
             content = root.toString();
             if (allowCache)
                 cache.set((0, md5_file_1.md5)(path0), content);

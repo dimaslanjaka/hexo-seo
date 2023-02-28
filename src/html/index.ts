@@ -108,6 +108,10 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
       fixSchemaStatic(root, cfg, data);
       sitemap(root, cfg, data);
 
+      // concatenate javascripts
+      const scripts = Array.from(root.querySelectorAll('script'));
+      hexo.log.info(scripts.length + ' javascripts');
+
       content = root.toString();
       if (allowCache) cache.set(md5(path0), content);
     } else {

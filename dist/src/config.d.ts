@@ -21,7 +21,12 @@ export interface BaseConfig {
     /**
      * Optimize js
      */
-    js: jsMinifyOptions & Switcher & AutoConfig['js'];
+    js: jsMinifyOptions & Switcher & AutoConfig['js'] & {
+        /**
+         * concatenate js files
+         */
+        concat?: boolean;
+    };
     /**
      * Optimize css
      */
