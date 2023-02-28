@@ -119,65 +119,68 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     content = root.toString();
 
     // START concatenate javascripts
-    const { dom, window, document } = parseJSDOM(content);
-    const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
-      return (el.getAttribute('type') || '') !== 'application/ld+json';
-    });
-    const filename = md5(path.basename(path0));
-    const scriptContents = [];
-    hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
-    for (let i = 0; i < scripts.length; i++) {
-      const script = scripts[i];
-      let { textContent, src } = script;
-      // download external javascript
-      if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
-        if (src.startsWith('//')) {
-          src = 'http:' + src;
+    if (cfg.js.concat === true) {
+      const { dom, window, document } = parseJSDOM(content);
+      const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
+        return (el.getAttribute('type') || '') !== 'application/ld+json';
+      });
+      const filename = md5(path.basename(path0));
+      const scriptContents = [];
+      hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
+      for (let i = 0; i < scripts.length; i++) {
+        const script = scripts[i];
+        let { textContent, src } = script;
+        // download external javascript
+        if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
+          if (src.startsWith('//')) {
+            src = 'http:' + src;
+          }
+          const { data } = await axios.get(src);
+          // replace text content (inner) string with response data
+          textContent = data;
+          // assign src as null
+          src = null;
         }
-        const { data } = await axios.get(src);
-        // replace text content object with response data
-        textContent = data;
-        // assign src as null
-        src = null;
-      }
-      /**
-       * indicator
-       */
-      const separator = `\n\n/*--- ${src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
-      if (typeof src === 'string' && src.trim().length > 0) {
         /**
-         * find js file from theme, source, post directories
+         * indicator
          */
-        const originalSources = [
-          // find from theme source directory
-          path.join(cfg.theme_dir, 'source'),
-          // find from source directory
-          cfg.source_dir,
-          // find from post directory
-          cfg.post_dir,
-          // find from asset post folder
-          path.join(cfg.post_dir, path.basename(path0))
-        ].map((dir) => path.join(dir, src));
-        const sources = originalSources.filter(fs.existsSync);
-        if (sources.length > 0) {
-          try {
-            const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
-            scriptContents.push(separator, rendered);
-          } catch (e) {
-            hexo.log.error(logconcatname, 'failed', src, e.message);
+        const separator = `\n\n/*--- ${typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
+        if (typeof src === 'string' && src.trim().length > 0) {
+          /**
+           * find js file from theme, source, post directories
+           */
+          const originalSources = [
+            // find from theme source directory
+            path.join(cfg.theme_dir, 'source'),
+            // find from source directory
+            cfg.source_dir,
+            // find from post directory
+            cfg.post_dir,
+            // find from asset post folder
+            path.join(cfg.post_dir, path.basename(path0))
+          ].map((dir) => path.join(dir, src));
+          const sources = originalSources.filter(fs.existsSync);
+          if (sources.length > 0) {
+            try {
+              const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
+              scriptContents.push(separator, rendered);
+            } catch (e) {
+              hexo.log.error(logconcatname, 'failed', src, e.message);
+            }
+          } else {
+            hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
           }
         } else {
-          hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
+          // push inner
+          scriptContents.push(separator, textContent);
         }
-      } else {
-        scriptContents.push(separator, textContent);
       }
-    }
 
-    const filePath = path.join(tmpFolder, 'html', filename);
-    hexo.log.info(logname, writefile(filePath + '.js', scriptContents.join('\n')).file);
-    hexo.log.info(logname, writefile(filePath + '.html', dom.toString()).file);
-    window.close();
+      const filePath = path.join(tmpFolder, 'html', filename);
+      hexo.log.info(logname, writefile(filePath + '.js', scriptContents.join('\n')).file);
+      hexo.log.info(logname, writefile(filePath + '.html', dom.toString()).file);
+      window.close();
+    }
     // END concatenate javascripts
 
     if (allowCache) cache.set(md5(path0), content);

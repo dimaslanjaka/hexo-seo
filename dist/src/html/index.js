@@ -98,7 +98,7 @@ function HexoSeoHtml(content, data) {
                     else {
                         title = data.config.title;
                     }
-                    if (!(cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev)) return [3 /*break*/, 5];
+                    if (!(cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev)) return [3 /*break*/, 6];
                     root = (0, node_html_parser_1.parse)(content);
                     cfg_1 = (0, config_1["default"])(this);
                     //** fix hyperlink */
@@ -161,6 +161,7 @@ function HexoSeoHtml(content, data) {
                     (0, fixSchema_static_1["default"])(root, cfg_1, data);
                     (0, sitemap_1["default"])(root, cfg_1, data);
                     content = root.toString();
+                    if (!(cfg_1.js.concat === true)) return [3 /*break*/, 5];
                     _a = (0, dom_1.parseJSDOM)(content), dom = _a.dom, window_1 = _a.window, document_1 = _a.document;
                     scripts = Array.from(document_1.getElementsByTagName('script')).filter(function (el) {
                         return (el.getAttribute('type') || '') !== 'application/ld+json';
@@ -182,13 +183,13 @@ function HexoSeoHtml(content, data) {
                                     return [4 /*yield*/, axios_1["default"].get(src)];
                                 case 1:
                                     data_1 = (_c.sent()).data;
-                                    // replace text content object with response data
+                                    // replace text content (inner) string with response data
                                     textContent = data_1;
                                     // assign src as null
                                     src = null;
                                     _c.label = 2;
                                 case 2:
-                                    separator = "\n\n/*--- ".concat(src.trim().length > 0 ? src : 'inner-' + i, " --*/\n\n");
+                                    separator = "\n\n/*--- ".concat(typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i, " --*/\n\n");
                                     if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 9];
                                     originalSources = [
                                         // find from theme source directory
@@ -220,6 +221,7 @@ function HexoSeoHtml(content, data) {
                                     _c.label = 8;
                                 case 8: return [3 /*break*/, 10];
                                 case 9:
+                                    // push inner
                                     scriptContents.push(separator, textContent);
                                     _c.label = 10;
                                 case 10: return [2 /*return*/];
@@ -242,14 +244,16 @@ function HexoSeoHtml(content, data) {
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePath + '.js', scriptContents.join('\n')).file);
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePath + '.html', dom.toString()).file);
                     window_1.close();
+                    _b.label = 5;
+                case 5:
                     // END concatenate javascripts
                     if (allowCache)
                         cache.set((0, md5_file_1.md5)(path0), content);
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 7];
+                case 6:
                     content = cache.getCache((0, md5_file_1.md5)(path0), content);
-                    _b.label = 6;
-                case 6: return [2 /*return*/, content];
+                    _b.label = 7;
+                case 7: return [2 /*return*/, content];
             }
         });
     });
