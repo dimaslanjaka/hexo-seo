@@ -23,11 +23,12 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
     log.error('%s(CSS) invalid path', pkg.name);
     return;
   }
-  const HSConfig = getConfig(this).js;
+  const hexoCfg = getConfig(this);
+  const HSConfig = hexoCfg.js;
   // if option js is false, return original content
   if (typeof HSConfig == 'boolean' && !HSConfig) return str;
   const isChanged = await cache.isFileChanged(path0);
-  const useCache = this.config.seo.cache;
+  const useCache = hexoCfg.cache;
 
   if (isChanged || !useCache) {
     // if original file is changed, re-minify js

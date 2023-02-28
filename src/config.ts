@@ -14,6 +14,13 @@ export interface Switcher {
 }
 export type AutoConfig = typeof configData;
 export interface BaseConfig {
+  /**
+   * use cache
+   */
+  cache: boolean;
+  /**
+   * generate YoastSEO Sitemap
+   */
   sitemap: boolean;
   /**
    * Optimize js
@@ -53,6 +60,7 @@ export interface BaseConfig {
 
 const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const defaultOpt: BaseConfig = {
+    cache: true,
     js: { enable: false, exclude: ['*.min.js'] } as any,
     css: { enable: false, exclude: ['*.min.css'] } as any,
     html: {

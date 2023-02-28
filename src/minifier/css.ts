@@ -1,6 +1,6 @@
 'use strict';
 
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import CleanCSS from 'clean-css';
 import Hexo from 'hexo';
 import pkg from '../../package.json';
@@ -22,7 +22,7 @@ export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.Vie
   const useCache = this.config.seo.cache;
 
   if (isChanged || !useCache) {
-    log.log('%s is changed %s', path0, isChanged ? chalk.red(isChanged) : chalk.green(isChanged));
+    log.log('%s is changed %s', path0, isChanged ? ansiColors.red(isChanged) : ansiColors.green(isChanged));
     // if original file is changed, re-minify css
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;
@@ -35,7 +35,7 @@ export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.Vie
       log.log(
         '%s(CSS:exclude) %s %s %s',
         pkg.name,
-        ignored ? chalk.red(ignored) : chalk.green(ignored),
+        ignored ? ansiColors.red(ignored) : ansiColors.green(ignored),
         path0,
         exclude.join(', ')
       );
@@ -50,7 +50,7 @@ export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.Vie
         str = styles;
         cache.set(path0, str);
       } catch (err) {
-        log.log('%d(CSS) %s %s', pkg.name, path0 + chalk.redBright('failed'));
+        log.log('%d(CSS) %s %s', pkg.name, path0 + ansiColors.redBright('failed'));
         log.error(err);
       }
     }

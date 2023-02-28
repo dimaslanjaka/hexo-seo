@@ -58,6 +58,8 @@ seo:
   # minify js
   js:
     enable: true
+    # concat all js
+    concat: false
     # If you want to customize the js minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
