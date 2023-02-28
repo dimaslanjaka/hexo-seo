@@ -1,6 +1,7 @@
 import ansiColors from 'ansi-colors';
 import Hexo, { TemplateLocals } from 'hexo';
 
+import axios from 'axios';
 import fs from 'fs-extra';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
@@ -127,19 +128,35 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
     for (let i = 0; i < scripts.length; i++) {
       const script = scripts[i];
-      const { src, textContent } = script;
+      let { textContent, src } = script;
+      // download external javascript
+      if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
+        if (src.startsWith('//')) {
+          src = 'http:' + src;
+        }
+        const { data } = await axios.get(src);
+        // replace text content object with response data
+        textContent = data;
+        // assign src as null
+        src = null;
+      }
+      /**
+       * indicator
+       */
       const separator = `\n\n/*--- ${src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
       if (typeof src === 'string' && src.trim().length > 0) {
-        // skip external javascript
-        if (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')) continue;
         /**
          * find js file from theme, source, post directories
          */
         const originalSources = [
-          path.join(cfg.theme_dir, 'source/js'),
+          // find from theme source directory
           path.join(cfg.theme_dir, 'source'),
+          // find from source directory
           cfg.source_dir,
-          cfg.post_dir
+          // find from post directory
+          cfg.post_dir,
+          // find from asset post folder
+          path.join(cfg.post_dir, path.basename(path0))
         ].map((dir) => path.join(dir, src));
         const sources = originalSources.filter(fs.existsSync);
         if (sources.length > 0) {
