@@ -1,7 +1,7 @@
 import { deepmerge } from 'deepmerge-ts';
-import { writeFileSync } from 'fs';
+import { writeFileSync } from 'fs-extra';
 import Hexo from 'hexo';
-import { join } from 'path';
+import path from 'upath';
 import { hyperlinkOptions } from './html/types';
 import { imgOptions } from './img/index.old';
 import { cssMinifyOptions } from './minifier/css';
@@ -61,6 +61,13 @@ export interface BaseConfig {
     article: Switcher & AutoConfig['schema']['article'];
     breadcrumb: Switcher & AutoConfig['schema']['breadcrumb'];
   };
+
+  /**
+   * theme directory
+   */
+  readonly theme_dir: string;
+  readonly source_dir: string;
+  readonly post_dir: string;
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
@@ -104,10 +111,13 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
       article: { enable: false },
       breadcrumb: { enable: false }
     } as any,
-    sitemap: false
+    sitemap: false,
+    theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme)),
+    source_dir: path.join(process.cwd(), 'themes', String(hexo.config.source_dir)),
+    post_dir: path.join(process.cwd(), 'themes', String(hexo.config.source_dir), '_posts')
   };
   const seo: BaseConfig = hexo.config.seo;
-  writeFileSync(join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+  writeFileSync(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
   if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
   return deepmerge(defaultOpt, seo) as BaseConfig;
 };

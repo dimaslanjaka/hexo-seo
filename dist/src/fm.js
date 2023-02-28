@@ -28,9 +28,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exports.resolveFile = exports.buildFolder = exports.tmpFolder = void 0;
 var crypto_1 = __importDefault(require("crypto"));
-var fs = __importStar(require("fs"));
-var path = __importStar(require("path"));
+var fs = __importStar(require("fs-extra"));
 var sbg_utility_1 = require("sbg-utility");
+var path = __importStar(require("upath"));
 /**
  * Temp folder
  */

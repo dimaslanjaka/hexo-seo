@@ -1,9 +1,9 @@
 import Bluebird from 'bluebird';
 import { execSync } from 'child_process';
-import { existsSync, rmSync } from 'fs';
+import { existsSync, rmSync } from 'fs-extra';
 import gulp from 'gulp';
 import concat from 'gulp-concat';
-import { join } from 'path';
+import { join } from 'upath';
 
 function clean() {
   const paths = ['dist', 'docs'].map((str) => join(__dirname, str)).filter((path) => existsSync(path));

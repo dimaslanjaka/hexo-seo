@@ -27,11 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.sitemapIndex = exports.sitemap = exports.getPageData = void 0;
-var fs_1 = require("fs");
+var fs_extra_1 = require("fs-extra");
 var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_1 = __importDefault(require("moment"));
-var path_1 = require("path");
 var sbg_utility_1 = require("sbg-utility");
+var upath_1 = require("upath");
 var xmlbuilder2_1 = require("xmlbuilder2");
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
@@ -44,10 +44,10 @@ var sitemapGroup = {
 };
 function initSitemap(type) {
     if (!sitemapGroup[type]) {
-        var sourceXML = (0, path_1.join)(__dirname, 'views/' + type + '-sitemap.xml');
-        if (!(0, fs_1.existsSync)(sourceXML))
+        var sourceXML = (0, upath_1.join)(__dirname, 'views/' + type + '-sitemap.xml');
+        if (!(0, fs_extra_1.existsSync)(sourceXML))
             throw 'Source ' + sourceXML + ' Not Found';
-        var doc = (0, xmlbuilder2_1.create)((0, fs_1.readFileSync)(sourceXML).toString());
+        var doc = (0, xmlbuilder2_1.create)((0, fs_extra_1.readFileSync)(sourceXML).toString());
         sitemapGroup[type] = new Object(doc.end({ format: 'object' }));
         sitemapGroup[type].urlset.url = [];
     }
@@ -122,7 +122,7 @@ function sitemap(dom, HSconfig, data) {
         if (isPagePost) {
             // if post updated not found, get source file last modified time
             if (!post.updated) {
-                var stats = (0, fs_1.statSync)(post.full_source);
+                var stats = (0, fs_extra_1.statSync)(post.full_source);
                 post.updated = (0, moment_1["default"])(stats.mtime);
             }
         }
@@ -147,21 +147,21 @@ function sitemap(dom, HSconfig, data) {
         if (isPagePost) {
             scheduler_1["default"].add('writeSitemap', function () {
                 // copy xsl
-                var destXSL = (0, path_1.join)(hexo.public_dir, 'sitemap.xsl');
-                if (!(0, fs_1.existsSync)((0, path_1.dirname)(destXSL)))
-                    (0, fs_1.mkdirSync)((0, path_1.dirname)(destXSL), { recursive: true });
-                var sourceXSL = (0, path_1.join)(__dirname, 'views/sitemap.xsl');
-                if ((0, fs_1.existsSync)(sourceXSL)) {
-                    (0, fs_1.copyFileSync)(sourceXSL, destXSL);
+                var destXSL = (0, upath_1.join)(hexo.public_dir, 'sitemap.xsl');
+                if (!(0, fs_extra_1.existsSync)((0, upath_1.dirname)(destXSL)))
+                    (0, fs_extra_1.mkdirSync)((0, upath_1.dirname)(destXSL), { recursive: true });
+                var sourceXSL = (0, upath_1.join)(__dirname, 'views/sitemap.xsl');
+                if ((0, fs_extra_1.existsSync)(sourceXSL)) {
+                    (0, fs_extra_1.copyFileSync)(sourceXSL, destXSL);
                     log_1["default"].log('XSL sitemap copied to ' + destXSL);
                 }
                 else {
                     log_1["default"].error('XSL sitemap not found');
                 }
-                var destPostSitemap = (0, path_1.join)(hexo.public_dir, 'post-sitemap.xml');
+                var destPostSitemap = (0, upath_1.join)(hexo.public_dir, 'post-sitemap.xml');
                 (0, sbg_utility_1.writefile)(destPostSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['post']).end({ prettyPrint: true }));
                 log_1["default"].log('post sitemap saved', destPostSitemap);
-                var destPageSitemap = (0, path_1.join)(hexo.public_dir, 'page-sitemap.xml');
+                var destPageSitemap = (0, upath_1.join)(hexo.public_dir, 'page-sitemap.xml');
                 (0, sbg_utility_1.writefile)(destPageSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['page']).end({ prettyPrint: true }));
                 log_1["default"].log('page sitemap saved', destPageSitemap);
                 sitemapIndex(hexo);
@@ -173,8 +173,8 @@ exports.sitemap = sitemap;
 exports["default"] = sitemap;
 function sitemapIndex(hexoinstance) {
     if (hexoinstance === void 0) { hexoinstance = null; }
-    var sourceIndexXML = (0, path_1.join)(__dirname, 'views/sitemap.xml');
-    var sitemapIndexDoc = (0, xmlbuilder2_1.create)((0, fs_1.readFileSync)(sourceIndexXML).toString());
+    var sourceIndexXML = (0, upath_1.join)(__dirname, 'views/sitemap.xml');
+    var sitemapIndexDoc = (0, xmlbuilder2_1.create)((0, fs_extra_1.readFileSync)(sourceIndexXML).toString());
     var sitemapIndex = new Object(sitemapIndexDoc.end({ format: 'object' }));
     sitemapIndex.sitemapindex.sitemap = [];
     if (!hexoinstance && typeof hexo != 'undefined') {
@@ -206,7 +206,7 @@ function sitemapIndex(hexoinstance) {
             priority: '0.2'
         });
     });
-    var destTagSitemap = (0, path_1.join)(hexo.public_dir, 'tag-sitemap.xml');
+    var destTagSitemap = (0, upath_1.join)(hexo.public_dir, 'tag-sitemap.xml');
     (0, sbg_utility_1.writefile)(destTagSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['tag']).end({ prettyPrint: true }));
     log_1["default"].log('tag sitemap saved', destTagSitemap);
     // push tag-sitemap.xml to sitemapindex
@@ -229,7 +229,7 @@ function sitemapIndex(hexoinstance) {
             priority: '0.2'
         });
     });
-    var destCategorySitemap = (0, path_1.join)(hexo.public_dir, 'category-sitemap.xml');
+    var destCategorySitemap = (0, upath_1.join)(hexo.public_dir, 'category-sitemap.xml');
     (0, sbg_utility_1.writefile)(destCategorySitemap, (0, xmlbuilder2_1.create)(sitemapGroup['category']).end({ prettyPrint: true }));
     log_1["default"].log('category sitemap saved', destCategorySitemap);
     // push category-sitemap.xml to sitemapindex
@@ -241,7 +241,7 @@ function sitemapIndex(hexoinstance) {
         loc: hexo.config.url.toString() + '/category-sitemap.xml',
         lastmod: (0, moment_1["default"])(latestCategoryDate).format('YYYY-MM-DDTHH:mm:ssZ')
     });
-    var destIndexSitemap = (0, path_1.join)(hexo.public_dir, 'sitemap.xml');
+    var destIndexSitemap = (0, upath_1.join)(hexo.public_dir, 'sitemap.xml');
     (0, sbg_utility_1.writefile)(destIndexSitemap, (0, xmlbuilder2_1.create)(sitemapIndex).end({ prettyPrint: true }));
     log_1["default"].log('index sitemap saved', destIndexSitemap);
 }

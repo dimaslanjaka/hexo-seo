@@ -1,10 +1,10 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
 import Hexo, { PageData, TemplateLocals } from 'hexo';
 import hexoIs from 'hexo-is';
 import moment from 'moment';
 import { HTMLElement } from 'node-html-parser';
-import { dirname, join } from 'path';
 import { writefile } from 'sbg-utility';
+import { dirname, join } from 'upath';
 import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
 import log from '../log';

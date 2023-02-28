@@ -2,13 +2,13 @@
 
 'use strict';
 
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import Hexo from 'hexo';
 import minimatch from 'minimatch';
 import 'nodejs-package-types';
-import path from 'path';
 import rimraf from 'rimraf';
 import sanitizeFilename from 'sanitize-filename';
+import path from 'upath';
 import utils from 'util';
 import pkg from '../package.json';
 import { isDev } from './hexo-seo';

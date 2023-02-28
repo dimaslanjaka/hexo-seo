@@ -41,6 +41,7 @@ npm i hexo-seo
 ```yaml
 # https://github.com/dimaslanjaka/hexo-seo
 seo:
+  # minify html
   html:
     enable: true
     # fix invalid html
@@ -58,7 +59,8 @@ seo:
   # minify js
   js:
     enable: true
-    # concat all js
+    # concatenate all js into one tag
+    ## WARNING: DO NOT USING ANOTHER MINIFIER PLUGIN
     concat: false
     # If you want to customize the js minifier settings, you can put below
     # exclude css from minifying, multiple supported

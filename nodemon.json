@@ -19,5 +19,5 @@
   ],
   "delay": 3000,
   "ext": "ts,js",
-  "verbose": true
+  "verbose": false
 }

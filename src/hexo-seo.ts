@@ -1,13 +1,12 @@
 'use strict';
 
-import fs, { existsSync } from 'fs';
+import ansiColors from 'ansi-colors';
+import fs, { existsSync } from 'fs-extra';
 import Hexo from 'hexo';
 import minimist from 'minimist';
-import pkg from '../package.json';
 import getConfig from './config';
 import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
-import log from './log';
 import HexoSeoCss from './minifier/css';
 import HexoSeoJs from './minifier/js';
 import scheduler from './scheduler';
@@ -24,12 +23,14 @@ const env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase(
 // define is development
 export const isDev = arg || env;
 
+const logname = ansiColors.magentaBright('hexo-seo');
+
 // core
 export default function HexoSeo(hexo: Hexo) {
   //console.log("hexo-seo starting", { dev: env });
   // return if hexo-seo configuration unavailable
   if (typeof hexo.config.seo == 'undefined') {
-    log.error('seo options not found');
+    hexo.log.error(logname, 'seo options not found');
     return;
   }
 
@@ -49,7 +50,7 @@ export default function HexoSeo(hexo: Hexo) {
         hexoCmd = 'generate';
         break;
       }
-      if (hexo.env.args._[i] == 'clean') {
+      if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
         hexoCmd = 'clean';
         break;
       }
@@ -57,17 +58,17 @@ export default function HexoSeo(hexo: Hexo) {
   }
 
   // clean build and temp folder on `hexo clean`
-  if (hexoCmd && hexoCmd == 'clean') {
-    console.log('[' + pkg.name + '] cleaning build and temp folder');
+  hexo.extend.filter.register('after_clean', function () {
+    // remove some other temporary files
+    hexo.log.info(logname + '(clean)', 'cleaning build and temp folder');
     if (existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
     if (existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
-    return;
-  }
+  });
 
   // execute scheduled functions before process exit
-  if (hexoCmd && hexoCmd != 'clean') {
+  if (hexoCmd != 'clean') {
     bindProcessExit('scheduler_on_exit', function () {
-      log.log('executing scheduled functions');
+      hexo.log.info(logname, 'executing scheduled functions');
       scheduler.executeAll();
     });
   }
@@ -84,7 +85,7 @@ export default function HexoSeo(hexo: Hexo) {
     // minify css
     hexo.extend.filter.register('after_render:css', HexoSeoCss);
   }
-  if (config.html) {
+  if (config.html && config.html.enable) {
     // all in one html fixer
     hexo.extend.filter.register('after_render:html', HexoSeoHtml);
   }

@@ -55,6 +55,12 @@ export interface BaseConfig {
         article: Switcher & AutoConfig['schema']['article'];
         breadcrumb: Switcher & AutoConfig['schema']['breadcrumb'];
     };
+    /**
+     * theme directory
+     */
+    readonly theme_dir: string;
+    readonly source_dir: string;
+    readonly post_dir: string;
 }
 declare const getConfig: (hexo: Hexo, _key?: string) => BaseConfig;
 export default getConfig;

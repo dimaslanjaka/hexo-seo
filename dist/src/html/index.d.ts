@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import Hexo, { TemplateLocals } from 'hexo';
 import { HexoSeo } from './schema/article';
 /**
@@ -7,4 +6,4 @@ import { HexoSeo } from './schema/article';
  * @returns
  */
 export declare function getPagePath(data: HexoSeo | TemplateLocals): string;
-export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo): Promise<unknown>;
+export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo): Promise<string>;

@@ -1,10 +1,10 @@
 import ansiColors from 'ansi-colors';
-import Promise from 'bluebird';
 import Hexo, { TemplateLocals } from 'hexo';
 
+import fs from 'fs-extra';
 import { parse as nodeHtmlParser } from 'node-html-parser';
-import path from 'path';
 import { writefile } from 'sbg-utility';
+import path from 'upath';
 import parseUrl from 'url-parse';
 import { CacheFile } from '../cache';
 import getConfig from '../config';
@@ -36,7 +36,7 @@ export function getPagePath(data: HexoSeo | TemplateLocals) {
 }
 
 const cache = new CacheFile('index');
-export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
+export default async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
   //console.log("filtering html", data.page.title);
   const hexo = this;
   let path0: string = getPagePath(data);
@@ -52,87 +52,112 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
     title = data.config.title;
   }
 
-  return new Promise((resolveHtml) => {
-    if (cache.isFileChanged(md5(path0)) || isDev) {
-      const root = nodeHtmlParser(content);
-      const cfg = getConfig(this);
-      //** fix hyperlink */
-      if (cfg.links.enable) {
-        const a = root.querySelectorAll('a[href]');
-        a.forEach((el) => {
-          let href = String(el.getAttribute('href')).trim();
-          if (href.startsWith('//')) href = 'http:' + href;
-          if (/^https?:\/\//.test(href)) {
-            let rels = el.getAttribute('rel') ? el.getAttribute('rel').split(' ') : [];
-            //rels = rels.removeEmpties().unique();
-            rels = array_unique(array_remove_empties(rels));
-            const parseHref = parseUrl(href);
-            const external = isExternal(parseHref, hexo);
-            rels = identifyRels(el, external, cfg.links);
-            el.setAttribute('rel', rels.join(' '));
-            if (isDev) el.setAttribute('hexo-seo', 'true');
-            if (!el.hasAttribute('alt')) el.setAttribute('alt', title);
-            if (!el.hasAttribute('title')) el.setAttribute('title', title);
-          }
-        });
-      }
-
-      if (cfg.html.fix) {
-        //** fix invalid html */
-        const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
-        if (inv.length > 0) {
-          logger.log('invalid html found', inv.length, inv.length > 1 ? 'items' : 'item');
-          inv.forEach((el) => {
-            el.remove();
-          });
+  if (cache.isFileChanged(md5(path0)) || isDev) {
+    const root = nodeHtmlParser(content);
+    const cfg = getConfig(this);
+    //** fix hyperlink */
+    if (cfg.links.enable) {
+      const a = root.querySelectorAll('a[href]');
+      a.forEach((el) => {
+        let href = String(el.getAttribute('href')).trim();
+        if (href.startsWith('//')) href = 'http:' + href;
+        if (/^https?:\/\//.test(href)) {
+          let rels = el.getAttribute('rel') ? el.getAttribute('rel').split(' ') : [];
+          //rels = rels.removeEmpties().unique();
+          rels = array_unique(array_remove_empties(rels));
+          const parseHref = parseUrl(href);
+          const external = isExternal(parseHref, hexo);
+          rels = identifyRels(el, external, cfg.links);
+          el.setAttribute('rel', rels.join(' '));
+          if (isDev) el.setAttribute('hexo-seo', 'true');
+          if (!el.hasAttribute('alt')) el.setAttribute('alt', title);
+          if (!el.hasAttribute('title')) el.setAttribute('title', title);
         }
-      }
+      });
+    }
 
-      //** fix images attributes */
-      if (cfg.img.enable) {
-        root.querySelectorAll('img[src]').forEach((element) => {
-          const imgAlt = element.getAttribute('alt') || title;
-          const imgTitle = element.getAttribute('title') || imgAlt;
-          if (!element.hasAttribute('title')) {
-            //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
-            element.setAttribute('title', imgTitle);
-          }
-          if (!element.hasAttribute('alt')) {
-            element.setAttribute('alt', imgAlt);
-          }
-          if (!element.getAttribute('itemprop')) {
-            element.setAttribute('itemprop', 'image');
-          }
-          if (cfg.img.broken) {
-            if (cfg.img.onerror === 'clientside') {
-              element.setAttribute('onerror', "this.src='" + cfg.img.default + "';");
-            }
-          }
-          if (isDev) element.setAttribute('hexo-seo', 'true');
+    if (cfg.html.fix) {
+      //** fix invalid html */
+      const inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
+      if (inv.length > 0) {
+        logger.log('invalid html found', inv.length, inv.length > 1 ? 'items' : 'item');
+        inv.forEach((el) => {
+          el.remove();
         });
       }
-
-      fixSchemaStatic(root, cfg, data);
-      sitemap(root, cfg, data);
-
-      content = root.toString();
-
-      // START concatenate javascripts
-      const { window, document } = parseJSDOM(content);
-      const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
-        if (!el.getAttribute('type')) return false;
-        return el.getAttribute('type') === 'application/ld+json';
-      });
-      hexo.log.info(logname, scripts.length + ' javascripts');
-
-      hexo.log.info(logname, writefile(path.join(tmpFolder, path.basename(path0) + '.html'), content).file);
-      window.close();
-      // END concatenate javascripts
-
-      if (allowCache) cache.set(md5(path0), content);
-    } else {
-      content = cache.getCache(md5(path0), content) as string;
     }
-    resolveHtml(content);
-  });
+
+    //** fix images attributes */
+    if (cfg.img.enable) {
+      root.querySelectorAll('img[src]').forEach((element) => {
+        const imgAlt = element.getAttribute('alt') || title;
+        const imgTitle = element.getAttribute('title') || imgAlt;
+        if (!element.hasAttribute('title')) {
+          //logger.log("%s(img[title]) fix %s", pkg.name, data.title);
+          element.setAttribute('title', imgTitle);
+        }
+        if (!element.hasAttribute('alt')) {
+          element.setAttribute('alt', imgAlt);
+        }
+        if (!element.getAttribute('itemprop')) {
+          element.setAttribute('itemprop', 'image');
+        }
+        if (cfg.img.broken) {
+          if (cfg.img.onerror === 'clientside') {
+            element.setAttribute('onerror', "this.src='" + cfg.img.default + "';");
+          }
+        }
+        if (isDev) element.setAttribute('hexo-seo', 'true');
+      });
+    }
+
+    fixSchemaStatic(root, cfg, data);
+    sitemap(root, cfg, data);
+
+    content = root.toString();
+
+    // START concatenate javascripts
+    const { dom, window, document } = parseJSDOM(content);
+    const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
+      return (el.getAttribute('type') || '') !== 'application/ld+json';
+    });
+    const filename = md5(path.basename(path0));
+    const scriptContents = [];
+    hexo.log.info(logname, scripts.length + ' javascripts');
+    for (let i = 0; i < scripts.length; i++) {
+      const { src, textContent } = scripts[i];
+      if (typeof src === 'string') {
+        // skip external javascript
+        if (src.startsWith('//') || src.startsWith('http')) continue;
+        /**
+         * find js file from theme, source, post directories
+         */
+        const sources = [
+          path.join(cfg.theme_dir, 'source/js'),
+          path.join(cfg.theme_dir, 'source'),
+          cfg.source_dir,
+          cfg.post_dir
+        ]
+          .map((dir) => path.join(dir, src))
+          .filter(fs.existsSync);
+        if (sources.length > 0) {
+          const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
+          console.log(rendered);
+        } else {
+          hexo.log.error(logname, 'cannot find file', src);
+        }
+      } else {
+        scriptContents.push(textContent);
+      }
+    }
+
+    hexo.log.info(logname, writefile(path.join(tmpFolder, filename + '.html'), dom.toString()).file);
+    window.close();
+    // END concatenate javascripts
+
+    if (allowCache) cache.set(md5(path0), content);
+  } else {
+    content = cache.getCache(md5(path0), content) as string;
+  }
+  return content;
 }

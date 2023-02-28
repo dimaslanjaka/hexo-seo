@@ -615,6 +615,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/fs-extra@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "@types/fs-extra@npm:11.0.1"
+  dependencies:
+    "@types/jsonfile": "*"
+    "@types/node": "*"
+  checksum: 3e930346e5d84f419deb8ced1c582beef8cb20d0bd8a0eb145a37d75bab0572a1895f0e48a0d681d386b3a58b9a992b2d2acecc464bcaec2548f53ea00718651
+  languageName: node
+  linkType: hard
+
 "@types/hexo-util@https://github.com/dimaslanjaka/nodejs-package-types/raw/main/hexo-util/release/types-hexo-util.tgz":
   version: 1.0.1
   resolution: "@types/hexo-util@https://github.com/dimaslanjaka/nodejs-package-types/raw/main/hexo-util/release/types-hexo-util.tgz"
@@ -669,6 +679,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/jsonfile@npm:*":
+  version: 6.1.1
+  resolution: "@types/jsonfile@npm:6.1.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0f8fe0a9221a00e8413cffba723dfe16553868724b830237256fb0052ecd5cac96498189d1235a001cfa815f352008261c9ceb373f0aa58227f891e0c7a12c4d
   languageName: node
   linkType: hard
 
@@ -2499,18 +2518,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "cross-env@npm:7.0.3"
-  dependencies:
-    cross-spawn: ^7.0.1
-  bin:
-    cross-env: src/bin/cross-env.js
-    cross-env-shell: src/bin/cross-env-shell.js
-  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
-  languageName: node
-  linkType: hard
-
 "cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn/tarball/private":
   version: 7.0.3
   resolution: "cross-spawn@https://github.com/dimaslanjaka/node-cross-spawn.git#commit=f5e71c8a2aaa6d220b9289f9d5eb48aaf6bc6368"
@@ -2535,7 +2542,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -4855,6 +4862,7 @@ __metadata:
   dependencies:
     "@types/bluebird": ^3.5.38
     "@types/clean-css": ^4.2.6
+    "@types/fs-extra": ^11.0.1
     "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz"
     "@types/jsdom": ^21.1.0
     "@types/node": ^18.14.2
@@ -4867,7 +4875,6 @@ __metadata:
     bluebird: ^3.7.2
     cheerio: ^1.0.0-rc.12
     clean-css: ^5.3.2
-    cross-env: ^7.0.3
     cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/tarball/private"
     deepmerge-ts: ^4.3.0
     depcheck: ^1.4.3
@@ -4877,6 +4884,7 @@ __metadata:
     eslint-plugin-import: ^2.27.5
     eslint-plugin-prettier: ^4.2.1
     file-type: ^18.2.1
+    fs-extra: ^11.1.0
     glob-parent: ">=6.0.2"
     gulp: ^4.0.2
     gulp-concat: ^2.6.1
@@ -4909,6 +4917,7 @@ __metadata:
     ts-node: ^10.9.1
     typescript: ^4.9.5
     underscore: ^1.13.6
+    upath: ^2.0.1
     url-parse: ^1.5.10
     uuid: ">=9.0.0"
     xmlbuilder2: ^3.0.2

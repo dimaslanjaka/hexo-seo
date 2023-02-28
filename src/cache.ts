@@ -1,7 +1,7 @@
-import { existsSync } from 'fs';
+import { existsSync } from 'fs-extra';
 import NodeCache from 'node-cache';
-import path from 'path';
 import { writefile } from 'sbg-utility';
+import path from 'upath';
 import { buildFolder, readFile, tmpFolder } from './fm';
 import logger from './log';
 import scheduler from './scheduler';

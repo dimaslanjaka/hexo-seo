@@ -1,9 +1,9 @@
 import cheerio from 'cheerio';
 import fileType from 'file-type';
-import { existsSync } from 'fs';
+import { existsSync } from 'fs-extra';
 import Hexo from 'hexo';
-import path from 'path';
 import sanitizeFilename from 'sanitize-filename';
+import path from 'upath';
 import getConfig from '../config';
 import checkUrl from '../curl/check';
 import logger from '../log';
