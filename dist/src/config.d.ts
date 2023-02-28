@@ -10,6 +10,13 @@ export interface Switcher {
 }
 export type AutoConfig = typeof configData;
 export interface BaseConfig {
+    /**
+     * use cache
+     */
+    cache: boolean;
+    /**
+     * generate YoastSEO Sitemap
+     */
     sitemap: boolean;
     /**
      * Optimize js

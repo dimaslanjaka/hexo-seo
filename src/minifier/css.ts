@@ -22,7 +22,11 @@ export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.Vie
   const useCache = this.config.seo.cache;
 
   if (isChanged || !useCache) {
-    log.log('%s is changed %s', path0, isChanged ? ansiColors.red(isChanged) : ansiColors.green(isChanged));
+    log.log(
+      '%s is changed %s',
+      path0,
+      isChanged ? ansiColors.red(String(isChanged)) : ansiColors.green(String(isChanged))
+    );
     // if original file is changed, re-minify css
     const hexo: Hexo = this;
     const options = getConfig(hexo).css;
@@ -35,7 +39,7 @@ export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.Vie
       log.log(
         '%s(CSS:exclude) %s %s %s',
         pkg.name,
-        ignored ? ansiColors.red(ignored) : ansiColors.green(ignored),
+        ignored ? ansiColors.red(String(ignored)) : ansiColors.green(String(ignored)),
         path0,
         exclude.join(', ')
       );

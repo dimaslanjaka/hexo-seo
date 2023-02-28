@@ -23,8 +23,5 @@
     "**/.git/**",
     "test"
   ],
-  "include": [
-    "./src/index.ts",
-    "./source/**/*"
-  ]
+  "include": ["./src/index.ts", "./source/**/*"]
 }
