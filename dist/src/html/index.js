@@ -124,7 +124,7 @@ function HexoSeoHtml(content, data) {
             content = root.toString();
             // START concatenate javascripts
             var _a = (0, dom_1.parseJSDOM)(content), window_1 = _a.window, document_1 = _a.document;
-            var scripts = Array.from(document_1.querySelectorAll('script')).filter(function (el) {
+            var scripts = Array.from(document_1.getElementsByTagName('script')).filter(function (el) {
                 if (!el.getAttribute('type'))
                     return false;
                 return el.getAttribute('type') === 'application/ld+json';

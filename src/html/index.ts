@@ -119,7 +119,7 @@ export default function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) 
 
       // START concatenate javascripts
       const { window, document } = parseJSDOM(content);
-      const scripts = Array.from(document.querySelectorAll('script')).filter(function (el) {
+      const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
         if (!el.getAttribute('type')) return false;
         return el.getAttribute('type') === 'application/ld+json';
       });
