@@ -99,7 +99,7 @@ function HexoSeo(hexo) {
     var config = (0, config_1["default"])(hexo);
     hexo.config.seo = config;
     // Registers serving of the lib used by the plugin with Hexo.
-    hexo.extend.generator.register('js', function () {
+    hexo.extend.generator.register('hexo-seo-js', function () {
         var concatRoutes = config_1.coreCache.getSync(config_1.cache_key_router, []);
         var wrap = [];
         var _loop_1 = function (i) {

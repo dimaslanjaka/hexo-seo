@@ -82,7 +82,7 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.config.seo = config;
 
   // Registers serving of the lib used by the plugin with Hexo.
-  hexo.extend.generator.register('js', () => {
+  hexo.extend.generator.register('hexo-seo-js', () => {
     const concatRoutes = coreCache.getSync(cache_key_router, [] as { path: string; absolute: string }[]);
 
     const wrap: { path: string; data: any }[] = [];
