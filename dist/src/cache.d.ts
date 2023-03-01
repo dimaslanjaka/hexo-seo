@@ -32,7 +32,7 @@ declare class Cache {
  * @param variable
  * @returns
  */
-export declare function resolveString(variable: any, _encode?: boolean): void;
+export declare function resolveString(variable: any, encode?: boolean): void;
 /**
  * @summary IN FILE CACHE.
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
@@ -50,14 +50,8 @@ export declare class CacheFile {
      * @param fallback
      * @returns
      */
-    get<T>(key: string, fallback?: T): T;
-    /**
-     * alias {get}
-     * @param key
-     * @param fallback
-     * @returns
-     */
-    getCache<T>(key: string, fallback?: T): T;
+    get(key: string, fallback?: any): any;
+    getCache(key: string, fallback?: any): any;
     /**
      * Check file is changed with md5 algorithm
      * @param path0
