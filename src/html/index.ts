@@ -16,7 +16,6 @@ import { minifyJS } from '../minifier/js';
 import sitemap from '../sitemap';
 import { array_remove_empties, array_unique } from '../utils/array';
 import { md5 } from '../utils/md5-file';
-import { parseJSDOM } from './dom';
 import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
@@ -117,12 +116,12 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     fixSchemaStatic(root, cfg, data);
     sitemap(root, cfg, data);
 
-    content = root.toString();
+    //content = root.toString();
 
     // START concatenate javascripts
     if (cfg.js.concat === true) {
-      const { dom, window, document } = parseJSDOM(content);
-      const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
+      //const { dom, window, document } = parseJSDOM(content);
+      const scripts = Array.from(root.getElementsByTagName('script')).filter(function (el) {
         return (el.getAttribute('type') || '') !== 'application/ld+json';
       });
       const filename = 'concat-' + md5(path.basename(path0));
@@ -130,7 +129,9 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
       for (let i = 0; i < scripts.length; i++) {
         const script = scripts[i];
-        let { textContent, src } = script;
+        let src = script.getAttribute('src');
+        let textContent = script.textContent;
+        //let { textContent, src } = script;
         // download external javascript
 
         if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
@@ -166,7 +167,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         const addScript = function (text: string) {
           scriptContents.push(separator, text, '\n\n');
           // delete current script tag
-          script.parentElement.removeChild(script);
+          script.parentNode.removeChild(script);
         };
         // parse javascript
         if (typeof src === 'string' && src.trim().length > 0) {
@@ -225,7 +226,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       });
       coreCache.setSync('jslib', concatRoutes);
 
-      content = dom.toString();
+      content = root.toString();
       hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
       window.close();
     }

@@ -79,7 +79,6 @@ var js_1 = require("../minifier/js");
 var sitemap_1 = __importDefault(require("../sitemap"));
 var array_1 = require("../utils/array");
 var md5_file_1 = require("../utils/md5-file");
-var dom_1 = require("./dom");
 var fixHyperlinks_static_1 = require("./fixHyperlinks.static");
 var fixSchema_static_1 = __importDefault(require("./fixSchema.static"));
 var types_1 = require("./types");
@@ -101,9 +100,9 @@ function getPagePath(data) {
 exports.getPagePath = getPagePath;
 function HexoSeoHtml(content, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, _a, dom, window_1, document_1, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath, scriptContent, newScript;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath, scriptContent, newScript;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     logname = ansi_colors_1["default"].magentaBright('hexo-seo(html)');
                     logconcatname = ansi_colors_1["default"].magentaBright('hexo-seo(html-concat)');
@@ -185,39 +184,38 @@ function HexoSeoHtml(content, data) {
                     }
                     (0, fixSchema_static_1["default"])(root, cfg_1, data);
                     (0, sitemap_1["default"])(root, cfg_1, data);
-                    content = root.toString();
                     if (!(cfg_1.js.concat === true)) return [3 /*break*/, 7];
-                    _a = (0, dom_1.parseJSDOM)(content), dom = _a.dom, window_1 = _a.window, document_1 = _a.document;
-                    scripts = Array.from(document_1.getElementsByTagName('script')).filter(function (el) {
+                    scripts = Array.from(root.getElementsByTagName('script')).filter(function (el) {
                         return (el.getAttribute('type') || '') !== 'application/ld+json';
                     });
                     filename = 'concat-' + (0, md5_file_1.md5)(upath_1["default"].basename(path0));
                     scriptContents_1 = [];
                     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
-                        var script, textContent, src, cachedExternal, data_1, error_1, separator, addScript, originalSources, sources, rendered, e_1;
-                        return __generator(this, function (_c) {
-                            switch (_c.label) {
+                        var script, src, textContent, cachedExternal, data_1, error_1, separator, addScript, originalSources, sources, rendered, e_1;
+                        return __generator(this, function (_b) {
+                            switch (_b.label) {
                                 case 0:
                                     script = scripts[i];
-                                    textContent = script.textContent, src = script.src;
+                                    src = script.getAttribute('src');
+                                    textContent = script.textContent;
                                     if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 6];
                                     cachedExternal = cache.getCache('donwload-' + src, null);
                                     if (src.startsWith('//')) {
                                         src = 'http:' + src;
                                     }
-                                    _c.label = 1;
+                                    _b.label = 1;
                                 case 1:
-                                    _c.trys.push([1, 5, , 6]);
+                                    _b.trys.push([1, 5, , 6]);
                                     data_1 = void 0;
                                     if (!(cachedExternal === null)) return [3 /*break*/, 3];
                                     return [4 /*yield*/, axios_1["default"].get(src)];
                                 case 2:
-                                    data_1 = (_c.sent()).data;
+                                    data_1 = (_b.sent()).data;
                                     return [3 /*break*/, 4];
                                 case 3:
                                     data_1 = cachedExternal;
-                                    _c.label = 4;
+                                    _b.label = 4;
                                 case 4:
                                     // replace text content (inner) string with response data
                                     textContent = data_1;
@@ -227,7 +225,7 @@ function HexoSeoHtml(content, data) {
                                     cache.setCache('download-' + src, data_1);
                                     return [3 /*break*/, 6];
                                 case 5:
-                                    error_1 = _c.sent();
+                                    error_1 = _b.sent();
                                     hexo.log.error(logconcatname, 'download failed', error_1.message);
                                     return [3 /*break*/, 6];
                                 case 6:
@@ -235,7 +233,7 @@ function HexoSeoHtml(content, data) {
                                     addScript = function (text) {
                                         scriptContents_1.push(separator, text, '\n\n');
                                         // delete current script tag
-                                        script.parentElement.removeChild(script);
+                                        script.parentNode.removeChild(script);
                                     };
                                     if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 13];
                                     originalSources = [
@@ -250,40 +248,40 @@ function HexoSeoHtml(content, data) {
                                     ].map(function (dir) { return upath_1["default"].join(dir, src); });
                                     sources = originalSources.filter(fs_extra_1["default"].existsSync);
                                     if (!(sources.length > 0)) return [3 /*break*/, 11];
-                                    _c.label = 7;
+                                    _b.label = 7;
                                 case 7:
-                                    _c.trys.push([7, 9, , 10]);
+                                    _b.trys.push([7, 9, , 10]);
                                     return [4 /*yield*/, hexo.render.render({ path: sources[0], engine: 'js' })];
                                 case 8:
-                                    rendered = _c.sent();
+                                    rendered = _b.sent();
                                     // push src
                                     addScript(rendered);
                                     return [3 /*break*/, 10];
                                 case 9:
-                                    e_1 = _c.sent();
+                                    e_1 = _b.sent();
                                     hexo.log.error(logconcatname, 'failed', src, e_1.message);
                                     return [3 /*break*/, 10];
                                 case 10: return [3 /*break*/, 12];
                                 case 11:
                                     hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
-                                    _c.label = 12;
+                                    _b.label = 12;
                                 case 12: return [3 /*break*/, 14];
                                 case 13:
                                     // push inner
                                     addScript(textContent);
-                                    _c.label = 14;
+                                    _b.label = 14;
                                 case 14: return [2 /*return*/];
                             }
                         });
                     };
                     i = 0;
-                    _b.label = 1;
+                    _a.label = 1;
                 case 1:
                     if (!(i < scripts.length)) return [3 /*break*/, 4];
                     return [5 /*yield**/, _loop_1(i)];
                 case 2:
-                    _b.sent();
-                    _b.label = 3;
+                    _a.sent();
+                    _a.label = 3;
                 case 3:
                     i++;
                     return [3 /*break*/, 1];
@@ -294,27 +292,27 @@ function HexoSeoHtml(content, data) {
                     if (!((0, config_1.getMode)() === 'g' && cfg_1.js.enable)) return [3 /*break*/, 6];
                     return [4 /*yield*/, (0, js_1.minifyJS)(scriptContent, cfg_1.js.options)];
                 case 5:
-                    scriptContent = _b.sent();
-                    _b.label = 6;
+                    scriptContent = _a.sent();
+                    _a.label = 6;
                 case 6:
                     // write js
                     (0, sbg_utility_1.writefile)(jsFilePath, scriptContent).file;
                     // show log
                     hexo.log.info(logname, jsFilePath);
-                    newScript = document_1.createElement('script');
+                    newScript = document.createElement('script');
                     //newScript.textContent = scriptContents.join('\n');
                     newScript.src = '/hexo-seo-js/' + filename + '.js';
-                    document_1.body.appendChild(newScript);
+                    document.body.appendChild(newScript);
                     // cache router
                     concatRoutes.push({
                         path: newScript.src,
                         absolute: jsFilePath
                     });
                     config_1.coreCache.setSync('jslib', concatRoutes);
-                    content = dom.toString();
+                    content = root.toString();
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
-                    window_1.close();
-                    _b.label = 7;
+                    window.close();
+                    _a.label = 7;
                 case 7:
                     // END concatenate javascripts
                     if (allowCache)
@@ -322,7 +320,7 @@ function HexoSeoHtml(content, data) {
                     return [3 /*break*/, 9];
                 case 8:
                     content = cache.getCache((0, md5_file_1.md5)(path0), content);
-                    _b.label = 9;
+                    _a.label = 9;
                 case 9: return [2 /*return*/, content];
             }
         });
