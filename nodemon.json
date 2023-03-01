@@ -18,6 +18,6 @@
     "**/tmp/**"
   ],
   "delay": 3000,
-  "ext": "*",
+  "ext": "ts,js",
   "verbose": false
 }
