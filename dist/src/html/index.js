@@ -240,7 +240,8 @@ function HexoSeoHtml(content, data) {
                                     return [3 /*break*/, 4];
                                 case 4: return [3 /*break*/, 6];
                                 case 5:
-                                    hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
+                                    hexo.log.error(logconcatname, 'failed, not found', src, path0);
+                                    hexo.log.error(logconcatname, 'log', (0, sbg_utility_1.writefile)(upath_1["default"].join(fm_1.tmpFolder, 'logs', filename + '.log'), originalSources).file);
                                     _b.label = 6;
                                 case 6: return [3 /*break*/, 8];
                                 case 7:

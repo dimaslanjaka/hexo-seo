@@ -207,7 +207,12 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
               hexo.log.error(logconcatname, 'failed', src, e.message);
             }
           } else {
-            hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
+            hexo.log.error(logconcatname, 'failed, not found', src, path0);
+            hexo.log.error(
+              logconcatname,
+              'log',
+              writefile(path.join(tmpFolder, 'logs', filename + '.log'), originalSources).file
+            );
           }
         } else {
           // push inner
