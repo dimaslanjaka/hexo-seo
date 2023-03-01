@@ -100,7 +100,7 @@ function getPagePath(data) {
 exports.getPagePath = getPagePath;
 function HexoSeoHtml(content, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath, scriptContent, newScript;
+        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath, scriptContent, newsrc, newScript;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -303,19 +303,17 @@ function HexoSeoHtml(content, data) {
                     (0, sbg_utility_1.writefile)(jsFilePath, scriptContent).file;
                     // show log
                     hexo.log.info(logname, jsFilePath);
-                    newScript = document.createElement('script');
-                    //newScript.textContent = scriptContents.join('\n');
-                    newScript.src = '/hexo-seo-js/' + filename + '.js';
-                    document.body.appendChild(newScript);
+                    newsrc = "/hexo-seo-js/".concat(filename, ".js");
+                    newScript = "<script src=\"".concat(newsrc, "\"></script");
+                    root.querySelector('body').innerHTML += newScript;
                     // cache router
                     concatRoutes.push({
-                        path: newScript.src,
+                        path: newsrc,
                         absolute: jsFilePath
                     });
                     config_1.coreCache.setSync('jslib', concatRoutes);
                     content = root.toString();
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
-                    window.close();
                     _a.label = 7;
                 case 7:
                     // END concatenate javascripts

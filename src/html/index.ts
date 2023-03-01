@@ -219,20 +219,19 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       hexo.log.info(logname, jsFilePath);
 
       // create new script
-      const newScript = document.createElement('script');
-      //newScript.textContent = scriptContents.join('\n');
-      newScript.src = '/hexo-seo-js/' + filename + '.js';
-      document.body.appendChild(newScript);
+      const newsrc = `/hexo-seo-js/${filename}.js`;
+      const newScript = `<script src="${newsrc}"></script`;
+      root.querySelector('body').innerHTML += newScript;
       // cache router
       concatRoutes.push({
-        path: newScript.src,
+        path: newsrc,
         absolute: jsFilePath
       });
       coreCache.setSync('jslib', concatRoutes);
 
       content = root.toString();
       hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
-      window.close();
+      //window.close();
     }
     // END concatenate javascripts
 
