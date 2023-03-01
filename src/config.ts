@@ -4,6 +4,7 @@ import Hexo from 'hexo';
 import { persistentCache } from 'sbg-utility';
 import path from 'upath';
 import { tmpFolder } from './fm';
+import { isDev } from './hexo-seo';
 import { hyperlinkOptions } from './html/types';
 import { imgOptions } from './img/index.old';
 import { cssMinifyOptions } from './minifier/css';
@@ -123,9 +124,10 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
   return deepmerge(defaultOpt, seo, {
     // disable cache on dev
-    cache: /dev/i.test(process.env.NODE_ENV) ? false : seo.cache || defaultOpt.cache
+    cache: isDev ? false : seo.cache || defaultOpt.cache
   }) as BaseConfig;
 };
+
 /**
  * number to milliseconds
  * @param hrs

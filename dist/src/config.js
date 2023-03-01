@@ -9,6 +9,7 @@ var fs_extra_1 = require("fs-extra");
 var sbg_utility_1 = require("sbg-utility");
 var upath_1 = __importDefault(require("upath"));
 var fm_1 = require("./fm");
+var hexo_seo_1 = require("./hexo-seo");
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 var getConfig = function (hexo, _key) {
     if (_key === void 0) { _key = 'config-hexo-seo'; }
@@ -60,7 +61,7 @@ var getConfig = function (hexo, _key) {
         return defaultOpt;
     return (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo, {
         // disable cache on dev
-        cache: /dev/i.test(process.env.NODE_ENV) ? false : seo.cache || defaultOpt.cache
+        cache: hexo_seo_1.isDev ? false : seo.cache || defaultOpt.cache
     });
 };
 /**
