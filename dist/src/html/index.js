@@ -239,6 +239,10 @@ function HexoSeoHtml(content, data) {
                                     originalSources = [
                                         // find from theme source directory
                                         upath_1["default"].join(cfg_1.theme_dir, 'source'),
+                                        // find from node_modules directory
+                                        upath_1["default"].join(process.cwd(), 'node_modules'),
+                                        // find from our plugins directory
+                                        upath_1["default"].join(process.cwd(), 'node_modules/hexo-shortcodes'),
                                         // find from source directory
                                         cfg_1.source_dir,
                                         // find from post directory

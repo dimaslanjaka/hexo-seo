@@ -177,6 +177,10 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           const originalSources = [
             // find from theme source directory
             path.join(cfg.theme_dir, 'source'),
+            // find from node_modules directory
+            path.join(process.cwd(), 'node_modules'),
+            // find from our plugins directory
+            path.join(process.cwd(), 'node_modules/hexo-shortcodes'),
             // find from source directory
             cfg.source_dir,
             // find from post directory
