@@ -82,20 +82,23 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.config.seo = config;
 
   // Registers serving of the lib used by the plugin with Hexo.
-  const concatRoutes = coreCache.getSync(cache_key_router, [] as { path: string; absolute: string }[]);
+  hexo.extend.generator.register('js', () => {
+    const concatRoutes = coreCache.getSync(cache_key_router, [] as { path: string; absolute: string }[]);
 
-  for (let i = 0; i < concatRoutes.length; i++) {
-    const { path, absolute } = concatRoutes[i];
-    hexo.log.debug(logname, 'register', path);
-    hexo.extend.generator.register('js', () => {
-      return {
+    const wrap: { path: string; data: any }[] = [];
+
+    for (let i = 0; i < concatRoutes.length; i++) {
+      const { path, absolute } = concatRoutes[i];
+      hexo.log.info(logname, 'register', path);
+      wrap.push({
         path,
         data: () => fs.createReadStream(absolute)
-      };
-    });
-  }
+      });
+    }
+    return wrap;
+  });
 
-  // Register build folder to used statically
+  // Register build folder to serving statically
   if (!fs.existsSync(buildFolder)) fs.mkdirSync(buildFolder, { recursive: true });
   // register when hexo server running
   hexo.extend.filter.register('server_middleware', function (app) {
