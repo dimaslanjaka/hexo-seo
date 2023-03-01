@@ -312,6 +312,7 @@ function HexoSeoHtml(content, data) {
                         absolute: jsFilePath_1
                     });
                     config_1.coreCache.setSync('jslib', concatRoutes);
+                    // register js path to generator
                     hexo.extend.generator.register('js', function () {
                         return {
                             path: newsrc_1,
