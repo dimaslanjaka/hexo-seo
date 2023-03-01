@@ -28,12 +28,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
-var fs = __importStar(require("fs-extra"));
+var fs = __importStar(require("fs"));
 var minimatch_1 = __importDefault(require("minimatch"));
 require("nodejs-package-types");
+var path_1 = __importDefault(require("path"));
 var rimraf_1 = __importDefault(require("rimraf"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
-var upath_1 = __importDefault(require("upath"));
 var util_1 = __importDefault(require("util"));
 var package_json_1 = __importDefault(require("../package.json"));
 var hexo_seo_1 = require("./hexo-seo");
@@ -47,8 +47,8 @@ var isIgnore = function (path0, exclude, hexo) {
         for (var i = 0, len = exclude.length; i < len; i++) {
             var excludePattern = exclude[i];
             if (hexo) {
-                var fromBase = upath_1["default"].join(hexo.base_dir, excludePattern);
-                var fromSource = upath_1["default"].join(hexo.source_dir, excludePattern);
+                var fromBase = path_1["default"].join(hexo.base_dir, excludePattern);
+                var fromSource = path_1["default"].join(hexo.source_dir, excludePattern);
                 //log.log([path0, fromBase, fromSource, excludePattern]);
                 if ((0, minimatch_1["default"])(path0, fromSource))
                     return true;
@@ -118,20 +118,20 @@ var dump = function (filename) {
     if (!hexo_seo_1.isDev)
         return;
     var hash = (0, sanitize_filename_1["default"])(filename).toString().replace(/\s/g, '-');
-    var loc = upath_1["default"].join(__dirname, '../tmp', hash);
+    var loc = path_1["default"].join(__dirname, '../tmp', hash);
     if (isFirst) {
         rimraf_1["default"].sync(loc);
         isFirst = false;
     }
-    if (!fs.existsSync(upath_1["default"].dirname(loc))) {
-        fs.mkdirSync(upath_1["default"].dirname(loc), { recursive: true });
+    if (!fs.existsSync(path_1["default"].dirname(loc))) {
+        fs.mkdirSync(path_1["default"].dirname(loc), { recursive: true });
     }
     var buildLog = '';
     for (var index = 0; index < obj.length; index++) {
         buildLog += util_1["default"].inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
     }
     fs.writeFileSync(loc, buildLog);
-    console.log("dump results saved to ".concat(upath_1["default"].resolve(loc)));
+    console.log("dump results saved to ".concat(path_1["default"].resolve(loc)));
 };
 exports.dump = dump;
 /**
@@ -145,7 +145,7 @@ function getCacheFolder(folderName) {
     if (typeof hexo != 'undefined') {
         root = hexo.base_dir;
     }
-    return upath_1["default"].join(root, 'build/hexo-seo', folderName);
+    return path_1["default"].join(root, 'build/hexo-seo', folderName);
 }
 exports.getCacheFolder = getCacheFolder;
 /**
@@ -153,7 +153,7 @@ exports.getCacheFolder = getCacheFolder;
  * @returns
  */
 function getPackageFolder() {
-    return upath_1["default"].join(process.cwd(), 'node_modules', package_json_1["default"].name);
+    return path_1["default"].join(process.cwd(), 'node_modules', package_json_1["default"].name);
 }
 exports.getPackageFolder = getPackageFolder;
 /**
@@ -162,6 +162,6 @@ exports.getPackageFolder = getPackageFolder;
  * @returns
  */
 function getPackageFile(pathname) {
-    return upath_1["default"].join(getPackageFolder(), pathname);
+    return path_1["default"].join(getPackageFolder(), pathname);
 }
 exports.getPackageFile = getPackageFile;
