@@ -228,6 +228,13 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         absolute: jsFilePath
       });
       coreCache.setSync('jslib', concatRoutes);
+      // register js path to generator
+      hexo.extend.generator.register('js', () => {
+        return {
+          path: newsrc,
+          data: () => fs.createReadStream(jsFilePath)
+        };
+      });
 
       content = root.toString();
       hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
