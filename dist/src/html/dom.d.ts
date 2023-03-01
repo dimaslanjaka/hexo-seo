@@ -26,11 +26,7 @@ export declare class _JSDOM {
      */
     toString(): string;
 }
-export declare function parseJSDOM(text: string): {
-    dom: _JSDOM;
-    window: jsdom.DOMWindow;
-    document: Document;
-};
+export declare function parseJSDOM(text: string): _JSDOM;
 /**
  * Get text from partial html
  * @param text
