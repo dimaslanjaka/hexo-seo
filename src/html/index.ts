@@ -1,7 +1,6 @@
 import ansiColors from 'ansi-colors';
 import Hexo, { TemplateLocals } from 'hexo';
 
-import axios from 'axios';
 import fs from 'fs-extra';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
@@ -129,15 +128,18 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
       for (let i = 0; i < scripts.length; i++) {
         const script = scripts[i];
-        let src = script.getAttribute('src');
-        let textContent = script.textContent;
+        const src = script.getAttribute('src');
+        const textContent = script.textContent;
         //let { textContent, src } = script;
         // download external javascript
+        const srcIsUrl =
+          typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'));
 
-        if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
+        /*
+        if (srcIsUrl) {
           // exclude download external js from these domains
-          const excludes = ['-adnow.com/', '.googlesyndication.com/'];
-          if (excludes.some((str) => src.includes(str))) continue;
+          const includes = ['-adnow.com/', '.googlesyndication.com/'];
+          if (includes.some((str) => src.includes(str))) continue;
           const cachedExternal = cache.getCache('donwload-' + src, null as string | null);
           if (src.startsWith('//')) {
             src = 'http:' + src;
@@ -159,6 +161,8 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
             hexo.log.error(logconcatname, 'download failed', error.message);
           }
         }
+        */
+
         /**
          * indicator
          */
@@ -174,6 +178,8 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         };
         // parse javascript
         if (typeof src === 'string' && src.trim().length > 0) {
+          // skip external js
+          if (srcIsUrl) continue;
           /**
            * find js file from theme, source, post directories
            */

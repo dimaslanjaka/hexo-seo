@@ -64,7 +64,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.getPagePath = void 0;
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
-var axios_1 = __importDefault(require("axios"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var node_html_parser_1 = require("node-html-parser");
 var sbg_utility_1 = require("sbg-utility");
@@ -192,53 +191,24 @@ function HexoSeoHtml(content, data) {
                     scriptContents_1 = [];
                     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
-                        var script, src, textContent, excludes, cachedExternal, data_1, error_1, separator, addScript, originalSources, sources, rendered, e_1;
+                        var script, src, textContent, srcIsUrl, separator, addScript, originalSources, sources, rendered, e_1;
                         return __generator(this, function (_b) {
                             switch (_b.label) {
                                 case 0:
                                     script = scripts[i];
                                     src = script.getAttribute('src');
                                     textContent = script.textContent;
-                                    if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 6];
-                                    excludes = ['-adnow.com/', '.googlesyndication.com/'];
-                                    if (excludes.some(function (str) { return src.includes(str); }))
-                                        return [2 /*return*/, "continue"];
-                                    cachedExternal = cache.getCache('donwload-' + src, null);
-                                    if (src.startsWith('//')) {
-                                        src = 'http:' + src;
-                                    }
-                                    _b.label = 1;
-                                case 1:
-                                    _b.trys.push([1, 5, , 6]);
-                                    data_1 = void 0;
-                                    if (!(cachedExternal === null)) return [3 /*break*/, 3];
-                                    return [4 /*yield*/, axios_1["default"].get(src)];
-                                case 2:
-                                    data_1 = (_b.sent()).data;
-                                    return [3 /*break*/, 4];
-                                case 3:
-                                    data_1 = cachedExternal;
-                                    _b.label = 4;
-                                case 4:
-                                    // replace text content (inner) string with response data
-                                    textContent = data_1;
-                                    // assign src as null
-                                    src = null;
-                                    // save downloaded js to cache
-                                    cache.setCache('download-' + src, data_1);
-                                    return [3 /*break*/, 6];
-                                case 5:
-                                    error_1 = _b.sent();
-                                    hexo.log.error(logconcatname, 'download failed', error_1.message);
-                                    return [3 /*break*/, 6];
-                                case 6:
+                                    srcIsUrl = typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'));
                                     separator = "/*--- ".concat(typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i, " --*/\n\n");
                                     addScript = function (text) {
                                         scriptContents_1.push(separator, text, '\n\n');
                                         // delete current script tag
                                         script.parentNode.removeChild(script);
                                     };
-                                    if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 13];
+                                    if (!(typeof src === 'string' && src.trim().length > 0)) return [3 /*break*/, 7];
+                                    // skip external js
+                                    if (srcIsUrl)
+                                        return [2 /*return*/, "continue"];
                                     originalSources = [
                                         // find from theme source directory
                                         upath_1["default"].join(cfg_1.theme_dir, 'source'),
@@ -254,30 +224,30 @@ function HexoSeoHtml(content, data) {
                                         upath_1["default"].join(cfg_1.post_dir, upath_1["default"].basename(path0))
                                     ].map(function (dir) { return upath_1["default"].join(dir, src); });
                                     sources = originalSources.filter(fs_extra_1["default"].existsSync);
-                                    if (!(sources.length > 0)) return [3 /*break*/, 11];
-                                    _b.label = 7;
-                                case 7:
-                                    _b.trys.push([7, 9, , 10]);
+                                    if (!(sources.length > 0)) return [3 /*break*/, 5];
+                                    _b.label = 1;
+                                case 1:
+                                    _b.trys.push([1, 3, , 4]);
                                     return [4 /*yield*/, hexo.render.render({ path: sources[0], engine: 'js' })];
-                                case 8:
+                                case 2:
                                     rendered = _b.sent();
                                     // push src
                                     addScript(rendered);
-                                    return [3 /*break*/, 10];
-                                case 9:
+                                    return [3 /*break*/, 4];
+                                case 3:
                                     e_1 = _b.sent();
                                     hexo.log.error(logconcatname, 'failed', src, e_1.message);
-                                    return [3 /*break*/, 10];
-                                case 10: return [3 /*break*/, 12];
-                                case 11:
+                                    return [3 /*break*/, 4];
+                                case 4: return [3 /*break*/, 6];
+                                case 5:
                                     hexo.log.error(logconcatname, 'failed, cannot find file', src, originalSources);
-                                    _b.label = 12;
-                                case 12: return [3 /*break*/, 14];
-                                case 13:
+                                    _b.label = 6;
+                                case 6: return [3 /*break*/, 8];
+                                case 7:
                                     // push inner
                                     addScript(textContent);
-                                    _b.label = 14;
-                                case 14: return [2 /*return*/];
+                                    _b.label = 8;
+                                case 8: return [2 /*return*/];
                             }
                         });
                     };
