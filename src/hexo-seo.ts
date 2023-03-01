@@ -83,10 +83,10 @@ export default function HexoSeo(hexo: Hexo) {
 
   // Registers serving of the lib used by the plugin with Hexo.
   const concatRoutes = coreCache.getSync(cache_key_router, [] as { path: string; absolute: string }[]);
-  console.log('routes', concatRoutes);
+
   for (let i = 0; i < concatRoutes.length; i++) {
     const { path, absolute } = concatRoutes[i];
-    console.log(logname, 'register', path);
+    hexo.log.debug(logname, 'register', path);
     hexo.extend.generator.register('js', () => {
       return {
         path,
