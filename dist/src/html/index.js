@@ -192,7 +192,7 @@ function HexoSeoHtml(content, data) {
                     scriptContents_1 = [];
                     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
-                        var script, src, textContent, cachedExternal, data_1, error_1, separator, addScript, originalSources, sources, rendered, e_1;
+                        var script, src, textContent, excludes, cachedExternal, data_1, error_1, separator, addScript, originalSources, sources, rendered, e_1;
                         return __generator(this, function (_b) {
                             switch (_b.label) {
                                 case 0:
@@ -200,6 +200,9 @@ function HexoSeoHtml(content, data) {
                                     src = script.getAttribute('src');
                                     textContent = script.textContent;
                                     if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 6];
+                                    excludes = ['st-n.ads1-adnow.com', 'pagead.'];
+                                    if (excludes.some(function (str) { return src.includes(str); }))
+                                        return [2 /*return*/, "continue"];
                                     cachedExternal = cache.getCache('donwload-' + src, null);
                                     if (src.startsWith('//')) {
                                         src = 'http:' + src;

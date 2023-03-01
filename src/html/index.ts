@@ -135,6 +135,9 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         // download external javascript
 
         if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
+          // exclude download external js from these domains
+          const excludes = ['-adnow.com/', '.googlesyndication.com/'];
+          if (excludes.some((str) => src.includes(str))) continue;
           const cachedExternal = cache.getCache('donwload-' + src, null as string | null);
           if (src.startsWith('//')) {
             src = 'http:' + src;
