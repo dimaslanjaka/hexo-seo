@@ -1,59 +1,79 @@
 {
-    "js": {
-        "enable": true,
-        "exclude": ["*.min.js", "**/*.min.js"],
-        "options": {
-            "compress": {
-                "dead_code": true
-            },
-            "mangle": {
-                "toplevel": true,
-                "safari10": true
-            }
-        }
+  "cache": true,
+  "js": {
+    "enable": false,
+    "concat": true,
+    "exclude": [
+      "*.min.js",
+      "**/*.min.js"
+    ],
+    "options": {
+      "compress": {
+        "dead_code": true
+      },
+      "mangle": {
+        "toplevel": true,
+        "safari10": true
+      }
+    }
+  },
+  "css": {
+    "enable": false,
+    "exclude": [
+      "*.min.css",
+      "**/*.min.css"
+    ]
+  },
+  "html": {
+    "enable": true,
+    "fix": true,
+    "exclude": [
+      "*.min.{htm,html}"
+    ],
+    "collapseBooleanAttributes": true,
+    "collapseWhitespace": true,
+    "ignoreCustomComments": [
+      {}
+    ],
+    "removeComments": true,
+    "removeEmptyAttributes": true,
+    "removeScriptTypeAttributes": true,
+    "removeStyleLinkTypeAttributes": true,
+    "minifyJS": true,
+    "minifyCSS": true
+  },
+  "img": {
+    "enable": true,
+    "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+    "onerror": "serverside",
+    "broken": false
+  },
+  "host": "www.webmanajemen.com",
+  "links": {
+    "blank": true,
+    "enable": true,
+    "allow": [
+      "webmanajemen.com"
+    ],
+    "exclude": [
+      "webmanajemen.com",
+      "web-manajemen.blogspot.com"
+    ]
+  },
+  "schema": {
+    "sitelink": {
+      "enable": true,
+      "searchUrl": "https://www.webmanajemen.com/search?q="
     },
-    "css": {
-        "enable": true,
-        "exclude": ["*.min.css", "**/*.min.css"]
+    "article": {
+      "enable": true
     },
-    "html": {
-        "enable": true,
-        "fix": true,
-        "exclude": ["*.min.{htm,html}"],
-        "collapseBooleanAttributes": true,
-        "collapseWhitespace": true,
-        "ignoreCustomComments": [{}],
-        "removeComments": true,
-        "removeEmptyAttributes": true,
-        "removeScriptTypeAttributes": true,
-        "removeStyleLinkTypeAttributes": true,
-        "minifyJS": true,
-        "minifyCSS": true
-    },
-    "img": {
-        "enable": true,
-        "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-        "onerror": "clientside",
-        "broken": false
-    },
-    "host": "www.webmanajemen.com",
-    "links": {
-        "blank": true,
-        "enable": true,
-        "allow": ["webmanajemen.com"],
-        "exclude": ["webmanajemen.com", "web-manajemen.blogspot.com"]
-    },
-    "schema": {
-        "sitelink": {
-            "enable": true,
-            "searchUrl": "https://www.webmanajemen.com/hexo-seo/search?q="
-        },
-        "article": {
-            "enable": true
-        },
-        "breadcrumb": {
-            "enable": true
-        }
-    },
-    "sitemap": true
+    "breadcrumb": {
+      "enable": true
+    }
+  },
+  "sitemap": true,
+  "theme_dir": "/media/dimaslanjaka/DATA/Repositories/static-blog-generator-hexo/site/themes/claudia",
+  "source_dir": "/media/dimaslanjaka/DATA/Repositories/static-blog-generator-hexo/site/source",
+  "post_dir": "/media/dimaslanjaka/DATA/Repositories/static-blog-generator-hexo/site/source/_posts"
 }

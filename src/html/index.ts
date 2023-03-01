@@ -130,12 +130,12 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         const script = scripts[i];
         const src = script.getAttribute('src');
         const textContent = script.textContent;
-        //let { textContent, src } = script;
-        // download external javascript
+
         const srcIsUrl =
           typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'));
 
         /*
+        // download external javascript
         if (srcIsUrl) {
           // exclude download external js from these domains
           const includes = ['-adnow.com/', '.googlesyndication.com/'];
