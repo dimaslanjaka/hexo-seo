@@ -143,6 +143,8 @@ export const coreCache = new persistentCache({
   duration: toMilliseconds(1)
 });
 
+export const cache_key_router = 'jslib';
+
 export default getConfig;
 
 /**

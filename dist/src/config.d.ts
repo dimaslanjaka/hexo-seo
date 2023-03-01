@@ -73,6 +73,7 @@ declare const getConfig: (hexo: Hexo, _key?: string) => BaseConfig;
  */
 export declare const toMilliseconds: (hrs: number, min?: number, sec?: number) => number;
 export declare const coreCache: persistentCache;
+export declare const cache_key_router = "jslib";
 export default getConfig;
 /**
  * set mode hexo argument

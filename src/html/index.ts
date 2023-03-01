@@ -8,7 +8,7 @@ import { writefile } from 'sbg-utility';
 import path from 'upath';
 import parseUrl from 'url-parse';
 import { CacheFile } from '../cache';
-import getConfig, { coreCache, getMode } from '../config';
+import getConfig, { cache_key_router, coreCache, getMode } from '../config';
 import { buildFolder, tmpFolder } from '../fm';
 import { isDev } from '../hexo-seo';
 import logger from '../log';
@@ -227,7 +227,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         path: newsrc,
         absolute: jsFilePath
       });
-      coreCache.setSync('jslib', concatRoutes);
+      coreCache.setSync(cache_key_router, concatRoutes);
       // register js path to generator
       hexo.extend.generator.register('js', () => {
         return {

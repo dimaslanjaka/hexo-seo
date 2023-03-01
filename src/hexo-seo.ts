@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import Hexo from 'hexo';
 import minimist from 'minimist';
 import serveStatic from 'serve-static';
-import getConfig, { coreCache, setMode } from './config';
+import getConfig, { cache_key_router, coreCache, setMode } from './config';
 import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
@@ -82,7 +82,7 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.config.seo = config;
 
   // Registers serving of the lib used by the plugin with Hexo.
-  const concatRoutes = coreCache.getSync('jslib', [] as { path: string; absolute: string }[]);
+  const concatRoutes = coreCache.getSync(cache_key_router, [] as { path: string; absolute: string }[]);
   console.log('routes', concatRoutes);
   for (let i = 0; i < concatRoutes.length; i++) {
     const { path, absolute } = concatRoutes[i];

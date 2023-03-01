@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.getMode = exports.setMode = exports.coreCache = exports.toMilliseconds = void 0;
+exports.getMode = exports.setMode = exports.cache_key_router = exports.coreCache = exports.toMilliseconds = void 0;
 var deepmerge_ts_1 = require("deepmerge-ts");
 var fs_extra_1 = require("fs-extra");
 var sbg_utility_1 = require("sbg-utility");
@@ -83,6 +83,7 @@ exports.coreCache = new sbg_utility_1.persistentCache({
     memory: false,
     duration: (0, exports.toMilliseconds)(1)
 });
+exports.cache_key_router = 'jslib';
 exports["default"] = getConfig;
 /**
  * hexo argument

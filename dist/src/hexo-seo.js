@@ -99,7 +99,7 @@ function HexoSeo(hexo) {
     var config = (0, config_1["default"])(hexo);
     hexo.config.seo = config;
     // Registers serving of the lib used by the plugin with Hexo.
-    var concatRoutes = config_1.coreCache.getSync('jslib', []);
+    var concatRoutes = config_1.coreCache.getSync(config_1.cache_key_router, []);
     console.log('routes', concatRoutes);
     var _loop_1 = function (i) {
         var _a = concatRoutes[i], path = _a.path, absolute = _a.absolute;
