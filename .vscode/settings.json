@@ -36,5 +36,5 @@
   "code-runner.ignoreSelection": true,
   "code-runner.runInTerminal": true,
   "code-runner.saveAllFilesBeforeRun": true,
-  "git.enabled": false
+  "git.enabled": true
 }
