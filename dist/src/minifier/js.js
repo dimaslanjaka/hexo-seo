@@ -39,6 +39,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.minifyJS = void 0;
+var fs_extra_1 = __importDefault(require("fs-extra"));
 var object_assign_1 = __importDefault(require("object-assign"));
 var terser_1 = require("terser");
 var package_json_1 = __importDefault(require("../../package.json"));
@@ -47,9 +49,16 @@ var config_1 = __importDefault(require("../config"));
 var log_1 = __importDefault(require("../log"));
 var utils_1 = require("../utils");
 var cache = new cache_1["default"]();
+/**
+ * minify js
+ * @param this
+ * @param str
+ * @param data
+ * @returns
+ */
 function HexoSeoJs(str, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var path0, HSConfig, isChanged, useCache, options, minifyOptions, result, saved, e_1;
+        var path0, hexoCfg, jsCfg, isChanged, useCache, options, minifyOptions, result, saved, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,24 +67,28 @@ function HexoSeoJs(str, data) {
                         log_1["default"].error('%s(CSS) invalid path', package_json_1["default"].name);
                         return [2 /*return*/];
                     }
-                    HSConfig = (0, config_1["default"])(this).js;
+                    hexoCfg = (0, config_1["default"])(this);
+                    jsCfg = hexoCfg.js;
                     // if option js is false, return original content
-                    if (typeof HSConfig == 'boolean' && !HSConfig)
+                    if (typeof jsCfg == 'boolean' && !jsCfg)
+                        return [2 /*return*/, str];
+                    // keep original js file when concatenate JS enabled
+                    if (jsCfg.concat)
                         return [2 /*return*/, str];
                     return [4 /*yield*/, cache.isFileChanged(path0)];
                 case 1:
                     isChanged = _a.sent();
-                    useCache = this.config.seo.cache;
+                    useCache = hexoCfg.cache;
                     if (!(isChanged || !useCache)) return [3 /*break*/, 6];
                     options = {
                         exclude: ['*.min.js']
                     };
-                    if (typeof HSConfig === 'boolean') {
-                        if (!HSConfig)
+                    if (typeof jsCfg === 'boolean') {
+                        if (!jsCfg)
                             return [2 /*return*/, str];
                     }
-                    else if (typeof HSConfig == 'object') {
-                        options = (0, object_assign_1["default"])(options, HSConfig);
+                    else if (typeof jsCfg == 'object') {
+                        options = (0, object_assign_1["default"])(options, jsCfg);
                         if ((0, utils_1.isIgnore)(path0, options.exclude))
                             return [2 /*return*/, str];
                     }
@@ -126,3 +139,60 @@ function HexoSeoJs(str, data) {
     });
 }
 exports["default"] = HexoSeoJs;
+/**
+ * minify js
+ * @param str
+ * @param options
+ * @returns
+ */
+function minifyJS(str, options) {
+    return __awaiter(this, void 0, void 0, function () {
+        var minifyOptions, path0, result, saved, e_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    minifyOptions = {
+                        mangle: {
+                            toplevel: true,
+                            properties: false,
+                            safari10: true,
+                            keep_fnames: true,
+                            keep_classnames: true // keep class name
+                        },
+                        compress: {
+                            dead_code: true //remove unreachable code
+                        }
+                    };
+                    if (typeof options == 'object') {
+                        minifyOptions = (0, object_assign_1["default"])(minifyOptions, options);
+                    }
+                    path0 = fs_extra_1["default"].existsSync(str) ? str : 'inline';
+                    if (path0 !== 'inline') {
+                        str = fs_extra_1["default"].readFileSync(path0).toString();
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, (0, terser_1.minify)(str, minifyOptions)];
+                case 2:
+                    result = _a.sent();
+                    if (result.code && result.code.length > 0) {
+                        saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
+                        log_1["default"].log('%s(JS): %s [%s saved]', package_json_1["default"].name, path0, "".concat(saved, "%"));
+                        str = result.code;
+                        // set new minified js cache
+                        if (path0 !== 'inline')
+                            cache.setCache(path0, str);
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_2 = _a.sent();
+                    log_1["default"].error("Minifying ".concat(path0, " error"), e_2);
+                    // minify error, return original js
+                    return [2 /*return*/, str];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.minifyJS = minifyJS;

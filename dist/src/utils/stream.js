@@ -43,29 +43,29 @@ function streamToString(stream) {
     });
 }
 exports.streamToString = streamToString;
-function streamToArray(stream, done) {
-    if (!stream) {
+function streamToArray(self, done) {
+    if (!self) {
         // no arguments, meaning stream = this
-        stream = this;
+        self = this;
     }
-    else if (typeof stream === 'function') {
+    else if (typeof self === 'function') {
         // stream = this, callback passed
-        done = stream;
-        stream = this;
+        done = self;
+        self = this;
     }
     var deferred;
-    if (!isReadableStream(stream))
+    if (!isReadableStream(self))
         deferred = bluebird_1["default"].resolve([]);
     else
         deferred = new bluebird_1["default"](function (resolve, reject) {
             // stream is already ended
-            if (!isReadableStream(stream))
+            if (!isReadableStream(self))
                 return resolve([]);
             var arr = [];
-            stream.on('data', onData);
-            stream.on('end', onEnd);
-            stream.on('error', onEnd);
-            stream.on('close', onClose);
+            self.on('data', onData);
+            self.on('end', onEnd);
+            self.on('error', onEnd);
+            self.on('close', onClose);
             function onData(doc) {
                 arr.push(doc);
             }
@@ -82,10 +82,10 @@ function streamToArray(stream, done) {
             }
             function cleanup() {
                 arr = null;
-                stream.removeListener('data', onData);
-                stream.removeListener('end', onEnd);
-                stream.removeListener('error', onEnd);
-                stream.removeListener('close', onClose);
+                self.removeListener('data', onData);
+                self.removeListener('end', onEnd);
+                self.removeListener('error', onEnd);
+                self.removeListener('close', onClose);
             }
         });
     if (typeof done === 'function') {

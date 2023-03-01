@@ -200,7 +200,7 @@ function HexoSeoHtml(content, data) {
                                     src = script.getAttribute('src');
                                     textContent = script.textContent;
                                     if (!(typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:')))) return [3 /*break*/, 6];
-                                    excludes = ['st-n.ads1-adnow.com', 'pagead.'];
+                                    excludes = ['-adnow.com/', '.googlesyndication.com/'];
                                     if (excludes.some(function (str) { return src.includes(str); }))
                                         return [2 /*return*/, "continue"];
                                     cachedExternal = cache.getCache('donwload-' + src, null);
