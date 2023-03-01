@@ -234,13 +234,12 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         absolute: jsFilePath
       });
       coreCache.setSync(cache_key_router, concatRoutes);
-      // register js path to generator
-      hexo.extend.generator.register('js', () => {
-        return {
-          path: newsrc,
-          data: () => fs.createReadStream(jsFilePath)
-        };
-      });
+      // write to public directory
+      hexo.log.info(
+        logconcatname,
+        'written',
+        writefile(path.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file
+      );
 
       hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
       //window.close();

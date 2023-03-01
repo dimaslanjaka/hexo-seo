@@ -100,7 +100,7 @@ function getPagePath(data) {
 exports.getPagePath = getPagePath;
 function HexoSeoHtml(content, data) {
     return __awaiter(this, void 0, void 0, function () {
-        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath_1, scriptContent, newsrc_1, newScript;
+        var logname, logconcatname, cache, concatRoutes, hexo, path0, allowCache, title, root, cfg_1, a, inv, scripts, filename, scriptContents_1, _loop_1, i, filePathWithoutExt, jsFilePath, scriptContent, newsrc, newScript;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -294,7 +294,7 @@ function HexoSeoHtml(content, data) {
                     return [3 /*break*/, 1];
                 case 4:
                     filePathWithoutExt = upath_1["default"].join(fm_1.tmpFolder, 'html', filename);
-                    jsFilePath_1 = upath_1["default"].join(fm_1.buildFolder, 'hexo-seo-js', filename) + '.js';
+                    jsFilePath = upath_1["default"].join(fm_1.buildFolder, 'hexo-seo-js', filename) + '.js';
                     scriptContent = scriptContents_1.join('\n');
                     if (!((0, config_1.getMode)() === 'g' && cfg_1.js.enable)) return [3 /*break*/, 6];
                     return [4 /*yield*/, (0, js_1.minifyJS)(scriptContent, cfg_1.js.options)];
@@ -303,26 +303,21 @@ function HexoSeoHtml(content, data) {
                     _a.label = 6;
                 case 6:
                     // write js
-                    (0, sbg_utility_1.writefile)(jsFilePath_1, scriptContent).file;
+                    (0, sbg_utility_1.writefile)(jsFilePath, scriptContent).file;
                     // show log
-                    hexo.log.info(logname, jsFilePath_1);
+                    hexo.log.info(logname, jsFilePath);
                     content = root.toString();
-                    newsrc_1 = "/hexo-seo-js/".concat(filename, ".js");
-                    newScript = "<script src=\"".concat(newsrc_1, "\"></script");
+                    newsrc = "/hexo-seo-js/".concat(filename, ".js");
+                    newScript = "<script src=\"".concat(newsrc, "\"></script");
                     content = content.replace('</body>', newScript + '</body>');
                     // cache router
                     concatRoutes.push({
-                        path: newsrc_1,
-                        absolute: jsFilePath_1
+                        path: newsrc,
+                        absolute: jsFilePath
                     });
                     config_1.coreCache.setSync(config_1.cache_key_router, concatRoutes);
-                    // register js path to generator
-                    hexo.extend.generator.register('js', function () {
-                        return {
-                            path: newsrc_1,
-                            data: function () { return fs_extra_1["default"].createReadStream(jsFilePath_1); }
-                        };
-                    });
+                    // write to public directory
+                    hexo.log.info(logconcatname, 'written', (0, sbg_utility_1.writefile)(upath_1["default"].join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file);
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
                     _a.label = 7;
                 case 7:
