@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var ansi_colors_1 = __importDefault(require("ansi-colors"));
+var chalk_1 = __importDefault(require("chalk"));
 var clean_css_1 = __importDefault(require("clean-css"));
 var package_json_1 = __importDefault(require("../../package.json"));
 var cache_1 = __importDefault(require("../cache"));
@@ -59,7 +59,7 @@ function HexoSeoCss(str, data) {
                     isChanged = _a.sent();
                     useCache = this.config.seo.cache;
                     if (!(isChanged || !useCache)) return [3 /*break*/, 6];
-                    log_1["default"].log('%s is changed %s', path0, isChanged ? ansi_colors_1["default"].red(String(isChanged)) : ansi_colors_1["default"].green(String(isChanged)));
+                    log_1["default"].log('%s is changed %s', path0, isChanged ? chalk_1["default"].red(isChanged) : chalk_1["default"].green(isChanged));
                     hexo_1 = this;
                     options = (0, config_1["default"])(hexo_1).css;
                     // if option css is false, return original content
@@ -68,7 +68,7 @@ function HexoSeoCss(str, data) {
                     exclude = typeof options.exclude == 'object' ? options.exclude : [];
                     if (path0 && exclude && exclude.length > 0) {
                         ignored = (0, utils_1.isIgnore)(path0, exclude);
-                        log_1["default"].log('%s(CSS:exclude) %s %s %s', package_json_1["default"].name, ignored ? ansi_colors_1["default"].red(String(ignored)) : ansi_colors_1["default"].green(String(ignored)), path0, exclude.join(', '));
+                        log_1["default"].log('%s(CSS:exclude) %s %s %s', package_json_1["default"].name, ignored ? chalk_1["default"].red(ignored) : chalk_1["default"].green(ignored), path0, exclude.join(', '));
                         if (ignored)
                             return [2 /*return*/, str];
                     }
@@ -86,7 +86,7 @@ function HexoSeoCss(str, data) {
                     return [3 /*break*/, 5];
                 case 4:
                     err_1 = _a.sent();
-                    log_1["default"].log('%d(CSS) %s %s', package_json_1["default"].name, path0 + ansi_colors_1["default"].redBright('failed'));
+                    log_1["default"].log('%d(CSS) %s %s', package_json_1["default"].name, path0 + chalk_1["default"].redBright('failed'));
                     log_1["default"].error(err_1);
                     return [3 /*break*/, 5];
                 case 5: return [3 /*break*/, 7];
