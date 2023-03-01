@@ -8,9 +8,8 @@ import { HexoSeo } from '../html/schema/article';
 import logger from '../log';
 import { dump, extractSimplePageData } from '../utils';
 
-const cF = new CacheFile('img-attr');
-
 function fixAttributes(this: Hexo, content: string, data: HexoSeo) {
+  const cF = new CacheFile('img-attr');
   releaseMemory();
   const is = hexoIs(data);
   const path0 = data.page ? data.page.full_source : data.path;

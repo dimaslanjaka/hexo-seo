@@ -1,7 +1,9 @@
 import { deepmerge } from 'deepmerge-ts';
 import { writeFileSync } from 'fs-extra';
 import Hexo from 'hexo';
+import { persistentCache } from 'sbg-utility';
 import path from 'upath';
+import { tmpFolder } from './fm';
 import { hyperlinkOptions } from './html/types';
 import { imgOptions } from './img/index.old';
 import { cssMinifyOptions } from './minifier/css';
@@ -119,7 +121,52 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const seo: BaseConfig = hexo.config.seo;
   writeFileSync(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
   if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
-  return deepmerge(defaultOpt, seo) as BaseConfig;
+  return deepmerge(defaultOpt, seo, {
+    // disable cache on dev
+    cache: /dev/i.test(process.env.NODE_ENV) ? false : seo.cache || defaultOpt.cache
+  }) as BaseConfig;
 };
+/**
+ * number to milliseconds
+ * @param hrs
+ * @param min
+ * @param sec
+ * @returns
+ */
+export const toMilliseconds = (hrs: number, min = 0, sec = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
+export const coreCache = new persistentCache({
+  base: tmpFolder,
+  persist: true,
+  memory: false,
+  duration: toMilliseconds(1)
+});
 
 export default getConfig;
+
+/**
+ * hexo argument
+ * - s = server
+ * - c = clean
+ * - g = generate
+ */
+let mode: 's' | 'g' | 'c';
+
+/**
+ * set mode hexo argument
+ * - s = server
+ * - c = clean
+ * - g = generate
+ * @param m
+ */
+export function setMode(m: 's' | 'g' | 'c') {
+  mode = m;
+}
+
+/**
+ * get mode hexo argument
+ * - s = server
+ * - c = clean
+ * - g = generate
+ * @returns
+ */
+export const getMode = () => mode;

@@ -15,8 +15,8 @@
         "tsconfig*.json"
     ],
     "scripts": {
-        "lint": "eslint . --ext .ts",
-        "lint-and-fix": "eslint . --ext .ts,.json --fix",
+        "lint": "eslint ./src --ext .ts",
+        "lint-and-fix": "eslint ./src --ext .ts,.json --fix",
         "ts:normal": "tsc -p tsconfig.build.json",
         "ts:cjs": "tsc -p tsconfigs/cjs.tsconfig.json",
         "ts:es": "tsc -p tsconfigs/es.tsconfig.json",
@@ -87,6 +87,7 @@
         "@types/jsdom": "^21.1.0",
         "@types/node": "^18.14.2",
         "@types/object-assign": "^4.0.30",
+        "@types/serve-static": "^1.15.1",
         "@types/through2": "https://github.com/dimaslanjaka/nodejs-package-types/raw/through2/release/types-through2.tgz",
         "@types/url-parse": "^1.4.8",
         "@typescript-eslint/eslint-plugin": "^5.54.0",
@@ -98,6 +99,7 @@
         "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-prettier": "^4.2.1",
+        "git-command-helper": "^1.1.8",
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
         "nodemon": "^2.0.20",

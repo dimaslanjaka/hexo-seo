@@ -4,11 +4,11 @@
     "source.organizeImports": true
   },
   "[typescript]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": false
   },
   "[javascript]": {
     "editor.maxTokenizationLineLength": 2500,
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": false
   },
   "files.exclude": {
     "**/.git": true,
@@ -35,5 +35,6 @@
   "code-runner.clearPreviousOutput": true,
   "code-runner.ignoreSelection": true,
   "code-runner.runInTerminal": true,
-  "code-runner.saveAllFilesBeforeRun": true
+  "code-runner.saveAllFilesBeforeRun": true,
+  "git.enabled": false
 }

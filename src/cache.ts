@@ -125,12 +125,18 @@ export class CacheFile {
    * @param fallback
    * @returns
    */
-  get(key: string, fallback = null) {
+  get<T>(key: string, fallback: T = null): T {
     const Get = this.md5Cache[key];
     if (Get === undefined) return fallback;
     return Get;
   }
-  getCache(key: string, fallback = null) {
+  /**
+   * alias {get}
+   * @param key
+   * @param fallback
+   * @returns
+   */
+  getCache<T>(key: string, fallback: T = null): T {
     return this.get(key, fallback);
   }
   /**

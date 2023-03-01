@@ -1,10 +1,7 @@
 {
   "js": {
     "enable": true,
-    "exclude": [
-      "*.min.js",
-      "**/*.min.js"
-    ],
+    "exclude": ["*.min.js", "**/*.min.js"],
     "options": {
       "compress": {
         "dead_code": true
@@ -17,22 +14,15 @@
   },
   "css": {
     "enable": true,
-    "exclude": [
-      "*.min.css",
-      "**/*.min.css"
-    ]
+    "exclude": ["*.min.css", "**/*.min.css"]
   },
   "html": {
     "enable": true,
     "fix": true,
-    "exclude": [
-      "*.min.{htm,html}"
-    ],
+    "exclude": ["*.min.{htm,html}"],
     "collapseBooleanAttributes": true,
     "collapseWhitespace": true,
-    "ignoreCustomComments": [
-      {}
-    ],
+    "ignoreCustomComments": [{}],
     "removeComments": true,
     "removeEmptyAttributes": true,
     "removeScriptTypeAttributes": true,
@@ -50,13 +40,8 @@
   "links": {
     "blank": true,
     "enable": true,
-    "allow": [
-      "webmanajemen.com"
-    ],
-    "exclude": [
-      "webmanajemen.com",
-      "web-manajemen.blogspot.com"
-    ]
+    "allow": ["webmanajemen.com"],
+    "exclude": ["webmanajemen.com", "web-manajemen.blogspot.com"]
   },
   "schema": {
     "sitelink": {

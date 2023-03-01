@@ -1,6 +1,5 @@
 node_modules
 dist
-lib
-packages/@types
-test/demo
-packages
+release
+model
+test

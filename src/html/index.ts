@@ -8,10 +8,11 @@ import { writefile } from 'sbg-utility';
 import path from 'upath';
 import parseUrl from 'url-parse';
 import { CacheFile } from '../cache';
-import getConfig from '../config';
-import { tmpFolder } from '../fm';
+import getConfig, { coreCache, getMode } from '../config';
+import { buildFolder, tmpFolder } from '../fm';
 import { isDev } from '../hexo-seo';
 import logger from '../log';
+import { minifyJS } from '../minifier/js';
 import sitemap from '../sitemap';
 import { array_remove_empties, array_unique } from '../utils/array';
 import { md5 } from '../utils/md5-file';
@@ -20,9 +21,6 @@ import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
 import { isExternal } from './types';
-
-const logname = ansiColors.magentaBright('hexo-seo(html)');
-const logconcatname = ansiColors.magentaBright('hexo-seo(html-concat)');
 
 /**
  * get page full source
@@ -37,9 +35,12 @@ export function getPagePath(data: HexoSeo | TemplateLocals) {
   if (data.path) return data.path;
 }
 
-const cache = new CacheFile('index');
 export default async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
-  //console.log("filtering html", data.page.title);
+  const logname = ansiColors.magentaBright('hexo-seo(html)');
+  const logconcatname = ansiColors.magentaBright('hexo-seo(html-concat)');
+  const cache = new CacheFile('html');
+  const concatRoutes = coreCache.getSync('jslibs', [] as { path: string; absolute: string }[]);
+
   const hexo = this;
   let path0: string = getPagePath(data);
   let allowCache = true;
@@ -124,23 +125,32 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       const scripts = Array.from(document.getElementsByTagName('script')).filter(function (el) {
         return (el.getAttribute('type') || '') !== 'application/ld+json';
       });
-      const filename = md5(path.basename(path0));
+      const filename = 'concat-' + md5(path.basename(path0));
       const scriptContents = [];
       hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
       for (let i = 0; i < scripts.length; i++) {
         const script = scripts[i];
         let { textContent, src } = script;
         // download external javascript
+
         if (typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'))) {
+          const cachedExternal = cache.getCache('donwload-' + src, null as string | null);
           if (src.startsWith('//')) {
             src = 'http:' + src;
           }
           try {
-            const { data } = await axios.get(src);
+            let data: string;
+            if (cachedExternal === null) {
+              data = (await axios.get(src)).data;
+            } else {
+              data = cachedExternal;
+            }
             // replace text content (inner) string with response data
             textContent = data;
             // assign src as null
             src = null;
+            // save downloaded js to cache
+            cache.setCache('download-' + src, data);
           } catch (error) {
             hexo.log.error(logconcatname, 'download failed', error.message);
           }
@@ -148,7 +158,17 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         /**
          * indicator
          */
-        const separator = `\n\n/*--- ${typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
+        const separator = `/*--- ${typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
+        /**
+         * add to scripts container
+         * @param text javascript text
+         */
+        const addScript = function (text: string) {
+          scriptContents.push(separator, text, '\n\n');
+          // delete current script tag
+          script.parentElement.removeChild(script);
+        };
+        // parse javascript
         if (typeof src === 'string' && src.trim().length > 0) {
           /**
            * find js file from theme, source, post directories
@@ -167,7 +187,8 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           if (sources.length > 0) {
             try {
               const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
-              scriptContents.push(separator, rendered);
+              // push src
+              addScript(rendered);
             } catch (e) {
               hexo.log.error(logconcatname, 'failed', src, e.message);
             }
@@ -176,13 +197,36 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           }
         } else {
           // push inner
-          scriptContents.push(separator, textContent);
+          addScript(textContent);
         }
       }
 
-      const filePath = path.join(tmpFolder, 'html', filename);
-      hexo.log.info(logname, writefile(filePath + '.js', scriptContents.join('\n')).file);
-      hexo.log.info(logname, writefile(filePath + '.html', dom.toString()).file);
+      const filePathWithoutExt = path.join(tmpFolder, 'html', filename);
+      const jsFilePath = path.join(buildFolder, 'hexo-seo-js', filename) + '.js';
+      let scriptContent = scriptContents.join('\n');
+      // minify only on generate
+      if (getMode() === 'g' && cfg.js.enable) {
+        scriptContent = await minifyJS(scriptContent, cfg.js.options);
+      }
+      // write js
+      writefile(jsFilePath, scriptContent).file;
+      // show log
+      hexo.log.info(logname, jsFilePath);
+
+      // create new script
+      const newScript = document.createElement('script');
+      //newScript.textContent = scriptContents.join('\n');
+      newScript.src = '/hexo-seo-js/' + filename + '.js';
+      document.body.appendChild(newScript);
+      // cache router
+      concatRoutes.push({
+        path: newScript.src,
+        absolute: jsFilePath
+      });
+      coreCache.setSync('jslib', concatRoutes);
+
+      content = dom.toString();
+      hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
       window.close();
     }
     // END concatenate javascripts

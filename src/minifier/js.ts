@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import assign from 'object-assign';
 import { minify, MinifyOptions } from 'terser';
@@ -17,7 +18,14 @@ export interface jsMinifyOptions {
 
 const cache = new Cache();
 
-export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View) {
+/**
+ * minify js
+ * @param this
+ * @param str
+ * @param data
+ * @returns
+ */
+export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View | { path: string }) {
   const path0 = data.path;
   if (!path0) {
     log.error('%s(CSS) invalid path', pkg.name);
@@ -84,4 +92,47 @@ export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View
   }
 
   return str;
+}
+
+/**
+ * minify js
+ * @param str
+ * @param options
+ * @returns
+ */
+export async function minifyJS(str: string, options: MinifyOptions) {
+  let minifyOptions: MinifyOptions = {
+    mangle: {
+      toplevel: true, // to mangle names declared in the top level scope.
+      properties: false, // disable mangle object and array properties
+      safari10: true, // to work around the Safari 10 loop iterator
+      keep_fnames: true, // keep function names
+      keep_classnames: true // keep class name
+    },
+    compress: {
+      dead_code: true //remove unreachable code
+    }
+  };
+  if (typeof options == 'object') {
+    minifyOptions = assign(minifyOptions, options);
+  }
+  const path0 = fs.existsSync(str) ? str : 'inline';
+  if (path0 !== 'inline') {
+    str = fs.readFileSync(path0).toString();
+  }
+  try {
+    const result = await minify(str, minifyOptions);
+    if (result.code && result.code.length > 0) {
+      const saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
+      log.log('%s(JS): %s [%s saved]', pkg.name, path0, `${saved}%`);
+      str = result.code;
+
+      // set new minified js cache
+      if (path0 !== 'inline') cache.setCache(path0, str);
+    }
+  } catch (e) {
+    log.error(`Minifying ${path0} error`, e);
+    // minify error, return original js
+    return str;
+  }
 }

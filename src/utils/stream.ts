@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
-import { Objek } from '../utils';
 import { Stream } from 'stream';
+import { Objek } from '../utils';
 
 export function isStream(stream) {
   return stream !== null && typeof stream === 'object' && typeof stream.pipe === 'function';
@@ -45,35 +45,35 @@ export function streamToString(stream: Stream) {
 }
 
 export function streamToArray(
-  stream: Stream,
+  self: Stream,
   done?: {
     (arg0: any, arg1: string[]): void;
     (error: any): void | PromiseLike<void>;
     (arg0: any, arg1: string[]): any;
   }
 ) {
-  if (!stream) {
+  if (!self) {
     // no arguments, meaning stream = this
-    stream = this;
-  } else if (typeof stream === 'function') {
+    self = this;
+  } else if (typeof self === 'function') {
     // stream = this, callback passed
-    done = stream;
-    stream = this;
+    done = self;
+    self = this;
   }
 
   let deferred: Promise<string[]>;
-  if (!isReadableStream(stream)) deferred = Promise.resolve([]);
+  if (!isReadableStream(self)) deferred = Promise.resolve([]);
   else
     deferred = new Promise(function (resolve, reject) {
       // stream is already ended
-      if (!isReadableStream(stream)) return resolve([]);
+      if (!isReadableStream(self)) return resolve([]);
 
       let arr = [];
 
-      stream.on('data', onData);
-      stream.on('end', onEnd);
-      stream.on('error', onEnd);
-      stream.on('close', onClose);
+      self.on('data', onData);
+      self.on('end', onEnd);
+      self.on('error', onEnd);
+      self.on('close', onClose);
 
       function onData(doc) {
         arr.push(doc);
@@ -92,10 +92,10 @@ export function streamToArray(
 
       function cleanup() {
         arr = null;
-        stream.removeListener('data', onData);
-        stream.removeListener('end', onEnd);
-        stream.removeListener('error', onEnd);
-        stream.removeListener('close', onClose);
+        self.removeListener('data', onData);
+        self.removeListener('end', onEnd);
+        self.removeListener('error', onEnd);
+        self.removeListener('close', onClose);
       }
     });
 

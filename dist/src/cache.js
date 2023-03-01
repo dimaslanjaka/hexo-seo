@@ -162,6 +162,12 @@ var CacheFile = /** @class */ (function () {
             return fallback;
         return Get;
     };
+    /**
+     * alias {get}
+     * @param key
+     * @param fallback
+     * @returns
+     */
     CacheFile.prototype.getCache = function (key, fallback) {
         if (fallback === void 0) { fallback = null; }
         return this.get(key, fallback);

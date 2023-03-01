@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/nodemon",
-  "exec": "yarn build",
+  "exec": "yarn run lint-and-fix && yarn build",
   "watch": [
     "./src/**/*.ts"
   ],
@@ -18,6 +18,6 @@
     "**/tmp/**"
   ],
   "delay": 3000,
-  "ext": "ts,js",
+  "ext": "*",
   "verbose": false
 }

@@ -4,7 +4,8 @@ import ansiColors from 'ansi-colors';
 import fs, { existsSync } from 'fs-extra';
 import Hexo from 'hexo';
 import minimist from 'minimist';
-import getConfig from './config';
+import serveStatic from 'serve-static';
+import getConfig, { coreCache, setMode } from './config';
 import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
@@ -40,6 +41,7 @@ export default function HexoSeo(hexo: Hexo) {
     for (let i = 0; i < hexo.env.args._.length; i++) {
       if (hexo.env.args._[i] == 's' || hexo.env.args._[i] == 'server') {
         hexoCmd = 'server';
+        setMode('s');
         break;
       }
       if (hexo.env.args._[i] == 'd' || hexo.env.args._[i] == 'deploy') {
@@ -48,10 +50,12 @@ export default function HexoSeo(hexo: Hexo) {
       }
       if (hexo.env.args._[i] == 'g' || hexo.env.args._[i] == 'generate') {
         hexoCmd = 'generate';
+        setMode('g');
         break;
       }
       if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
         hexoCmd = 'clean';
+        setMode('c');
         break;
       }
     }
@@ -76,6 +80,24 @@ export default function HexoSeo(hexo: Hexo) {
   // bind configuration
   const config = getConfig(hexo);
   hexo.config.seo = config;
+
+  // Registers serving of the lib used by the plugin with Hexo.
+  const concatRoutes = coreCache.getSync('jslibs', [] as { path: string; absolute: string }[]);
+  for (let i = 0; i < concatRoutes.length; i++) {
+    const { path, absolute } = concatRoutes[i];
+    hexo.extend.generator.register('js', () => {
+      return {
+        path,
+        data: () => fs.createReadStream(absolute)
+      };
+    });
+  }
+
+  // Register build folder to used statically
+  hexo.extend.filter.register('server_middleware', function (app) {
+    if (!fs.existsSync(buildFolder)) fs.mkdirSync(buildFolder, { recursive: true });
+    app.use(serveStatic(buildFolder, { index: ['index.html', 'index.htm'], extensions: ['js', 'css'] }));
+  });
 
   if (config.js && config.js.enable) {
     // minify javascripts
