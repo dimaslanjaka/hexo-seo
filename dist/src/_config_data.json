@@ -1,11 +1,23 @@
 {
-  "js": {
+  "html": {
+    "enable": true,
+    "fix": true,
+    "exclude": [
+      "*.min.{htm,html}"
+    ]
+  },
+  "css": {
     "enable": false,
     "exclude": [
-      "*.min.js",
+      "**/*.min.css"
+    ]
+  },
+  "js": {
+    "enable": false,
+    "concat": true,
+    "exclude": [
       "**/*.min.js"
     ],
-    "concat": true,
     "options": {
       "compress": {
         "dead_code": true
@@ -16,60 +28,30 @@
       }
     }
   },
-  "css": {
-    "enable": false,
-    "exclude": [
-      "*.min.css",
-      "**/*.min.css"
-    ]
-  },
-  "html": {
-    "enable": true,
-    "fix": true,
-    "exclude": [
-      "*.min.{htm,html}"
-    ],
-    "collapseBooleanAttributes": true,
-    "collapseWhitespace": true,
-    "ignoreCustomComments": [
-      {}
-    ],
-    "removeComments": true,
-    "removeEmptyAttributes": true,
-    "removeScriptTypeAttributes": true,
-    "removeStyleLinkTypeAttributes": true,
-    "minifyJS": true,
-    "minifyCSS": true
-  },
-  "img": {
-    "enable": true,
-    "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-    "onerror": "serverside",
-    "broken": false
-  },
-  "host": "www.webmanajemen.com",
-  "links": {
-    "blank": true,
-    "enable": true,
-    "allow": [
-      "webmanajemen.com"
-    ],
-    "exclude": [
-      "webmanajemen.com",
-      "web-manajemen.blogspot.com"
-    ]
-  },
   "schema": {
-    "sitelink": {
-      "enable": true,
-      "searchUrl": "https://www.webmanajemen.com/search?q="
-    },
     "article": {
       "enable": true
     },
     "breadcrumb": {
       "enable": true
+    },
+    "sitelink": {
+      "enable": true,
+      "searchUrl": "https://www.webmanajemen.com/search?q="
     }
+  },
+  "img": {
+    "enable": true,
+    "broken": false,
+    "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+    "onerror": "serverside"
+  },
+  "links": {
+    "enable": true,
+    "exclude": [
+      "webmanajemen.com",
+      "web-manajemen.blogspot.com"
+    ]
   },
   "sitemap": true
 }
