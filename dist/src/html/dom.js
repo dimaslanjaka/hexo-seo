@@ -41,7 +41,7 @@ exports._JSDOM = _JSDOM;
 var dom;
 function parseJSDOM(text) {
     dom = new _JSDOM(text);
-    return { dom: dom, window: dom.window, document: dom.window.document };
+    return dom;
 }
 exports.parseJSDOM = parseJSDOM;
 /**
@@ -53,9 +53,6 @@ exports.parseJSDOM = parseJSDOM;
 function getTextPartialHtml(text, options) {
     dom = new _JSDOM("<div id=\"parseJSDOM\">".concat(text, "</div>"), options);
     var document = dom.window.document;
-    var result = document.querySelector('div#parseJSDOM').textContent;
-    // prevent memory leaks
-    dom.window.close();
-    return result;
+    return document.querySelector('div#parseJSDOM').textContent;
 }
 exports.getTextPartialHtml = getTextPartialHtml;

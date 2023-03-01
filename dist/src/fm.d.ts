@@ -11,6 +11,11 @@ export declare const buildFolder: string;
  */
 export declare function resolveFile(filePath: string): string;
 /**
+ * write file nested path
+ * @param filePath
+ */
+export declare function writeFile(filePath: string, content: string): void;
+/**
  * read file nested path
  * @param filePath
  * @param options
