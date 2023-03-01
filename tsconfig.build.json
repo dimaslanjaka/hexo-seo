@@ -21,7 +21,8 @@
     "**/dist/**",
     "**/node_modules/**",
     "**/.git/**",
-    "test"
+    "test",
+    "**/*.runner.ts"
   ],
   "include": ["./src/index.ts", "./source/**/*"]
 }

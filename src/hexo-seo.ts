@@ -1,7 +1,7 @@
 'use strict';
 
 import ansiColors from 'ansi-colors';
-import fs, { existsSync } from 'fs-extra';
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import minimist from 'minimist';
 import serveStatic from 'serve-static';
@@ -65,8 +65,8 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.extend.filter.register('after_clean', function () {
     // remove some other temporary files
     hexo.log.info(logname + '(clean)', 'cleaning build and temp folder');
-    if (existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
-    if (existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
+    if (fs.existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
+    if (fs.existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
   });
 
   // execute scheduled functions before process exit
@@ -82,9 +82,11 @@ export default function HexoSeo(hexo: Hexo) {
   hexo.config.seo = config;
 
   // Registers serving of the lib used by the plugin with Hexo.
-  const concatRoutes = coreCache.getSync('jslibs', [] as { path: string; absolute: string }[]);
+  const concatRoutes = coreCache.getSync('jslib', [] as { path: string; absolute: string }[]);
+  console.log('routes', concatRoutes);
   for (let i = 0; i < concatRoutes.length; i++) {
     const { path, absolute } = concatRoutes[i];
+    console.log(logname, 'register', path);
     hexo.extend.generator.register('js', () => {
       return {
         path,
@@ -94,8 +96,9 @@ export default function HexoSeo(hexo: Hexo) {
   }
 
   // Register build folder to used statically
+  if (!fs.existsSync(buildFolder)) fs.mkdirSync(buildFolder, { recursive: true });
+  // register when hexo server running
   hexo.extend.filter.register('server_middleware', function (app) {
-    if (!fs.existsSync(buildFolder)) fs.mkdirSync(buildFolder, { recursive: true });
     app.use(serveStatic(buildFolder, { index: ['index.html', 'index.htm'], extensions: ['js', 'css'] }));
   });
 

@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.isDev = void 0;
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
-var fs_extra_1 = __importStar(require("fs-extra"));
+var fs_extra_1 = __importDefault(require("fs-extra"));
 var minimist_1 = __importDefault(require("minimist"));
 var serve_static_1 = __importDefault(require("serve-static"));
 var config_1 = __importStar(require("./config"));
@@ -83,9 +83,9 @@ function HexoSeo(hexo) {
     hexo.extend.filter.register('after_clean', function () {
         // remove some other temporary files
         hexo.log.info(logname + '(clean)', 'cleaning build and temp folder');
-        if ((0, fs_extra_1.existsSync)(fm_1.tmpFolder))
+        if (fs_extra_1["default"].existsSync(fm_1.tmpFolder))
             fs_extra_1["default"].rmSync(fm_1.tmpFolder, { recursive: true, force: true });
-        if ((0, fs_extra_1.existsSync)(fm_1.buildFolder))
+        if (fs_extra_1["default"].existsSync(fm_1.buildFolder))
             fs_extra_1["default"].rmSync(fm_1.buildFolder, { recursive: true, force: true });
     });
     // execute scheduled functions before process exit
@@ -99,9 +99,11 @@ function HexoSeo(hexo) {
     var config = (0, config_1["default"])(hexo);
     hexo.config.seo = config;
     // Registers serving of the lib used by the plugin with Hexo.
-    var concatRoutes = config_1.coreCache.getSync('jslibs', []);
+    var concatRoutes = config_1.coreCache.getSync('jslib', []);
+    console.log('routes', concatRoutes);
     var _loop_1 = function (i) {
         var _a = concatRoutes[i], path = _a.path, absolute = _a.absolute;
+        console.log(logname, 'register', path);
         hexo.extend.generator.register('js', function () {
             return {
                 path: path,
@@ -113,9 +115,10 @@ function HexoSeo(hexo) {
         _loop_1(i);
     }
     // Register build folder to used statically
+    if (!fs_extra_1["default"].existsSync(fm_1.buildFolder))
+        fs_extra_1["default"].mkdirSync(fm_1.buildFolder, { recursive: true });
+    // register when hexo server running
     hexo.extend.filter.register('server_middleware', function (app) {
-        if (!fs_extra_1["default"].existsSync(fm_1.buildFolder))
-            fs_extra_1["default"].mkdirSync(fm_1.buildFolder, { recursive: true });
         app.use((0, serve_static_1["default"])(fm_1.buildFolder, { index: ['index.html', 'index.htm'], extensions: ['js', 'css'] }));
     });
     if (config.js && config.js.enable) {
