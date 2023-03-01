@@ -218,10 +218,13 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       // show log
       hexo.log.info(logname, jsFilePath);
 
-      // create new script
+      content = root.toString();
+
+      // create new script and append to closing body
       const newsrc = `/hexo-seo-js/${filename}.js`;
       const newScript = `<script src="${newsrc}"></script`;
-      root.querySelector('body').innerHTML += newScript;
+      content = content.replace('</body>', newScript + '</body>');
+
       // cache router
       concatRoutes.push({
         path: newsrc,
@@ -236,7 +239,6 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         };
       });
 
-      content = root.toString();
       hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
       //window.close();
     }

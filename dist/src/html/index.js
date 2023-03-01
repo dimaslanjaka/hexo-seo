@@ -303,9 +303,10 @@ function HexoSeoHtml(content, data) {
                     (0, sbg_utility_1.writefile)(jsFilePath_1, scriptContent).file;
                     // show log
                     hexo.log.info(logname, jsFilePath_1);
+                    content = root.toString();
                     newsrc_1 = "/hexo-seo-js/".concat(filename, ".js");
                     newScript = "<script src=\"".concat(newsrc_1, "\"></script");
-                    root.querySelector('body').innerHTML += newScript;
+                    content = content.replace('</body>', newScript + '</body>');
                     // cache router
                     concatRoutes.push({
                         path: newsrc_1,
@@ -319,7 +320,6 @@ function HexoSeoHtml(content, data) {
                             data: function () { return fs_extra_1["default"].createReadStream(jsFilePath_1); }
                         };
                     });
-                    content = root.toString();
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
                     _a.label = 7;
                 case 7:
