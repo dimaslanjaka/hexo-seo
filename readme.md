@@ -106,7 +106,7 @@ seo:
   # forked from yoast seo
   sitemap: true
 ```
-> this plugin will run the functions based on development mode or production mode
+> ~this plugin will run the functions based on development mode or production mode~
 
 **development mode**
 ```shell
