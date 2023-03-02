@@ -82,7 +82,7 @@ seo:
       enable: true
     sitelink:
       enable: true
-      searchUrl: https://www.webmanajemen.com/search?q=
+      searchUrl: https://www.webmanajemen.com/search?q={search_term_string}
   # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
   img:
     enable: true

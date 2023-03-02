@@ -22,7 +22,12 @@ function build(done: CallableFunction) {
     })
     .then(() => {
       console.log('copy packages to dist');
-      return gulp.src(['./packages/**/*'].concat(exclude), { base: '.', dot: true }).pipe(gulp.dest('./dist'));
+      return gulp
+        .src(['./packages/**/*'].concat(exclude), {
+          base: '.'
+          //  dot: true
+        })
+        .pipe(gulp.dest('./dist'));
     })
     .then(() => {
       console.log('copy dist to master build');
@@ -40,8 +45,8 @@ function build(done: CallableFunction) {
       console.log('copy source to master build');
       gulp
         .src(['./*.json', './src/**/*', './packages/**/*', './source/**/*'].concat(exclude), {
-          base: '.',
-          dot: true
+          base: '.'
+          // dot: true
         })
         .pipe(gulp.dest('./docs'));
       return done();
