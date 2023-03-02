@@ -45,12 +45,12 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
-      - if: ${{ runner.os == 'Windows' }}
-        name: Use GNU tar
-        run: |
-          echo "Adding GNU tar to PATH"
-          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-        shell: cmd
+#      - if: ${{ runner.os == 'Windows' }}
+#        name: Use GNU tar
+#        run: |
+#          echo "Adding GNU tar to PATH"
+#          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+#        shell: cmd
 
       - name: Set env
         id: set-env
@@ -61,11 +61,11 @@ jobs:
           echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
           echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
-          echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
-          echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
           echo "cache-npm=$(npm config get cache)" >> $GITHUB_OUTPUT
-          echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        #echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        #echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        #echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
+        #echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
 
       - name: Get env
         run: |
@@ -75,8 +75,8 @@ jobs:
           echo "commit url  : ${{ env.GITHUB_COMMIT_URL }}"
           echo "runner url  : ${{ env.GITHUB_RUNNER_URL }}"
           echo "cache npm   : ${{ env.CACHE_NPM }}"
-          echo "cache yarn  : ${{ env.CACHE_YARN }}"
-          echo "cache yarn2 : ${{ env.CACHE_YARN2 }}"
+        #echo "cache yarn  : ${{ env.CACHE_YARN }}"
+        #echo "cache yarn2 : ${{ env.CACHE_YARN2 }}"
 
       - name: Set EOL git configs
         continue-on-error: true
@@ -109,8 +109,9 @@ jobs:
         with:
           path: |
             ${{ steps.set-env.outputs.cache-npm }}
-            ${{ steps.set-env.outputs.cache-yarn }}
-            ${{ steps.set-env.outputs.cache-yarn2 }}
+            **/.yarn
+            **/node_modules
+            **/tmp
           key: ${{ runner.os }}-${{ matrix.architecture }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.architecture }}-
