@@ -1,5 +1,6 @@
 # hexo-seo
-Automated Hexo Seo Optimizer
+Automated Hexo Seo Optimizer.
+[![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
 
 # Installation
 ### Packages Links
