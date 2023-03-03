@@ -45,13 +45,12 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
-#      - if: ${{ runner.os == 'Windows' }}
-#        name: Use GNU tar
-#        run: |
-#          echo "Adding GNU tar to PATH"
-#          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-#        shell: cmd
-
+      #      - if: ${{ runner.os == 'Windows' }}
+      #        name: Use GNU tar
+      #        run: |
+      #          echo "Adding GNU tar to PATH"
+      #          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      #        shell: cmd
       - name: Set env
         id: set-env
         shell: bash

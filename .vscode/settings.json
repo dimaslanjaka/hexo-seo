@@ -36,5 +36,7 @@
   "code-runner.ignoreSelection": true,
   "code-runner.runInTerminal": true,
   "code-runner.saveAllFilesBeforeRun": true,
-  "git.enabled": true
+  "git.enabled": true,
+  "npm.packageManager": "yarn",
+  "eslint.packageManager": "yarn"
 }
