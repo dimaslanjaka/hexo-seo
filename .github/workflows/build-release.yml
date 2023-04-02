@@ -36,7 +36,7 @@ jobs:
         #os: [ "windows-latest", "macos-11", "ubuntu-latest" ]
         os: ['ubuntu-latest']
         node-version: ['14', '16', '18']
-        #architecture: ['x86', 'x64']
+        architecture: ['x86', 'x64']
       fail-fast: true
       max-parallel: 6
 
@@ -235,29 +235,29 @@ jobs:
           echo "Changed files: ${{ steps.changes.outputs.changed_files }}"
 
       - name: Git setup user email
-        if: matrix.node-version == '18.x' && env.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
       - run: git add release
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add dist
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add lib
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add postinstall.js packer.js .github
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git pull -X theirs
         name: Pull before push
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - name: Git push
-        if: matrix.node-version == '18.x' && env.architecture == '64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
