@@ -208,7 +208,13 @@ jobs:
         run: npm list
 
       - name: Build
-        run: npm run build
+        run: |
+          FILE=package-lock.json
+          if [ -f "$FILE" ]; then
+              npm run build
+          else
+              yarn build
+          fi
 
       # https://github.com/marketplace/actions/verify-changed-files
       - name: Check if there are changes
