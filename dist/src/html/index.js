@@ -61,7 +61,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPagePath = void 0;
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
@@ -103,8 +103,8 @@ function HexoSeoHtml(content, data) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    logname = ansi_colors_1["default"].magentaBright('hexo-seo(html)');
-                    logconcatname = ansi_colors_1["default"].magentaBright('hexo-seo(html-concat)');
+                    logname = ansi_colors_1.default.magentaBright('hexo-seo(html)');
+                    logconcatname = ansi_colors_1.default.magentaBright('hexo-seo(html-concat)');
                     cache = new cache_1.CacheFile('html');
                     concatRoutes = config_1.coreCache.getSync('jslibs', []);
                     hexo = this;
@@ -123,7 +123,7 @@ function HexoSeoHtml(content, data) {
                     }
                     if (!(cache.isFileChanged((0, md5_file_1.md5)(path0)) || hexo_seo_1.isDev)) return [3 /*break*/, 8];
                     root = (0, node_html_parser_1.parse)(content);
-                    cfg_1 = (0, config_1["default"])(this);
+                    cfg_1 = (0, config_1.default)(this);
                     //** fix hyperlink */
                     if (cfg_1.links.enable) {
                         a = root.querySelectorAll('a[href]');
@@ -135,7 +135,7 @@ function HexoSeoHtml(content, data) {
                                 var rels = el.getAttribute('rel') ? el.getAttribute('rel').split(' ') : [];
                                 //rels = rels.removeEmpties().unique();
                                 rels = (0, array_1.array_unique)((0, array_1.array_remove_empties)(rels));
-                                var parseHref = (0, url_parse_1["default"])(href);
+                                var parseHref = (0, url_parse_1.default)(href);
                                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                                 el.setAttribute('rel', rels.join(' '));
@@ -151,7 +151,7 @@ function HexoSeoHtml(content, data) {
                     if (cfg_1.html.fix) {
                         inv = root.querySelectorAll('[href="/.css"],[src="/.js"]');
                         if (inv.length > 0) {
-                            log_1["default"].log('invalid html found', inv.length, inv.length > 1 ? 'items' : 'item');
+                            log_1.default.log('invalid html found', inv.length, inv.length > 1 ? 'items' : 'item');
                             inv.forEach(function (el) {
                                 el.remove();
                             });
@@ -174,20 +174,20 @@ function HexoSeoHtml(content, data) {
                             }
                             if (cfg_1.img.broken) {
                                 if (cfg_1.img.onerror === 'clientside') {
-                                    element.setAttribute('onerror', "this.src='" + cfg_1.img["default"] + "';");
+                                    element.setAttribute('onerror', "this.src='" + cfg_1.img.default + "';");
                                 }
                             }
                             if (hexo_seo_1.isDev)
                                 element.setAttribute('hexo-seo', 'true');
                         });
                     }
-                    (0, fixSchema_static_1["default"])(root, cfg_1, data);
-                    (0, sitemap_1["default"])(root, cfg_1, data);
+                    (0, fixSchema_static_1.default)(root, cfg_1, data);
+                    (0, sitemap_1.default)(root, cfg_1, data);
                     if (!(cfg_1.js.concat === true)) return [3 /*break*/, 7];
                     scripts = Array.from(root.getElementsByTagName('script')).filter(function (el) {
                         return (el.getAttribute('type') || '') !== 'application/ld+json';
                     });
-                    filename = 'concat-' + (0, md5_file_1.md5)(upath_1["default"].basename(path0));
+                    filename = 'concat-' + (0, md5_file_1.md5)(upath_1.default.basename(path0));
                     scriptContents_1 = [];
                     hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
@@ -211,19 +211,19 @@ function HexoSeoHtml(content, data) {
                                         return [2 /*return*/, "continue"];
                                     originalSources = [
                                         // find from theme source directory
-                                        upath_1["default"].join(cfg_1.theme_dir, 'source'),
+                                        upath_1.default.join(cfg_1.theme_dir, 'source'),
                                         // find from node_modules directory
-                                        upath_1["default"].join(process.cwd(), 'node_modules'),
+                                        upath_1.default.join(process.cwd(), 'node_modules'),
                                         // find from our plugins directory
-                                        upath_1["default"].join(process.cwd(), 'node_modules/hexo-shortcodes'),
+                                        upath_1.default.join(process.cwd(), 'node_modules/hexo-shortcodes'),
                                         // find from source directory
                                         cfg_1.source_dir,
                                         // find from post directory
                                         cfg_1.post_dir,
                                         // find from asset post folder
-                                        upath_1["default"].join(cfg_1.post_dir, upath_1["default"].basename(path0))
-                                    ].map(function (dir) { return upath_1["default"].join(dir, src); });
-                                    sources = originalSources.filter(fs_extra_1["default"].existsSync);
+                                        upath_1.default.join(cfg_1.post_dir, upath_1.default.basename(path0))
+                                    ].map(function (dir) { return upath_1.default.join(dir, src); });
+                                    sources = originalSources.filter(fs_extra_1.default.existsSync);
                                     if (!(sources.length > 0)) return [3 /*break*/, 5];
                                     _b.label = 1;
                                 case 1:
@@ -241,7 +241,7 @@ function HexoSeoHtml(content, data) {
                                 case 4: return [3 /*break*/, 6];
                                 case 5:
                                     hexo.log.error(logconcatname, 'failed, not found', src, path0);
-                                    hexo.log.error(logconcatname, 'log', (0, sbg_utility_1.writefile)(upath_1["default"].join(fm_1.tmpFolder, 'logs', filename + '.log'), originalSources).file);
+                                    hexo.log.error(logconcatname, 'log', (0, sbg_utility_1.writefile)(upath_1.default.join(fm_1.tmpFolder, 'logs', filename + '.log'), originalSources).file);
                                     _b.label = 6;
                                 case 6: return [3 /*break*/, 8];
                                 case 7:
@@ -264,8 +264,8 @@ function HexoSeoHtml(content, data) {
                     i++;
                     return [3 /*break*/, 1];
                 case 4:
-                    filePathWithoutExt = upath_1["default"].join(fm_1.tmpFolder, 'html', filename);
-                    jsFilePath = upath_1["default"].join(fm_1.buildFolder, 'hexo-seo-js', filename) + '.js';
+                    filePathWithoutExt = upath_1.default.join(fm_1.tmpFolder, 'html', filename);
+                    jsFilePath = upath_1.default.join(fm_1.buildFolder, 'hexo-seo-js', filename) + '.js';
                     scriptContent = scriptContents_1.join('\n');
                     if (!((0, config_1.getMode)() === 'g' && cfg_1.js.enable)) return [3 /*break*/, 6];
                     return [4 /*yield*/, (0, js_1.minifyJS)(scriptContent, cfg_1.js.options)];
@@ -288,7 +288,7 @@ function HexoSeoHtml(content, data) {
                     });
                     config_1.coreCache.setSync(config_1.cache_key_router, concatRoutes);
                     // write to public directory
-                    hexo.log.info(logconcatname, 'written', (0, sbg_utility_1.writefile)(upath_1["default"].join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file);
+                    hexo.log.info(logconcatname, 'written', (0, sbg_utility_1.writefile)(upath_1.default.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file);
                     hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
                     _a.label = 7;
                 case 7:
@@ -304,4 +304,4 @@ function HexoSeoHtml(content, data) {
         });
     });
 }
-exports["default"] = HexoSeoHtml;
+exports.default = HexoSeoHtml;

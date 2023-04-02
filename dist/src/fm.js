@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exports.resolveFile = exports.buildFolder = exports.tmpFolder = void 0;
 var crypto_1 = __importDefault(require("crypto"));
 var fs = __importStar(require("fs-extra"));
@@ -76,7 +76,7 @@ exports.readFile = readFile;
 var BUFFER_SIZE = 8192;
 function md5FileSync(path) {
     var fd = fs.openSync(path, 'r');
-    var hash = crypto_1["default"].createHash('md5');
+    var hash = crypto_1.default.createHash('md5');
     var buffer = Buffer.alloc(BUFFER_SIZE);
     try {
         var bytesRead = void 0;
@@ -93,7 +93,7 @@ function md5FileSync(path) {
 exports.md5FileSync = md5FileSync;
 function md5File(path) {
     return new Promise(function (resolve, reject) {
-        var output = crypto_1["default"].createHash('md5');
+        var output = crypto_1.default.createHash('md5');
         var input = fs.createReadStream(path);
         input.on('error', function (err) {
             reject(err);

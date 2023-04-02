@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove_array_item_from = exports.array_unique = exports.array_remove_empties = void 0;
 /**
  * remove empties from array

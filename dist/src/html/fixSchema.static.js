@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var log_1 = __importDefault(require("../log"));
@@ -17,10 +17,10 @@ function fixSchemaStatic(dom, HSconfig, data) {
     if (!HSconfig.schema) {
         return;
     }
-    var is = (0, hexo_is_1["default"])(data);
-    var breadcrumbs = model4_json_1["default"][0];
-    var article = model4_json_1["default"][1];
-    var sitelink = model4_json_1["default"][2];
+    var is = (0, hexo_is_1.default)(data);
+    var breadcrumbs = model4_json_1.default[0];
+    var article = model4_json_1.default[1];
+    var sitelink = model4_json_1.default[2];
     // resolve title
     var title = '';
     if (data.page && data.page.title && data.page.title.trim().length > 0) {
@@ -119,10 +119,10 @@ function fixSchemaStatic(dom, HSconfig, data) {
             article.image.url = thumbnail;
             article.author.name = author;
             article.publisher.name = author;
-            article.dateModified = (0, moment_timezone_1["default"])(new Date(String(data.page.updated)))
+            article.dateModified = (0, moment_timezone_1.default)(new Date(String(data.page.updated)))
                 .tz(data.config.timezone || 'UTC')
                 .format();
-            article.datePublished = (0, moment_timezone_1["default"])(new Date(String(data.page.date)))
+            article.datePublished = (0, moment_timezone_1.default)(new Date(String(data.page.date)))
                 .tz(data.config.timezone || 'UTC')
                 .format();
             schema.push(article);
@@ -131,11 +131,11 @@ function fixSchemaStatic(dom, HSconfig, data) {
     if (schema.length > 0) {
         var JSONschema = JSON.stringify(schema, null, 2);
         var schemahtml = "\n\n<script type=\"application/ld+json\" id=\"hexo-seo-schema\">".concat(JSONschema, "</script>\n\n");
-        log_1["default"].log('schema created', title, url);
+        log_1.default.log('schema created', title, url);
         if (schemahtml) {
             var head = dom.getElementsByTagName('head')[0];
             head.insertAdjacentHTML('beforeend', schemahtml);
         }
     }
 }
-exports["default"] = fixSchemaStatic;
+exports.default = fixSchemaStatic;

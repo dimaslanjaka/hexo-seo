@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTextPartialHtml = exports.parseJSDOM = exports._JSDOM = void 0;
 var jsdom_1 = require("jsdom");
 var _JSDOM = /** @class */ (function () {

@@ -2,12 +2,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var url_1 = require("../../../utils/url");
 var model3_json_1 = __importDefault(require("./model3.json"));
 var articleSchema = /** @class */ (function () {
     function articleSchema(options) {
-        this.schema = model3_json_1["default"];
+        this.schema = model3_json_1.default;
         this.options = options;
         this.hexo = options.hexo;
     }
@@ -179,4 +179,4 @@ var articleSchema = /** @class */ (function () {
     };
     return articleSchema;
 }());
-exports["default"] = articleSchema;
+exports.default = articleSchema;
