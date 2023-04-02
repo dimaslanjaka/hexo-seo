@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+## Commit With Submodules
+## usages: sh scripts/commit.sh "commit message"
+
+if [ -z "$1" ]; then
+    echo "You need to provide a commit message"
+    exit
+fi
+
+npx lerna exec "git add . | :" --concurrency=1
+wait
+npx lerna exec "git update-index --refresh | :" --concurrency=1
+wait
+npx lerna exec "git commit -am \"$1\" | :" --concurrency=1
+wait
+git submodule foreach "
+    git add -A .
+    git update-index --refresh
+    commits=\$(git diff-index HEAD)
+    if [ ! -z \"\$commits\" ]; then
+        git commit -am \"$1\"
+    fi"
+wait
+git add -A .
+git commit -am "$1"

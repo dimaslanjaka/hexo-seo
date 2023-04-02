@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "input submodule path"
+read folderpath
+
+# Remove the submodule entry from .git/config
+git submodule deinit -f $folderpath
+
+# Remove the submodule directory from the superproject's .git/modules directory
+rm -rf .git/modules/$folderpath
+
+# Remove the entry in .gitmodules and remove the submodule directory located at path/to/submodule
+git rm -f $folderpath

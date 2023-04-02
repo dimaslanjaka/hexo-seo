@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix
+
+basedir=`dirname "$0"`
+
+case `uname` in
+  *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
+esac
+
+# resolve cli
+CLI="$basedir/../node_modules/.bin/cross-env-shell"
+if ! [ -x "$CLI" ]; then
+  CLI="$basedir/node_modules/.bin/cross-env-shell"
+fi
+if ! [ -x "$CLI" ]; then
+  CLI="./node_modules/.bin/cross-env-shell"
+fi
+
+"$CLI" NODE_ENV=production "$@"
