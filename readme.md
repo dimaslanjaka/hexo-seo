@@ -3,6 +3,11 @@ Automated Hexo Seo Optimizer.
 [![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
 [![Build Release](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml)
 
+# demo
+demo site generated with `hexo-seo`
+- [YoastSEO sitemap](https://www.webmanajemen.com/sitemap.xml)
+- [Rich Snippet](https://search.google.com/test/rich-results?hl=en&url=https%3A%2F%2Fwww.webmanajemen.com%2Fchimeraland%2Fblacklist-player.html)
+
 # Installation
 ### Packages Links
 > Using tarball is useful for git which not installed properly or for you in chinese mainland
