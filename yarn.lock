@@ -5518,7 +5518,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"hexo-seo@workspace:package":
+"hexo-seo@workspace:^, hexo-seo@workspace:package":
   version: 0.0.0-use.local
   resolution: "hexo-seo@workspace:package"
   dependencies:
@@ -5613,30 +5613,6 @@ __metadata:
   checksum: 0fd8e2c373bae0c882e0cfc49f7ae951a58b1532533dc2d5f50153f1a6c1ea476967a16addf8e63a56e54f6907426e7e0cec231ea6127ec27c8035324e9e3d24
   languageName: node
   linkType: hard
-
-"hexo-site@workspace:test/demo":
-  version: 0.0.0-use.local
-  resolution: "hexo-site@workspace:test/demo"
-  dependencies:
-    chalk: ^4.1.2
-    cross-env: ^7.0.3
-    cross-spawn: ^7.0.3
-    hexo: ^6.3.0
-    hexo-browsersync: "github:hexojs/hexo-browsersync"
-    hexo-generator-archive: "github:hexojs/hexo-generator-archive"
-    hexo-generator-category: "github:hexojs/hexo-generator-category"
-    hexo-generator-index: "github:hexojs/hexo-generator-index"
-    hexo-generator-tag: "github:hexojs/hexo-generator-tag"
-    hexo-renderer-markdown-it: "github:hexojs/hexo-renderer-markdown-it"
-    hexo-renderer-pug: "github:hexojs/hexo-renderer-pug"
-    hexo-renderer-stylus: "github:hexojs/hexo-renderer-stylus"
-    hexo-server: ^3.0.0
-    js-yaml: ^4.1.0
-    moment: ^2.29.4
-    prompt: ^1.3.0
-    yaml: ^2.2.1
-  languageName: unknown
-  linkType: soft
 
 "hexo-util@npm:^2.0.0, hexo-util@npm:^2.7.0":
   version: 2.7.0
@@ -10552,6 +10528,31 @@ __metadata:
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
   languageName: node
   linkType: hard
+
+"site@workspace:test":
+  version: 0.0.0-use.local
+  resolution: "site@workspace:test"
+  dependencies:
+    chalk: ^4.1.2
+    cross-env: ^7.0.3
+    cross-spawn: ^7.0.3
+    hexo: ^6.3.0
+    hexo-browsersync: "github:hexojs/hexo-browsersync"
+    hexo-generator-archive: "github:hexojs/hexo-generator-archive"
+    hexo-generator-category: "github:hexojs/hexo-generator-category"
+    hexo-generator-index: "github:hexojs/hexo-generator-index"
+    hexo-generator-tag: "github:hexojs/hexo-generator-tag"
+    hexo-renderer-markdown-it: "github:hexojs/hexo-renderer-markdown-it"
+    hexo-renderer-pug: "github:hexojs/hexo-renderer-pug"
+    hexo-renderer-stylus: "github:hexojs/hexo-renderer-stylus"
+    hexo-seo: "workspace:^"
+    hexo-server: ^3.0.0
+    js-yaml: ^4.1.0
+    moment: ^2.29.4
+    prompt: ^1.3.0
+    yaml: ^2.2.1
+  languageName: unknown
+  linkType: soft
 
 "slash@npm:^3.0.0":
   version: 3.0.0
