@@ -2,3 +2,7 @@
 	path = package
 	url = https://github.com/dimaslanjaka/hexo-seo
 	branch = master
+[submodule "test"]
+	path = test
+	url = https://github.com/dimaslanjaka/site
+	branch = hexo-seo
