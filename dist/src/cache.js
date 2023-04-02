@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.releaseMemory = exports.CacheFile2 = exports.CacheFile = exports.resolveString = void 0;
 var fs_extra_1 = require("fs-extra");
 var node_cache_1 = __importDefault(require("node-cache"));
@@ -35,7 +35,7 @@ var fm_1 = require("./fm");
 var log_1 = __importDefault(require("./log"));
 var scheduler_1 = __importDefault(require("./scheduler"));
 var md5_file_1 = __importStar(require("./utils/md5-file"));
-var myCache = new node_cache_1["default"]({ stdTTL: 500, checkperiod: 520 });
+var myCache = new node_cache_1.default({ stdTTL: 500, checkperiod: 520 });
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -73,7 +73,7 @@ var Cache = /** @class */ (function () {
         return myCache.get(key) || fallback;
     };
     Cache.prototype.isFileChanged = function (filePath) {
-        return (0, md5_file_1["default"])(filePath)
+        return (0, md5_file_1.default)(filePath)
             .then(function (hash1) {
             var hash = Cache.md5Cache[filePath];
             Cache.md5Cache[filePath] = hash1;
@@ -84,7 +84,8 @@ var Cache = /** @class */ (function () {
                 return false;
             }
             return true;
-        })["catch"](function (_err) {
+        })
+            .catch(function (_err) {
             return true;
         });
     };
@@ -119,15 +120,15 @@ var CacheFile = /** @class */ (function () {
             var stack = new Error().stack.split('at')[2];
             hash = (0, md5_file_1.md5)(stack);
         }
-        this.dbFile = upath_1["default"].join(fm_1.tmpFolder, 'db-' + hash + '.json');
+        this.dbFile = upath_1.default.join(fm_1.tmpFolder, 'db-' + hash + '.json');
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
         if (typeof db != 'object') {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1["default"].error('cache database lost');
-                log_1["default"].error(e);
+                log_1.default.error('cache database lost');
+                log_1.default.error(e);
             }
         }
         if (typeof db == 'object') {
@@ -141,8 +142,8 @@ var CacheFile = /** @class */ (function () {
         var _this = this;
         this.md5Cache[key] = value;
         // save cache on process exit
-        scheduler_1["default"].add('writeCacheFile', function () {
-            log_1["default"].log('saved cache', _this.dbFile);
+        scheduler_1.default.add('writeCacheFile', function () {
+            log_1.default.log('saved cache', _this.dbFile);
             (0, sbg_utility_1.writefile)(_this.dbFile, JSON.stringify(_this.md5Cache));
         });
     };
@@ -220,16 +221,16 @@ var CacheFile2 = /** @class */ (function () {
         var stack = new Error().stack.split('at')[2];
         hash = hash + '-' + (0, md5_file_1.md5)(stack);
         this.cacheHash = hash;
-        this.dbFile = upath_1["default"].join(fm_1.buildFolder, 'db-' + hash + '.json');
-        this.dbFolder = upath_1["default"].join(fm_1.buildFolder, hash);
+        this.dbFile = upath_1.default.join(fm_1.buildFolder, 'db-' + hash + '.json');
+        this.dbFolder = upath_1.default.join(fm_1.buildFolder, hash);
         var db = (0, fm_1.readFile)(this.dbFile, { encoding: 'utf8' }, {});
         if (typeof db != 'object') {
             try {
                 db = JSON.parse(db.toString());
             }
             catch (e) {
-                log_1["default"].error('cache database lost');
-                log_1["default"].error(e);
+                log_1.default.error('cache database lost');
+                log_1.default.error(e);
             }
         }
         if (typeof db == 'object') {
@@ -238,9 +239,9 @@ var CacheFile2 = /** @class */ (function () {
     }
     CacheFile2.prototype.getKeyLocation = function (key) {
         if (key.startsWith('/')) {
-            key = upath_1["default"].join((0, md5_file_1.md5)(upath_1["default"].dirname(key)), upath_1["default"].basename(key));
+            key = upath_1.default.join((0, md5_file_1.md5)(upath_1.default.dirname(key)), upath_1.default.basename(key));
         }
-        return upath_1["default"].join(this.dbFolder, key);
+        return upath_1.default.join(this.dbFolder, key);
     };
     CacheFile2.prototype.set = function (key, value) {
         if (!key && !value) {
@@ -251,11 +252,11 @@ var CacheFile2 = /** @class */ (function () {
         }
         var saveLocation = this.getKeyLocation(key);
         this.md5Cache[key] = saveLocation;
-        var dbLocation = upath_1["default"].join(this.dbFile);
+        var dbLocation = upath_1.default.join(this.dbFile);
         var db = this.md5Cache;
         //dump("cache-" + this.cacheHash, db);
-        scheduler_1["default"].add('save-' + this.cacheHash, function () {
-            log_1["default"].log('saving caches...', saveLocation, dbLocation);
+        scheduler_1.default.add('save-' + this.cacheHash, function () {
+            log_1.default.log('saving caches...', saveLocation, dbLocation);
             (0, sbg_utility_1.writefile)(saveLocation, value);
             (0, sbg_utility_1.writefile)(dbLocation, JSON.stringify(db, null, 2));
         });
@@ -331,4 +332,4 @@ function releaseMemory() {
     }
 }
 exports.releaseMemory = releaseMemory;
-exports["default"] = Cache;
+exports.default = Cache;

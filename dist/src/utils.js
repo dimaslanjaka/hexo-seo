@@ -26,7 +26,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var fs = __importStar(require("fs-extra"));
 var minimatch_1 = __importDefault(require("minimatch"));
@@ -47,15 +47,15 @@ var isIgnore = function (path0, exclude, hexo) {
         for (var i = 0, len = exclude.length; i < len; i++) {
             var excludePattern = exclude[i];
             if (hexo) {
-                var fromBase = upath_1["default"].join(hexo.base_dir, excludePattern);
-                var fromSource = upath_1["default"].join(hexo.source_dir, excludePattern);
+                var fromBase = upath_1.default.join(hexo.base_dir, excludePattern);
+                var fromSource = upath_1.default.join(hexo.source_dir, excludePattern);
                 //log.log([path0, fromBase, fromSource, excludePattern]);
-                if ((0, minimatch_1["default"])(path0, fromSource))
+                if ((0, minimatch_1.default)(path0, fromSource))
                     return true;
-                if ((0, minimatch_1["default"])(path0, fromBase))
+                if ((0, minimatch_1.default)(path0, fromBase))
                     return true;
             }
-            if ((0, minimatch_1["default"])(path0, excludePattern))
+            if ((0, minimatch_1.default)(path0, excludePattern))
                 return true;
         }
     }
@@ -117,21 +117,21 @@ var dump = function (filename) {
     }
     if (!hexo_seo_1.isDev)
         return;
-    var hash = (0, sanitize_filename_1["default"])(filename).toString().replace(/\s/g, '-');
-    var loc = upath_1["default"].join(__dirname, '../tmp', hash);
+    var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s/g, '-');
+    var loc = upath_1.default.join(__dirname, '../tmp', hash);
     if (isFirst) {
-        rimraf_1["default"].sync(loc);
+        rimraf_1.default.sync(loc);
         isFirst = false;
     }
-    if (!fs.existsSync(upath_1["default"].dirname(loc))) {
-        fs.mkdirSync(upath_1["default"].dirname(loc), { recursive: true });
+    if (!fs.existsSync(upath_1.default.dirname(loc))) {
+        fs.mkdirSync(upath_1.default.dirname(loc), { recursive: true });
     }
     var buildLog = '';
     for (var index = 0; index < obj.length; index++) {
-        buildLog += util_1["default"].inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
+        buildLog += util_1.default.inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
     }
     fs.writeFileSync(loc, buildLog);
-    console.log("dump results saved to ".concat(upath_1["default"].resolve(loc)));
+    console.log("dump results saved to ".concat(upath_1.default.resolve(loc)));
 };
 exports.dump = dump;
 /**
@@ -145,7 +145,7 @@ function getCacheFolder(folderName) {
     if (typeof hexo != 'undefined') {
         root = hexo.base_dir;
     }
-    return upath_1["default"].join(root, 'build/hexo-seo', folderName);
+    return upath_1.default.join(root, 'build/hexo-seo', folderName);
 }
 exports.getCacheFolder = getCacheFolder;
 /**
@@ -153,7 +153,7 @@ exports.getCacheFolder = getCacheFolder;
  * @returns
  */
 function getPackageFolder() {
-    return upath_1["default"].join(process.cwd(), 'node_modules', package_json_1["default"].name);
+    return upath_1.default.join(process.cwd(), 'node_modules', package_json_1.default.name);
 }
 exports.getPackageFolder = getPackageFolder;
 /**
@@ -162,6 +162,6 @@ exports.getPackageFolder = getPackageFolder;
  * @returns
  */
 function getPackageFile(pathname) {
-    return upath_1["default"].join(getPackageFolder(), pathname);
+    return upath_1.default.join(getPackageFolder(), pathname);
 }
 exports.getPackageFile = getPackageFile;

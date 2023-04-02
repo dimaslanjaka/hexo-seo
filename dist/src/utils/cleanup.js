@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var log_1 = __importDefault(require("../log"));
 //const fns1: Array<(data?: string) => void> = [];
 var fns = [];
@@ -13,11 +13,11 @@ var fns = [];
  */
 function exitHandler(options, exitCode) {
     Object.keys(fns).forEach(function (key) {
-        log_1["default"].log("executing function key: ".concat(key));
+        log_1.default.log("executing function key: ".concat(key));
         fns[key]();
     });
     if (options.cleanup)
-        log_1["default"].log("clean exit(".concat(exitCode, ")"));
+        log_1.default.log("clean exit(".concat(exitCode, ")"));
     if (options.exit)
         process.exit();
 }
@@ -47,4 +47,4 @@ function triggerProcess() {
     //catches uncaught exceptions
     process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
 }
-exports["default"] = bindProcessExit;
+exports.default = bindProcessExit;

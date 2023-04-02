@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.isDev = void 0;
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
@@ -38,14 +38,14 @@ var css_1 = __importDefault(require("./minifier/css"));
 var js_1 = __importDefault(require("./minifier/js"));
 var scheduler_1 = __importDefault(require("./scheduler"));
 var cleanup_1 = __importDefault(require("./utils/cleanup"));
-var argv = (0, minimist_1["default"])(process.argv.slice(2));
+var argv = (0, minimist_1.default)(process.argv.slice(2));
 // --development
 var arg = typeof argv['development'] == 'boolean' && argv['development'];
 // set NODE_ENV = "development"
 var env = process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase() === 'development';
 // define is development
 exports.isDev = arg || env;
-var logname = ansi_colors_1["default"].magentaBright('hexo-seo');
+var logname = ansi_colors_1.default.magentaBright('hexo-seo');
 // core
 function HexoSeo(hexo) {
     //console.log("hexo-seo starting", { dev: env });
@@ -83,20 +83,20 @@ function HexoSeo(hexo) {
     hexo.extend.filter.register('after_clean', function () {
         // remove some other temporary files
         hexo.log.info(logname + '(clean)', 'cleaning build and temp folder');
-        if (fs_extra_1["default"].existsSync(fm_1.tmpFolder))
-            fs_extra_1["default"].rmSync(fm_1.tmpFolder, { recursive: true, force: true });
-        if (fs_extra_1["default"].existsSync(fm_1.buildFolder))
-            fs_extra_1["default"].rmSync(fm_1.buildFolder, { recursive: true, force: true });
+        if (fs_extra_1.default.existsSync(fm_1.tmpFolder))
+            fs_extra_1.default.rmSync(fm_1.tmpFolder, { recursive: true, force: true });
+        if (fs_extra_1.default.existsSync(fm_1.buildFolder))
+            fs_extra_1.default.rmSync(fm_1.buildFolder, { recursive: true, force: true });
     });
     // execute scheduled functions before process exit
     if (hexoCmd != 'clean') {
-        (0, cleanup_1["default"])('scheduler_on_exit', function () {
+        (0, cleanup_1.default)('scheduler_on_exit', function () {
             hexo.log.info(logname, 'executing scheduled functions');
-            scheduler_1["default"].executeAll();
+            scheduler_1.default.executeAll();
         });
     }
     // bind configuration
-    var config = (0, config_1["default"])(hexo);
+    var config = (0, config_1.default)(hexo);
     hexo.config.seo = config;
     // Registers serving of the lib used by the plugin with Hexo.
     hexo.extend.generator.register('hexo-seo-js', function () {
@@ -107,7 +107,7 @@ function HexoSeo(hexo) {
             hexo.log.info(logname, 'register', path);
             wrap.push({
                 path: path,
-                data: function () { return fs_extra_1["default"].createReadStream(absolute); }
+                data: function () { return fs_extra_1.default.createReadStream(absolute); }
             });
         };
         for (var i = 0; i < concatRoutes.length; i++) {
@@ -116,23 +116,23 @@ function HexoSeo(hexo) {
         return wrap;
     });
     // Register build folder to serving statically
-    if (!fs_extra_1["default"].existsSync(fm_1.buildFolder))
-        fs_extra_1["default"].mkdirSync(fm_1.buildFolder, { recursive: true });
+    if (!fs_extra_1.default.existsSync(fm_1.buildFolder))
+        fs_extra_1.default.mkdirSync(fm_1.buildFolder, { recursive: true });
     // register when hexo server running
     hexo.extend.filter.register('server_middleware', function (app) {
-        app.use((0, serve_static_1["default"])(fm_1.buildFolder, { index: ['index.html', 'index.htm'], extensions: ['js', 'css'] }));
+        app.use((0, serve_static_1.default)(fm_1.buildFolder, { index: ['index.html', 'index.htm'], extensions: ['js', 'css'] }));
     });
     if (config.js && config.js.enable) {
         // minify javascripts
-        hexo.extend.filter.register('after_render:js', js_1["default"]);
+        hexo.extend.filter.register('after_render:js', js_1.default);
     }
     if (config.css && config.css.enable) {
         // minify css
-        hexo.extend.filter.register('after_render:css', css_1["default"]);
+        hexo.extend.filter.register('after_render:css', css_1.default);
     }
     if (config.html && config.html.enable) {
         // all in one html fixer
-        hexo.extend.filter.register('after_render:html', html_1["default"]);
+        hexo.extend.filter.register('after_render:html', html_1.default);
     }
 }
-exports["default"] = HexoSeo;
+exports.default = HexoSeo;

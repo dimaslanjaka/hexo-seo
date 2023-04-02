@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.minifyJS = void 0;
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var object_assign_1 = __importDefault(require("object-assign"));
@@ -48,7 +48,7 @@ var cache_1 = __importDefault(require("../cache"));
 var config_1 = __importDefault(require("../config"));
 var log_1 = __importDefault(require("../log"));
 var utils_1 = require("../utils");
-var cache = new cache_1["default"]();
+var cache = new cache_1.default();
 /**
  * minify js
  * @param this
@@ -64,10 +64,10 @@ function HexoSeoJs(str, data) {
                 case 0:
                     path0 = data.path;
                     if (!path0) {
-                        log_1["default"].error('%s(CSS) invalid path', package_json_1["default"].name);
+                        log_1.default.error('%s(CSS) invalid path', package_json_1.default.name);
                         return [2 /*return*/];
                     }
-                    hexoCfg = (0, config_1["default"])(this);
+                    hexoCfg = (0, config_1.default)(this);
                     jsCfg = hexoCfg.js;
                     // if option js is false, return original content
                     if (typeof jsCfg == 'boolean' && !jsCfg)
@@ -88,7 +88,7 @@ function HexoSeoJs(str, data) {
                             return [2 /*return*/, str];
                     }
                     else if (typeof jsCfg == 'object') {
-                        options = (0, object_assign_1["default"])(options, jsCfg);
+                        options = (0, object_assign_1.default)(options, jsCfg);
                         if ((0, utils_1.isIgnore)(path0, options.exclude))
                             return [2 /*return*/, str];
                     }
@@ -105,7 +105,7 @@ function HexoSeoJs(str, data) {
                         }
                     };
                     if (typeof options.options == 'object') {
-                        minifyOptions = (0, object_assign_1["default"])(minifyOptions, options.options);
+                        minifyOptions = (0, object_assign_1.default)(minifyOptions, options.options);
                     }
                     _a.label = 2;
                 case 2:
@@ -115,7 +115,7 @@ function HexoSeoJs(str, data) {
                     result = _a.sent();
                     if (result.code && result.code.length > 0) {
                         saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
-                        log_1["default"].log('%s(JS): %s [%s saved]', package_json_1["default"].name, path0, "".concat(saved, "%"));
+                        log_1.default.log('%s(JS): %s [%s saved]', package_json_1.default.name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
                         cache.setCache(path0, str);
@@ -123,7 +123,7 @@ function HexoSeoJs(str, data) {
                     return [3 /*break*/, 5];
                 case 4:
                     e_1 = _a.sent();
-                    log_1["default"].error("Minifying ".concat(path0, " error"), e_1);
+                    log_1.default.error("Minifying ".concat(path0, " error"), e_1);
                     // minify error, return original js
                     return [2 /*return*/, str];
                 case 5: return [3 /*break*/, 8];
@@ -131,14 +131,14 @@ function HexoSeoJs(str, data) {
                 case 7:
                     // get cached minified js
                     str = _a.sent();
-                    log_1["default"].log('%s(JS) cached [%s]', package_json_1["default"].name, path0.replace(this.base_dir, ''));
+                    log_1.default.log('%s(JS) cached [%s]', package_json_1.default.name, path0.replace(this.base_dir, ''));
                     _a.label = 8;
                 case 8: return [2 /*return*/, str];
             }
         });
     });
 }
-exports["default"] = HexoSeoJs;
+exports.default = HexoSeoJs;
 /**
  * minify js
  * @param str
@@ -164,11 +164,11 @@ function minifyJS(str, options) {
                         }
                     };
                     if (typeof options == 'object') {
-                        minifyOptions = (0, object_assign_1["default"])(minifyOptions, options);
+                        minifyOptions = (0, object_assign_1.default)(minifyOptions, options);
                     }
-                    path0 = fs_extra_1["default"].existsSync(str) ? str : 'inline';
+                    path0 = fs_extra_1.default.existsSync(str) ? str : 'inline';
                     if (path0 !== 'inline') {
-                        str = fs_extra_1["default"].readFileSync(path0).toString();
+                        str = fs_extra_1.default.readFileSync(path0).toString();
                     }
                     _a.label = 1;
                 case 1:
@@ -178,7 +178,7 @@ function minifyJS(str, options) {
                     result = _a.sent();
                     if (result.code && result.code.length > 0) {
                         saved = (((str.length - result.code.length) / str.length) * 100).toFixed(2);
-                        log_1["default"].log('%s(JS): %s [%s saved]', package_json_1["default"].name, path0, "".concat(saved, "%"));
+                        log_1.default.log('%s(JS): %s [%s saved]', package_json_1.default.name, path0, "".concat(saved, "%"));
                         str = result.code;
                         // set new minified js cache
                         if (path0 !== 'inline')
@@ -187,7 +187,7 @@ function minifyJS(str, options) {
                     return [3 /*break*/, 4];
                 case 3:
                     e_2 = _a.sent();
-                    log_1["default"].error("Minifying ".concat(path0, " error"), e_2);
+                    log_1.default.error("Minifying ".concat(path0, " error"), e_2);
                     // minify error, return original js
                     return [2 /*return*/, str];
                 case 4: return [2 /*return*/];

@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.identifyRels = void 0;
 var url_parse_1 = __importDefault(require("url-parse"));
 var array_1 = require("../utils/array");
@@ -15,7 +15,7 @@ function default_1(dom, HSconfig, _data) {
             var href = el.href;
             // only process anchor start with https?, otherwise abadoned
             if ((0, url_1.isValidHttpUrl)(href)) {
-                var parseHref = (0, url_parse_1["default"])(href);
+                var parseHref = (0, url_parse_1.default)(href);
                 var rels = el.getAttribute('rel') ? el.getAttribute('rel').split(' ') : [];
                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                 rels = identifyRels(el, external_1, HSconfig);
@@ -36,7 +36,7 @@ function default_1(dom, HSconfig, _data) {
         });
     }
 }
-exports["default"] = default_1;
+exports.default = default_1;
 function identifyRels(el, external, HSconfig) {
     var rels = [];
     var externalArr = ['nofollow', 'noopener', 'noreferer', 'noreferrer', 'external'];

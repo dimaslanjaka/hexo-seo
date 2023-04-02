@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio_1 = __importDefault(require("cheerio"));
 var minimatch_1 = __importDefault(require("minimatch"));
 var config_1 = __importDefault(require("../config"));
@@ -51,9 +51,9 @@ function default_1() {
         return __generator(this, function (_a) {
             hexo = this;
             route = hexo.route;
-            options = (0, config_1["default"])(hexo).img;
+            options = (0, config_1.default)(hexo).img;
             routes = route.list().filter(function (path0) {
-                var choose = (0, minimatch_1["default"])(path0, '**/*.{htm,html}', { nocase: true });
+                var choose = (0, minimatch_1.default)(path0, '**/*.{htm,html}', { nocase: true });
                 if (typeof options == 'object' && typeof options.exclude != 'undefined') {
                     choose = choose && !(0, utils_1.isIgnore)(path0, options.exclude);
                 }
@@ -72,7 +72,7 @@ function default_1() {
                     try {
                         //dump("after_generate.txt", str);
                         //logger.log(typeof str, "str");
-                        var $_1 = cheerio_1["default"].load(str);
+                        var $_1 = cheerio_1.default.load(str);
                         var title_1 = $_1('title').text();
                         $_1('img').map(function (i, img) {
                             // fix image alt
@@ -84,7 +84,7 @@ function default_1() {
                         });
                     }
                     catch (e) {
-                        log_1["default"].error(e);
+                        log_1.default.error(e);
                     }
                     return str;
                 });
@@ -100,4 +100,4 @@ function default_1() {
         });
     });
 }
-exports["default"] = default_1;
+exports.default = default_1;

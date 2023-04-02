@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMode = exports.setMode = exports.cache_key_router = exports.coreCache = exports.toMilliseconds = void 0;
 var deepmerge_ts_1 = require("deepmerge-ts");
 var fs_extra_1 = require("fs-extra");
@@ -34,7 +34,7 @@ var getConfig = function (hexo, _key) {
         },
         img: {
             enable: false,
-            "default": 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png',
+            default: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png',
             onerror: 'clientside'
         },
         host: new URL(hexo.config.url).host,
@@ -51,12 +51,12 @@ var getConfig = function (hexo, _key) {
             breadcrumb: { enable: false }
         },
         sitemap: false,
-        theme_dir: upath_1["default"].join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
-        source_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source')),
-        post_dir: upath_1["default"].join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
+        theme_dir: upath_1.default.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
+        source_dir: upath_1.default.join(process.cwd(), String(hexo.config.source_dir || 'source')),
+        post_dir: upath_1.default.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
     };
     var seo = hexo.config.seo;
-    (0, fs_extra_1.writeFileSync)(upath_1["default"].join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+    (0, fs_extra_1.writeFileSync)(upath_1.default.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
     if (typeof seo === 'undefined')
         return defaultOpt;
     return (0, deepmerge_ts_1.deepmerge)(defaultOpt, seo, {
@@ -84,7 +84,7 @@ exports.coreCache = new sbg_utility_1.persistentCache({
     duration: (0, exports.toMilliseconds)(1)
 });
 exports.cache_key_router = 'jslib';
-exports["default"] = getConfig;
+exports.default = getConfig;
 /**
  * hexo argument
  * - s = server
