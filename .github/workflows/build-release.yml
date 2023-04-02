@@ -7,7 +7,7 @@ name: Build Release
 
 on:
   push:
-    branches: ['master', 'main']
+    branches: [ "master", "main" ]
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
@@ -32,12 +32,17 @@ concurrency:
 jobs:
   build:
     strategy:
+      matrix:
+        #os: [ "windows-latest", "macos-11", "ubuntu-latest" ]
+        os: [ "ubuntu-latest" ]
+        node-version: [ '14', '16', '18' ]
+        #architecture: [ 'x86', 'x64' ]
       fail-fast: true
       max-parallel: 6
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
-    name: Build Release
+    name: Node ${{ matrix.node-version }} - ${{ matrix.os }} #-${{ matrix.architecture }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -45,12 +50,13 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
 
       # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#improving-cache-restore-performance-on-windows-using-cross-os-caching
-      #      - if: ${{ runner.os == 'Windows' }}
-      #        name: Use GNU tar
-      #        run: |
-      #          echo "Adding GNU tar to PATH"
-      #          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-      #        shell: cmd
+      - if: ${{ runner.os == 'Windows' }}
+        name: Use GNU tar
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+        shell: cmd
+
       - name: Set env
         id: set-env
         shell: bash
@@ -60,11 +66,11 @@ jobs:
           echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
           echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
           echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
+          echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
+          echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
           echo "cache-npm=$(npm config get cache)" >> $GITHUB_OUTPUT
-        #echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
-        #echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-        #echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
-        #echo "CACHE_YARN2=$(yarn config get cacheFolder)" >> $GITHUB_ENV
+          echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "cache-yarn2=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Get env
         run: |
@@ -74,8 +80,8 @@ jobs:
           echo "commit url  : ${{ env.GITHUB_COMMIT_URL }}"
           echo "runner url  : ${{ env.GITHUB_RUNNER_URL }}"
           echo "cache npm   : ${{ env.CACHE_NPM }}"
-        #echo "cache yarn  : ${{ env.CACHE_YARN }}"
-        #echo "cache yarn2 : ${{ env.CACHE_YARN2 }}"
+          echo "cache yarn  : ${{ env.CACHE_YARN }}"
+          echo "cache yarn2 : ${{ env.CACHE_YARN2 }}"
 
       - name: Set EOL git configs
         continue-on-error: true
@@ -91,11 +97,11 @@ jobs:
           git submodule update --recursive --remote
           git pull -X theirs
 
-      - name: Use Node.js 18
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-          token: ${{ secrets.ACCESS_TOKEN }}
+          node-version: ${{ matrix.node-version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           #architecture: ${{ matrix.architecture }}
           #cache: 'npm'
           #cache-dependency-path: '**/package-lock.json'
@@ -108,14 +114,13 @@ jobs:
         with:
           path: |
             ${{ steps.set-env.outputs.cache-npm }}
-            **/.yarn
-            **/node_modules
-            **/tmp
-          key: ${{ runner.os }}-${{ matrix.architecture }}
+            ${{ steps.set-env.outputs.cache-yarn }}
+            ${{ steps.set-env.outputs.cache-yarn2 }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.architecture }}-
-            ${{ runner.os }}-${{ matrix.architecture }}
-            ${{ runner.os }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-
             ${{ runner.os }}-
 
       - name: Check Updates
@@ -129,33 +134,97 @@ jobs:
         run: npm i -g typescript ts-node gulp-cli hexo-cli webpack-cli
         if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: Clean Install
+      - name: Install Legacy Peer Dependencies
+        run: npm install --legacy-peer-deps
+        id: install-legacy
         shell: bash
-        run: rm -rf node_modules package-lock.json && yarn install
+        continue-on-error: true
 
-      - run: yarn build
-      - run: yarn run pack
+      - name: Install Verbose
+        if: steps.install-legacy.outcome == 'failure'
+        id: install-verbose
+        continue-on-error: true
+        shell: bash
+        run: |
+          rm -rf node_modules
+          npm install --verbose
+
+      - name: Install Update Binary
+        id: install-update
+        if: steps.install-verbose.outcome == 'failure'
+        shell: bash
+        run: |
+          rm -rf node_modules
+          npm install --no-shrinkwrap --update-binary
+        continue-on-error: true
+
+      - name: Clean Install
+        id: install-clean
+        shell: bash
+        if: steps.install-update.outcome == 'failure'
+        run: rm -rf node_modules package-lock.json && npm install
+
+      - name: Dump Installations
+        run: |
+          echo "install-legacy.outcome ${{ steps.install-legacy.outcome }}"
+          echo "install-legacy.conclusion ${{ steps.install-legacy.conclusion }}"
+          echo "install-verbose.outcome ${{ steps.install-verbose.outcome }}"
+          echo "install-verbose.conclusion ${{ steps.install-verbose.conclusion }}"
+          echo "install-update.outcome ${{ steps.install-update.outcome }}"
+          echo "install-update.conclusion ${{ steps.install-update.conclusion }}"
+          echo "install-clean.outcome ${{ steps.install-clean.outcome }}"
+          echo "install-clean.conclusion ${{ steps.install-clean.conclusion }}"
+
+      - if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        shell: bash
+        continue-on-error: true
+        run: npm list
+
+      - name: Build
+        run: npm run build
+
+      # https://github.com/marketplace/actions/verify-changed-files
+      - name: Check if there are changes
+        id: changes
+        uses: tj-actions/verify-changed-files@v14
+        with:
+          files: |
+            release
+            dist
+            lib
+            !node_modules
+            !tmp
+
+      - shell: bash
+        name: "What's changed?"
+        run: |
+          echo "Changed files: ${{ steps.changes.outputs.changed_files }}"
 
       - name: Git setup user email
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
       - run: git add release
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add dist
-
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add lib
-
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git add postinstall.js packer.js .github
-
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - run: git pull -X theirs
         name: Pull before push
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
       - name: Git push
+        if: matrix.node-version == '18.x' && matrix.architecture == 'x64' && runner.os == 'Linux' && steps.changes.outputs.files_changed == 'true'
         continue-on-error: true
         run: |
           git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
