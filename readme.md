@@ -37,6 +37,7 @@ npm i hexo-seo
 - Auto add sitemap (forked from yoast seo wordpress plugin)
 - Tested on hexo instances with 1000 more posts and pages
 - Concatenate all javascripts into one file
+- Rich snippets (breadcrumbs, website, article)
 
 > ## The reason why some features are removed
 > Separated due to very high memory usage and risk of HEAP MEMORY errors. so I will merge it to https://github.com/dimaslanjaka/static-blog-generator as a specific task
