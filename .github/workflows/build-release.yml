@@ -119,7 +119,6 @@ jobs:
           path: |
             ${{ steps.set-env.outputs.cache-npm }}
             ${{ steps.set-env.outputs.cache-yarn }}
-            ${{ steps.set-env.outputs.cache-yarn2 }}
           key: ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.node-version }}-${{ matrix.architecture }}-${{ hashFiles('**/package-lock.json') }}
@@ -139,7 +138,13 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Install Legacy Peer Dependencies
-        run: npm install --legacy-peer-deps
+        run: |
+          FILE=package-lock.json
+          if [ -f "$FILE" ]; then
+              npm install --legacy-peer-deps
+          else
+              yarn install
+          fi
         id: install-legacy
         shell: bash
         continue-on-error: true
@@ -151,7 +156,12 @@ jobs:
         shell: bash
         run: |
           rm -rf node_modules
-          npm install --verbose
+          FILE=package-lock.json
+          if [ -f "$FILE" ]; then
+              npm install --verbose
+          else
+              yarn install --verbose
+          fi
 
       - name: Install Update Binary
         id: install-update
@@ -159,14 +169,26 @@ jobs:
         shell: bash
         run: |
           rm -rf node_modules
-          npm install --no-shrinkwrap --update-binary
+          FILE=package-lock.json
+          if [ -f "$FILE" ]; then
+              npm install --no-shrinkwrap --update-binary
+          else
+              yarn install
+          fi
         continue-on-error: true
 
       - name: Clean Install
         id: install-clean
         shell: bash
         if: steps.install-update.outcome == 'failure'
-        run: rm -rf node_modules package-lock.json && npm install
+        run: |
+          rm -rf node_modules package-lock.json
+          FILE=package-lock.json
+          if [ -f "$FILE" ]; then
+              npm install
+          else
+              yarn install
+          fi
 
       - name: Dump Installations
         run: |
