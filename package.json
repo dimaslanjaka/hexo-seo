@@ -1,6 +1,12 @@
 {
   "name": "hexo-seo-workspace",
   "packageManager": "yarn@3.5.0",
+  "scripts": {
+    "build": "yarn workspace hexo-seo run build",
+    "preinstall": "yarn workspace hexo-seo install",
+    "serve": "yarn workspace site run server",
+    "clean": "yarn workspace site run clean"
+  },
   "workspaces": [
     "package",
     "site"
