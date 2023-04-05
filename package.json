@@ -84,7 +84,7 @@
     "@types/bluebird": "^3.5.38",
     "@types/clean-css": "^4.2.6",
     "@types/fs-extra": "^11.0.1",
-    "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types#hexo",
+    "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^18.15.11",
     "@types/object-assign": "^4.0.30",
