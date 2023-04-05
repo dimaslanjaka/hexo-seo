@@ -279,7 +279,7 @@ function HexoSeoHtml(content, data) {
                     hexo.log.info(logname, jsFilePath);
                     content = root.toString();
                     newsrc = "/hexo-seo-js/".concat(filename, ".js");
-                    newScript = "<script src=\"".concat(newsrc, "\"></script");
+                    newScript = "<script src=\"".concat(newsrc, "\"></script>");
                     content = content.replace('</body>', newScript + '</body>');
                     // cache router
                     concatRoutes.push({

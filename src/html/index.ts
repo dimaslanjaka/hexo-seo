@@ -236,7 +236,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
 
       // create new script and append to closing body
       const newsrc = `/hexo-seo-js/${filename}.js`;
-      const newScript = `<script src="${newsrc}"></script`;
+      const newScript = `<script src="${newsrc}"></script>`;
       content = content.replace('</body>', newScript + '</body>');
 
       // cache router
