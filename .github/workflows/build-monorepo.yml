@@ -1,0 +1,113 @@
+name: Build Release
+
+on:
+  push:
+    branches: ['master', 'main']
+    paths-ignore:
+      - '**/*.tgz'
+      - '**/*.gz'
+      - '**/release/**'
+      - '**garbage-collector**'
+      - '**codeql**'
+  pull_request:
+    types:
+      - closed
+    paths-ignore:
+      - '**/release/**'
+      - '**/*.tgz'
+      - '**/*.gz'
+      - '**/test*/**'
+  workflow_dispatch:
+
+# run single job
+concurrency:
+  group: build-release #actions-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Package
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # repository: dimaslanjaka/nodejs-package-types
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: monorepo
+      - name: Set env
+        id: set-env
+        shell: bash
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
+          echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
+          echo "CACHE_NPM=$(npm config get cache)" >> $GITHUB_ENV
+          echo "cache-npm=$(npm config get cache)" >> $GITHUB_OUTPUT
+          YARN_CURRENT=$(yarn -v)
+          YARN_BERRY=3.2.1
+          if [[ "ok" == "$(echo | awk "(${YARN_CURRENT} > ${YARN_BERRY}) { print \"ok\"; }")" ]]; then
+            echo "CACHE_YARN=$(yarn config get cacheFolder)" >> $GITHUB_ENV
+            echo "cache-yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+          else
+            echo "CACHE_YARN=$(yarn cache dir)" >> $GITHUB_ENV
+            echo "cache-yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          fi
+          echo "architecture=$(getconf LONG_BIT)" >> $GITHUB_ENV
+
+      - name: Get env
+        run: |
+          echo "branch      : ${{ env.GITHUB_BRANCH }}"
+          echo "commit msg  : ${{ github.event.head_commit.message }}"
+          echo "commit hash : ${{ env.GITHUB_SHA_SHORT }}"
+          echo "commit url  : ${{ env.GITHUB_COMMIT_URL }}"
+          echo "runner url  : ${{ env.GITHUB_RUNNER_URL }}"
+          echo "cache npm   : ${{ env.CACHE_NPM }}"
+          echo "cache yarn  : ${{ env.CACHE_YARN }}"
+
+      - name: Set EOL git configs
+        continue-on-error: true
+        run: |
+          git config core.eol lf
+          git config core.autocrlf input
+          git checkout-index --force --all
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          token: ${{ secrets.ACCESS_TOKEN }}
+          #architecture: ${{ matrix.architecture }}
+          #cache: 'npm'
+          #cache-dependency-path: '**/yarn.json'
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ${{ steps.set-env.outputs.cache-npm }}
+            ${{ steps.set-env.outputs.cache-yarn }}
+            tmp
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('**/yarn.json') }}
+            ${{ runner.os }}-
+      - run: yarn build
+      - name: push master
+        working-directory: package
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
+          git push
+      - name: push monorepo
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
+          git push

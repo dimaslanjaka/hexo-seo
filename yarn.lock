@@ -693,9 +693,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types#hexo":
+"@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz":
   version: 3.9.0
-  resolution: "@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types.git#commit=e3c3ee5afffdac5e73bba7b6945deafa7f4d9e8c"
+  resolution: "@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz"
   dependencies:
     "@types/bluebird": ^3.5.38
     "@types/bunyan": "*"
@@ -709,7 +709,7 @@ __metadata:
     moment: ^2.29.4
     underscore: ^1.13.6
     upath: ^2.0.1
-  checksum: 2d5845a413a10af13dbf654b2d5a8906040b69e86f13452ad1b293ea9e68513d95d2f499352e4c841add1692133c27ee975e50beee96991d22d802272c47bf96
+  checksum: d77e4afe53a50597b14ee21e9aef272d7aee63f9c34ae9b20b987174c7572f4abd595696a1d637b9a950e64cc327c42091b61e5f05a8292f037e7179923c6600
   languageName: node
   linkType: hard
 
@@ -5520,7 +5520,7 @@ __metadata:
     "@types/bluebird": ^3.5.38
     "@types/clean-css": ^4.2.6
     "@types/fs-extra": ^11.0.1
-    "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types#hexo"
+    "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/raw/hexo/release/types-hexo.tgz"
     "@types/jsdom": ^21.1.1
     "@types/node": ^18.15.11
     "@types/object-assign": ^4.0.30
