@@ -15,6 +15,11 @@ exclude/
 .yarn/*.gz
 .yarn/versions
 
+## ignore monorepo
+package/
+test/
+site/
+
 # unused idea configuration
 .idea/vcs.xml
 .idea/workspace.xml
