@@ -2,9 +2,10 @@ name: Test Demo
 
 on:
   push:
-    branches: ["master"]
+    branches: ['master', 'monorepo']
   pull_request:
-    branches: ["master"]
+    branches: ['master', 'monorepo']
+    types: ['closed']
 
 # cancel previous workflows, run only one workflow
 concurrency:
@@ -19,21 +20,22 @@ jobs:
       - name: Set TimeZone
         uses: szenius/set-timezone@v1.2
         with:
-          timezoneLinux: "Asia/Jakarta"
-          timezoneMacos: "Asia/Jakarta"
-          timezoneWindows: "Indonesia Standard Time"
+          timezoneLinux: 'Asia/Jakarta'
+          timezoneMacos: 'Asia/Jakarta'
+          timezoneWindows: 'Indonesia Standard Time'
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
+          ref: monorepo
           submodules: recursive
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: '${{ secrets.GITHUB_TOKEN }}'
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
-          cache: "npm"
+          node-version: '16.x'
+          cache: 'npm'
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
@@ -48,8 +50,8 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test/demo && npm i ./../../ && npm update hexo-seo
-      - run: cd test/demo && hexo generate
+      - run: cd test && npm i ./../ && npm update hexo-seo
+      - run: cd test && hexo generate
 
   git:
     if: ${{ false }} # disable for now cause git cache error
@@ -59,20 +61,21 @@ jobs:
       - name: Set TimeZone
         uses: szenius/set-timezone@v1.2
         with:
-          timezoneLinux: "Asia/Jakarta"
-          timezoneMacos: "Asia/Jakarta"
-          timezoneWindows: "Indonesia Standard Time"
+          timezoneLinux: 'Asia/Jakarta'
+          timezoneMacos: 'Asia/Jakarta'
+          timezoneWindows: 'Indonesia Standard Time'
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
           submodules: recursive
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          ref: monorepo
+          token: '${{ secrets.GITHUB_TOKEN }}'
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: '16.x'
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - uses: actions/cache@v3
         with:
@@ -80,8 +83,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
       - run: npm install
-      - run: cd test/demo && npm install 'dimaslanjaka/hexo-seo#master' && npm update hexo-seo
-      - run: cd test/demo && hexo generate
+      - run: cd test && npm install 'dimaslanjaka/hexo-seo#master' && npm update hexo-seo
+      - run: cd test && hexo generate
 
   npm:
     name: Using NPM Package
@@ -90,20 +93,21 @@ jobs:
       - name: Set TimeZone
         uses: szenius/set-timezone@v1.2
         with:
-          timezoneLinux: "Asia/Jakarta"
-          timezoneMacos: "Asia/Jakarta"
-          timezoneWindows: "Indonesia Standard Time"
+          timezoneLinux: 'Asia/Jakarta'
+          timezoneMacos: 'Asia/Jakarta'
+          timezoneWindows: 'Indonesia Standard Time'
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
           submodules: recursive
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          ref: monorepo
+          token: '${{ secrets.GITHUB_TOKEN }}'
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: '16.x'
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
@@ -121,5 +125,5 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test/demo && npm i hexo-seo && npm update hexo-seo
-      - run: cd test/demo && hexo generate
+      - run: cd test && npm i hexo-seo && npm update hexo-seo
+      - run: cd test && hexo generate
