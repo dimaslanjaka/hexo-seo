@@ -9,4 +9,14 @@ case `uname` in
   *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-cd ../../ && hexo server --development
+if [ -z "$1" ]; then
+    echo "You need to provide a target branch"
+    exit
+fi
+
+if [ -z "$2" ]; then
+    echo "You need to provide a target path"
+    exit
+fi
+
+git checkout --theirs "$1" "$2"
