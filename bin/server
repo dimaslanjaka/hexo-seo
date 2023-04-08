@@ -9,4 +9,4 @@ case `uname` in
   *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-cd ../../ && hexo server --development
+cd test && hexo server --development
