@@ -5,6 +5,7 @@ on:
     branches: ['master', 'monorepo']
   pull_request:
     branches: ['master', 'monorepo']
+    types: ['closed']
 
 # cancel previous workflows, run only one workflow
 concurrency:
