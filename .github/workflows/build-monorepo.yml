@@ -38,6 +38,7 @@ jobs:
           # repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: monorepo
+          submodule: recursive
       - name: Set env
         id: set-env
         shell: bash
