@@ -8,3 +8,4 @@
 dist
 tmp
 tsconfigs
+.vscode
