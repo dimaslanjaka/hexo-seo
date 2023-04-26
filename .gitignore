@@ -5,3 +5,6 @@
 **/.yarn/patches
 **/yarn.lock
 **/package-lock.json
+dist
+tmp
+tsconfigs
