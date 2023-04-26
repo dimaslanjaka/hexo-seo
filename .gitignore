@@ -123,3 +123,9 @@ typings/
 # keep release
 !release/
 !release/*.tgz
+**/node_modules
+**/.yarn/cache
+**/.yarn/*.gz
+**/.yarn/versions
+**/.yarn/patches
+**/tmp

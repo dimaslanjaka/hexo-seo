@@ -17,12 +17,10 @@ const crypto = require('crypto');
 //// CHECK REQUIRED PACKAGES
 
 const scriptname = `[packer]`;
-const isAllPackagesInstalled = ['cross-spawn', 'axios', 'ansi-colors', 'glob'].map((name) => {
-  return {
+const isAllPackagesInstalled = ['cross-spawn', 'ansi-colors', 'glob'].map((name) => ({
     name,
     installed: isPackageInstalled(name)
-  };
-});
+  }));
 if (!isAllPackagesInstalled.every((o) => o.installed === true)) {
   const names = isAllPackagesInstalled.filter((o) => o.installed === false).map((o) => o.name);
   console.log(scriptname, 'package', names.join(', '), 'is not installed', 'skipping postinstall script');
@@ -41,7 +39,7 @@ const child = !usingYarn
   ? spawn('npm', ['pack'], { cwd: __dirname, stdio: 'ignore' })
   : spawn('yarn', ['pack'], { cwd: __dirname, stdio: 'ignore' });
 
-let version = (function () {
+const version = (function () {
   const v = parseVersion(packagejson.version);
   return `${v.major}.${v.minor}.${v.patch}`;
 })();
@@ -59,7 +57,7 @@ const getPackageHashes = async function () {
       hashes = {};
     }
   }
-  let pkglock = [join(__dirname, 'package-lock.json'), join(__dirname, 'yarn.lock')].filter((str) =>
+  const pkglock = [join(__dirname, 'package-lock.json'), join(__dirname, 'yarn.lock')].filter((str) =>
     fs.existsSync(str)
   )[0];
   const readDir = fs
@@ -73,7 +71,7 @@ const getPackageHashes = async function () {
   for (let i = 0; i < readDir.length; i++) {
     const file = readDir[i];
     const stat = fs.statSync(file);
-    const size = parseFloat(stat.size / Math.pow(1024, 1)).toFixed(2) + ' KB';
+    const size = `${parseFloat(stat.size / Math.pow(1024, 1)).toFixed(2)} KB`;
     // assign to existing object
     hashes = Object.assign({}, hashes, {
       [toUnix(file).replace(toUnix(__dirname), '')]: {
@@ -117,7 +115,7 @@ function bundleWithYarn() {
   }
 
   // write hashes info
-  getPackageHashes().then(function () {
+  getPackageHashes().then(() => {
     console.log('='.repeat(20));
     console.log('= packing finished =');
     console.log('='.repeat(20));
@@ -150,7 +148,7 @@ function bundleWithNpm() {
     if (fs.existsSync(tgz)) fs.rmSync(tgz);
 
     // write hashes info
-    getPackageHashes().then(function () {
+    getPackageHashes().then(() => {
       console.log('='.repeat(20));
       console.log('= packing finished =');
       console.log('='.repeat(20));
@@ -168,7 +166,7 @@ function slugifyPkgName(str) {
  * @returns
  */
 function parseVersion(versionString) {
-  var vparts = versionString.split('.');
+  const vparts = versionString.split('.');
   const version = {
     major: parseInt(vparts[0]),
     minor: parseInt(vparts[1]),
@@ -237,7 +235,7 @@ function file_to_hash(alogarithm = 'sha1', path, encoding = 'hex') {
 function isPackageInstalled(packageName) {
   try {
     const modules = Array.from(process.moduleLoadList).filter((str) => !str.startsWith('NativeModule internal/'));
-    return modules.indexOf('NativeModule ' + packageName) >= 0 || fs.existsSync(require.resolve(packageName));
+    return modules.indexOf(`NativeModule ${packageName}`) >= 0 || fs.existsSync(require.resolve(packageName));
   } catch (e) {
     return false;
   }
