@@ -10,5 +10,8 @@
   "workspaces": [
     "package",
     "site"
-  ]
+  ],
+  "devDependencies": {
+    "binary-collections": "https://github.com/dimaslanjaka/bin"
+  }
 }

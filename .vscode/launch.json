@@ -27,7 +27,7 @@
     {
       "command": "npx hexo server --development",
       "name": "[DEV] Demo Server",
-      "cwd": "${workspaceFolder}/test/demo",
+      "cwd": "${workspaceFolder}/site",
       "env": {
         "NODE_ENV": "development"
       },
@@ -37,7 +37,7 @@
     {
       "command": "npx hexo generate && npm run serve-static",
       "name": "[DEV] Demo Generate",
-      "cwd": "${workspaceFolder}/test/demo",
+      "cwd": "${workspaceFolder}/site",
       "env": {
         "NODE_ENV": "development"
       },
@@ -47,7 +47,7 @@
     {
       "command": "npx hexo generate && npm run serve-static",
       "name": "[PROD] Demo Generate",
-      "cwd": "${workspaceFolder}/test/demo",
+      "cwd": "${workspaceFolder}/site",
       "env": {
         "NODE_ENV": "production"
       },
@@ -60,7 +60,7 @@
       "env": {
         "NODE_ENV": "development"
       },
-      "cwd": "${workspaceFolder}/test/demo",
+      "cwd": "${workspaceFolder}/site",
       "request": "launch",
       "type": "node-terminal"
     },
