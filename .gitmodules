@@ -1,7 +1,7 @@
 [submodule "package"]
 	path = package
 	url = https://github.com/dimaslanjaka/hexo-seo
-	branch = master
+	branch = pre-release
 [submodule "site"]
 	path = site
 	url = https://github.com/dimaslanjaka/site
