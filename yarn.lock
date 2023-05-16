@@ -750,10 +750,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.16.1, @types/node@npm:^18.x":
+"@types/node@npm:*, @types/node@npm:^18.x":
   version: 18.16.1
   resolution: "@types/node@npm:18.16.1"
   checksum: 799026b949a48993cba7c9b81b2eabfdfb34c880744cb44c1c990fbedc9e315f3634d126eb2cf9a6e0795577c01016e2326d98565bef695ada9d363fadeb6946
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.1.5":
+  version: 20.1.5
+  resolution: "@types/node@npm:20.1.5"
+  checksum: 0d073ed7b9cc51e2354dcf3a8ccca84d08c7d513fa8fac9462cabc164435b30f2ad296e9f2f911e6ce72da837b704f1075379be84a93bb24f76d328a2d9e8561
   languageName: node
   linkType: hard
 
@@ -4896,7 +4903,7 @@ __metadata:
     "@types/clean-css": ^4.2.6
     "@types/fs-extra": ^11.0.1
     "@types/jsdom": ^21.1.1
-    "@types/node": ^18.16.1
+    "@types/node": ^20.1.5
     "@types/object-assign": ^4.0.30
     "@types/serve-static": ^1.15.1
     "@types/through2": "https://github.com/dimaslanjaka/nodejs-package-types/raw/through2/release/types-through2.tgz"
