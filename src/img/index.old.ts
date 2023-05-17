@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import Hexo from 'hexo';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import { Stream } from 'stream';
 import getConfig from '../config';
 import logger from '../log';

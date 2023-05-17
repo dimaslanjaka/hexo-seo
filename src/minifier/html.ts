@@ -1,8 +1,8 @@
 'use strict';
 import bluebird from 'bluebird';
 import Hexo from 'hexo';
-import { minify, Options as htmlMinifyOptions } from 'html-minifier-terser';
-import minimatch from 'minimatch';
+import { Options as htmlMinifyOptions, minify } from 'html-minifier-terser';
+import { minimatch } from 'minimatch';
 import pkg from '../../package.json';
 import getConfig from '../config';
 import logger from '../log';
