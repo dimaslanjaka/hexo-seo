@@ -3241,6 +3241,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deepmerge-ts@npm:4.3.0":
+  version: 4.3.0
+  resolution: "deepmerge-ts@npm:4.3.0"
+  checksum: d5f8a96df9a2bc7177d59544b9390ba76e50fb725f776669068ca04eef319e98ee8870cf7b7ecca9f636b711d57cea571ac61553ee01101a614c045f7a86e0be
+  languageName: node
+  linkType: hard
+
 "deepmerge-ts@npm:^5.1.0":
   version: 5.1.0
   resolution: "deepmerge-ts@npm:5.1.0"
@@ -5564,7 +5571,7 @@ __metadata:
     cheerio: ^1.0.0-rc.12
     clean-css: ^5.3.2
     cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/raw/2cf620b9c848068544a2d26726a5a9b4faa7cc80/release/cross-spawn.tgz"
-    deepmerge-ts: ^5.1.0
+    deepmerge-ts: 4.3.0
     depcheck: ^1.4.3
     dotenv: ^16.0.3
     eslint: ^8.40.0
