@@ -1,7 +1,8 @@
 import ansiColors from 'ansi-colors';
-import Hexo, { TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
 
 import fs from 'fs-extra';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
 import path from 'upath';
@@ -25,7 +26,7 @@ import { isExternal } from './types';
  * @param data
  * @returns
  */
-export function getPagePath(data: HexoSeo | TemplateLocals) {
+export function getPagePath(data: HexoSeo | HexoLocalsData) {
   if (data.page) {
     if (data.page.full_source) return data.page.full_source;
     if (data.page.path) return data.page.path;

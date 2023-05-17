@@ -1,5 +1,5 @@
-import { TemplateLocals } from 'hexo';
 import hexoIs from 'hexo-is';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
 import { BaseConfig } from '../config';
@@ -12,7 +12,7 @@ import model from './schema/article/model4.json';
  * @param HSconfig
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
+export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData) {
   if (!HSconfig.schema) {
     return;
   }
