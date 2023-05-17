@@ -5516,7 +5516,7 @@ __metadata:
     bluebird: ^3.7.2
     cheerio: ^1.0.0-rc.12
     clean-css: ^5.3.2
-    cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/raw/2cf620b9c848068544a2d26726a5a9b4faa7cc80/release/cross-spawn.tgz"
+    cross-spawn: "https://github.com/dimaslanjaka/node-cross-spawn/raw/5560156/release/cross-spawn.tgz"
     deepmerge-ts: 4.3.0
     depcheck: ^1.4.3
     dotenv: ^16.0.3
