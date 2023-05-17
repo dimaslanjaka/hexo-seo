@@ -6,17 +6,9 @@ on:
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
-      - '**/release/**'
+      - '**/release*/**'
       - '**garbage-collector**'
       - '**codeql**'
-  pull_request:
-    types:
-      - closed
-    paths-ignore:
-      - '**/release/**'
-      - '**/*.tgz'
-      - '**/*.gz'
-      - '**/test*/**'
   workflow_dispatch:
 
 # run single job
