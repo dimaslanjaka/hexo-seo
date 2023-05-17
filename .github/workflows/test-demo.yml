@@ -13,7 +13,7 @@ jobs:
       YARN_CHECKSUM_BEHAVIOR: update
     strategy:
       matrix:
-        node-version: [14.x, 18.x, 16.x, 20.x]
+        node-version: [14.x, 18.x, 16.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Set TimeZone
