@@ -1,8 +1,9 @@
-import Hexo, { PageData, TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
 import hexoIs from 'hexo-is';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { HTMLElement } from 'node-html-parser';
 import { BaseConfig } from '../config';
-export interface returnPageData extends PageData {
+export interface returnPageData extends HexoLocalsData {
     [key: string]: any;
     is: ReturnType<typeof hexoIs>;
 }
@@ -11,7 +12,7 @@ export interface returnPageData extends PageData {
  * @param data
  * @returns
  */
-export declare function getPageData(data: TemplateLocals): returnPageData;
-export declare function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals): void;
+export declare function getPageData(data: HexoLocalsData): returnPageData;
+export declare function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData): void;
 export default sitemap;
 export declare function sitemapIndex(hexoinstance?: Hexo): void;

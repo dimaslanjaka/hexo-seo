@@ -14,7 +14,8 @@ export interface jsMinifyOptions {
  * @param data
  * @returns
  */
-export default function HexoSeoJs(this: Hexo, str: string, data: Hexo.View | {
+export default function HexoSeoJs(this: Hexo, str: string, data: {
+    [key: string]: any;
     path: string;
 }): Promise<string>;
 /**

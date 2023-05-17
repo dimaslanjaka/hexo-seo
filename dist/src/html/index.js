@@ -189,7 +189,7 @@ function HexoSeoHtml(content, data) {
                     });
                     filename = 'concat-' + (0, md5_file_1.md5)(upath_1.default.basename(path0));
                     scriptContents_1 = [];
-                    hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
+                    hexo.log.debug(logname, 'concatenate', scripts.length + ' javascripts');
                     _loop_1 = function (i) {
                         var script, src, textContent, srcIsUrl, separator, addScript, originalSources, sources, rendered, e_1;
                         return __generator(this, function (_b) {
@@ -276,7 +276,7 @@ function HexoSeoHtml(content, data) {
                     // write js
                     (0, sbg_utility_1.writefile)(jsFilePath, scriptContent).file;
                     // show log
-                    hexo.log.info(logname, jsFilePath);
+                    hexo.log.debug(logname, jsFilePath);
                     content = root.toString();
                     newsrc = "/hexo-seo-js/".concat(filename, ".js");
                     newScript = "<script src=\"".concat(newsrc, "\"></script>");
@@ -288,8 +288,8 @@ function HexoSeoHtml(content, data) {
                     });
                     config_1.coreCache.setSync(config_1.cache_key_router, concatRoutes);
                     // write to public directory
-                    hexo.log.info(logconcatname, 'written', (0, sbg_utility_1.writefile)(upath_1.default.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file);
-                    hexo.log.info(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
+                    hexo.log.debug(logconcatname, 'written', (0, sbg_utility_1.writefile)(upath_1.default.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file);
+                    hexo.log.debug(logname, (0, sbg_utility_1.writefile)(filePathWithoutExt + '.html', content).file);
                     _a.label = 7;
                 case 7:
                     // END concatenate javascripts

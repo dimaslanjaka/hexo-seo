@@ -1,12 +1,13 @@
 import { CheerioAPI } from 'cheerio';
-import Hexo, { TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 export type SchemaAuthor = ObjectConstructor & {
     image: string;
     name: string;
     sameAs?: string;
     url?: string;
 };
-export type HexoSeo = Hexo & Hexo.View & Hexo.Locals.Category & Hexo.Locals.Page & Hexo.Locals.Post & Hexo.Locals.Tag & TemplateLocals;
+export type HexoSeo = Hexo & HexoLocalsData;
 export interface SchemaArticleOptions {
     /**
      * Print pretty style
@@ -15,7 +16,7 @@ export interface SchemaArticleOptions {
     /**
      * Hexo instance
      */
-    hexo: TemplateLocals;
+    hexo: HexoLocalsData;
 }
 declare class articleSchema {
     schema: {
@@ -77,7 +78,7 @@ declare class articleSchema {
         articleBody: string;
     };
     options: SchemaArticleOptions;
-    hexo: TemplateLocals;
+    hexo: HexoLocalsData;
     constructor(options?: SchemaArticleOptions);
     /**
      * Set custom property and value

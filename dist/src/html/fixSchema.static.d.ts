@@ -1,4 +1,4 @@
-import { TemplateLocals } from 'hexo';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { HTMLElement } from 'node-html-parser';
 import { BaseConfig } from '../config';
 /**
@@ -7,4 +7,4 @@ import { BaseConfig } from '../config';
  * @param HSconfig
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals): void;
+export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData): void;

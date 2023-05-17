@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bluebird_1 = __importDefault(require("bluebird"));
 var html_minifier_terser_1 = require("html-minifier-terser");
-var minimatch_1 = __importDefault(require("minimatch"));
+var minimatch_1 = require("minimatch");
 var package_json_1 = __importDefault(require("../../package.json"));
 var config_1 = __importDefault(require("../config"));
 var log_1 = __importDefault(require("../log"));
@@ -20,7 +20,7 @@ var minHtml = function () {
     var route = hexo.route;
     // Filter routes to select all html files.
     var routes = route.list().filter(function (path0) {
-        var choose = (0, minimatch_1.default)(path0, '**/*.{htm,html}', { nocase: true });
+        var choose = (0, minimatch_1.minimatch)(path0, '**/*.{htm,html}', { nocase: true });
         if (typeof options.exclude != 'undefined') {
             choose = choose && !(0, utils_1.isIgnore)(path0, options.exclude);
         }

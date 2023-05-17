@@ -29,8 +29,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var fs = __importStar(require("fs-extra"));
-var minimatch_1 = __importDefault(require("minimatch"));
-require("nodejs-package-types");
+var minimatch_1 = require("minimatch");
 var rimraf_1 = __importDefault(require("rimraf"));
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 var upath_1 = __importDefault(require("upath"));
@@ -50,12 +49,12 @@ var isIgnore = function (path0, exclude, hexo) {
                 var fromBase = upath_1.default.join(hexo.base_dir, excludePattern);
                 var fromSource = upath_1.default.join(hexo.source_dir, excludePattern);
                 //log.log([path0, fromBase, fromSource, excludePattern]);
-                if ((0, minimatch_1.default)(path0, fromSource))
+                if ((0, minimatch_1.minimatch)(path0, fromSource))
                     return true;
-                if ((0, minimatch_1.default)(path0, fromBase))
+                if ((0, minimatch_1.minimatch)(path0, fromBase))
                     return true;
             }
-            if ((0, minimatch_1.default)(path0, excludePattern))
+            if ((0, minimatch_1.minimatch)(path0, excludePattern))
                 return true;
         }
     }
