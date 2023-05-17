@@ -6,6 +6,10 @@ jobs:
   internal:
     name: Using Direct Files
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Set TimeZone
         uses: szenius/set-timezone@v1.2
@@ -37,11 +41,11 @@ jobs:
           echo "disable githooks warning"
           git config advice.ignoredHook false
         shell: bash
-      - name: Use Node.js 16.x
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          cache: 'npm'
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - name: Get npm cache directory
         id: npm-cache
@@ -49,9 +53,10 @@ jobs:
           echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v3
         with:
-          path: ./node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          path: |
+            **/dist
+          key: ${{ runner.os }}-${{ matrix.node-version }}
+          restore-keys: ${{ runner.os }}-${{ matrix.node-version }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
