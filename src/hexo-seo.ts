@@ -64,7 +64,7 @@ export default function HexoSeo(hexo: Hexo) {
   // clean build and temp folder on `hexo clean`
   hexo.extend.filter.register('after_clean', function () {
     // remove some other temporary files
-    hexo.log.info(logname + '(clean)', 'cleaning build and temp folder');
+    hexo.log.debug(logname + '(clean)', 'cleaning build and temp folder');
     if (fs.existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
     if (fs.existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
   });
@@ -72,7 +72,7 @@ export default function HexoSeo(hexo: Hexo) {
   // execute scheduled functions before process exit
   if (hexoCmd != 'clean') {
     bindProcessExit('scheduler_on_exit', function () {
-      hexo.log.info(logname, 'executing scheduled functions');
+      hexo.log.debug(logname, 'executing scheduled functions');
       scheduler.executeAll();
     });
   }
@@ -89,7 +89,7 @@ export default function HexoSeo(hexo: Hexo) {
 
     for (let i = 0; i < concatRoutes.length; i++) {
       const { path, absolute } = concatRoutes[i];
-      hexo.log.info(logname, 'register', path);
+      hexo.log.debug(logname, 'register', path);
       wrap.push({
         path,
         data: () => fs.createReadStream(absolute)
