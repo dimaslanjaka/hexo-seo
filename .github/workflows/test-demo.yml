@@ -46,18 +46,19 @@ jobs:
           echo "disable githooks warning"
           git config advice.ignoredHook false
         shell: bash
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-      - run: npm i -g npm gulp-cli typescript hexo-cli
       - uses: actions/cache@v3
         with:
           path: |
             **/dist
           key: ${{ runner.os }}-${{ matrix.node-version }}
           restore-keys: ${{ runner.os }}-${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: corepack enable
+      - run: npm i -g npm gulp-cli typescript hexo-cli
       - run: yarn install
       - run: yarn build
       - run: yarn workspace hexo-seo-site exec "hexo generate"
