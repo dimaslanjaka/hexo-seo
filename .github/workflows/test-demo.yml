@@ -47,10 +47,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: npm i -g npm gulp-cli typescript hexo-cli
-      - name: Get npm cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v3
         with:
           path: |
