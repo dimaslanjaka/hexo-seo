@@ -68,7 +68,6 @@
     "node-cache": "^5.1.2",
     "node-html-parser": "^6.1.5",
     "node-libcurl": "^3.0.0",
-    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/main/release/nodejs-package-types.tgz",
     "rimraf": "^5.0.0",
     "sanitize-filename": "^1.6.3",
     "sbg-utility": "^1.1.0",
@@ -114,6 +113,5 @@
     "node.extend": ">=2.0.2",
     "request": ">=2.88.2",
     "uuid": ">=9.0.0"
-  },
-  "packageManager": "yarn@3.4.1"
+  }
 }
