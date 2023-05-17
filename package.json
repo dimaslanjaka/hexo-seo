@@ -4,7 +4,8 @@
   "scripts": {
     "build": "yarn workspace hexo-seo run build && yarn workspace hexo-seo run pack",
     "serve": "yarn workspace site run server",
-    "clean": "yarn workspace site run clean"
+    "clean": "yarn workspace site run clean",
+    "start": "npm run build && npm run serve"
   },
   "workspaces": [
     "package",
