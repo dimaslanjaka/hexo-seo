@@ -23,7 +23,7 @@
     "build": "yarn ts:normal && gulp",
     "clean": "gulp clean",
     "update:project": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
-    "update:ncu": "npm-check-updates -u -x jsdom,deepmerge-ts",
+    "update:ncu": "npm-check-updates -u -x jsdom,deepmerge-ts,cheerio",
     "update": "yarn run update:project && yarn run update:ncu",
     "post-install": "node postinstall.js --yarn --commit",
     "test:install": "cd test/demo && npm install",
@@ -38,7 +38,7 @@
     "seo"
   ],
   "engines": {
-    "node": ">=8",
+    "node": ">=14",
     "hexo": ">=6"
   },
   "author": {
