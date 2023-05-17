@@ -3,8 +3,9 @@
   "packageManager": "yarn@3.5.0",
   "scripts": {
     "build": "yarn workspace hexo-seo run build && yarn workspace hexo-seo run pack",
-    "serve": "yarn workspace site run server",
-    "clean": "yarn workspace site run clean",
+    "serve": "yarn workspace hexo-seo-site run server",
+    "clean": "yarn workspace hexo-seo-site run clean",
+    "generate": "yarn workspace hexo-seo-site run build",
     "start": "npm run build && npm run serve"
   },
   "workspaces": [
