@@ -121,6 +121,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.node_version }}
             ${{ runner.os }}-
+      - run: yarn workspace hexo-seo install
       - run: yarn install
       - run: yarn run build
       - name: push master
