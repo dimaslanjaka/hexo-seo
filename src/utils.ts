@@ -4,8 +4,7 @@
 
 import * as fs from 'fs-extra';
 import Hexo from 'hexo';
-import minimatch from 'minimatch';
-import 'nodejs-package-types';
+import { minimatch } from 'minimatch';
 import rimraf from 'rimraf';
 import sanitizeFilename from 'sanitize-filename';
 import path from 'upath';

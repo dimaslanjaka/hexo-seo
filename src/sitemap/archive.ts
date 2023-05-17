@@ -1,4 +1,4 @@
-import Hexo, { Model } from 'hexo';
+import Hexo from 'hexo';
 import moment from 'moment';
 
 interface objectCategoryTags {
@@ -21,9 +21,9 @@ function getCategoryTags(hexo: Hexo) {
     return groupfilter;
   }
   groups.map((group) => {
-    const lastModifiedObject = (<Model<Hexo.Locals.Category | Hexo.Locals.Tag>>locals.get(group)).map((items) => {
+    const lastModifiedObject = locals.get(group).map((items) => {
       if (items.posts) {
-        const archives = <Hexo.Locals.Category | Hexo.Locals.Tag>items;
+        const archives = items;
         const posts = archives.posts;
         const latest = getLatestFromArrayDates(
           posts.map((post) => {

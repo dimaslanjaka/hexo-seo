@@ -1,7 +1,8 @@
 import ansiColors from 'ansi-colors';
-import Hexo, { TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
 
 import fs from 'fs-extra';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
 import path from 'upath';
@@ -25,7 +26,7 @@ import { isExternal } from './types';
  * @param data
  * @returns
  */
-export function getPagePath(data: HexoSeo | TemplateLocals) {
+export function getPagePath(data: HexoSeo | HexoLocalsData) {
   if (data.page) {
     if (data.page.full_source) return data.page.full_source;
     if (data.page.path) return data.page.path;
@@ -125,7 +126,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       });
       const filename = 'concat-' + md5(path.basename(path0));
       const scriptContents = [];
-      hexo.log.info(logname, 'concatenate', scripts.length + ' javascripts');
+      hexo.log.debug(logname, 'concatenate', scripts.length + ' javascripts');
       for (let i = 0; i < scripts.length; i++) {
         const script = scripts[i];
         const src = script.getAttribute('src');
@@ -230,7 +231,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       // write js
       writefile(jsFilePath, scriptContent).file;
       // show log
-      hexo.log.info(logname, jsFilePath);
+      hexo.log.debug(logname, jsFilePath);
 
       content = root.toString();
 
@@ -246,13 +247,13 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       });
       coreCache.setSync(cache_key_router, concatRoutes);
       // write to public directory
-      hexo.log.info(
+      hexo.log.debug(
         logconcatname,
         'written',
         writefile(path.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file
       );
 
-      hexo.log.info(logname, writefile(filePathWithoutExt + '.html', content).file);
+      hexo.log.debug(logname, writefile(filePathWithoutExt + '.html', content).file);
       //window.close();
     }
     // END concatenate javascripts

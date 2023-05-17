@@ -3,6 +3,7 @@
 import ansiColors from 'ansi-colors';
 import CleanCSS from 'clean-css';
 import Hexo from 'hexo';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import pkg from '../../package.json';
 import Cache from '../cache';
 import getConfig from '../config';
@@ -16,7 +17,7 @@ export type cssMinifyOptions = CleanCSS.Options & {
 
 const cache = new Cache();
 
-export default async function HexoSeoCss(this: Hexo, str: string, data: Hexo.View) {
+export default async function HexoSeoCss(this: Hexo, str: string, data: HexoLocalsData) {
   const path0 = data.path;
   const isChanged = await cache.isFileChanged(path0);
   const useCache = this.config.seo.cache;

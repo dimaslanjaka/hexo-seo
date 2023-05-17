@@ -1,6 +1,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
-import Hexo, { PageData, TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
 import hexoIs from 'hexo-is';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment';
 import { HTMLElement } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
@@ -54,7 +55,7 @@ function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
   }
 }
 
-export interface returnPageData extends PageData {
+export interface returnPageData extends HexoLocalsData {
   [key: string]: any;
   is: ReturnType<typeof hexoIs>;
 }
@@ -64,7 +65,7 @@ export interface returnPageData extends PageData {
  * @param data
  * @returns
  */
-export function getPageData(data: TemplateLocals) {
+export function getPageData(data: HexoLocalsData) {
   const is = hexoIs(data);
   if (data['page']) {
     const page = <returnPageData>data['page'];
@@ -92,7 +93,7 @@ const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
 // const cache = new CacheFile("sitemap");
 let turnError = false;
-export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: TemplateLocals) {
+export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData) {
   if (!HSconfig.sitemap) {
     if (!turnError) {
       turnError = true;

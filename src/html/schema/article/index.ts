@@ -1,5 +1,6 @@
 import { CheerioAPI } from 'cheerio';
-import Hexo, { TemplateLocals } from 'hexo';
+import Hexo from 'hexo';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { isValidUrlPattern } from '../../../utils/url';
 import mainSchema from './model3.json';
 
@@ -10,13 +11,7 @@ export type SchemaAuthor = ObjectConstructor & {
   url?: string;
 };
 
-export type HexoSeo = Hexo &
-  Hexo.View &
-  Hexo.Locals.Category &
-  Hexo.Locals.Page &
-  Hexo.Locals.Post &
-  Hexo.Locals.Tag &
-  TemplateLocals;
+export type HexoSeo = Hexo & HexoLocalsData;
 
 export interface SchemaArticleOptions {
   /**
@@ -26,13 +21,13 @@ export interface SchemaArticleOptions {
   /**
    * Hexo instance
    */
-  hexo: TemplateLocals;
+  hexo: HexoLocalsData;
 }
 
 class articleSchema {
   schema = mainSchema;
   options: SchemaArticleOptions;
-  hexo: TemplateLocals;
+  hexo: HexoLocalsData;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;
