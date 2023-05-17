@@ -122,7 +122,7 @@ jobs:
             ${{ runner.os }}-${{ env.node_version }}
             ${{ runner.os }}-
       - run: yarn install
-      - run: yarn build
+      - run: yarn run build
       - name: push master
         working-directory: package
         run: |
