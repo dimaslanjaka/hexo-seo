@@ -56,6 +56,5 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - run: npm install
-      - run: cd test && npm i ./../ && npm update hexo-seo
-      - run: cd test && hexo generate
+      - run: yarn workspace site exec "hexo generate"
 
