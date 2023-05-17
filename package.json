@@ -30,6 +30,7 @@
     "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/8cf940f/packages/sbg-utility/release/sbg-utility.tgz",
     "sitemap-crawler": "https://github.com/dimaslanjaka/static-blog-generator/raw/8cf940f/packages/sitemap-crawler/release/sitemap-crawler.tgz",
     "static-blog-generator": "https://github.com/dimaslanjaka/static-blog-generator/raw/8cf940f/packages/static-blog-generator/release/static-blog-generator.tgz",
-    "instant-indexing": "https://github.com/dimaslanjaka/static-blog-generator/raw/8cf940f/packages/instant-indexing/release/instant-indexing.tgz"
+    "instant-indexing": "https://github.com/dimaslanjaka/static-blog-generator/raw/8cf940f/packages/instant-indexing/release/instant-indexing.tgz",
+    "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/5560156/release/cross-spawn.tgz"
   }
 }
