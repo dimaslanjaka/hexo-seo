@@ -25,7 +25,7 @@ const cache = new Cache();
  * @param data
  * @returns
  */
-export default async function HexoSeoJs(this: Hexo, str: string, data: Hexo.View | { path: string }) {
+export default async function HexoSeoJs(this: Hexo, str: string, data: { [key: string]: any; path: string }) {
   const path0 = data.path;
   if (!path0) {
     log.error('%s(CSS) invalid path', pkg.name);
