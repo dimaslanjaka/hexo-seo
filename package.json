@@ -53,7 +53,7 @@
     "bluebird": "^3.7.2",
     "cheerio": "^1.0.0-rc.12",
     "clean-css": "^5.3.2",
-    "deepmerge-ts": "4.3.0",
+    "deepmerge-ts": "5.1.0",
     "file-type": "^18.4.0",
     "fs-extra": "^11.1.1",
     "hexo-is": "^1.0.5",
