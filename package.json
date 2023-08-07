@@ -94,7 +94,7 @@
     "depcheck": "^1.4.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.40.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "git-command-helper": "^2.0.1",
