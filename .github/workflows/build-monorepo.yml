@@ -33,7 +33,7 @@ jobs:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     name: Build Package
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.ACCESS_TOKEN }}
