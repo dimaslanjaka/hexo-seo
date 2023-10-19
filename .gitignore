@@ -10,3 +10,7 @@ tmp
 tsconfigs
 .vscode
 docs
+
+## ignore monorepo files
+/package
+/site
