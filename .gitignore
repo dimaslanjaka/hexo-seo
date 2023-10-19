@@ -5,3 +5,7 @@
 **/.yarn/patches
 **/tmp
 docs
+
+## ignore monorepo files
+/package
+/site
