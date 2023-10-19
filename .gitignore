@@ -11,6 +11,9 @@ tsconfigs
 .vscode
 docs
 
+## keep only latest tarball file
+/release/hexo-seo-*
+
 ## ignore monorepo files
 /package
 /site
