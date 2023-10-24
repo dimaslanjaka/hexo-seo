@@ -77,7 +77,7 @@ jobs:
           git checkout-index --force --all
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
           token: ${{ secrets.ACCESS_TOKEN }}
