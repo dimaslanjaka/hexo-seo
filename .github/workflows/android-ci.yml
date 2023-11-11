@@ -136,7 +136,7 @@ jobs:
       - name: Enforce cache update
         shell: bash
         run: |
-          STATE_CACHE_KEY="gradle-build-${{ runner.os }}-${{ hashFiles('**/*.gradle') }}"
+          STATE_CACHE_KEY="gradle-build-${{ runner.os }}-${{ hashFiles('**/*.gradle', '**/*.properties', '**/*.xml', '**/*.java', '**/*.kt') }}"
           echo "STATE_CACHE_KEY=${STATE_CACHE_KEY}" >> $GITHUB_ENV
   deploy:
     needs: build
