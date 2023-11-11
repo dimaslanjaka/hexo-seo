@@ -1,0 +1,263 @@
+name: Android CI
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+#   push:
+#     branches: ["android-traffic"]
+#   pull_request:
+#     branches: ["android-traffic"]
+  workflow_dispatch:
+    inputs:
+      withDeploy:
+        type: choice
+        default: no
+        description: with deploy
+        required: false
+        options:
+          - yes
+          - no
+  workflow_call:
+     secrets:
+       ACCESS_TOKEN:
+         required: true
+
+jobs:
+  build:
+    name: build apk
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: dimaslanjaka/dev
+          ref: android-traffic
+          token: ${{ secrets.ACCESS_TOKEN }}
+          lfs: 'true'
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 19
+          distribution: oracle
+      # - name: Setup Gradle
+      #   uses: gradle/gradle-build-action@v2
+      #   with:
+      #     cache-overwrite-existing: true
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: cache release folder
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./release
+          key: gradle-release-apk
+          restore-keys: gradle-release-apk
+      - name: cache build folders
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./app/build
+            ./manager/build
+            ./library/build
+            ./build
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            $HOME/.m2/repository
+            ~/.m2/repository
+            ./.gradle
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle') }}
+            gradle-${{ runner.os }}-
+            gradle-${{ runner.os }}
+            gradle-
+#       - name: "bash: dump paths"
+#         run: |
+#           echo $ANDROID_SDK_ROOT
+#           echo $ANDROID_HOME
+#         shell: bash
+#       - name: "win: dump paths"
+#         run: |
+#           where sdkmanager.bat
+      - name: install platform-tools
+        run: sdkmanager "platform-tools" "platforms;android-34"
+      - name: install ndk
+        run: sdkmanager --install "ndk;23.0.7599858"
+#       - name: apply sdk paths to local.properties
+#         shell: bash
+#         if: false
+#         run: |
+#           echo "sdk.dir=$ANDROID_HOME" > local.properties
+#           echo "\n" >> local.properties
+#           echo "sdk.dir=$ANDROID_HOME\\\\ndk\\\\23.0.7599858" >> local.properties
+      - name: copy build gradle config
+        run: |
+          chmod 777 *.properties
+          cp build.properties gradle.properties
+        shell: bash
+      - name: build settings.gradle
+        run: |
+          chmod 777 *.gradle
+          cat settings-repo.gradle settings-include.gradle > settings.gradle
+        shell: bash
+      - name: Generate Dictionary
+        run: bash ./gradlew genDict --gradle-user-home .gradle
+      - name: build Aarch64
+        run: bash ./gradlew assembleAarch64Release --gradle-user-home .gradle
+      - name: build ARM
+        run: bash ./gradlew assembleArmRelease --gradle-user-home .gradle
+      - name: build X86
+        run: bash ./gradlew assembleX86Release --gradle-user-home .gradle
+      - name: build X86_64
+        run: bash ./gradlew assembleX86_64Release --gradle-user-home .gradle
+      - name: build manager
+        run: "bash ./gradlew :manager:assembleRelease --gradle-user-home .gradle"
+      # - name: Build universal release APK
+      #   run: bash ./gradlew assembleRelease --gradle-user-home .gradle
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: |
+            release/
+            changelog.md
+            readme.md
+        env:
+          ACTIONS_STEP_DEBUG: true
+      - name: kill java processes
+        run: |
+          wmic process where "name like '%java%'" delete
+          taskkill /f /im jqs.exe
+          taskkill /f /im javaw.exe
+          taskkill /f /im java.exe
+        continue-on-error: true
+      - name: Enforce cache update
+        shell: bash
+        run: |
+          STATE_CACHE_KEY="gradle-build-${{ runner.os }}-${{ hashFiles('**/*.gradle') }}"
+          echo "STATE_CACHE_KEY=${STATE_CACHE_KEY}" >> $GITHUB_ENV
+  deploy:
+    needs: build
+    name: deploy to github pages
+    runs-on: windows-latest
+    steps:
+      - run: rm -rf release-repo
+        shell: bash
+      - name: Checkout pages compiler
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          repository: dimaslanjaka/android-traffic-exchange
+          ref: compiler
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: setup github
+        run: |
+          git config --global user.name 'dimaslanjaka'
+          git config --global user.email 'dimaslanjaka@gmail.com'
+          git config core.eol lf
+          git config core.autocrlf input
+
+      - name: Checkout pages deployment
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          repository: dimaslanjaka/android-traffic-exchange
+          ref: master
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: .deploy_git
+          lfs: 'true'
+        env:
+          GIT_CURL_VERBOSE: '1'
+          GIT_TRACE: '1'
+      - name: setup github
+        run: |
+          git config --global user.name 'dimaslanjaka'
+          git config --global user.email 'dimaslanjaka@gmail.com'
+          git config core.eol lf
+          git config core.autocrlf input
+        working-directory: .deploy_git
+
+      - name: set env
+        id: set-env
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          echo "GITHUB_COMMIT_URL=https://github.com/${{github.repository}}/commit/$(echo $GITHUB_SHA)" >> $GITHUB_ENV
+          echo "GITHUB_RUNNER_URL=https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}" >> $GITHUB_ENV
+      # - name: debug env
+      #   run: |
+      #     echo $HOME
+      #     echo ${{ steps.set-env.outputs.GRADLE_USER_HOME }}
+      #     echo $USER_HOME
+        shell: bash
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ./.cache
+            ./tmp
+            ./dist
+            ./node_modules
+            ./.yarn/caches
+          key: node-${{ runner.os }}
+          restore-keys: node-${{ runner.os }}
+      # - name: cache release folder
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ./release
+      #     key: gradle-release-apk
+      #     restore-keys: |
+      #       gradle-release-apk
+      #       gradle-release-
+      #       gradle-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: actions/download-artifact@v3
+        id: download
+        with:
+          name: apk
+          # path: |
+          #   release/
+          #   changelog.md
+          #   readme.md
+      - name: Display structure
+        run: |
+          chmod 777 release
+          ls -R --ignore=node_modules --ignore=.gradle --ignore=tmp --ignore=dist
+        shell: bash
+      #   working-directory: release
+      # - name: debug downloaded paths
+      #   run: echo ${{steps.download.outputs.download-path}}
+      - run: corepack enable
+      - name: install compiler
+        run: yarn install
+
+      - name: initialize compiler config
+        run: |
+          echo {} > _config.json
+          echo [] > routes.json
+          mkdir -p tmp
+          mkdir -p tmp/meta
+          mkdir -p tmp/static
+          mkdir -p src/posts
+        shell: bash
+      - name: generate config
+        run: gulp config
+
+      - name: generate route
+        run: gulp route
+
+      - name: build pages
+        run: yarn build
+
+#       - name: dump inputs
+#         run: |
+#           echo "choice ${{ inputs.withDeploy }}"
+
+      - name: deploy pages
+        # if: startsWith(github.ref, 'refs/tags/v')
+#         if: false
+        run: gulp deploy
