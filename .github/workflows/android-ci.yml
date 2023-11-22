@@ -214,7 +214,7 @@ jobs:
           restore-keys: |
             node-${{ runner.os }}-${{ hashFiles('**/*.apk') }}
             node-${{ runner.os }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Display structure
