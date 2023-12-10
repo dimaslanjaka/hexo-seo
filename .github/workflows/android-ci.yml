@@ -5,8 +5,8 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  schedule:
-    - cron: "5 4 * * sun"
+  #schedule:
+  #  - cron: "5 4 * * sun"
   workflow_dispatch:
     inputs:
       withDeploy:
