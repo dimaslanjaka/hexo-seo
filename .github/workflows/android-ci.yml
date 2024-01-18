@@ -46,7 +46,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
       - name: cache build folders
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ./app/build
@@ -65,7 +65,7 @@ jobs:
             gradle-${{ runner.os }}
             gradle-
       - name: cache release folder
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ./release
@@ -202,7 +202,7 @@ jobs:
           #   release/
           #   changelog.md
           #   readme.md
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ./.cache
