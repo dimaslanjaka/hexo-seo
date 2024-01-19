@@ -30,10 +30,10 @@ jobs:
           ref: "compiler"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "18.x"
           cache: "npm"
       - run: npm i -g npm gulp-cli typescript hexo-cli
       - uses: actions/cache@v3

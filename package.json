@@ -38,8 +38,8 @@
     "seo"
   ],
   "engines": {
-    "node": ">=14",
-    "hexo": ">=6"
+    "node": ">=18",
+    "hexo": ">=6.3.0"
   },
   "author": {
     "email": "dimaslanjaka@gmail.com",
