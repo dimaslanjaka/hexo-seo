@@ -81,12 +81,10 @@ const firstIndicator: Record<string, boolean> = {};
  * @param filename
  * @param obj
  */
-export const dump = function (filename: string, ...obj: any) {
+export function dump(filename: string, ...obj: any) {
   if (!isDev) return;
   const hash = sanitizeFilename(filename).toString().replace(/\s/g, '-');
-  let cwd = __dirname;
-  if (typeof hexo != 'undefined') cwd = hexo.base_dir;
-  const filePath = path.join(cwd, '../tmp', hash);
+  const filePath = path.join(process.cwd(), '/tmp/hexo-seo/dump', hash);
 
   // truncate directory on first time
   if (!('dump' in firstIndicator)) {
@@ -105,7 +103,7 @@ export const dump = function (filename: string, ...obj: any) {
   fs.writeFileSync(filePath, buildLog);
 
   console.log(`dump results saved to ${path.resolve(filePath)}`);
-};
+}
 
 /**
  * get cache folder location
