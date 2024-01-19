@@ -1,7 +1,4 @@
 import Hexo from 'hexo';
-export interface Objek extends Object {
-    [key: string]: any;
-}
 /**
  * is ignore pattern matching?
  */
@@ -22,7 +19,7 @@ export declare function dumpOnce(filename: string, ...obj: any): void;
  * @param filename
  * @param obj
  */
-export declare const dump: (filename: string, ...obj: any) => void;
+export declare function dump(filename: string, ...obj: any): void;
 /**
  * get cache folder location
  * @param folderName

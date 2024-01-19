@@ -31,21 +31,21 @@ var path_1 = __importDefault(require("path"));
 /**
  * Default image fallback if no image exists and not set on _config.yml
  */
-var imgfallback = path_1.default.join(__dirname, "images", "no-image.png");
+var imgfallback = path_1.default.join(__dirname, 'images', 'no-image.png');
 if (!fs.existsSync(imgfallback)) {
-    imgfallback = path_1.default.join(__dirname, "../../../source/images", "no-image.png");
+    imgfallback = path_1.default.join(__dirname, '../../../source/images', 'no-image.png');
 }
 if (!fs.existsSync(imgfallback)) {
-    imgfallback = path_1.default.join(__dirname, "../../source/images", "no-image.png");
+    imgfallback = path_1.default.join(__dirname, '../../source/images', 'no-image.png');
 }
 if (!fs.existsSync(imgfallback)) {
-    imgfallback = path_1.default.join(__dirname, "../source/images", "no-image.png");
+    imgfallback = path_1.default.join(__dirname, '../source/images', 'no-image.png');
 }
 var defaultObject = {
     img: {
         fallback: {
             buffer: fs.readFileSync(imgfallback),
-            public: "/images/no-image.png"
+            public: '/images/no-image.png'
         }
     }
 };
