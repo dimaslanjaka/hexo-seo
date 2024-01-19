@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "npx hexo serve -p 4000",
+      "command": "npx hexo serve -p 4000 --debug",
       "name": "Run test site",
       "request": "launch",
       "type": "node-terminal",
