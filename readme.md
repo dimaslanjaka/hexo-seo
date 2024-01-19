@@ -1,7 +1,9 @@
 # hexo-seo
 Automated Hexo Seo Optimizer.
+<!--
 [![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
 [![Build Release](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml)
+-->
 
 # demo
 demo site generated with `hexo-seo`
@@ -124,7 +126,7 @@ set NODE_ENV=development && hexo server
 
 # Preview
 
-![Google Rich Snippets](./images/rich-snippets-result.png)
+![Google Rich Snippets using schema markup v4](https://github.com/dimaslanjaka/hexo-seo/assets/12471057/4851e1e8-cfc6-474c-903d-fdd9c19061aa "Google Rich Snippets using schema markup v4")
 ![Schema Article](https://user-images.githubusercontent.com/12471057/142891853-7c00a941-26b6-4a69-9fcd-59b61505e920.png)
 ![Yoast SEO Sitemap](https://github.com/dimaslanjaka/hexo-seo/assets/12471057/c9bb6b8b-9aeb-4b83-b4cd-d86bafd33d50)
 
