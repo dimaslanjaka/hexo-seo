@@ -3,7 +3,7 @@ import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
 import { BaseConfig } from '../config';
-import log from '../log';
+import logger from '../log';
 import model from './schema/article/model4.json';
 
 /**
@@ -69,6 +69,10 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
 
   // setup schema sitelink
   if (HSconfig.schema.sitelink && HSconfig.schema.sitelink.searchUrl) {
+    const term = '{search_term_string}';
+    let url = data.config.url;
+    // fix suffix term string
+    if (!url.endsWith(term)) url += term;
     sitelink.url = data.config.url;
     sitelink.potentialAction.target = HSconfig.schema.sitelink.searchUrl;
     schema.push(sitelink);
@@ -137,7 +141,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   if (schema.length > 0) {
     const JSONschema = JSON.stringify(schema, null, 2);
     const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
-    log.log('schema created', title, url);
+    logger.log('schema created', title, url);
 
     if (schemahtml) {
       const head = dom.getElementsByTagName('head')[0];
