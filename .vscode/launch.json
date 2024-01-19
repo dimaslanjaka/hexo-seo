@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "cross-env-shell NODE_ENV=development \"npx hexo serve -p 4000 --debug\"",
+      "command": "yarn build && cross-env-shell NODE_ENV=development \"npx hexo serve -p 4000 --debug\"",
       "name": "Run test site",
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/site",
-      "preLaunchTask": "${defaultBuildTask}"
+      // "preLaunchTask": "${defaultBuildTask}"
     }
   ]
 }
