@@ -1,6 +1,5 @@
 import Promise from 'bluebird';
 import { Stream } from 'stream';
-import { Objek } from '../utils';
 
 export function isStream(stream) {
   return stream !== null && typeof stream === 'object' && typeof stream.pipe === 'function';
@@ -34,7 +33,7 @@ export function isTransformStream(stream) {
 
 export function streamToString(stream: Stream) {
   return new Promise((resolve, _reject) => {
-    const chunks: Objek = [];
+    const chunks: Record<string, any> = [];
     stream.on('data', (chunk) => {
       chunks.push(chunk.toString());
     });

@@ -12,10 +12,6 @@ import utils from 'util';
 import pkg from '../package.json';
 import { isDev } from './hexo-seo';
 
-export interface Objek extends Object {
-  [key: string]: any;
-}
-
 /**
  * is ignore pattern matching?
  */
