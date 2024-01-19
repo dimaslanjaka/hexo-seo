@@ -5,7 +5,7 @@
 import * as fs from 'fs-extra';
 import Hexo from 'hexo';
 import { minimatch } from 'minimatch';
-import rimraf from 'rimraf';
+import { rimrafSync } from 'rimraf';
 import sanitizeFilename from 'sanitize-filename';
 import path from 'upath';
 import utils from 'util';
@@ -84,7 +84,7 @@ export const dump = function (filename: string, ...obj: any) {
   const loc = path.join(__dirname, '../tmp', hash);
 
   if (isFirst) {
-    rimraf.sync(loc);
+    rimrafSync(loc);
     isFirst = false;
   }
 
