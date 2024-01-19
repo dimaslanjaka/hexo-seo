@@ -20,5 +20,6 @@ updates:
         versions: ["6.x"]
   - package-ecosystem: github-actions
     directory: '/'
+    target-branch: "pre-release"
     schedule:
       interval: monthly
