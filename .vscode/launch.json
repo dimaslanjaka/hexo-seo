@@ -1,0 +1,25 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "npx hexo serve -p 4000",
+      "name": "Run test site",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/site",
+      "preLaunchTask": "${defaultBuildTask}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js"
+    }
+  ]
+}

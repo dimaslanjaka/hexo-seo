@@ -20,7 +20,7 @@
     "ts:normal": "tsc -p tsconfig.build.json",
     "ts:cjs": "tsc -p tsconfigs/cjs.tsconfig.json",
     "ts:es": "tsc -p tsconfigs/es.tsconfig.json",
-    "build": "yarn ts:normal && gulp",
+    "build": "yarn run ts:normal && yarn dlx gulp",
     "clean": "gulp clean",
     "update:project": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
     "update:ncu": "npm-check-updates -u -x jsdom,deepmerge-ts,cheerio",
