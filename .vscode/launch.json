@@ -5,21 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "npx hexo serve -p 4000 --debug",
+      "command": "cross-env-shell NODE_ENV=development \"npx hexo serve -p 4000 --debug\"",
       "name": "Run test site",
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/site",
       "preLaunchTask": "${defaultBuildTask}"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}\\index.js"
     }
   ]
 }

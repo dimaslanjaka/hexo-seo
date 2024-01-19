@@ -81,7 +81,7 @@
     "@types/bluebird": "^3.5.42",
     "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^11.0.4",
-    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/f3d89dcf/releases/hexo.tgz",
+    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/992e3e1/releases/hexo.tgz",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20.11.5",
     "@types/object-assign": "^4.0.33",
@@ -90,6 +90,7 @@
     "@types/url-parse": "^1.4.11",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
+    "cross-env": "^7.0.3",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/5560156/release/cross-spawn.tgz",
     "depcheck": "^1.4.7",
     "dotenv": "^16.3.1",
@@ -100,7 +101,7 @@
     "git-command-helper": "^2.0.2",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
-    "hexo": "^7.0.0",
+    "hexo": "6.3.0",
     "nodemon": "^3.0.3",
     "npm-check-updates": "^16.14.12",
     "npm-run-all": "^4.1.5",
@@ -114,5 +115,6 @@
     "node.extend": ">=2.0.3",
     "request": ">=2.88.2",
     "uuid": ">=9.0.1"
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }
