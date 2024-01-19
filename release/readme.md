@@ -2,16 +2,6 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| 1.1.0 | https://github.com/dimaslanjaka/hexo-seo/raw/3837e35/release/hexo-seo-1.1.0.tgz |
-| 1.1.2 | https://github.com/dimaslanjaka/hexo-seo/raw/1ebdf80/release/hexo-seo-1.1.2.tgz |
-| 1.1.3 | https://github.com/dimaslanjaka/hexo-seo/raw/dbcede8/release/hexo-seo-1.1.3.tgz |
-| 1.1.5 | https://github.com/dimaslanjaka/hexo-seo/raw/b5308ef/release/hexo-seo-1.1.5.tgz |
-| 1.1.6 | https://github.com/dimaslanjaka/hexo-seo/raw/2ffb38a/release/hexo-seo-1.1.6.tgz |
-| 1.1.9 | https://github.com/dimaslanjaka/hexo-seo/raw/c634634/release/hexo-seo-1.1.9.tgz |
-| 1.2.0 | https://github.com/dimaslanjaka/hexo-seo/raw/eeb211f/release/hexo-seo-1.2.0.tgz |
-| 1.2.1 | https://github.com/dimaslanjaka/hexo-seo/raw/3d190f4/release/hexo-seo-1.2.1.tgz |
-| 1.2.2 | https://github.com/dimaslanjaka/hexo-seo/raw/55a3ee4/release/hexo-seo-1.2.2.tgz |
-| 1.2.3 | https://github.com/dimaslanjaka/hexo-seo/raw/2a3dc4f/release/hexo-seo-1.2.3.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-seo/raw/3cbf3f9/release/hexo-seo.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
 
