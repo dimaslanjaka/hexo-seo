@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "k--kato.intellij-idea-keybindings",
+    "esbenp.prettier-vscode",
+    "eliostruyf.vscode-front-matter"
+  ]
+}

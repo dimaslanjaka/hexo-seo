@@ -2,18 +2,19 @@ import hexoIs from 'hexo-is';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
+import { dump } from '../utils';
 import { BaseConfig } from '../config';
-import log from '../log';
+import logger from '../log';
 import model from './schema/article/model4.json';
 
 /**
  * Fix Schema Model 4
  * @param dom
- * @param HSconfig
+ * @param hsConf hexo-seo config (config_yml.seo)
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData) {
-  if (!HSconfig.schema) {
+export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, data: HexoLocalsData) {
+  if (!hsConf.schema) {
     return;
   }
   const is = hexoIs(data);
@@ -44,6 +45,8 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
     }
   }
 
+  console.log('fixing schema of ' + url);
+
   // resolve thumbnail
   let thumbnail =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
@@ -68,15 +71,19 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   const schema = [];
 
   // setup schema sitelink
-  if (HSconfig.schema.sitelink && HSconfig.schema.sitelink.searchUrl) {
-    sitelink.url = data.config.url;
-    sitelink.potentialAction.target = HSconfig.schema.sitelink.searchUrl;
+  if (hsConf.schema.sitelink && hsConf.schema.sitelink.searchUrl) {
+    const term = '{search_term_string}';
+    let urlTerm = data.config.url;
+    // fix suffix term string
+    if (!urlTerm.endsWith(term)) urlTerm = urlTerm + term;
+    sitelink.url = urlTerm;
+    sitelink.potentialAction.target = hsConf.schema.sitelink.searchUrl;
     schema.push(sitelink);
   }
 
   if (is.post) {
     // setup breadcrumb on post
-    if (HSconfig.schema.breadcrumb && HSconfig.schema.breadcrumb.enable) {
+    if (hsConf.schema.breadcrumb && hsConf.schema.breadcrumb.enable) {
       const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
       if (data.page) {
         if (data.page.tags && data.page.tags.length > 0) {
@@ -117,7 +124,7 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
       }
     }
 
-    if (HSconfig.schema.article && HSconfig.schema.article.enable) {
+    if (hsConf.schema.article && hsConf.schema.article.enable) {
       article.mainEntityOfPage['@id'] = url;
       article.headline = title;
       article.description = description;
@@ -137,7 +144,8 @@ export default function fixSchemaStatic(dom: HTMLElement, HSconfig: BaseConfig, 
   if (schema.length > 0) {
     const JSONschema = JSON.stringify(schema, null, 2);
     const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
-    log.log('schema created', title, url);
+    logger.log('schema created', title, url);
+    dump('schema-' + title + '.json', schemahtml);
 
     if (schemahtml) {
       const head = dom.getElementsByTagName('head')[0];
