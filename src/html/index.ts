@@ -47,6 +47,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     allowCache = false;
     path0 = content;
   }
+  // setup page title as default value for missing attributes
   let title = '';
   if (data.page && data.page.title && data.page.title.trim().length > 0) {
     title = data.page.title;
@@ -89,7 +90,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       }
     }
 
-    //** fix images attributes */
+    // START fix images attributes
     if (cfg.img.enable) {
       root.querySelectorAll('img[src]').forEach((element) => {
         const imgAlt = element.getAttribute('alt') || title;
@@ -112,11 +113,10 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         if (isDev) element.setAttribute('hexo-seo', 'true');
       });
     }
+    // END fix images attributes
 
     fixSchemaStatic(root, cfg, data);
     sitemap(root, cfg, data);
-
-    //content = root.toString();
 
     // START concatenate javascripts
     if (cfg.js.concat === true) {
@@ -258,9 +258,15 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     }
     // END concatenate javascripts
 
+    // modify html content
+    content = root.toString();
+
     if (allowCache) cache.set(md5(path0), content);
+    hexo.log.debug(logname, 'no-cache content');
   } else {
+    hexo.log.debug(logname, 'cached content');
     content = cache.getCache(md5(path0), content) as string;
   }
+
   return content;
 }
