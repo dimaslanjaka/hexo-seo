@@ -71,7 +71,10 @@ export function dumpOnce(filename: string, ...obj: any) {
   }
 }
 
-let isFirst = true;
+/**
+ * first initialization indicator
+ */
+const firstIndicator: Record<string, boolean> = {};
 
 /**
  * Dump large objects
@@ -81,24 +84,27 @@ let isFirst = true;
 export const dump = function (filename: string, ...obj: any) {
   if (!isDev) return;
   const hash = sanitizeFilename(filename).toString().replace(/\s/g, '-');
-  const loc = path.join(__dirname, '../tmp', hash);
+  let cwd = __dirname;
+  if (typeof hexo != 'undefined') cwd = hexo.base_dir;
+  const filePath = path.join(cwd, '../tmp', hash);
 
-  if (isFirst) {
-    rimrafSync(loc);
-    isFirst = false;
+  // truncate directory on first time
+  if (!('dump' in firstIndicator)) {
+    rimrafSync(filePath);
+    firstIndicator['dump'] = true;
   }
 
-  if (!fs.existsSync(path.dirname(loc))) {
-    fs.mkdirSync(path.dirname(loc), { recursive: true });
+  if (!fs.existsSync(path.dirname(filePath))) {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
   }
 
   let buildLog = '';
   for (let index = 0; index < obj.length; index++) {
     buildLog += utils.inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
   }
-  fs.writeFileSync(loc, buildLog);
+  fs.writeFileSync(filePath, buildLog);
 
-  console.log(`dump results saved to ${path.resolve(loc)}`);
+  console.log(`dump results saved to ${path.resolve(filePath)}`);
 };
 
 /**
