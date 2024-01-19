@@ -5,6 +5,7 @@
 **/.yarn/patches
 **/tmp
 docs
+yarn.lock
 
 ## ignore monorepo files
 /package
