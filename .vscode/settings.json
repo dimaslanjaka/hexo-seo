@@ -4,5 +4,11 @@
   },
   "terminal.integrated.env.windows": {
     "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
+  },
+  "[markdown]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "never",
+      "source.organizeImports": "never"
+    }
   }
 }
