@@ -28,6 +28,17 @@ demo site generated with `hexo-seo`
 - [Rich Snippet](https://search.google.com/test/rich-results?hl=en&url=https%3A%2F%2Fwww.webmanajemen.com%2Fchimeraland%2Fblacklist-player.html)
 
 # Installation
+
+Using NPM Repository (Production)
+```shell
+npm i hexo-seo
+```
+
+Using Git Repository (Development)
+```shell
+npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
+```
+
 ### Packages Links
 > Using tarball is useful for git which not installed properly or for you in chinese mainland
 
@@ -36,15 +47,6 @@ demo site generated with `hexo-seo`
 | full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 | repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
 | git repository | [git+https://github.com/dimaslanjaka/hexo-seo.git](https://github.com/dimaslanjaka/hexo-seo.git) |
-
-Using Git Repository (Development)
-```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git
-```
-Using NPM Repository (Production)
-```shell
-npm i hexo-seo
-```
 
 # Usage
 **Configuration**
