@@ -1,31 +1,10 @@
 # hexo-seo
 Automated Hexo Seo Optimizer.
+[![Post Update](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml/badge.svg)](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml)
+<!--
 [![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
 [![Build Release](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml)
-
-# demo
-demo site generated with `hexo-seo`
-- [YoastSEO sitemap](https://www.webmanajemen.com/sitemap.xml)
-- [Rich Snippet](https://search.google.com/test/rich-results?hl=en&url=https%3A%2F%2Fwww.webmanajemen.com%2Fchimeraland%2Fblacklist-player.html)
-
-# Installation
-### Packages Links
-> Using tarball is useful for git which not installed properly or for you in chinese mainland
-
-| description | link |
-| :--- | :--- |
-| full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
-| repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
-| git repository | [git+https://github.com/dimaslanjaka/hexo-seo.git](https://github.com/dimaslanjaka/hexo-seo.git) |
-
-Using Git Repository (Development)
-```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git
-```
-Using NPM Repository (Production)
-```shell
-npm i hexo-seo
-```
+-->
 
 # Features
 
@@ -34,13 +13,40 @@ npm i hexo-seo
 - ~Auto replace broken images~
 - Auto compress CSS JS HTML
 - Auto add alternate and title of images
-- Auto add sitemap (forked from yoast seo wordpress plugin)
+- Auto add sitemap (forked from **yoast seo wordpress plugin**)
 - Tested on hexo instances with 1000 more posts and pages
 - Concatenate all javascripts into one file
 - Rich snippets (breadcrumbs, website, article)
 
 > ## The reason why some features are removed
 > Separated due to very high memory usage and risk of HEAP MEMORY errors. so I will merge it to https://github.com/dimaslanjaka/static-blog-generator as a specific task
+
+
+# demo
+demo site generated with `hexo-seo`
+- [YoastSEO sitemap](https://www.webmanajemen.com/sitemap.xml)
+- [Rich Snippet](https://search.google.com/test/rich-results?hl=en&url=https%3A%2F%2Fwww.webmanajemen.com%2Fchimeraland%2Fblacklist-player.html)
+
+# Installation
+
+Using NPM Repository (Production)
+```shell
+npm i hexo-seo
+```
+
+Using Git Repository (Development)
+```shell
+npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
+```
+
+### Packages Links
+> Using tarball is useful for git which not installed properly or for you in chinese mainland
+
+| description | link |
+| :--- | :--- |
+| full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
+| git repository | [git+https://github.com/dimaslanjaka/hexo-seo.git](https://github.com/dimaslanjaka/hexo-seo.git) |
 
 # Usage
 **Configuration**
@@ -124,7 +130,7 @@ set NODE_ENV=development && hexo server
 
 # Preview
 
-![Google Rich Snippets](./images/rich-snippets-result.png)
+![Google Rich Snippets using schema markup v4](https://github.com/dimaslanjaka/hexo-seo/assets/12471057/4851e1e8-cfc6-474c-903d-fdd9c19061aa "Google Rich Snippets using schema markup v4")
 ![Schema Article](https://user-images.githubusercontent.com/12471057/142891853-7c00a941-26b6-4a69-9fcd-59b61505e920.png)
 ![Yoast SEO Sitemap](https://github.com/dimaslanjaka/hexo-seo/assets/12471057/c9bb6b8b-9aeb-4b83-b4cd-d86bafd33d50)
 
