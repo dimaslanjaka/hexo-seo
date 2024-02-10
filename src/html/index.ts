@@ -72,7 +72,8 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           const external = isExternal(parseHref, hexo);
           rels = identifyRels(el, external, cfg.links);
           el.setAttribute('rel', rels.join(' '));
-          if (isDev) el.setAttribute('hexo-seo', 'true');
+          // set indicator
+          el.setAttribute('hexo-seo', 'true');
           if (!el.hasAttribute('alt')) el.setAttribute('alt', title);
           if (!el.hasAttribute('title')) el.setAttribute('title', title);
         }

@@ -73,9 +73,9 @@ export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, da
   // setup schema sitelink
   if (hsConf.schema.sitelink && hsConf.schema.sitelink.searchUrl) {
     const term = '{search_term_string}';
-    let urlTerm = data.config.url;
+    let urlTerm = (data.config.url || '').trim();
     // fix suffix term string
-    if (!urlTerm.endsWith(term)) urlTerm = urlTerm + term;
+    if (urlTerm.length > 0 && !urlTerm.endsWith(term)) urlTerm = urlTerm + term;
     sitelink.url = urlTerm;
     sitelink.potentialAction.target = hsConf.schema.sitelink.searchUrl;
     schema.push(sitelink);
