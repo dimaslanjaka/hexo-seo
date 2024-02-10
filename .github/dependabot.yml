@@ -10,14 +10,14 @@ updates:
     target-branch: "pre-release"
     schedule:
       interval: monthly
-    ignore:
-      - dependency-name: 'hexo'
-      - dependency-name: "chalk"
-        versions: ["5.x"]
-      - dependency-name: "deepmerge-ts"
-        versions: ["5.x"]
-      - dependency-name: "codemirror"
-        versions: ["6.x"]
+    # ignore:
+    #   - dependency-name: 'hexo'
+    #   - dependency-name: "chalk"
+    #     versions: ["5.x"]
+    #   - dependency-name: "deepmerge-ts"
+    #     versions: ["5.x"]
+    #   - dependency-name: "codemirror"
+    #     versions: ["6.x"]
   - package-ecosystem: github-actions
     directory: '/'
     target-branch: "pre-release"
