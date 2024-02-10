@@ -30,7 +30,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPackageFile = exports.getPackageFolder = exports.getCacheFolder = exports.dump = exports.dumpOnce = exports.extractSimplePageData = exports.isIgnore = void 0;
 var fs = __importStar(require("fs-extra"));
 var minimatch_1 = require("minimatch");
-var rimraf_1 = __importDefault(require("rimraf"));
+var rimraf_1 = require("rimraf");
 var sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 var upath_1 = __importDefault(require("upath"));
 var util_1 = __importDefault(require("util"));
@@ -99,17 +99,20 @@ function dumpOnce(filename) {
     }
     if (!dumpKeys[filename]) {
         dumpKeys[filename] = true;
-        (0, exports.dump)(filename, obj);
+        dump(filename, obj);
     }
 }
 exports.dumpOnce = dumpOnce;
-var isFirst = true;
+/**
+ * first initialization indicator
+ */
+var firstIndicator = {};
 /**
  * Dump large objects
  * @param filename
  * @param obj
  */
-var dump = function (filename) {
+function dump(filename) {
     var obj = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         obj[_i - 1] = arguments[_i];
@@ -117,21 +120,22 @@ var dump = function (filename) {
     if (!hexo_seo_1.isDev)
         return;
     var hash = (0, sanitize_filename_1.default)(filename).toString().replace(/\s/g, '-');
-    var loc = upath_1.default.join(__dirname, '../tmp', hash);
-    if (isFirst) {
-        rimraf_1.default.sync(loc);
-        isFirst = false;
+    var filePath = upath_1.default.join(process.cwd(), '/tmp/hexo-seo/dump', hash);
+    // truncate directory on first time
+    if (!('dump' in firstIndicator)) {
+        (0, rimraf_1.rimrafSync)(filePath);
+        firstIndicator['dump'] = true;
     }
-    if (!fs.existsSync(upath_1.default.dirname(loc))) {
-        fs.mkdirSync(upath_1.default.dirname(loc), { recursive: true });
+    if (!fs.existsSync(upath_1.default.dirname(filePath))) {
+        fs.mkdirSync(upath_1.default.dirname(filePath), { recursive: true });
     }
     var buildLog = '';
     for (var index = 0; index < obj.length; index++) {
         buildLog += util_1.default.inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
     }
-    fs.writeFileSync(loc, buildLog);
-    console.log("dump results saved to ".concat(upath_1.default.resolve(loc)));
-};
+    fs.writeFileSync(filePath, buildLog);
+    console.log("dump results saved to ".concat(upath_1.default.resolve(filePath)));
+}
 exports.dump = dump;
 /**
  * get cache folder location

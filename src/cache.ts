@@ -5,7 +5,6 @@ import path from 'upath';
 import { buildFolder, readFile, tmpFolder } from './fm';
 import logger from './log';
 import scheduler from './scheduler';
-import { Objek } from './utils';
 import md5File, { md5, sync as md5FileSync } from './utils/md5-file';
 
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
@@ -18,7 +17,7 @@ class Cache {
   /**
    * Identifier Hash for cache
    */
-  static md5Cache: Objek = {};
+  static md5Cache: Record<string, any> = {};
 
   /**
    * Set cache
@@ -84,7 +83,7 @@ export function resolveString(variable: any, _encode = false) {
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export class CacheFile {
-  md5Cache: Objek = {};
+  md5Cache: Record<string, any> = {};
   dbFile: string;
   constructor(hash = null) {
     if (!hash) {
@@ -117,7 +116,7 @@ export class CacheFile {
     });
   }
   has(key: string): boolean {
-    return typeof this.md5Cache[key] !== undefined;
+    return typeof this.md5Cache[key] !== 'undefined';
   }
   /**
    * Get cache by key
@@ -171,11 +170,11 @@ export class CacheFile {
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export class CacheFile2 {
-  md5Cache: Objek = {};
+  md5Cache: Record<string, any> = {};
   /**
    * temporary cache
    */
-  dbTemp: Objek = {};
+  dbTemp: Record<string, any> = {};
   /**
    * database file
    */
@@ -251,7 +250,7 @@ export class CacheFile2 {
     return this.dbTemp[key];
   }
   has(key: string): boolean {
-    return typeof this.md5Cache[key] !== undefined;
+    return typeof this.md5Cache[key] !== 'undefined';
   }
   getCache(key: string, fallback = null) {
     return this.get(key, fallback);

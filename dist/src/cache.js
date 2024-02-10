@@ -148,7 +148,7 @@ var CacheFile = /** @class */ (function () {
         });
     };
     CacheFile.prototype.has = function (key) {
-        return typeof this.md5Cache[key] !== undefined;
+        return typeof this.md5Cache[key] !== 'undefined';
     };
     /**
      * Get cache by key
@@ -284,7 +284,7 @@ var CacheFile2 = /** @class */ (function () {
         return this.dbTemp[key];
     };
     CacheFile2.prototype.has = function (key) {
-        return typeof this.md5Cache[key] !== undefined;
+        return typeof this.md5Cache[key] !== 'undefined';
     };
     CacheFile2.prototype.getCache = function (key, fallback) {
         if (fallback === void 0) { fallback = null; }

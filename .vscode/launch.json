@@ -5,106 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "yarn workspace wmi exec \"hexo clean\" && yarn workspace wmi exec \"hexo server --development\"",
-      "name": "workspace clean server",
-      "cwd": "${workspaceFolder}/../..",
-      "env": {
-        "NODE_ENV": "development"
-      },
+      "command": "cross-env-shell NODE_ENV=development \"npx hexo server -p 4000 --debug\"",
+      "name": "Run test site",
       "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "yarn workspace wmi exec \"hexo server --development\"",
-      "name": "workspace server",
-      "cwd": "${workspaceFolder}/../..",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "npx hexo server --development",
-      "name": "[DEV] Demo Server",
-      "cwd": "${workspaceFolder}/test/demo",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "npx hexo generate && npm run serve-static",
-      "name": "[DEV] Demo Generate",
-      "cwd": "${workspaceFolder}/test/demo",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "npx hexo generate && npm run serve-static",
-      "name": "[PROD] Demo Generate",
-      "cwd": "${workspaceFolder}/test/demo",
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "hexo server",
-      "name": "[PROD] Demo Server",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "cwd": "${workspaceFolder}/test/demo",
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "cd ../../ && hexo clean && hexo server --development",
-      "name": "[DEV] clean server",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "cd ../../ && hexo server",
-      "name": "[PROD] server",
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "cd ../../ && hexo server --debug",
-      "name": "[PROD-DEBUG] server",
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "hexo generate",
-      "env": {
-        "NODE_OPTIONS": "--max_old_space_size=4096",
-        "NODE_ENV": "development"
-      },
-      "name": "[DEV] generate",
-      "cwd": "${workspaceFolder}/../../",
-      "request": "launch",
-      "type": "node-terminal"
-    },
-    {
-      "command": "hexo generate",
-      "env": {
-        "NODE_OPTIONS": "--max_old_space_size=4096"
-      },
-      "name": "[PROD] generate",
-      "cwd": "${workspaceFolder}/../../",
-      "request": "launch",
-      "type": "node-terminal"
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/site",
+      "preLaunchTask": "${defaultBuildTask}"
     }
   ]
 }

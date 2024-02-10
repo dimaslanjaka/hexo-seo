@@ -5,7 +5,10 @@
 **/.yarn/patches
 **/tmp
 docs
+.frontmatter
 
 ## ignore monorepo files
 /package
 /site
+yarn.lock
+package-lock.json

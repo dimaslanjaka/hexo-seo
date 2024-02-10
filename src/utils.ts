@@ -5,16 +5,12 @@
 import * as fs from 'fs-extra';
 import Hexo from 'hexo';
 import { minimatch } from 'minimatch';
-import rimraf from 'rimraf';
+import { rimrafSync } from 'rimraf';
 import sanitizeFilename from 'sanitize-filename';
 import path from 'upath';
 import utils from 'util';
 import pkg from '../package.json';
 import { isDev } from './hexo-seo';
-
-export interface Objek extends Object {
-  [key: string]: any;
-}
 
 /**
  * is ignore pattern matching?
@@ -75,35 +71,39 @@ export function dumpOnce(filename: string, ...obj: any) {
   }
 }
 
-let isFirst = true;
+/**
+ * first initialization indicator
+ */
+const firstIndicator: Record<string, boolean> = {};
 
 /**
  * Dump large objects
  * @param filename
  * @param obj
  */
-export const dump = function (filename: string, ...obj: any) {
+export function dump(filename: string, ...obj: any) {
   if (!isDev) return;
   const hash = sanitizeFilename(filename).toString().replace(/\s/g, '-');
-  const loc = path.join(__dirname, '../tmp', hash);
+  const filePath = path.join(process.cwd(), '/tmp/hexo-seo/dump', hash);
 
-  if (isFirst) {
-    rimraf.sync(loc);
-    isFirst = false;
+  // truncate directory on first time
+  if (!('dump' in firstIndicator)) {
+    rimrafSync(filePath);
+    firstIndicator['dump'] = true;
   }
 
-  if (!fs.existsSync(path.dirname(loc))) {
-    fs.mkdirSync(path.dirname(loc), { recursive: true });
+  if (!fs.existsSync(path.dirname(filePath))) {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
   }
 
   let buildLog = '';
   for (let index = 0; index < obj.length; index++) {
     buildLog += utils.inspect(obj[index], { showHidden: true, depth: null }) + '\n\n';
   }
-  fs.writeFileSync(loc, buildLog);
+  fs.writeFileSync(filePath, buildLog);
 
-  console.log(`dump results saved to ${path.resolve(loc)}`);
-};
+  console.log(`dump results saved to ${path.resolve(filePath)}`);
+}
 
 /**
  * get cache folder location

@@ -1,5 +1,4 @@
 /// <reference types="bluebird" />
-import { Objek } from './utils';
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM
@@ -8,7 +7,7 @@ declare class Cache {
     /**
      * Identifier Hash for cache
      */
-    static md5Cache: Objek;
+    static md5Cache: Record<string, any>;
     /**
      * Set cache
      * @param key
@@ -38,7 +37,7 @@ export declare function resolveString(variable: any, _encode?: boolean): void;
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export declare class CacheFile {
-    md5Cache: Objek;
+    md5Cache: Record<string, any>;
     dbFile: string;
     constructor(hash?: any);
     setCache(key: string, value: any): void;
@@ -70,11 +69,11 @@ export declare class CacheFile {
  * @description Save cache to file (not in-memory), cache will be restored on next process restart.
  */
 export declare class CacheFile2 {
-    md5Cache: Objek;
+    md5Cache: Record<string, any>;
     /**
      * temporary cache
      */
-    dbTemp: Objek;
+    dbTemp: Record<string, any>;
     /**
      * database file
      */

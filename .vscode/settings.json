@@ -38,5 +38,16 @@
   "code-runner.saveAllFilesBeforeRun": true,
   "git.enabled": true,
   "npm.packageManager": "yarn",
-  "eslint.packageManager": "yarn"
+  "terminal.integrated.env.linux": {
+    "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin"
+  },
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
+  },
+  "[markdown]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "never",
+      "source.organizeImports": "never"
+    }
+  }
 }

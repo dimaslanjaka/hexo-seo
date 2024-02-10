@@ -5,16 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_timezone_1 = __importDefault(require("moment-timezone"));
+var utils_1 = require("../utils");
 var log_1 = __importDefault(require("../log"));
 var model4_json_1 = __importDefault(require("./schema/article/model4.json"));
 /**
  * Fix Schema Model 4
  * @param dom
- * @param HSconfig
+ * @param hsConf hexo-seo config (config_yml.seo)
  * @param data
  */
-function fixSchemaStatic(dom, HSconfig, data) {
-    if (!HSconfig.schema) {
+function fixSchemaStatic(dom, hsConf, data) {
+    if (!hsConf.schema) {
         return;
     }
     var is = (0, hexo_is_1.default)(data);
@@ -47,6 +48,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
             url = data.page.url;
         }
     }
+    console.log('fixing schema of ' + url);
     // resolve thumbnail
     var thumbnail = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
     if (data.page) {
@@ -68,14 +70,19 @@ function fixSchemaStatic(dom, HSconfig, data) {
     }
     var schema = [];
     // setup schema sitelink
-    if (HSconfig.schema.sitelink && HSconfig.schema.sitelink.searchUrl) {
-        sitelink.url = data.config.url;
-        sitelink.potentialAction.target = HSconfig.schema.sitelink.searchUrl;
+    if (hsConf.schema.sitelink && hsConf.schema.sitelink.searchUrl) {
+        var term = '{search_term_string}';
+        var urlTerm = (data.config.url || '').trim();
+        // fix suffix term string
+        if (urlTerm.length > 0 && !urlTerm.endsWith(term))
+            urlTerm = urlTerm + term;
+        sitelink.url = urlTerm;
+        sitelink.potentialAction.target = hsConf.schema.sitelink.searchUrl;
         schema.push(sitelink);
     }
     if (is.post) {
         // setup breadcrumb on post
-        if (HSconfig.schema.breadcrumb && HSconfig.schema.breadcrumb.enable) {
+        if (hsConf.schema.breadcrumb && hsConf.schema.breadcrumb.enable) {
             var schemaBreadcrumbs_1 = [];
             if (data.page) {
                 if (data.page.tags && data.page.tags.length > 0) {
@@ -112,7 +119,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
                 schema.push(breadcrumbs);
             }
         }
-        if (HSconfig.schema.article && HSconfig.schema.article.enable) {
+        if (hsConf.schema.article && hsConf.schema.article.enable) {
             article.mainEntityOfPage['@id'] = url;
             article.headline = title;
             article.description = description;
@@ -132,6 +139,7 @@ function fixSchemaStatic(dom, HSconfig, data) {
         var JSONschema = JSON.stringify(schema, null, 2);
         var schemahtml = "\n\n<script type=\"application/ld+json\" id=\"hexo-seo-schema\">".concat(JSONschema, "</script>\n\n");
         log_1.default.log('schema created', title, url);
+        (0, utils_1.dump)('schema-' + title + '.json', schemahtml);
         if (schemahtml) {
             var head = dom.getElementsByTagName('head')[0];
             head.insertAdjacentHTML('beforeend', schemahtml);

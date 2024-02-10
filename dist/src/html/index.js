@@ -139,8 +139,8 @@ function HexoSeoHtml(content, data) {
                                 var external_1 = (0, types_1.isExternal)(parseHref, hexo);
                                 rels = (0, fixHyperlinks_static_1.identifyRels)(el, external_1, cfg_1.links);
                                 el.setAttribute('rel', rels.join(' '));
-                                if (hexo_seo_1.isDev)
-                                    el.setAttribute('hexo-seo', 'true');
+                                // set indicator
+                                el.setAttribute('hexo-seo', 'true');
                                 if (!el.hasAttribute('alt'))
                                     el.setAttribute('alt', title);
                                 if (!el.hasAttribute('title'))
@@ -157,7 +157,7 @@ function HexoSeoHtml(content, data) {
                             });
                         }
                     }
-                    //** fix images attributes */
+                    // START fix images attributes
                     if (cfg_1.img.enable) {
                         root.querySelectorAll('img[src]').forEach(function (element) {
                             var imgAlt = element.getAttribute('alt') || title;
@@ -181,6 +181,7 @@ function HexoSeoHtml(content, data) {
                                 element.setAttribute('hexo-seo', 'true');
                         });
                     }
+                    // END fix images attributes
                     (0, fixSchema_static_1.default)(root, cfg_1, data);
                     (0, sitemap_1.default)(root, cfg_1, data);
                     if (!(cfg_1.js.concat === true)) return [3 /*break*/, 7];
@@ -293,10 +294,14 @@ function HexoSeoHtml(content, data) {
                     _a.label = 7;
                 case 7:
                     // END concatenate javascripts
+                    // modify html content
+                    content = root.toString();
                     if (allowCache)
                         cache.set((0, md5_file_1.md5)(path0), content);
+                    hexo.log.debug(logname, 'no-cache content');
                     return [3 /*break*/, 9];
                 case 8:
+                    hexo.log.debug(logname, 'cached content');
                     content = cache.getCache((0, md5_file_1.md5)(path0), content);
                     _a.label = 9;
                 case 9: return [2 /*return*/, content];

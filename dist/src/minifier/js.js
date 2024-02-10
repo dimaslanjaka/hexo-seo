@@ -94,10 +94,10 @@ function HexoSeoJs(str, data) {
                     }
                     minifyOptions = {
                         mangle: {
-                            toplevel: true,
-                            properties: false,
-                            safari10: true,
-                            keep_fnames: true,
+                            toplevel: true, // to mangle names declared in the top level scope.
+                            properties: false, // disable mangle object and array properties
+                            safari10: true, // to work around the Safari 10 loop iterator
+                            keep_fnames: true, // keep function names
                             keep_classnames: true // keep class name
                         },
                         compress: {
@@ -153,10 +153,10 @@ function minifyJS(str, options) {
                 case 0:
                     minifyOptions = {
                         mangle: {
-                            toplevel: true,
-                            properties: false,
-                            safari10: true,
-                            keep_fnames: true,
+                            toplevel: true, // to mangle names declared in the top level scope.
+                            properties: false, // disable mangle object and array properties
+                            safari10: true, // to work around the Safari 10 loop iterator
+                            keep_fnames: true, // keep function names
                             keep_classnames: true // keep class name
                         },
                         compress: {
