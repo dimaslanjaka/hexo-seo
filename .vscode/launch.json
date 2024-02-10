@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "cross-env-shell NODE_ENV=development \"npx hexo serve -p 4000 --debug\"",
+      "command": "cross-env-shell NODE_ENV=development \"npx hexo server -p 4000 --debug\"",
       "name": "Run test site",
       "request": "launch",
       "type": "node-terminal",
