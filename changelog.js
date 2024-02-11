@@ -1,7 +1,6 @@
 const { writeFileSync } = require('fs');
 const { EOL } = require('os');
 const { join } = require('path');
-const pkg = require('./package.json');
 const spawn = require('child_process').spawn;
 
 /*
