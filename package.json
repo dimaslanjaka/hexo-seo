@@ -117,8 +117,5 @@
     "request": ">=2.88.2",
     "uuid": ">=9.0.1"
   },
-  "packageManager": "yarn@4.0.2",
-  "workspaces": [
-    "site"
-  ]
+  "packageManager": "yarn@4.0.2"
 }
