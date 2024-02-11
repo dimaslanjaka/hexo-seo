@@ -14,6 +14,7 @@ Automated Hexo Seo Optimizer.
 - Auto compress CSS JS HTML
 - Auto add alternate and title of images
 - Auto add sitemap (forked from **yoast seo wordpress plugin**)
+- Auto add [google news sitemap](https://www.npmjs.com/package/google-news-sitemap)
 - Tested on hexo instances with 1000 more posts and pages
 - Concatenate all javascripts into one file
 - Rich snippets (breadcrumbs, website, article)
