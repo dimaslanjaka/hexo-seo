@@ -5,14 +5,16 @@
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./dist",
-    //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
     "declaration": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "checkJs": false,
-    "skipLibCheck": true,
-    "rootDirs": ["src", "source"]
+    "skipLibCheck": true
+  },
+  "paths": {
+    "@root/*": ["./*"],
+    "src/*": ["./src/*"]
   },
   "exclude": [
     "**/node_modules/**",
