@@ -130,8 +130,8 @@ let turnError = false;
 /**
  * process sitemap of page
  */
-export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData) {
-  if (!HSconfig.sitemap) {
+export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+  if (!hexoSeoConfig.sitemap) {
     if (!turnError) {
       turnError = true;
       log.error('[hexo-seo][sitemap] config sitemap not set');
