@@ -6,15 +6,17 @@ import { dump } from '../utils';
 import { BaseConfig } from '../config';
 import logger from '../log';
 import model from './schema/article/model4.json';
+import getAuthor from '../utils/getAuthor';
 
 /**
  * Fix Schema Model 4
  * @param dom
- * @param hsConf hexo-seo config (config_yml.seo)
+ * @param hexoSeoConfig hexo-seo config (config_yml.seo)
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, data: HexoLocalsData) {
-  if (!hsConf.schema) {
+export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+  if (!hexoSeoConfig.schema) {
+    // skip when schema option is false
     return;
   }
   const is = hexoIs(data);
@@ -61,29 +63,29 @@ export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, da
   }
 
   // resolve author
-  let author = data.config.author;
+  let author = getAuthor(data.config.author);
   if (data.page) {
     if (data.page.author) {
-      author = data.page.author;
+      author = getAuthor(data.page.author);
     }
   }
 
   const schema = [];
 
   // setup schema sitelink
-  if (hsConf.schema.sitelink && hsConf.schema.sitelink.searchUrl) {
+  if (hexoSeoConfig.schema.sitelink && hexoSeoConfig.schema.sitelink.searchUrl) {
     const term = '{search_term_string}';
     let urlTerm = (data.config.url || '').trim();
     // fix suffix term string
     if (urlTerm.length > 0 && !urlTerm.endsWith(term)) urlTerm = urlTerm + term;
     sitelink.url = urlTerm;
-    sitelink.potentialAction.target = hsConf.schema.sitelink.searchUrl;
+    sitelink.potentialAction.target = hexoSeoConfig.schema.sitelink.searchUrl;
     schema.push(sitelink);
   }
 
   if (is.post) {
     // setup breadcrumb on post
-    if (hsConf.schema.breadcrumb && hsConf.schema.breadcrumb.enable) {
+    if (hexoSeoConfig.schema.breadcrumb && hexoSeoConfig.schema.breadcrumb.enable) {
       const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
       if (data.page) {
         if (data.page.tags && data.page.tags.length > 0) {
@@ -124,7 +126,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, da
       }
     }
 
-    if (hsConf.schema.article && hsConf.schema.article.enable) {
+    if (hexoSeoConfig.schema.article && hexoSeoConfig.schema.article.enable) {
       article.mainEntityOfPage['@id'] = url;
       article.headline = title;
       article.description = description;

@@ -2,15 +2,36 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "shell",
-			"command": "yarn run build",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [],
-			"label": "build",
-			"detail": "build project"
-		}
+      // run in background
+      "isBackground": true,
+      // task name
+      "label": "build in background",
+      "type": "shell",
+      // command shell to run
+      "command": "npm run build && npm run pack",
+      "args": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      // task description
+      "detail": "bundle dist and tarball",
+      "presentation": {
+        // run in background
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "options": {
+        // working directory
+        "cwd": "${workspaceFolder}",
+				"env": {
+					"PATH": "${env:PATH};${workspaceFolder}/node_modules/.bin;${workspaceFolder}/bin"
+				}
+      },
+      "runOptions": {
+        "runOn": "default"
+      }
+    }
 	]
 }

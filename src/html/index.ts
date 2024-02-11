@@ -91,7 +91,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
       }
     }
 
-    // START fix images attributes
+    // TODO fix images attributes
     if (cfg.img.enable) {
       root.querySelectorAll('img[src]').forEach((element) => {
         const imgAlt = element.getAttribute('alt') || title;
@@ -114,9 +114,11 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         if (isDev) element.setAttribute('hexo-seo', 'true');
       });
     }
-    // END fix images attributes
 
+    // TODO process schema
     fixSchemaStatic(root, cfg, data);
+
+    // TODO process sitemap
     sitemap(root, cfg, data);
 
     // START concatenate javascripts

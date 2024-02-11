@@ -157,7 +157,7 @@ function HexoSeoHtml(content, data) {
                             });
                         }
                     }
-                    // START fix images attributes
+                    // TODO fix images attributes
                     if (cfg_1.img.enable) {
                         root.querySelectorAll('img[src]').forEach(function (element) {
                             var imgAlt = element.getAttribute('alt') || title;
@@ -181,8 +181,9 @@ function HexoSeoHtml(content, data) {
                                 element.setAttribute('hexo-seo', 'true');
                         });
                     }
-                    // END fix images attributes
+                    // TODO process schema
                     (0, fixSchema_static_1.default)(root, cfg_1, data);
+                    // TODO process sitemap
                     (0, sitemap_1.default)(root, cfg_1, data);
                     if (!(cfg_1.js.concat === true)) return [3 /*break*/, 7];
                     scripts = Array.from(root.getElementsByTagName('script')).filter(function (el) {

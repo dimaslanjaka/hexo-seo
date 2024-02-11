@@ -1,15 +1,4 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true
-  },
-  "[typescript]": {
-    "editor.formatOnSave": false
-  },
-  "[javascript]": {
-    "editor.maxTokenizationLineLength": 2500,
-    "editor.formatOnSave": false
-  },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -17,27 +6,8 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/node_modules": true,
-    "dist": false
+    "**/node_modules": true
   },
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/node_modules/*/**": true,
-    "**/.hg/store/**": true,
-    "packages": true,
-    "dist": true
-  },
-  "git.detectSubmodules": true,
-  "javascript.suggestionActions.enabled": false,
-  "typescript.suggestionActions.enabled": false,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "code-runner.clearPreviousOutput": true,
-  "code-runner.ignoreSelection": true,
-  "code-runner.runInTerminal": true,
-  "code-runner.saveAllFilesBeforeRun": true,
-  "git.enabled": true,
-  "npm.packageManager": "yarn",
   "terminal.integrated.env.linux": {
     "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin"
   },
@@ -49,5 +19,23 @@
       "source.fixAll": "never",
       "source.organizeImports": "never"
     }
+  },
+  "task.saveBeforeRun":"always",
+  // task name to run on save action
+  "triggerTaskOnSave.selectedTask":"build in background",
+  // enable plugin
+  "triggerTaskOnSave.on":true,
+  // restart task when running
+  "triggerTaskOnSave.restart":true,
+  // run in background
+  "triggerTaskOnSave.showNotifications":false,
+  // run in background
+  "triggerTaskOnSave.showStatusBarToggle":false,
+  "triggerTaskOnSave.tasks":{
+    "build":[
+      // watch file patterns
+      "src/**/*.ts",
+      "src/**/*.js"
+    ]
   }
 }

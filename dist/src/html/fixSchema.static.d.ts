@@ -4,7 +4,7 @@ import { BaseConfig } from '../config';
 /**
  * Fix Schema Model 4
  * @param dom
- * @param hsConf hexo-seo config (config_yml.seo)
+ * @param hexoSeoConfig hexo-seo config (config_yml.seo)
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, hsConf: BaseConfig, data: HexoLocalsData): void;
+export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData): void;

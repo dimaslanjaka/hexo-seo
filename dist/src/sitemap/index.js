@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sitemapIndex = exports.sitemap = exports.getPageData = void 0;
 var fs_extra_1 = require("fs-extra");
+var google_news_sitemap_1 = __importDefault(require("google-news-sitemap"));
 var hexo_is_1 = __importDefault(require("hexo-is"));
 var moment_1 = __importDefault(require("moment"));
 var sbg_utility_1 = require("sbg-utility");
@@ -35,13 +36,16 @@ var upath_1 = require("upath");
 var xmlbuilder2_1 = require("xmlbuilder2");
 var log_1 = __importDefault(require("../log"));
 var scheduler_1 = __importDefault(require("../scheduler"));
+var getAuthor_1 = __importDefault(require("../utils/getAuthor"));
 var archive_1 = __importStar(require("./archive"));
+var hexo_util_1 = require("hexo-util");
 var sitemapGroup = {
     post: undefined,
     page: undefined,
     tag: undefined,
     category: undefined
 };
+var googleNewsSitemap = new google_news_sitemap_1.default();
 function initSitemap(type) {
     if (!sitemapGroup[type]) {
         var sourceXML = (0, upath_1.join)(__dirname, 'views/' + type + '-sitemap.xml');
@@ -85,6 +89,9 @@ var postUpdateDates = [];
 var pageUpdateDates = [];
 // const cache = new CacheFile("sitemap");
 var turnError = false;
+/**
+ * process sitemap of page
+ */
 function sitemap(dom, HSconfig, data) {
     if (!HSconfig.sitemap) {
         if (!turnError) {
@@ -103,7 +110,7 @@ function sitemap(dom, HSconfig, data) {
     if (['posts', 'pages'].every(function (info) { return locals.get(info).length === 0; })) {
         return;
     }
-    // parse html
+    // TODO modify or add sitemap href in html
     var linksitemap = dom.querySelector('link[rel="sitemap"]');
     if (linksitemap) {
         linksitemap.setAttribute('href', '/sitemap.xml');
@@ -112,6 +119,7 @@ function sitemap(dom, HSconfig, data) {
         linksitemap.setAttribute('title', 'Sitemap');
     }
     else {
+        // add the sitemap when not exist
         var head = dom.getElementsByTagName('head');
         if (head.length)
             head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
@@ -127,12 +135,21 @@ function sitemap(dom, HSconfig, data) {
             }
         }
         if (post.is.post) {
+            // YoastSeo Sitemap
             postUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
             sitemapGroup['post'].urlset.url.push({
                 loc: post.permalink,
                 lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
                 changefreq: 'weekly',
                 priority: '0.6'
+            });
+            // Google News Sitemap
+            googleNewsSitemap.add({
+                publication_name: (0, getAuthor_1.default)(post.author),
+                publication_language: post.lang || post.language || 'en',
+                publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
+                title: post.title || 'no title',
+                location: (0, hexo_util_1.url_for)(post.permalink)
             });
         }
         else if (post.is.page) {
@@ -145,6 +162,7 @@ function sitemap(dom, HSconfig, data) {
             });
         }
         if (isPagePost) {
+            // write sitemap at Node process ends
             scheduler_1.default.add('writeSitemap', function () {
                 // copy xsl
                 var destXSL = (0, upath_1.join)(hexo.public_dir, 'sitemap.xsl');
@@ -158,12 +176,18 @@ function sitemap(dom, HSconfig, data) {
                 else {
                     log_1.default.error('XSL sitemap not found');
                 }
+                // TODO write post-sitemap.xml
                 var destPostSitemap = (0, upath_1.join)(hexo.public_dir, 'post-sitemap.xml');
                 (0, sbg_utility_1.writefile)(destPostSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['post']).end({ prettyPrint: true }));
                 log_1.default.log('post sitemap saved', destPostSitemap);
+                // TODO write page-sitemap.xml
                 var destPageSitemap = (0, upath_1.join)(hexo.public_dir, 'page-sitemap.xml');
                 (0, sbg_utility_1.writefile)(destPageSitemap, (0, xmlbuilder2_1.create)(sitemapGroup['page']).end({ prettyPrint: true }));
                 log_1.default.log('page sitemap saved', destPageSitemap);
+                // TODO write google-news-sitemap.xml
+                var gnewsPageSitemap = (0, upath_1.join)(hexo.public_dir, 'google-news-sitemap.xml');
+                (0, sbg_utility_1.writefile)(gnewsPageSitemap, googleNewsSitemap.toString());
+                log_1.default.log('google news sitemap saved', gnewsPageSitemap);
                 sitemapIndex(hexo);
             });
         }

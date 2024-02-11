@@ -9,8 +9,7 @@
       "name": "Run test site",
       "request": "launch",
       "type": "node-terminal",
-      "cwd": "${workspaceFolder}/site",
-      "preLaunchTask": "${defaultBuildTask}"
+      "cwd": "${workspaceFolder}/site"
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
+import GoogleNewsSitemap from 'google-news-sitemap';
 import Hexo from 'hexo';
 import hexoIs from 'hexo-is';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
@@ -10,7 +11,9 @@ import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
 import log from '../log';
 import scheduler from '../scheduler';
+import getAuthor from '../utils/getAuthor';
 import getCategoryTags, { getLatestFromArrayDates } from './archive';
+import { url_for } from 'hexo-util';
 
 interface sitemapItem {
   loc: string;
@@ -45,6 +48,8 @@ interface SitemapIndexItem {
   lastmod: string;
 }
 
+const googleNewsSitemap = new GoogleNewsSitemap();
+
 function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
   if (!sitemapGroup[type]) {
     const sourceXML = join(__dirname, 'views/' + type + '-sitemap.xml');
@@ -58,6 +63,34 @@ function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
 export interface returnPageData extends HexoLocalsData {
   [key: string]: any;
   is: ReturnType<typeof hexoIs>;
+  // id?: string;
+  // _id?: string;
+  title?: string;
+  date?: moment.Moment;
+  updated?: moment.Moment;
+  // comments?: boolean;
+  // layout?: string;
+  // _content?: string;
+  // source?: string;
+  // slug?: string;
+  // photos?: string[];
+  // raw?: string;
+  published?: boolean;
+  // content?: string;
+  // excerpt?: string;
+  // more?: string;
+  // author?: string;
+  // asset_dir?: string;
+  // full_source?: string;
+  // path?: string;
+  // permalink?: string;
+  // categories?: any;
+  // tags?: any;
+  // __permalink?: string;
+  // __post?: boolean;
+  canonical_path?: string;
+  lang?: string;
+  language?: string;
 }
 
 /**
@@ -93,6 +126,10 @@ const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
 // const cache = new CacheFile("sitemap");
 let turnError = false;
+
+/**
+ * process sitemap of page
+ */
 export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData) {
   if (!HSconfig.sitemap) {
     if (!turnError) {
@@ -112,7 +149,7 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocals
     return;
   }
 
-  // parse html
+  // TODO modify or add sitemap href in html
   const linksitemap = dom.querySelector('link[rel="sitemap"]');
   if (linksitemap) {
     linksitemap.setAttribute('href', '/sitemap.xml');
@@ -120,6 +157,7 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocals
     linksitemap.setAttribute('rel', 'sitemap');
     linksitemap.setAttribute('title', 'Sitemap');
   } else {
+    // add the sitemap when not exist
     const head = dom.getElementsByTagName('head');
     if (head.length)
       head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
@@ -136,12 +174,22 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocals
       }
     }
     if (post.is.post) {
+      // YoastSeo Sitemap
       postUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
       sitemapGroup['post'].urlset.url.push({
         loc: post.permalink,
         lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
         changefreq: 'weekly',
         priority: '0.6'
+      });
+
+      // Google News Sitemap
+      googleNewsSitemap.add({
+        publication_name: getAuthor(post.author),
+        publication_language: post.lang || post.language || 'en',
+        publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
+        title: post.title || 'no title',
+        location: url_for(post.permalink)
       });
     } else if (post.is.page) {
       pageUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
@@ -154,6 +202,7 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocals
     }
 
     if (isPagePost) {
+      // write sitemap at Node process ends
       scheduler.add('writeSitemap', () => {
         // copy xsl
         const destXSL = join(hexo.public_dir, 'sitemap.xsl');
@@ -166,13 +215,20 @@ export function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocals
           log.error('XSL sitemap not found');
         }
 
+        // TODO write post-sitemap.xml
         const destPostSitemap = join(hexo.public_dir, 'post-sitemap.xml');
         writefile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
         log.log('post sitemap saved', destPostSitemap);
 
+        // TODO write page-sitemap.xml
         const destPageSitemap = join(hexo.public_dir, 'page-sitemap.xml');
         writefile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
         log.log('page sitemap saved', destPageSitemap);
+
+        // TODO write google-news-sitemap.xml
+        const gnewsPageSitemap = join(hexo.public_dir, 'google-news-sitemap.xml');
+        writefile(gnewsPageSitemap, googleNewsSitemap.toString());
+        log.log('google news sitemap saved', gnewsPageSitemap);
 
         sitemapIndex(hexo);
       });

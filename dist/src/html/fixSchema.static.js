@@ -8,14 +8,16 @@ var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var utils_1 = require("../utils");
 var log_1 = __importDefault(require("../log"));
 var model4_json_1 = __importDefault(require("./schema/article/model4.json"));
+var getAuthor_1 = __importDefault(require("../utils/getAuthor"));
 /**
  * Fix Schema Model 4
  * @param dom
- * @param hsConf hexo-seo config (config_yml.seo)
+ * @param hexoSeoConfig hexo-seo config (config_yml.seo)
  * @param data
  */
-function fixSchemaStatic(dom, hsConf, data) {
-    if (!hsConf.schema) {
+function fixSchemaStatic(dom, hexoSeoConfig, data) {
+    if (!hexoSeoConfig.schema) {
+        // skip when schema option is false
         return;
     }
     var is = (0, hexo_is_1.default)(data);
@@ -62,27 +64,27 @@ function fixSchemaStatic(dom, hsConf, data) {
         }
     }
     // resolve author
-    var author = data.config.author;
+    var author = (0, getAuthor_1.default)(data.config.author);
     if (data.page) {
         if (data.page.author) {
-            author = data.page.author;
+            author = (0, getAuthor_1.default)(data.page.author);
         }
     }
     var schema = [];
     // setup schema sitelink
-    if (hsConf.schema.sitelink && hsConf.schema.sitelink.searchUrl) {
+    if (hexoSeoConfig.schema.sitelink && hexoSeoConfig.schema.sitelink.searchUrl) {
         var term = '{search_term_string}';
         var urlTerm = (data.config.url || '').trim();
         // fix suffix term string
         if (urlTerm.length > 0 && !urlTerm.endsWith(term))
             urlTerm = urlTerm + term;
         sitelink.url = urlTerm;
-        sitelink.potentialAction.target = hsConf.schema.sitelink.searchUrl;
+        sitelink.potentialAction.target = hexoSeoConfig.schema.sitelink.searchUrl;
         schema.push(sitelink);
     }
     if (is.post) {
         // setup breadcrumb on post
-        if (hsConf.schema.breadcrumb && hsConf.schema.breadcrumb.enable) {
+        if (hexoSeoConfig.schema.breadcrumb && hexoSeoConfig.schema.breadcrumb.enable) {
             var schemaBreadcrumbs_1 = [];
             if (data.page) {
                 if (data.page.tags && data.page.tags.length > 0) {
@@ -119,7 +121,7 @@ function fixSchemaStatic(dom, hsConf, data) {
                 schema.push(breadcrumbs);
             }
         }
-        if (hsConf.schema.article && hsConf.schema.article.enable) {
+        if (hexoSeoConfig.schema.article && hexoSeoConfig.schema.article.enable) {
             article.mainEntityOfPage['@id'] = url;
             article.headline = title;
             article.description = description;
