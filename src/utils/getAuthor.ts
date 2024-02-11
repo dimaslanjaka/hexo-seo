@@ -12,12 +12,15 @@ export default function getAuthor(
   postObj: Record<string, any> | string,
   hexoConfig: Hexo['config'] = {} as any
 ): string {
-  const author: string | Record<string, any> =
-    typeof postObj == 'string' ? postObj : postObj.author || hexoConfig.author;
-  if (typeof author == 'string') return author;
-  if ('nick' in author) return author.nick;
-  if ('name' in author) return author.name;
-  if ('nickname' in author) return author.nickname;
+  if (postObj) {
+    // make sure post object not null or undefined
+    const author: string | Record<string, any> =
+      typeof postObj == 'string' ? postObj : postObj.author || hexoConfig.author;
+    if (typeof author == 'string') return author;
+    if ('nick' in author) return author.nick;
+    if ('name' in author) return author.name;
+    if ('nickname' in author) return author.nickname;
+  }
   // return unknown author
   return 'Unknown Author';
 }
