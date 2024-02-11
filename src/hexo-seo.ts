@@ -10,8 +10,6 @@ import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
 import HexoSeoJs from './minifier/js';
-import scheduler from './scheduler';
-import bindProcessExit from './utils/cleanup';
 
 const argv = minimist(process.argv.slice(2));
 
@@ -54,6 +52,7 @@ export default function HexoSeo(hexo: Hexo) {
         break;
       }
       if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         hexoCmd = 'clean';
         setMode('c');
         break;
@@ -68,14 +67,6 @@ export default function HexoSeo(hexo: Hexo) {
     if (fs.existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
     if (fs.existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
   });
-
-  // execute scheduled functions before process exit
-  if (hexoCmd != 'clean') {
-    bindProcessExit('scheduler_on_exit', function () {
-      hexo.log.debug(logname, 'executing scheduled functions');
-      scheduler.executeAll();
-    });
-  }
 
   // bind configuration
   const config = getConfig(hexo);

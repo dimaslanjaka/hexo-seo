@@ -2,18 +2,17 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-
 import GoogleNewsSitemap from 'google-news-sitemap';
 import Hexo from 'hexo';
 import hexoIs from 'hexo-is';
+import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment';
 import { HTMLElement } from 'node-html-parser';
-import { writefile } from 'sbg-utility';
+import { bindProcessExit, writefile } from 'sbg-utility';
 import { dirname, join } from 'upath';
 import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
 import log from '../log';
-import scheduler from '../scheduler';
 import getAuthor from '../utils/getAuthor';
 import getCategoryTags, { getLatestFromArrayDates } from './archive';
-import { url_for } from 'hexo-util';
 
 interface sitemapItem {
   loc: string;
@@ -223,7 +222,7 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
 
     if (isPagePost) {
       // write sitemap at Node process ends
-      scheduler.add('writeSitemap', () => {
+      bindProcessExit('writeSitemap', () => {
         if (isYoastActive) {
           // copy xsl
           const destXSL = join(hexo.public_dir, 'sitemap.xsl');

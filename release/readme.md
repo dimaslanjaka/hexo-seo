@@ -2,7 +2,7 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| latest | https://github.com/dimaslanjaka/hexo-seo/raw/f6a33a7/release/hexo-seo.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-seo/raw/49a89bc/release/hexo-seo.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
 
 use this tarball with `resolutions`:
