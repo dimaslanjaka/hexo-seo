@@ -8,14 +8,14 @@
       "label": "build in background",
       "type": "shell",
       // command shell to run
-      "command": "npm run build",
+      "command": "npm run build && npm run pack",
       "args": [],
       "group": {
         "kind": "build",
         "isDefault": true
       },
       // task description
-      "detail": "run gradle bootRun",
+      "detail": "bundle dist and tarball",
       "presentation": {
         // run in background
         "reveal": "silent",
