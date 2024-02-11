@@ -26,5 +26,5 @@
     "**/.git/**",
     "**/test/**"
   ],
-  "include": ["./src/**/*", "./source/**/*"]
+  "include": ["./src/**/*", "./source/**/*", "./test/**/*"]
 }
