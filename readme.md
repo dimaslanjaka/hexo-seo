@@ -118,16 +118,21 @@ seo:
     exclude:
       - webmanajemen.com
       - web-manajemen.blogspot.com
-  # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
-  # forked from yoast seo
-  sitemap: true
+  # seo-friendly sitemap
+  # you can fill value `sitemap: true` to create both sitemaps
+  sitemap:
+    # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
+    # forked from yoast seo
+    yoast: true
+    gnews: true
 ```
-> ~this plugin will run the functions based on development mode or production mode~
+
+<!-- > ~this plugin will run the functions based on development mode or production mode~
 
 **development mode**
 ```shell
 set NODE_ENV=development && hexo server
-```
+``` -->
 
 # Preview
 

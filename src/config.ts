@@ -24,7 +24,14 @@ export interface BaseConfig {
   /**
    * generate YoastSEO Sitemap
    */
-  sitemap: boolean;
+  sitemap:
+    | boolean
+    | {
+        /** yoast seo */
+        yoast: boolean;
+        /** google news */
+        gnews: boolean;
+      };
   /**
    * Optimize js
    */

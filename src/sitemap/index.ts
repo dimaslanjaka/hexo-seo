@@ -149,6 +149,19 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
     return;
   }
 
+  // resolve configs
+  let isYoastActive = false;
+  let isGnewsActive = false;
+  const sitemapConfig = hexoSeoConfig.sitemap;
+  if (sitemapConfig) {
+    if (typeof sitemapConfig == 'boolean' && sitemapConfig === true) {
+      isYoastActive = isGnewsActive = true;
+    } else {
+      isYoastActive = sitemapConfig.yoast;
+      isGnewsActive = sitemapConfig.gnews;
+    }
+  }
+
   // TODO modify or add sitemap href in html
   const linksitemap = dom.querySelector('link[rel="sitemap"]');
   if (linksitemap) {
@@ -175,69 +188,82 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
     }
     if (post.is.post) {
       // YoastSeo Sitemap
-      postUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
-      sitemapGroup['post'].urlset.url.push({
-        loc: post.permalink,
-        lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
-        changefreq: 'weekly',
-        priority: '0.6'
-      });
+      if (isYoastActive) {
+        postUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
+        sitemapGroup['post'].urlset.url.push({
+          loc: post.permalink,
+          lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
+          changefreq: 'weekly',
+          priority: '0.6'
+        });
+      }
 
       // Google News Sitemap
-      googleNewsSitemap.add({
-        publication_name: getAuthor(post.author),
-        publication_language: post.lang || post.language || 'en',
-        publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
-        title: post.title || 'no title',
-        location: url_for(post.permalink)
-      });
+      if (isGnewsActive) {
+        googleNewsSitemap.add({
+          publication_name: getAuthor(post.author),
+          publication_language: post.lang || post.language || 'en',
+          publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          title: post.title || 'no title',
+          location: url_for(post.permalink)
+        });
+      }
     } else if (post.is.page) {
-      pageUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
-      sitemapGroup['page'].urlset.url.push({
-        loc: post.permalink,
-        lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
-        changefreq: 'weekly',
-        priority: '0.8'
-      });
+      // YoastSeo Sitemap
+      if (isYoastActive) {
+        pageUpdateDates.push(post.updated.format('YYYY-MM-DDTHH:mm:ssZ'));
+        sitemapGroup['page'].urlset.url.push({
+          loc: post.permalink,
+          lastmod: post.updated.format('YYYY-MM-DDTHH:mm:ssZ'),
+          changefreq: 'weekly',
+          priority: '0.8'
+        });
+      }
     }
 
     if (isPagePost) {
       // write sitemap at Node process ends
       scheduler.add('writeSitemap', () => {
-        // copy xsl
-        const destXSL = join(hexo.public_dir, 'sitemap.xsl');
-        if (!existsSync(dirname(destXSL))) mkdirSync(dirname(destXSL), { recursive: true });
-        const sourceXSL = join(__dirname, 'views/sitemap.xsl');
-        if (existsSync(sourceXSL)) {
-          copyFileSync(sourceXSL, destXSL);
-          log.log('XSL sitemap copied to ' + destXSL);
-        } else {
-          log.error('XSL sitemap not found');
+        if (isYoastActive) {
+          // copy xsl
+          const destXSL = join(hexo.public_dir, 'sitemap.xsl');
+          if (!existsSync(dirname(destXSL))) mkdirSync(dirname(destXSL), { recursive: true });
+          const sourceXSL = join(__dirname, 'views/sitemap.xsl');
+          if (existsSync(sourceXSL)) {
+            copyFileSync(sourceXSL, destXSL);
+            log.log('XSL sitemap copied to ' + destXSL);
+          } else {
+            log.error('XSL sitemap not found');
+          }
+
+          // TODO write post-sitemap.xml
+          const destPostSitemap = join(hexo.public_dir, 'post-sitemap.xml');
+          writefile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
+          log.log('post sitemap saved', destPostSitemap);
+
+          // TODO write page-sitemap.xml
+          const destPageSitemap = join(hexo.public_dir, 'page-sitemap.xml');
+          writefile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
+          log.log('page sitemap saved', destPageSitemap);
+
+          generateSitemapIndex(hexo);
         }
 
-        // TODO write post-sitemap.xml
-        const destPostSitemap = join(hexo.public_dir, 'post-sitemap.xml');
-        writefile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
-        log.log('post sitemap saved', destPostSitemap);
-
-        // TODO write page-sitemap.xml
-        const destPageSitemap = join(hexo.public_dir, 'page-sitemap.xml');
-        writefile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
-        log.log('page sitemap saved', destPageSitemap);
-
-        // TODO write google-news-sitemap.xml
-        const gnewsPageSitemap = join(hexo.public_dir, 'google-news-sitemap.xml');
-        writefile(gnewsPageSitemap, googleNewsSitemap.toString());
-        log.log('google news sitemap saved', gnewsPageSitemap);
-
-        sitemapIndex(hexo);
+        if (isGnewsActive) {
+          // TODO write google-news-sitemap.xml
+          const gnewsPageSitemap = join(hexo.public_dir, 'google-news-sitemap.xml');
+          writefile(gnewsPageSitemap, googleNewsSitemap.toString());
+          log.log('google news sitemap saved', gnewsPageSitemap);
+        }
       });
     }
   }
 }
+
 export default sitemap;
 
-export function sitemapIndex(hexoinstance: Hexo = null) {
+/** generate YoastSeo index sitemap */
+export function generateSitemapIndex(hexoinstance: Hexo = null) {
   const sourceIndexXML = join(__dirname, 'views/sitemap.xml');
   const sitemapIndexDoc = createXML(readFileSync(sourceIndexXML).toString());
   const sitemapIndex = <SitemapIndex>new Object(sitemapIndexDoc.end({ format: 'object' }));
