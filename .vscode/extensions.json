@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "k--kato.intellij-idea-keybindings",
     "esbenp.prettier-vscode",
-    "eliostruyf.vscode-front-matter"
+    "eliostruyf.vscode-front-matter",
+    "gruntfuggly.triggertaskonsave"
   ]
 }
