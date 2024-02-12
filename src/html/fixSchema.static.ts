@@ -47,7 +47,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
     }
   }
 
-  console.log('fixing schema of ' + url);
+  // console.log('fixing schema of ' + url);
 
   // resolve thumbnail
   let thumbnail =
@@ -74,12 +74,12 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
 
   // setup schema sitelink
   if (hexoSeoConfig.schema.sitelink && hexoSeoConfig.schema.sitelink.searchUrl) {
+    sitelink.url = data.config.url || '';
     const term = '{search_term_string}';
-    let urlTerm = (data.config.url || '').trim();
+    let urlTerm = (hexoSeoConfig.schema.sitelink.searchUrl || '').trim();
     // fix suffix term string
     if (urlTerm.length > 0 && !urlTerm.endsWith(term)) urlTerm = urlTerm + term;
-    sitelink.url = urlTerm;
-    sitelink.potentialAction.target = hexoSeoConfig.schema.sitelink.searchUrl;
+    sitelink.potentialAction.target = urlTerm;
     schema.push(sitelink);
   }
 

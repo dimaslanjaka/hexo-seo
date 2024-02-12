@@ -28,12 +28,12 @@
   },
   "/release/hexo-seo.tgz": {
     "integrity": {
-      "sha1": "2fbf9e664f9e22bd15a27ad7b9969b1cff67934f",
-      "sha256": "hhpzezp0DmsJ7sf3hz/DD9aQnONHQ+OnHkJeCuIIkiE=",
-      "md5": "4e66a7f0eb1f5491aedf582ddcead784",
-      "sha512": "vI3uX1ptG10uwfqDbJcHnLmE8Q31zkfNExjk7lbwj8H0jbSW05KuXpcBVqE/gf4aPeWK+fY5biPfTMxknJ8pzA=="
+      "sha1": "395c8040698a97a4383ab23c799fd709aef337ef",
+      "sha256": "uAVIclpzY7WBBYaBK2YjHu9L1oMHfsmXFv406cWMtAo=",
+      "md5": "fa86581a102f9a7c38a21bbe7969fba8",
+      "sha512": "zOpdUydQn9uT59L6GHGS5kkLrlIv6BgZR8geRAxxMyCDT3xFr1hSGJ8mdBpGYnRM1h3pEV3MDIVXTZdSFwyANg=="
     },
-    "size": "432.74 KB"
+    "size": "432.71 KB"
   },
   "/package-lock.json": {
     "integrity": {
@@ -64,12 +64,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "d824630fde35ee142b26765e38e2c95cc62d82ab",
-      "sha256": "lldhXOtjtMjExm6Y5pYtQBghzJ/i1CVUfvFtk7qruFY=",
-      "md5": "70026d05a72416c6c1d2e32b28e90a20",
-      "sha512": "k72D208hIzceo6UkwdPckEGNAUKNhnkTlEQaqSbvJzsbS50WvQ4APo2gIePuA7b+fbJ4hDMj0rgR9yW5oACnXQ=="
+      "sha1": "6384d8c0c42b206e40a660c3ce00f97bc0584df6",
+      "sha256": "hpSEmhxqDqiRbEIDflpkun3Y6D2E3/CBzVqAOFyYT80=",
+      "md5": "b807199bb2650264dad652c4244a2a46",
+      "sha512": "e+T1tUeU6vzAqhozhnnPvsqUamEY/suI1XvESjJVZlVnegSk5Ec2i8RnYdnLrpTXyAd1k8D4vH3KdqfDezUCOw=="
     },
-    "size": "483.91 KB"
+    "size": "487.97 KB"
   },
   "/release/hexo-seo-1.1.6.tgz": {
     "integrity": {
@@ -145,11 +145,20 @@
   },
   "/release/hexo-seo-1.4.0.tgz": {
     "integrity": {
-      "sha1": "2fbf9e664f9e22bd15a27ad7b9969b1cff67934f",
-      "sha256": "hhpzezp0DmsJ7sf3hz/DD9aQnONHQ+OnHkJeCuIIkiE=",
-      "md5": "4e66a7f0eb1f5491aedf582ddcead784",
-      "sha512": "vI3uX1ptG10uwfqDbJcHnLmE8Q31zkfNExjk7lbwj8H0jbSW05KuXpcBVqE/gf4aPeWK+fY5biPfTMxknJ8pzA=="
+      "sha1": "c984727ce7616eaddadb12af1fb915b2249bb370",
+      "sha256": "Mvd36av3mCey8YSJLN2FSRne1diiyjeACjBcGcNER3s=",
+      "md5": "15c704dd3c4d2971902a9f811408b641",
+      "sha512": "RsNVlVPxSk57xlslZcG+xw2rOsue01o6qHi38Z+OVo/WlCETPAgfPLzvi+8pR1y4xohy3iLgEWAY6IHSrzyQMA=="
     },
-    "size": "432.74 KB"
+    "size": "432.71 KB"
+  },
+  "/release/hexo-seo-1.4.1.tgz": {
+    "integrity": {
+      "sha1": "395c8040698a97a4383ab23c799fd709aef337ef",
+      "sha256": "uAVIclpzY7WBBYaBK2YjHu9L1oMHfsmXFv406cWMtAo=",
+      "md5": "fa86581a102f9a7c38a21bbe7969fba8",
+      "sha512": "zOpdUydQn9uT59L6GHGS5kkLrlIv6BgZR8geRAxxMyCDT3xFr1hSGJ8mdBpGYnRM1h3pEV3MDIVXTZdSFwyANg=="
+    },
+    "size": "432.71 KB"
   }
 }
