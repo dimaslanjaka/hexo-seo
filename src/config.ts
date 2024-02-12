@@ -81,11 +81,11 @@ export interface BaseConfig {
     homepage: Switcher & AutoConfig['schema']['homepage'];
   };
 
-  /**
-   * theme directory
-   */
+  /** theme directory */
   readonly theme_dir: string;
+  /** source assets directory */
   readonly source_dir: string;
+  /** original source post directory */
   readonly post_dir: string;
 }
 
