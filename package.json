@@ -68,7 +68,7 @@
     "moment-timezone": "^0.5.45",
     "node-cache": "^5.1.2",
     "node-html-parser": "^6.1.12",
-    "node-libcurl": "^3.0.0",
+    "node-libcurl": "^4.0.0",
     "rimraf": "^5.0.5",
     "sanitize-filename": "^1.6.3",
     "sbg-utility": "^1.1.6",
