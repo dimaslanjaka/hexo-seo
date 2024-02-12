@@ -92,16 +92,19 @@ seo:
         safari10: true
   # rich snippets
   schema:
-    # page and post
+    # produce schema for page and post
     article:
       enable: true
-    # breadcrumb
+    # produce schema for breadcrumb
     breadcrumb:
       enable: true
-    # sitelink
+    # produce schema for sitelink
     sitelink:
       enable: true
       searchUrl: https://www.webmanajemen.com/search?q={search_term_string}
+    # produce schema for homepage
+    homepage:
+      enable: true
   # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
   img:
     enable: true
