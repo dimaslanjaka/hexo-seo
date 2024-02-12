@@ -90,12 +90,15 @@ seo:
       mangle:
         toplevel: true
         safari10: true
-  # add rich snippets on every posts and pages
+  # rich snippets
   schema:
+    # page and post
     article:
       enable: true
+    # breadcrumb
     breadcrumb:
       enable: true
+    # sitelink
     sitelink:
       enable: true
       searchUrl: https://www.webmanajemen.com/search?q={search_term_string}
