@@ -27,7 +27,8 @@
     "update": "yarn run update:project && yarn run update:ncu",
     "post-install": "node postinstall.js --yarn --commit",
     "test:install": "cd test/demo && npm install",
-    "pack": "node packer.js --yarn"
+    "pack": "node packer.js --yarn",
+    "changelog": "node changelog.js"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "homepage": "https://www.webmanajemen.com/docs/hexo-seo",

@@ -1215,4 +1215,11 @@ create tarball v1.3.0
 - [ _2024-02-11 18:32:51_ ] [5eabbd7](https://github.com/dimaslanjaka/safelink/commit/5eabbd7) add tests run single file
 - [ _2024-02-12 11:40:08_ ] [fef6ee9](https://github.com/dimaslanjaka/safelink/commit/fef6ee9) change hexo local data type
 - [ _2024-02-12 11:44:32_ ] [7dce713](https://github.com/dimaslanjaka/safelink/commit/7dce713) update yarn
-- [ _2024-02-12 11:50:01_ ] [33259db](https://github.com/dimaslanjaka/safelink/commit/33259db) bump v1.4.1 - fixed invalid main url of search terms (HEAD -> pre-release, origin/pre-release)
+- [ _2024-02-12 11:50:01_ ] [33259db](https://github.com/dimaslanjaka/safelink/commit/33259db) bump v1.4.1 - fixed invalid main url of search terms
+- [ _2024-02-12 12:07:40_ ] [62843a8](https://github.com/dimaslanjaka/safelink/commit/62843a8) validate url term not empty before push
+- [ _2024-02-12 12:08:44_ ] [738ac41](https://github.com/dimaslanjaka/safelink/commit/738ac41) update changelog
+- [ _2024-02-12 19:06:33_ ] [442eac8](https://github.com/dimaslanjaka/safelink/commit/442eac8) update option docs
+- [ _2024-02-12 20:27:12_ ] [8f7f691](https://github.com/dimaslanjaka/safelink/commit/8f7f691) feat: update homepage schema - add config for homepage schema - add post list to homepage schema
+- [ _2024-02-12 20:29:10_ ] [ff599b9](https://github.com/dimaslanjaka/safelink/commit/ff599b9) update jsdoc
+- [ _2024-02-12 20:33:28_ ] [8f6d1f9](https://github.com/dimaslanjaka/safelink/commit/8f6d1f9) chore: assign default config fix useless error when some property config not set (origin/pre-release)
+- [ _2024-02-12 20:40:20_ ] [f72a7f4](https://github.com/dimaslanjaka/safelink/commit/f72a7f4) chore: reconstruct get author property (HEAD -> pre-release)
