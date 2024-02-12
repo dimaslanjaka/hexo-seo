@@ -6,7 +6,7 @@ import { dump } from '../utils';
 import { BaseConfig } from '../config';
 import logger from '../log';
 import model from './schema/article/model4.json';
-import getAuthor from '../utils/getAuthor';
+import { getAuthorName } from '../utils/getAuthor';
 import { url_for } from 'hexo-util';
 import { deepmerge } from 'deepmerge-ts';
 
@@ -87,10 +87,10 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
   }
 
   // resolve author
-  let author = getAuthor(data.config.author);
+  let author = getAuthorName(data.config.author);
   if (data.page) {
     if (data.page.author) {
-      author = getAuthor(data.page.author);
+      author = getAuthorName(data.page.author);
     }
   }
 
@@ -194,7 +194,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
           '@type': 'Person',
           image:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png',
-          name: getAuthor(post.author),
+          name: getAuthorName(post.author),
           sameAs: url_for(post.permalink)
         },
         image:

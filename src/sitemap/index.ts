@@ -11,7 +11,7 @@ import { dirname, join } from 'upath';
 import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
 import log from '../log';
-import getAuthor from '../utils/getAuthor';
+import { getAuthorName } from '../utils/getAuthor';
 import getCategoryTags, { getLatestFromArrayDates } from './archive';
 
 interface sitemapItem {
@@ -200,7 +200,7 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
       // Google News Sitemap
       if (isGnewsActive) {
         googleNewsSitemap.add({
-          publication_name: getAuthor(post.author),
+          publication_name: getAuthorName(post.author),
           publication_language: post.lang || post.language || 'en',
           publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
           title: post.title || 'no title',
