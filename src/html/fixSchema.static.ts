@@ -21,7 +21,27 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
     // skip when schema option is false
     return;
   }
-
+  // assign default config
+  const defaultConfig: Partial<typeof hexoSeoConfig> = {
+    schema: {
+      homepage: { enable: false },
+      sitelink: { enable: false, searchUrl: '/search' },
+      article: { enable: false },
+      breadcrumb: { enable: false }
+    },
+    cache: false,
+    sitemap: false,
+    host: '',
+    theme_dir: process.cwd() + '/theme',
+    source_dir: process.cwd() + '/source',
+    post_dir: process.cwd() + '/source/_posts'
+  };
+  try {
+    defaultConfig.host = new URL(hexo.config.url).host;
+  } catch (_error) {
+    //
+  }
+  hexoSeoConfig = deepmerge(defaultConfig, hexoSeoConfig);
   const is = hexoIs(data);
   const breadcrumbs = model[0];
   const article = model[1];
