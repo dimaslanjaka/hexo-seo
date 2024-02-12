@@ -78,9 +78,11 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
     const term = '{search_term_string}';
     let urlTerm = (hexoSeoConfig.schema.sitelink.searchUrl || '').trim();
     // fix suffix term string
-    if (urlTerm.length > 0 && !urlTerm.endsWith(term)) urlTerm = urlTerm + term;
-    sitelink.potentialAction.target = urlTerm;
-    schema.push(sitelink);
+    if (urlTerm.length > 0) {
+      if (!urlTerm.endsWith(term)) urlTerm = urlTerm + term;
+      sitelink.potentialAction.target = urlTerm;
+      schema.push(sitelink);
+    }
   }
 
   if (is.post) {
