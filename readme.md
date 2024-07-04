@@ -130,7 +130,10 @@ seo:
   sitemap:
     # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
     # forked from yoast seo
+    # location: /sitemap.xml /page-sitemap.xml /post-sitemap.xml /category-sitemap.xml /tag-sitemap.xml
     yoast: true
+    # google news sitemap
+    # location: /google-news-sitemap.xml
     gnews: true
 ```
 
