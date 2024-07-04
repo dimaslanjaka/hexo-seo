@@ -82,7 +82,8 @@ seo:
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.js"
-    # this is terser options, you can customize minifier with terser options https://github.com/terser/terser
+    # this is terser options, you can customize minifier with terser options
+    # https://github.com/terser/terser?tab=readme-ov-file#minify-options-structure
     # below is config example
     options:
       compress:
