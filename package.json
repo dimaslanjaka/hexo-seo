@@ -1,6 +1,6 @@
 {
   "name": "hexo-seo",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Automated Seo Optimizer For Hexo",
   "main": "index.js",
   "types": "dist/src/index.d.ts",
@@ -69,7 +69,6 @@
     "moment-timezone": "^0.5.45",
     "node-cache": "^5.1.2",
     "node-html-parser": "^6.1.12",
-    "node-libcurl": "^3.0.0",
     "rimraf": "^5.0.5",
     "sanitize-filename": "^1.6.3",
     "sbg-utility": "^1.1.6",
@@ -118,7 +117,7 @@
     "request": ">=2.88.2",
     "uuid": ">=9.0.1"
   },
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.5.0",
   "workspaces": [
     "site"
   ]
