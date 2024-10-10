@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import Promise from 'bluebird';
 import { Stream } from 'stream';
 export declare function isStream(stream: any): boolean;

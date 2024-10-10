@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 function imagebroker() {
-    var images = document.querySelectorAll("img");
-    for (var index = 0; index < images.length; index++) {
-        var img = images[index];
+    const images = document.querySelectorAll("img");
+    for (let index = 0; index < images.length; index++) {
+        const img = images[index];
         img.onerror = function () {
             // todo: get config default fallback
         };

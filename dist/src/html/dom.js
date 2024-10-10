@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTextPartialHtml = exports.parseJSDOM = exports._JSDOM = void 0;
-var jsdom_1 = require("jsdom");
-var _JSDOM = /** @class */ (function () {
-    function _JSDOM(str, options) {
+exports._JSDOM = void 0;
+exports.parseJSDOM = parseJSDOM;
+exports.getTextPartialHtml = getTextPartialHtml;
+const jsdom_1 = require("jsdom");
+class _JSDOM {
+    constructor(str, options) {
         this.dom = new jsdom_1.JSDOM(str, options);
         this.window = this.dom.window;
         this.document = this.dom.window.document;
@@ -11,39 +13,37 @@ var _JSDOM = /** @class */ (function () {
     /**
      * Get JSDOM instances
      */
-    _JSDOM.prototype.getDom = function () {
+    getDom() {
         return this.dom;
-    };
+    }
     /**
      * Transform html string to Node
      * @param html
      * @returns
      */
-    _JSDOM.prototype.toNode = function (html) {
+    toNode(html) {
         return getTextPartialHtml(html, this.options);
-    };
+    }
     /**
      * serializing html / fix invalid html
      * @returns serialized html
      */
-    _JSDOM.prototype.serialize = function () {
+    serialize() {
         return this.dom.serialize();
-    };
+    }
     /**
      * Return Modified html (without serialization)
      */
-    _JSDOM.prototype.toString = function () {
+    toString() {
         return this.document.documentElement.outerHTML;
-    };
-    return _JSDOM;
-}());
+    }
+}
 exports._JSDOM = _JSDOM;
-var dom;
+let dom;
 function parseJSDOM(text) {
     dom = new _JSDOM(text);
-    return { dom: dom, window: dom.window, document: dom.window.document };
+    return { dom, window: dom.window, document: dom.window.document };
 }
-exports.parseJSDOM = parseJSDOM;
 /**
  * Get text from partial html
  * @param text
@@ -51,11 +51,10 @@ exports.parseJSDOM = parseJSDOM;
  * @returns
  */
 function getTextPartialHtml(text, options) {
-    dom = new _JSDOM("<div id=\"parseJSDOM\">".concat(text, "</div>"), options);
-    var document = dom.window.document;
-    var result = document.querySelector('div#parseJSDOM').textContent;
+    dom = new _JSDOM(`<div id="parseJSDOM">${text}</div>`, options);
+    const document = dom.window.document;
+    const result = document.querySelector('div#parseJSDOM').textContent;
     // prevent memory leaks
     dom.window.close();
     return result;
 }
-exports.getTextPartialHtml = getTextPartialHtml;

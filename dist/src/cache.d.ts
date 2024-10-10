@@ -1,4 +1,3 @@
-/// <reference types="bluebird" />
 /**
  * @summary IN MEMORY CACHE
  * @description cache will be saved in memory/RAM

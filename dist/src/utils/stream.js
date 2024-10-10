@@ -3,46 +3,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.streamToArray = exports.streamToString = exports.isTransformStream = exports.isDuplexStream = exports.isReadableStream = exports.isWritableStream = exports.isStream = void 0;
-var bluebird_1 = __importDefault(require("bluebird"));
+exports.isStream = isStream;
+exports.isWritableStream = isWritableStream;
+exports.isReadableStream = isReadableStream;
+exports.isDuplexStream = isDuplexStream;
+exports.isTransformStream = isTransformStream;
+exports.streamToString = streamToString;
+exports.streamToArray = streamToArray;
+const bluebird_1 = __importDefault(require("bluebird"));
 function isStream(stream) {
     return stream !== null && typeof stream === 'object' && typeof stream.pipe === 'function';
 }
-exports.isStream = isStream;
 function isWritableStream(stream) {
     return (isStream(stream) &&
         stream.writable !== false &&
         typeof stream._write === 'function' &&
         typeof stream._writableState === 'object');
 }
-exports.isWritableStream = isWritableStream;
 function isReadableStream(stream) {
     return (isStream(stream) &&
         stream.readable !== false &&
         typeof stream._read === 'function' &&
         typeof stream._readableState === 'object');
 }
-exports.isReadableStream = isReadableStream;
 function isDuplexStream(stream) {
     return isWritableStream(stream) && isReadableStream(stream);
 }
-exports.isDuplexStream = isDuplexStream;
 function isTransformStream(stream) {
     return isDuplexStream(stream) && typeof stream._transform === 'function';
 }
-exports.isTransformStream = isTransformStream;
 function streamToString(stream) {
-    return new bluebird_1.default(function (resolve, _reject) {
-        var chunks = [];
-        stream.on('data', function (chunk) {
+    return new bluebird_1.default((resolve, _reject) => {
+        const chunks = [];
+        stream.on('data', (chunk) => {
             chunks.push(chunk.toString());
         });
-        stream.on('end', function () {
+        stream.on('end', () => {
             resolve(chunks.join(''));
         });
     });
 }
-exports.streamToString = streamToString;
 function streamToArray(self, done) {
     if (!self) {
         // no arguments, meaning stream = this
@@ -53,7 +53,7 @@ function streamToArray(self, done) {
         done = self;
         self = this;
     }
-    var deferred;
+    let deferred;
     if (!isReadableStream(self))
         deferred = bluebird_1.default.resolve([]);
     else
@@ -61,7 +61,7 @@ function streamToArray(self, done) {
             // stream is already ended
             if (!isReadableStream(self))
                 return resolve([]);
-            var arr = [];
+            let arr = [];
             self.on('data', onData);
             self.on('end', onEnd);
             self.on('error', onEnd);
@@ -97,4 +97,3 @@ function streamToArray(self, done) {
     }
     return deferred;
 }
-exports.streamToArray = streamToArray;

@@ -3,27 +3,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLatestFromArrayDates = void 0;
-var moment_1 = __importDefault(require("moment"));
+exports.getLatestFromArrayDates = getLatestFromArrayDates;
+const moment_1 = __importDefault(require("moment"));
 function getCategoryTags(hexo) {
-    var groups = ['categories', 'tags'];
-    var locals = hexo.locals;
-    var groupfilter = {
+    const groups = ['categories', 'tags'];
+    const locals = hexo.locals;
+    const groupfilter = {
         tags: [],
         categories: []
     };
     if (!locals) {
         return groupfilter;
     }
-    groups.map(function (group) {
-        var lastModifiedObject = locals.get(group).map(function (items) {
+    groups.map((group) => {
+        const lastModifiedObject = locals.get(group).map((items) => {
             if (items.posts) {
-                var archives = items;
-                var posts = archives.posts;
-                var latest = getLatestFromArrayDates(posts.map(function (post) {
+                const archives = items;
+                const posts = archives.posts;
+                const latest = getLatestFromArrayDates(posts.map((post) => {
                     return post.updated.toDate();
                 }));
-                var permalink = new URL(hexo.config.url);
+                const permalink = new URL(hexo.config.url);
                 permalink.pathname = archives.path;
                 return {
                     permalink: permalink.toString(),
@@ -46,5 +46,4 @@ function getLatestFromArrayDates(arr) {
         return e instanceof Date ? e : (0, moment_1.default)(e).toDate();
     })));
 }
-exports.getLatestFromArrayDates = getLatestFromArrayDates;
 exports.default = getCategoryTags;

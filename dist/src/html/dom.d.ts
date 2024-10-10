@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import jsdom, { ConstructorOptions, DOMWindow } from 'jsdom';
 export declare class _JSDOM {
     private dom;

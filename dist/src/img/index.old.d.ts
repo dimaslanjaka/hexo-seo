@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import Hexo from 'hexo';
 export interface imgOptions {
     /**

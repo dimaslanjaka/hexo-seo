@@ -24,6 +24,7 @@ export declare function getPageData(data: HexoLocalsData): returnPageData;
 /**
  * process sitemap of page
  */
-export declare function sitemap(dom: HTMLElement, HSconfig: BaseConfig, data: HexoLocalsData): void;
+export declare function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData): void;
 export default sitemap;
-export declare function sitemapIndex(hexoinstance?: Hexo): void;
+/** generate YoastSeo index sitemap */
+export declare function generateSitemapIndex(hexoinstance?: Hexo): void;

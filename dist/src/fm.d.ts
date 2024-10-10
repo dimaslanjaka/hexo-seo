@@ -1,4 +1,3 @@
-/// <reference types="node" />
 /**
  * Temp folder
  */

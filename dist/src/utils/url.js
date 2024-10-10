@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidHttpUrl = exports.isValidUrlPattern = void 0;
+exports.isValidUrlPattern = isValidUrlPattern;
+exports.isValidHttpUrl = isValidHttpUrl;
 function isValidUrlPattern(url) {
     try {
         if (new URL(url).hostname)
@@ -11,9 +12,8 @@ function isValidUrlPattern(url) {
     }
     return false;
 }
-exports.isValidUrlPattern = isValidUrlPattern;
 function isValidHttpUrl(string) {
-    var url;
+    let url;
     try {
         url = new URL(string);
     }
@@ -22,4 +22,3 @@ function isValidHttpUrl(string) {
     }
     return url.protocol === 'http:' || url.protocol === 'https:';
 }
-exports.isValidHttpUrl = isValidHttpUrl;

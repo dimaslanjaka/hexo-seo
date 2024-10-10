@@ -53,6 +53,9 @@
         },
         "breadcrumb": {
             "enable": true
+        },
+        "homepage": {
+            "enable": true
         }
     },
     "sitemap": true

@@ -3,17 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMode = exports.setMode = exports.cache_key_router = exports.coreCache = exports.toMilliseconds = void 0;
-var deepmerge_ts_1 = require("deepmerge-ts");
-var fs_extra_1 = require("fs-extra");
-var sbg_utility_1 = require("sbg-utility");
-var upath_1 = __importDefault(require("upath"));
-var fm_1 = require("./fm");
-var hexo_seo_1 = require("./hexo-seo");
+exports.getMode = exports.cache_key_router = exports.coreCache = exports.toMilliseconds = void 0;
+exports.setMode = setMode;
+const deepmerge_ts_1 = require("deepmerge-ts");
+const fs_extra_1 = require("fs-extra");
+const sbg_utility_1 = require("sbg-utility");
+const upath_1 = __importDefault(require("upath"));
+const fm_1 = require("./fm");
+const hexo_seo_1 = require("./hexo-seo");
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
-var getConfig = function (hexo, _key) {
-    if (_key === void 0) { _key = 'config-hexo-seo'; }
-    var defaultOpt = {
+const getConfig = function (hexo, _key = 'config-hexo-seo') {
+    const defaultOpt = {
         cache: true,
         js: { enable: false, concat: false, exclude: ['*.min.js'] },
         css: { enable: false, exclude: ['*.min.css'] },
@@ -55,7 +55,7 @@ var getConfig = function (hexo, _key) {
         source_dir: upath_1.default.join(process.cwd(), String(hexo.config.source_dir || 'source')),
         post_dir: upath_1.default.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
     };
-    var seo = hexo.config.seo;
+    const seo = hexo.config.seo;
     (0, fs_extra_1.writeFileSync)(upath_1.default.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
     if (typeof seo === 'undefined')
         return defaultOpt;
@@ -71,11 +71,7 @@ var getConfig = function (hexo, _key) {
  * @param sec
  * @returns
  */
-var toMilliseconds = function (hrs, min, sec) {
-    if (min === void 0) { min = 0; }
-    if (sec === void 0) { sec = 0; }
-    return (hrs * 60 * 60 + min * 60 + sec) * 1000;
-};
+const toMilliseconds = (hrs, min = 0, sec = 0) => (hrs * 60 * 60 + min * 60 + sec) * 1000;
 exports.toMilliseconds = toMilliseconds;
 exports.coreCache = new sbg_utility_1.persistentCache({
     base: fm_1.tmpFolder,
@@ -91,7 +87,7 @@ exports.default = getConfig;
  * - c = clean
  * - g = generate
  */
-var mode;
+let mode;
 /**
  * set mode hexo argument
  * - s = server
@@ -102,7 +98,6 @@ var mode;
 function setMode(m) {
     mode = m;
 }
-exports.setMode = setMode;
 /**
  * get mode hexo argument
  * - s = server
@@ -110,5 +105,5 @@ exports.setMode = setMode;
  * - g = generate
  * @returns
  */
-var getMode = function () { return mode; };
+const getMode = () => mode;
 exports.getMode = getMode;

@@ -26,12 +26,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = __importStar(require("fs"));
-var path_1 = __importDefault(require("path"));
+const fs = __importStar(require("fs"));
+const path_1 = __importDefault(require("path"));
 /**
  * Default image fallback if no image exists and not set on _config.yml
  */
-var imgfallback = path_1.default.join(__dirname, 'images', 'no-image.png');
+let imgfallback = path_1.default.join(__dirname, 'images', 'no-image.png');
 if (!fs.existsSync(imgfallback)) {
     imgfallback = path_1.default.join(__dirname, '../../../source/images', 'no-image.png');
 }
@@ -41,7 +41,7 @@ if (!fs.existsSync(imgfallback)) {
 if (!fs.existsSync(imgfallback)) {
     imgfallback = path_1.default.join(__dirname, '../source/images', 'no-image.png');
 }
-var defaultObject = {
+const defaultObject = {
     img: {
         fallback: {
             buffer: fs.readFileSync(imgfallback),

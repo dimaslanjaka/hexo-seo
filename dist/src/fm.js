@@ -26,11 +26,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readDir = exports.md5File = exports.md5FileSync = exports.readFile = exports.resolveFile = exports.buildFolder = exports.tmpFolder = void 0;
-var crypto_1 = __importDefault(require("crypto"));
-var fs = __importStar(require("fs-extra"));
-var sbg_utility_1 = require("sbg-utility");
-var path = __importStar(require("upath"));
+exports.buildFolder = exports.tmpFolder = void 0;
+exports.resolveFile = resolveFile;
+exports.readFile = readFile;
+exports.md5FileSync = md5FileSync;
+exports.md5File = md5File;
+exports.readDir = readDir;
+const crypto_1 = __importDefault(require("crypto"));
+const fs = __importStar(require("fs-extra"));
+const sbg_utility_1 = require("sbg-utility");
+const path = __importStar(require("upath"));
 /**
  * Temp folder
  */
@@ -47,22 +52,20 @@ function resolveFile(filePath) {
     }
     return filePath;
 }
-exports.resolveFile = resolveFile;
 /**
  * read file nested path
  * @param filePath
  * @param options
  * @returns
  */
-function readFile(filePath, options, autocreate) {
-    if (autocreate === void 0) { autocreate = undefined; }
+function readFile(filePath, options, autocreate = undefined) {
     resolveFile(filePath);
     if (autocreate && !fs.existsSync(filePath)) {
         if (typeof autocreate === 'boolean') {
             (0, sbg_utility_1.writefile)(filePath, '');
         }
         else if (autocreate) {
-            var text = void 0;
+            let text;
             if (Array.isArray(autocreate) || typeof autocreate === 'object') {
                 text = JSON.stringify(autocreate);
             }
@@ -72,14 +75,13 @@ function readFile(filePath, options, autocreate) {
     }
     return fs.readFileSync(filePath, options);
 }
-exports.readFile = readFile;
-var BUFFER_SIZE = 8192;
+const BUFFER_SIZE = 8192;
 function md5FileSync(path) {
-    var fd = fs.openSync(path, 'r');
-    var hash = crypto_1.default.createHash('md5');
-    var buffer = Buffer.alloc(BUFFER_SIZE);
+    const fd = fs.openSync(path, 'r');
+    const hash = crypto_1.default.createHash('md5');
+    const buffer = Buffer.alloc(BUFFER_SIZE);
     try {
-        var bytesRead = void 0;
+        let bytesRead;
         do {
             bytesRead = fs.readSync(fd, buffer, 0, BUFFER_SIZE, null);
             hash.update(buffer.slice(0, bytesRead));
@@ -90,29 +92,26 @@ function md5FileSync(path) {
     }
     return hash.digest('hex');
 }
-exports.md5FileSync = md5FileSync;
 function md5File(path) {
-    return new Promise(function (resolve, reject) {
-        var output = crypto_1.default.createHash('md5');
-        var input = fs.createReadStream(path);
-        input.on('error', function (err) {
+    return new Promise((resolve, reject) => {
+        const output = crypto_1.default.createHash('md5');
+        const input = fs.createReadStream(path);
+        input.on('error', (err) => {
             reject(err);
         });
-        output.once('readable', function () {
+        output.once('readable', () => {
             resolve(output.read().toString('hex'));
         });
         input.pipe(output);
     });
 }
-exports.md5File = md5File;
 /**
  * Read Dir
  * @param folder
  * @returns
  */
 function readDir(folder) {
-    return fs.readdirSync(folder).map(function (file) {
+    return fs.readdirSync(folder).map((file) => {
         return path.join(folder, file);
     });
 }
-exports.readDir = readDir;

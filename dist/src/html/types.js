@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isExternal = exports.formatAnchorText = void 0;
-var url_parse_1 = __importDefault(require("url-parse"));
-var config_1 = __importDefault(require("../config"));
+exports.formatAnchorText = formatAnchorText;
+exports.isExternal = isExternal;
+const url_parse_1 = __importDefault(require("url-parse"));
+const config_1 = __importDefault(require("../config"));
 function formatAnchorText(text) {
     return text.replace(/['"]/gm, '');
 }
-exports.formatAnchorText = formatAnchorText;
 /**
  * is url external link
  * @param url
@@ -17,11 +17,11 @@ exports.formatAnchorText = formatAnchorText;
  * @returns
  */
 function isExternal(url, hexo) {
-    var site = typeof (0, url_parse_1.default)(hexo.config.url).hostname == 'string' ? (0, url_parse_1.default)(hexo.config.url).hostname : null;
-    var cases = typeof url.hostname == 'string' ? url.hostname.trim() : null;
-    var config = (0, config_1.default)(hexo);
-    var allowed = Array.isArray(config.links.allow) ? config.links.allow : [];
-    var hosts = config.host;
+    const site = typeof (0, url_parse_1.default)(hexo.config.url).hostname == 'string' ? (0, url_parse_1.default)(hexo.config.url).hostname : null;
+    const cases = typeof url.hostname == 'string' ? url.hostname.trim() : null;
+    const config = (0, config_1.default)(hexo);
+    const allowed = Array.isArray(config.links.allow) ? config.links.allow : [];
+    const hosts = config.host;
     // if url hostname empty, its internal
     if (!cases)
         return false;
@@ -36,4 +36,3 @@ function isExternal(url, hexo) {
     }*/
     return true;
 }
-exports.isExternal = isExternal;
