@@ -10,6 +10,7 @@ import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
 import HexoSeoJs from './minifier/js';
+import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 
 const argv = minimist(process.argv.slice(2));
 
@@ -98,14 +99,14 @@ export default function HexoSeo(hexo: Hexo) {
 
   if (config.js && config.js.enable) {
     // minify javascripts
-    hexo.extend.filter.register('after_render:js', HexoSeoJs);
+    hexo.extend.filter.register('after_render:js', HexoSeoJs as StoreFunction);
   }
   if (config.css && config.css.enable) {
     // minify css
-    hexo.extend.filter.register('after_render:css', HexoSeoCss);
+    hexo.extend.filter.register('after_render:css', HexoSeoCss as StoreFunction);
   }
   if (config.html && config.html.enable) {
     // all in one html fixer
-    hexo.extend.filter.register('after_render:html', HexoSeoHtml);
+    hexo.extend.filter.register('after_render:html', HexoSeoHtml as StoreFunction);
   }
 }

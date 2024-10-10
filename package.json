@@ -1,6 +1,6 @@
 {
   "name": "hexo-seo",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Automated Seo Optimizer For Hexo",
   "main": "index.js",
   "types": "dist/src/index.d.ts",
@@ -39,7 +39,9 @@
     "seo"
   ],
   "engines": {
-    "node": ">=18",
+    "node": ">=18"
+  },
+  "peerDependencies": {
     "hexo": ">=6.3.0"
   },
   "author": {

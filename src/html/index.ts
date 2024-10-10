@@ -20,6 +20,7 @@ import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
 import { isExternal } from './types';
+import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 
 /**
  * get page full source
@@ -204,7 +205,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
           const sources = originalSources.filter(fs.existsSync);
           if (sources.length > 0) {
             try {
-              const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
+              const rendered = await hexo.render.render({ path: sources[0], engine: 'js' } as StoreFunctionData);
               // push src
               addScript(rendered);
             } catch (e) {
