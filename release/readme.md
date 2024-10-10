@@ -13,7 +13,8 @@
 | 1.2.2 | https://github.com/dimaslanjaka/hexo-seo/raw/55a3ee4/release/hexo-seo-1.2.2.tgz |
 | 1.2.3 | https://github.com/dimaslanjaka/hexo-seo/raw/afd5a0c/release/hexo-seo-1.2.3.tgz |
 | 1.3.0 | https://github.com/dimaslanjaka/hexo-seo/raw/bdba94e/release/hexo-seo-1.3.0.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-seo/raw/bdba94e/release/hexo-seo.tgz |
+| 1.4.0 | https://github.com/dimaslanjaka/hexo-seo/raw/551ffc9/release/hexo-seo-1.4.0.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-seo/raw/551ffc9/release/hexo-seo.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 
 use this tarball with `resolutions`:
