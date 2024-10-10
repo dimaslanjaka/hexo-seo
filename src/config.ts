@@ -14,8 +14,16 @@ import configData from './_config_data.json';
 
 export interface Switcher {
   enable: boolean;
+  searchUrl?: string;
 }
+
+/**
+ * auto config produced by first parsing config
+ *
+ * flexible auto documented typescript schema
+ */
 export type AutoConfig = typeof configData;
+
 export interface BaseConfig {
   /**
    * use cache
@@ -24,7 +32,14 @@ export interface BaseConfig {
   /**
    * generate YoastSEO Sitemap
    */
-  sitemap: boolean;
+  sitemap:
+    | boolean
+    | {
+        /** yoast seo */
+        yoast: boolean;
+        /** google news */
+        gnews: boolean;
+      };
   /**
    * Optimize js
    */
@@ -60,16 +75,17 @@ export interface BaseConfig {
    * Generate schema article
    */
   schema: {
-    sitelink: Switcher & AutoConfig['schema']['sitelink'];
+    sitelink: Required<Switcher> & AutoConfig['schema']['sitelink'];
     article: Switcher & AutoConfig['schema']['article'];
     breadcrumb: Switcher & AutoConfig['schema']['breadcrumb'];
+    homepage: Switcher & AutoConfig['schema']['homepage'];
   };
 
-  /**
-   * theme directory
-   */
+  /** theme directory */
   readonly theme_dir: string;
+  /** source assets directory */
   readonly source_dir: string;
+  /** original source post directory */
   readonly post_dir: string;
 }
 

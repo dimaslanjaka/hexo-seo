@@ -82,7 +82,8 @@ seo:
     # exclude css from minifying, multiple supported
     exclude:
       - "**/*.min.js"
-    # this is terser options, you can customize minifier with terser options https://github.com/terser/terser
+    # this is terser options, you can customize minifier with terser options
+    # https://github.com/terser/terser?tab=readme-ov-file#minify-options-structure
     # below is config example
     options:
       compress:
@@ -90,15 +91,21 @@ seo:
       mangle:
         toplevel: true
         safari10: true
-  # add rich snippets on every posts and pages
+  # rich snippets
   schema:
+    # produce schema for page and post
     article:
       enable: true
+    # produce schema for breadcrumb
     breadcrumb:
       enable: true
+    # produce schema for sitelink
     sitelink:
       enable: true
       searchUrl: https://www.webmanajemen.com/search?q={search_term_string}
+    # produce schema for homepage
+    homepage:
+      enable: true
   # this function still under development because JAVASCRIPT HEAP MEMORY and my device is 8GB RAM
   img:
     enable: true
@@ -118,16 +125,24 @@ seo:
     exclude:
       - webmanajemen.com
       - web-manajemen.blogspot.com
-  # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
-  # forked from yoast seo
-  sitemap: true
+  # seo-friendly sitemap
+  # you can fill value `sitemap: true` to create both sitemaps
+  sitemap:
+    # auto generate seo friendly sitemap on http://yoursite.com/sitemap.xml
+    # forked from yoast seo
+    # location: /sitemap.xml /page-sitemap.xml /post-sitemap.xml /category-sitemap.xml /tag-sitemap.xml
+    yoast: true
+    # google news sitemap
+    # location: /google-news-sitemap.xml
+    gnews: true
 ```
-> ~this plugin will run the functions based on development mode or production mode~
+
+<!-- > ~this plugin will run the functions based on development mode or production mode~
 
 **development mode**
 ```shell
 set NODE_ENV=development && hexo server
-```
+``` -->
 
 # Preview
 

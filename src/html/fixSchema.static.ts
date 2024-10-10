@@ -6,7 +6,9 @@ import { dump } from '../utils';
 import { BaseConfig } from '../config';
 import logger from '../log';
 import model from './schema/article/model4.json';
-import getAuthor from '../utils/getAuthor';
+import { getAuthorName } from '../utils/getAuthor';
+import { url_for } from 'hexo-util';
+import { deepmerge } from 'deepmerge-ts';
 
 /**
  * Fix Schema Model 4
@@ -19,10 +21,32 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
     // skip when schema option is false
     return;
   }
+  // assign default config
+  const defaultConfig: Partial<typeof hexoSeoConfig> = {
+    schema: {
+      homepage: { enable: false },
+      sitelink: { enable: false, searchUrl: '/search' },
+      article: { enable: false },
+      breadcrumb: { enable: false }
+    },
+    cache: false,
+    sitemap: false,
+    host: '',
+    theme_dir: process.cwd() + '/theme',
+    source_dir: process.cwd() + '/source',
+    post_dir: process.cwd() + '/source/_posts'
+  };
+  try {
+    defaultConfig.host = new URL(hexo.config.url).host;
+  } catch (_error) {
+    //
+  }
+  hexoSeoConfig = deepmerge(defaultConfig, hexoSeoConfig);
   const is = hexoIs(data);
   const breadcrumbs = model[0];
   const article = model[1];
   const sitelink = model[2];
+  const homepage = model[3];
   // resolve title
   let title = '';
   if (data.page && data.page.title && data.page.title.trim().length > 0) {
@@ -47,7 +71,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
     }
   }
 
-  console.log('fixing schema of ' + url);
+  // console.log('fixing schema of ' + url);
 
   // resolve thumbnail
   let thumbnail =
@@ -63,10 +87,10 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
   }
 
   // resolve author
-  let author = getAuthor(data.config.author);
+  let author = getAuthorName(data.config.author);
   if (data.page) {
     if (data.page.author) {
-      author = getAuthor(data.page.author);
+      author = getAuthorName(data.page.author);
     }
   }
 
@@ -74,17 +98,19 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
 
   // setup schema sitelink
   if (hexoSeoConfig.schema.sitelink && hexoSeoConfig.schema.sitelink.searchUrl) {
+    sitelink.url = data.config.url || '';
     const term = '{search_term_string}';
-    let urlTerm = (data.config.url || '').trim();
+    let urlTerm = (hexoSeoConfig.schema.sitelink.searchUrl || '').trim();
     // fix suffix term string
-    if (urlTerm.length > 0 && !urlTerm.endsWith(term)) urlTerm = urlTerm + term;
-    sitelink.url = urlTerm;
-    sitelink.potentialAction.target = hexoSeoConfig.schema.sitelink.searchUrl;
-    schema.push(sitelink);
+    if (urlTerm.length > 0) {
+      if (!urlTerm.endsWith(term)) urlTerm = urlTerm + term;
+      sitelink.potentialAction.target = urlTerm;
+      schema.push(sitelink);
+    }
   }
 
   if (is.post) {
-    // setup breadcrumb on post
+    // setup schema breadcrumb for post
     if (hexoSeoConfig.schema.breadcrumb && hexoSeoConfig.schema.breadcrumb.enable) {
       const schemaBreadcrumbs: typeof breadcrumbs.itemListElement = [];
       if (data.page) {
@@ -141,6 +167,42 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
         .format();
       schema.push(article);
     }
+  } else if (is.home && hexoSeoConfig.schema.homepage.enable) {
+    const posts = hexo.locals
+      .get('posts')
+      .data.map(({ title, keywords, description, subtitle, excerpt, raw, tags, categories, path, author }) => {
+        return {
+          title,
+          author,
+          keywords,
+          description: description || subtitle || excerpt,
+          raw,
+          permalink: path,
+          tags: tags.data.map((tag: { name: string }) => tag.name),
+          categories: categories.data.map((category: { name: string }) => category.name)
+        };
+      }) as { title: string; description: string; permalink: string; author: any }[];
+    // console.log(posts);
+    homepage.mainEntity.itemListElement = [];
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      homepage.mainEntity.itemListElement.push({
+        '@type': 'Article',
+        position: '' + (i + 1),
+        headline: post.title,
+        author: {
+          '@type': 'Person',
+          image:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png',
+          name: getAuthorName(post.author),
+          sameAs: url_for(post.permalink)
+        },
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png'
+      });
+    }
+    // push schema webpage for homepage
+    schema.push(homepage);
   }
 
   if (schema.length > 0) {

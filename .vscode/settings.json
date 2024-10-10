@@ -27,6 +27,8 @@
   "triggerTaskOnSave.on":true,
   // restart task when running
   "triggerTaskOnSave.restart":true,
+  // delay 10s before build
+  "triggerTaskOnSave.delay": 10000,
   // run in background
   "triggerTaskOnSave.showNotifications":false,
   // run in background

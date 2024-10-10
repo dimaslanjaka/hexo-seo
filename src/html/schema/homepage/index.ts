@@ -1,6 +1,6 @@
-import data from './data-index.json';
+import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { SchemaArticleOptions } from '../article';
-import Hexo, { TemplateLocals } from 'hexo';
+import data from './data-index.json';
 
 type articleListElement = (typeof data.mainEntity.itemListElement)[0];
 export interface homepageArticle extends ObjectConstructor, articleListElement {
@@ -10,7 +10,7 @@ export interface homepageArticle extends ObjectConstructor, articleListElement {
 class schemaHomepage {
   schema = data;
   options: SchemaArticleOptions;
-  hexo: TemplateLocals;
+  hexo: HexoLocalsData;
   constructor(options?: SchemaArticleOptions) {
     this.options = options;
     this.hexo = options.hexo;
@@ -53,7 +53,7 @@ class schemaHomepage {
   /**
    * get schema property
    */
-  get(key) {
+  get(key: string | number) {
     return this.schema[key];
   }
 

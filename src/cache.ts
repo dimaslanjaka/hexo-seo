@@ -1,10 +1,9 @@
 import { existsSync } from 'fs-extra';
 import NodeCache from 'node-cache';
-import { writefile } from 'sbg-utility';
+import { bindProcessExit, writefile } from 'sbg-utility';
 import path from 'upath';
 import { buildFolder, readFile, tmpFolder } from './fm';
 import logger from './log';
-import scheduler from './scheduler';
 import md5File, { md5, sync as md5FileSync } from './utils/md5-file';
 
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
@@ -110,7 +109,7 @@ export class CacheFile {
   set(key: string, value: any) {
     this.md5Cache[key] = value;
     // save cache on process exit
-    scheduler.add('writeCacheFile', () => {
+    bindProcessExit('writeCacheFile', () => {
       logger.log('saved cache', this.dbFile);
       writefile(this.dbFile, JSON.stringify(this.md5Cache));
     });
@@ -223,7 +222,7 @@ export class CacheFile2 {
     const dbLocation = path.join(this.dbFile);
     const db = this.md5Cache;
     //dump("cache-" + this.cacheHash, db);
-    scheduler.add('save-' + this.cacheHash, function () {
+    bindProcessExit('save-' + this.cacheHash, function () {
       logger.log('saving caches...', saveLocation, dbLocation);
       writefile(saveLocation, value);
       writefile(dbLocation, JSON.stringify(db, null, 2));

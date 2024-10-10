@@ -10,8 +10,7 @@ import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
 import HexoSeoJs from './minifier/js';
-import scheduler from './scheduler';
-import bindProcessExit from './utils/cleanup';
+import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 
 const argv = minimist(process.argv.slice(2));
 
@@ -54,6 +53,7 @@ export default function HexoSeo(hexo: Hexo) {
         break;
       }
       if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         hexoCmd = 'clean';
         setMode('c');
         break;
@@ -68,14 +68,6 @@ export default function HexoSeo(hexo: Hexo) {
     if (fs.existsSync(tmpFolder)) fs.rmSync(tmpFolder, { recursive: true, force: true });
     if (fs.existsSync(buildFolder)) fs.rmSync(buildFolder, { recursive: true, force: true });
   });
-
-  // execute scheduled functions before process exit
-  if (hexoCmd != 'clean') {
-    bindProcessExit('scheduler_on_exit', function () {
-      hexo.log.debug(logname, 'executing scheduled functions');
-      scheduler.executeAll();
-    });
-  }
 
   // bind configuration
   const config = getConfig(hexo);
@@ -107,14 +99,14 @@ export default function HexoSeo(hexo: Hexo) {
 
   if (config.js && config.js.enable) {
     // minify javascripts
-    hexo.extend.filter.register('after_render:js', HexoSeoJs);
+    hexo.extend.filter.register('after_render:js', HexoSeoJs as StoreFunction);
   }
   if (config.css && config.css.enable) {
     // minify css
-    hexo.extend.filter.register('after_render:css', HexoSeoCss);
+    hexo.extend.filter.register('after_render:css', HexoSeoCss as StoreFunction);
   }
   if (config.html && config.html.enable) {
     // all in one html fixer
-    hexo.extend.filter.register('after_render:html', HexoSeoHtml);
+    hexo.extend.filter.register('after_render:html', HexoSeoHtml as StoreFunction);
   }
 }
