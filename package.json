@@ -5,10 +5,10 @@
   "main": "index.js",
   "types": "dist/src/index.d.ts",
   "files": [
-    "dist",
-    "src",
-    "images",
-    "source",
+    "dist/",
+    "src/",
+    "images/",
+    "source/",
     "LICENSE",
     "readme.md",
     "index*.js",
@@ -34,9 +34,16 @@
   "homepage": "https://www.webmanajemen.com/docs/hexo-seo",
   "keywords": [
     "hexo",
+    "seo",
     "search engine optimization",
-    "auto",
-    "seo"
+    "hexo plugin",
+    "blogging",
+    "content optimization",
+    "metadata",
+    "social media",
+    "analytics",
+    "performance",
+    "web development"
   ],
   "engines": {
     "node": ">=18"
