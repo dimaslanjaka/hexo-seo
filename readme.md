@@ -45,9 +45,7 @@ npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
 
 | description | link |
 | :--- | :--- |
-| full link tarball (recommended) | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
-| repository tarball | https://github.com/dimaslanjaka/hexo-seo/tarball/master |
-| git repository | [git+https://github.com/dimaslanjaka/hexo-seo.git](https://github.com/dimaslanjaka/hexo-seo.git) |
+| repository tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 
 # Usage
 **Configuration**
