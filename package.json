@@ -100,7 +100,7 @@
     "@types/through2": "https://github.com/dimaslanjaka/nodejs-package-types/raw/through2/release/types-through2.tgz",
     "@types/url-parse": "^1.4.11",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/parser": "^8.11.0",
     "cross-env": "^7.0.3",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/80999ac/release/cross-spawn.tgz",
     "depcheck": "^1.4.7",
