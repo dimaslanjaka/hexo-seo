@@ -20,7 +20,8 @@
           "name": "date",
           "type": "datetime",
           "default": "{{now}}",
-          "isPublishDate": true
+          "isPublishDate": true,
+          "dateFormat": "yyyy-MM-dd'T'HH:mm:ssXXX"
         },
         {
           "title": "Thumbnail",
@@ -47,7 +48,8 @@
           "name": "updated",
           "type": "datetime",
           "default": "{{now}}",
-          "isModifiedDate": true
+          "isModifiedDate": true,
+          "dateFormat": "yyyy-MM-dd'T'HH:mm:ssXXX"
         },
         {
           "name": "permalink",
@@ -58,12 +60,6 @@
           "title": "Author",
           "name": "author",
           "type": "divider"
-        },
-        {
-          "title": "robots",
-          "name": "robots",
-          "type": "string",
-          "required": false
         }
       ]
     }
