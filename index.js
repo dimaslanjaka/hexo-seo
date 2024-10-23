@@ -1,4 +1,5 @@
-//require("dotenv").config();
+// load .env file from cwd/hexo project
+require('dotenv').config({ override: true });
 
 /*
 const path = require("path");
