@@ -20,10 +20,9 @@
     "ts:normal": "tsc -p tsconfig.build.json",
     "build": "yarn run ts:normal && npx gulp",
     "clean": "gulp clean",
-    "update:project": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
+    "update:project": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
     "update:ncu": "npm-check-updates -u -x \"jsdom,deepmerge-ts,cheerio,*eslint*\"",
     "update": "yarn run update:project && yarn run update:ncu",
-    "post-install": "node postinstall.js --yarn --commit",
     "test:install": "cd test/demo && npm install",
     "pack": "node packer.js --yarn",
     "changelog": "node changelog.js"
