@@ -25,8 +25,10 @@
     "update:ncu": "npm-check-updates -u",
     "update": "yarn run update:project && yarn run update:ncu",
     "test:install": "cd test/demo && npm install",
-    "prepack": "node changelog.js",
-    "pack": "node packer.js --yarn"
+    "prepack": "node changelog.js && node package-switch.cjs production",
+    "prepublish": "npm run prepack",
+    "pack": "node packer.js --yarn",
+    "prepare": "husky"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "homepage": "https://www.webmanajemen.com/docs/hexo-seo",
@@ -125,6 +127,7 @@
     "gulp": "^5.0.0",
     "gulp-cli": "^3.0.0",
     "gulp-concat": "^2.6.1",
+    "husky": "^9.1.6",
     "nodemon": "^3.1.7",
     "npm-check-updates": "^17.1.4",
     "npm-run-all": "^4.1.5",
