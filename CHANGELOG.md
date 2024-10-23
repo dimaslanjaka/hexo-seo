@@ -1253,4 +1253,6 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 16:59:54_ ] [fbb2956](https://github.com/dimaslanjaka/safelink/commit/fbb2956) ignore front-matter databases
 - [ _2024-10-23 17:09:20_ ] [5c76087](https://github.com/dimaslanjaka/safelink/commit/5c76087) feat: load .env file from cwd/hexo project
 - [ _2024-10-23 17:16:51_ ] [9ac4efb](https://github.com/dimaslanjaka/safelink/commit/9ac4efb) fix(TS2307): Cannot find module '../curl/check' or its corresponding type declarations.
-- [ _2024-10-23 17:50:50_ ] [d30cfd2](https://github.com/dimaslanjaka/safelink/commit/d30cfd2) bump: v2.0.0 - bundle using rollup - bundle for CJS and ESM (HEAD -> pre-release, origin/pre-release)
+- [ _2024-10-23 17:50:50_ ] [d30cfd2](https://github.com/dimaslanjaka/safelink/commit/d30cfd2) bump: v2.0.0 - bundle using rollup - bundle for CJS and ESM
+- [ _2024-10-23 18:01:41_ ] [65defaf](https://github.com/dimaslanjaka/safelink/commit/65defaf) fix: `log` is not function (origin/pre-release)
+- [ _2024-10-23 18:12:50_ ] [0c90228](https://github.com/dimaslanjaka/safelink/commit/0c90228) refactor: package development resolution manager (HEAD -> pre-release)
