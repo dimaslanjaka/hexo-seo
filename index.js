@@ -1,7 +1,3 @@
-/* eslint-disable global-require */
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* global hexo */
 //require("dotenv").config();
 
 /*

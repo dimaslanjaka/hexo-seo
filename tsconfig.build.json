@@ -1,24 +1,25 @@
 /* FOR BUILD */
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./dist",
-    //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
     "declaration": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "checkJs": false,
-    "skipLibCheck": true,
-    "target": "ES2020",
-    "module": "CommonJS",
-    "lib": ["ES2020", "DOM", "ES2015"]
+    "skipLibCheck": true
   },
   "paths": {
-    "@root/*": ["./*"],
-    "src/*": ["./src/*"]
+    "@root/*": [
+      "./*"
+    ],
+    "src/*": [
+      "./src/*"
+    ]
   },
   "exclude": [
     "**/node_modules/**",
@@ -31,5 +32,8 @@
     "test",
     "**/*.runner.ts"
   ],
-  "include": ["./src/index.ts", "./source/**/*"]
+  "include": [
+    "./src/index.ts",
+    "./source/**/*"
+  ]
 }
