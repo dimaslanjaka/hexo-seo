@@ -160,6 +160,7 @@ async function main() {
 
   if (args.includes('local')) {
     pkg.resolutions = Object.assign(production, local);
+    pkg.overrides = Object.assign(production, local);
   } else {
     // Update specific packages with their latest commit SHA
     await updatePackageSha(
