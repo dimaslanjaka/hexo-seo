@@ -1,3 +1,4 @@
 #!/bin/bash
 
 node package-switch.cjs production
+git add package.json
