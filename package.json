@@ -67,7 +67,7 @@
     "dotenv": "^16.4.5",
     "file-type": "^19.6.0",
     "fs-extra": "^11.2.0",
-    "google-news-sitemap": "^1.0.10",
+    "google-news-sitemap": "^1.1.0",
     "hexo-is": "^1.0.5",
     "hexo-log": "^4.1.0",
     "hexo-util": "^3.3.0",

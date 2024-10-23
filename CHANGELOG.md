@@ -1257,4 +1257,5 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 18:01:41_ ] [65defaf](https://github.com/dimaslanjaka/safelink/commit/65defaf) fix: `log` is not function
 - [ _2024-10-23 18:12:50_ ] [0c90228](https://github.com/dimaslanjaka/safelink/commit/0c90228) refactor: package development resolution manager
 - [ _2024-10-23 18:18:12_ ] [4dd5840](https://github.com/dimaslanjaka/safelink/commit/4dd5840) fix: GoogleNewsSitemap is not class constructor
-- [ _2024-10-23 18:19:12_ ] [8242ac3](https://github.com/dimaslanjaka/safelink/commit/8242ac3) index all tarballs (HEAD -> pre-release, origin/pre-release)
+- [ _2024-10-23 18:19:12_ ] [8242ac3](https://github.com/dimaslanjaka/safelink/commit/8242ac3) index all tarballs
+- [ _2024-10-23 18:28:53_ ] [4d75182](https://github.com/dimaslanjaka/safelink/commit/4d75182) fix: missing `object-assign` (HEAD -> pre-release, origin/pre-release)

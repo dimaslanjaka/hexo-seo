@@ -30,7 +30,8 @@ const local = {
   'markdown-it': 'file:../markdown-it/release/markdown-it.tgz',
   'hexo-renderers': 'file:../hexo-renderers/release/hexo-renderers.tgz',
   'hexo-shortcodes': 'file:../hexo-shortcodes/release/hexo-shortcodes.tgz',
-  'hexo-seo': 'file:../hexo-seo/release/hexo-seo.tgz'
+  'hexo-seo': 'file:../hexo-seo/release/hexo-seo.tgz',
+  'google-news-sitemap': 'file:../hexo-seo/release/google-news-sitemap.tgz'
 };
 
 if (local[pkg.name]) delete local[pkg.name];

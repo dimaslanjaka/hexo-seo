@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
-import * as GoogleNewsSitemap from 'google-news-sitemap';
+import { default as GoogleNewsSitemap } from 'google-news-sitemap';
 import Hexo from 'hexo';
 import hexoIs from 'hexo-is';
 import { url_for } from 'hexo-util';
@@ -47,7 +47,7 @@ interface SitemapIndexItem {
   lastmod: string;
 }
 
-const googleNewsSitemap = new GoogleNewsSitemap.default();
+const googleNewsSitemap = new GoogleNewsSitemap();
 
 function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
   if (!sitemapGroup[type]) {
