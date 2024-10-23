@@ -1,3 +1,4 @@
+import axios from 'axios';
 import cheerio from 'cheerio';
 import fileType from 'file-type';
 import { existsSync } from 'fs-extra';
@@ -5,7 +6,6 @@ import Hexo from 'hexo';
 import sanitizeFilename from 'sanitize-filename';
 import path from 'upath';
 import getConfig from '../config';
-import checkUrl from '../curl/check';
 import logger from '../log';
 
 /**
@@ -85,8 +85,8 @@ const seoImage = async function (/*$: CheerioAPI*/ content: string, hexo: Hexo) 
           } else {
             //logger.log("original image", img_src);
             if (img_src.length > 0) {
-              const check = await checkUrl(img_src);
-              if (!check) {
+              const check = await axios.get(img_src, { maxRedirects: 10 }).catch(() => null);
+              if (!check || check.status !== 200) {
                 const new_img_src = config.default.toString();
                 //logger.log("default img", img_src);
                 logger.debug('%s is broken, replaced with %s', img_src, new_img_src);
