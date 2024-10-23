@@ -9,7 +9,7 @@ dist
 tmp
 tsconfigs
 docs
-.frontmatter
+.frontmatter/
 
 ## keep only latest tarball file
 /release/hexo-seo-*
