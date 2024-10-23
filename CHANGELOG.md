@@ -1250,6 +1250,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 16:52:32_ ] [febc83f](https://github.com/dimaslanjaka/safelink/commit/febc83f) migrate to eslint v9
 - [ _2024-10-23 16:53:52_ ] [2d8cd88](https://github.com/dimaslanjaka/safelink/commit/2d8cd88) update dependencies
 - [ _2024-10-23 16:58:29_ ] [8b94f12](https://github.com/dimaslanjaka/safelink/commit/8b94f12) tsconfig builder extends project config
-- [ _2024-10-23 16:59:54_ ] [fbb2956](https://github.com/dimaslanjaka/safelink/commit/fbb2956) ignore front-matter databases (origin/pre-release)
+- [ _2024-10-23 16:59:54_ ] [fbb2956](https://github.com/dimaslanjaka/safelink/commit/fbb2956) ignore front-matter databases
 - [ _2024-10-23 17:09:20_ ] [5c76087](https://github.com/dimaslanjaka/safelink/commit/5c76087) feat: load .env file from cwd/hexo project
-- [ _2024-10-23 17:16:51_ ] [9ac4efb](https://github.com/dimaslanjaka/safelink/commit/9ac4efb) fix(TS2307): Cannot find module '../curl/check' or its corresponding type declarations. (HEAD -> pre-release)
+- [ _2024-10-23 17:16:51_ ] [9ac4efb](https://github.com/dimaslanjaka/safelink/commit/9ac4efb) fix(TS2307): Cannot find module '../curl/check' or its corresponding type declarations.
+- [ _2024-10-23 17:50:50_ ] [d30cfd2](https://github.com/dimaslanjaka/safelink/commit/d30cfd2) bump: v2.0.0 - bundle using rollup - bundle for CJS and ESM (HEAD -> pre-release, origin/pre-release)
