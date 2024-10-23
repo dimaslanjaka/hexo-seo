@@ -3,14 +3,13 @@
 **/.yarn/*.gz
 **/.yarn/versions
 **/.yarn/patches
-**/yarn.lock
-**/package-lock.json
-dist
-tmp
-tsconfigs
-docs
-.frontmatter/
+**/tmp
+/docs/
+yarn.lock
+package-lock.json
 
 ## ignore monorepo files
+.frontmatter/
 /package*/
 /site
+/dist

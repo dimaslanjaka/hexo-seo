@@ -1254,5 +1254,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 17:09:20_ ] [5c76087](https://github.com/dimaslanjaka/safelink/commit/5c76087) feat: load .env file from cwd/hexo project
 - [ _2024-10-23 17:16:51_ ] [9ac4efb](https://github.com/dimaslanjaka/safelink/commit/9ac4efb) fix(TS2307): Cannot find module '../curl/check' or its corresponding type declarations.
 - [ _2024-10-23 17:50:50_ ] [d30cfd2](https://github.com/dimaslanjaka/safelink/commit/d30cfd2) bump: v2.0.0 - bundle using rollup - bundle for CJS and ESM
-- [ _2024-10-23 18:01:41_ ] [65defaf](https://github.com/dimaslanjaka/safelink/commit/65defaf) fix: `log` is not function (origin/pre-release)
-- [ _2024-10-23 18:12:50_ ] [0c90228](https://github.com/dimaslanjaka/safelink/commit/0c90228) refactor: package development resolution manager (HEAD -> pre-release)
+- [ _2024-10-23 18:01:41_ ] [65defaf](https://github.com/dimaslanjaka/safelink/commit/65defaf) fix: `log` is not function
+- [ _2024-10-23 18:12:50_ ] [0c90228](https://github.com/dimaslanjaka/safelink/commit/0c90228) refactor: package development resolution manager
+- [ _2024-10-23 18:18:12_ ] [4dd5840](https://github.com/dimaslanjaka/safelink/commit/4dd5840) fix: GoogleNewsSitemap is not class constructor
+- [ _2024-10-23 18:19:12_ ] [8242ac3](https://github.com/dimaslanjaka/safelink/commit/8242ac3) index all tarballs (HEAD -> pre-release, origin/pre-release)
