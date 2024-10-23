@@ -15,5 +15,5 @@ docs
 /release/hexo-seo-*
 
 ## ignore monorepo files
-/package
+/package*
 /site
