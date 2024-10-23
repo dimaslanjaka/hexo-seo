@@ -1,8 +1,43 @@
 {
   "$schema": "https://json.schemastore.org/prettierrc",
-  "semi": true,
   "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "semi": true,
   "singleQuote": true,
   "trailingComma": "none",
-  "tabWidth": 2
+  "endOfLine": "lf",
+  "quoteProps": "as-needed",
+  "overrides": [
+    {
+      "excludeFiles": [
+        "*.min.js",
+        "*.min.css",
+        "*.min.html",
+        "*.min.scss"
+      ],
+      "files": [
+        "*.js",
+        "*.css",
+        "*.sass",
+        "*.html",
+        "*.md",
+        "*.ts"
+      ],
+      "options": {
+        "semi": true
+      }
+    },
+    {
+      "files": [
+        "*.ejs",
+        "*.html"
+      ],
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
 }

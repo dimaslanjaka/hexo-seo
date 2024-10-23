@@ -1,43 +1,202 @@
 {
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/node_modules": true
+  "files.associations": {
+    "*.njk": "nunjucks",
+    "*.nj": "nunjucks"
   },
   "terminal.integrated.env.linux": {
-    "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin"
+    "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin:${workspaceFolder}/vendor/bin",
+    "NUITKA_CACHE_DIR": "${workspaceFolder}\\tmp\\nuitka-cache",
+    "ESLINT_USE_FLAT_CONFIG": "true",
+    "DEBUG_PKG": "1"
   },
   "terminal.integrated.env.windows": {
-    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
+    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin;${workspaceFolder}\\vendor\\bin",
+    "NUITKA_CACHE_DIR": "${workspaceFolder}\\tmp\\nuitka-cache",
+    "ESLINT_USE_FLAT_CONFIG": "true",
+    "DEBUG_PKG": "1",
+    "NODE_OPTIONS": "--max-old-space-size=2192"
+  },
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": ["${env:windir}\\Sysnative\\cmd.exe", "${env:windir}\\System32\\cmd.exe"],
+      "args": [],
+      "icon": "terminal-cmd"
+    },
+    "Git Bash": {
+      "source": "Git Bash"
+    },
+    "Cygwin": {
+      "path": "bash.exe",
+      "args": ["--login", "-i"],
+      "env": {
+        "CHERE_INVOKING": "1"
+      }
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "npm.enableRunFromFolder": true,
+  "files.autoSave": "onWindowChange",
+  "files.autoSaveDelay": 30000,
+  "typescript.tsc.autoDetect": "on",
+  "editor.fontFamily": "Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "emmet.includeLanguages": {
+    "ejs": "html",
+    "njk": "html",
+    "nunjucks": "html"
+  },
+  "emmet.syntaxProfiles": {
+    "njk": "html"
+  },
+  "eslint.debug": true,
+  "eslint.useFlatConfig": true,
+  "eslint.format.enable": true,
+  "eslint.trace.server": "messages",
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "javascript.suggestionActions.enabled": false,
+  "typescript.suggestionActions.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "[nunjucks]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "monosans.djlint",
+    "editor.suggest.insertMode": "replace",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never"
+    }
+  },
+  "[njk]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.suggest.insertMode": "replace",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never"
+    }
+  },
+  "[ejs]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[scss]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never"
+    },
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never"
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[html]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never"
+    }
   },
   "[markdown]": {
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll": "never",
+      "source.organizeImports": "never",
+      "source.fixAll.eslint": "never"
+    }
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
       "source.organizeImports": "never"
     }
   },
-  "task.saveBeforeRun":"always",
-  // task name to run on save action
-  "triggerTaskOnSave.selectedTask":"build in background",
-  // enable plugin
-  "triggerTaskOnSave.on":true,
-  // restart task when running
-  "triggerTaskOnSave.restart":true,
-  // delay 10s before build
-  "triggerTaskOnSave.delay": 10000,
-  // run in background
-  "triggerTaskOnSave.showNotifications":false,
-  // run in background
-  "triggerTaskOnSave.showStatusBarToggle":false,
-  "triggerTaskOnSave.tasks":{
-    "build":[
-      // watch file patterns
-      "src/**/*.ts",
-      "src/**/*.js"
-    ]
-  }
+  "editor.formatOnSave": false,
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/vendor": true,
+    "**/tmp/yarn": true,
+    "db.json": true
+  },
+  "code-runner.executorMap": {
+    "typescriptreact": "ts-node --expose-gc",
+    "javascript": "node --expose-gc --require dotenv/config",
+    "typescript": "ts-node",
+    "coffeescript": "coffee",
+    "sass": "sass --style expanded",
+    "scss": "scss --style expanded",
+    "less": "cd $dir && lessc $fileName $fileNameWithoutExt.css"
+  },
+  "code-runner.runInTerminal": true,
+  "code-runner.cwd": "${workspaceFolder}",
+  "code-runner.saveAllFilesBeforeRun": true,
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.respectShebang": true,
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.format.enable": false,
+  "typescript.tsserver.enableTracing": false,
+  "typescript.tsserver.log": "off",
+  "typescript.tsserver.trace": "off",
+  "editor.autoClosingBrackets": "always",
+  "editor.matchBrackets": "always",
+  "prettier.enableDebugLogs": true,
+  "prettier.prettierPath": "./node_modules/prettier",
+  "prettier.printWidth": 180,
+  "npm.packageManager": "yarn",
+  "git.enabled": true,
+  "explorer.autoReveal": true,
+  "git.autofetch": true,
+  "git.autorefresh": true,
+  "git.autoStash": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///d%3A/Repositories/static-blog-generator/.github/workflows/test-beta.yml",
+    "https://json.schemastore.org/dependabot-2.0.json": "file:///d%3A/Repositories/static-blog-generator/.github/dependabot.yml"
+  },
+  "auto-rename-tag.activationOnLanguage": [
+    "html",
+    "xml",
+    "php",
+    "javascript",
+    "nunjucks",
+    "typescriptreact",
+    "javascriptreact"
+  ],
+  "git.useCommitInputAsStashMessage": true
 }
