@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import Hexo from 'hexo';
 import { minimatch } from 'minimatch';
 import { Stream } from 'stream';

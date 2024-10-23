@@ -1,4 +1,8 @@
+import dotenv from 'dotenv';
 import HexoSeo from './hexo-seo';
 
-export { HexoSeo };
-export default HexoSeo;
+dotenv.config({ override: true });
+
+if (typeof hexo !== 'undefined') {
+  HexoSeo(hexo);
+}

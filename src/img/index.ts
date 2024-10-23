@@ -1,6 +1,6 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
-import fileType from 'file-type';
+import * as cheerio from 'cheerio';
+import * as fileType from 'file-type';
 import { existsSync } from 'fs-extra';
 import Hexo from 'hexo';
 import sanitizeFilename from 'sanitize-filename';

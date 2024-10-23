@@ -1221,5 +1221,35 @@ create tarball v1.3.0
 - [ _2024-02-12 19:06:33_ ] [442eac8](https://github.com/dimaslanjaka/safelink/commit/442eac8) update option docs
 - [ _2024-02-12 20:27:12_ ] [8f7f691](https://github.com/dimaslanjaka/safelink/commit/8f7f691) feat: update homepage schema - add config for homepage schema - add post list to homepage schema
 - [ _2024-02-12 20:29:10_ ] [ff599b9](https://github.com/dimaslanjaka/safelink/commit/ff599b9) update jsdoc
-- [ _2024-02-12 20:33:28_ ] [8f6d1f9](https://github.com/dimaslanjaka/safelink/commit/8f6d1f9) chore: assign default config fix useless error when some property config not set (origin/pre-release)
-- [ _2024-02-12 20:40:20_ ] [f72a7f4](https://github.com/dimaslanjaka/safelink/commit/f72a7f4) chore: reconstruct get author property (HEAD -> pre-release)
+- [ _2024-02-12 20:33:28_ ] [8f6d1f9](https://github.com/dimaslanjaka/safelink/commit/8f6d1f9) chore: assign default config fix useless error when some property config not set
+- [ _2024-02-12 20:40:20_ ] [f72a7f4](https://github.com/dimaslanjaka/safelink/commit/f72a7f4) chore: reconstruct get author property
+- [ _2024-02-12 20:41:43_ ] [fa28d5c](https://github.com/dimaslanjaka/safelink/commit/fa28d5c) feat: add changelog task
+- [ _2024-07-05 00:35:50_ ] [76ebdc4](https://github.com/dimaslanjaka/safelink/commit/76ebdc4) Update terser config link
+- [ _2024-07-05 00:38:52_ ] [57f11d3](https://github.com/dimaslanjaka/safelink/commit/57f11d3) Update sitemap description
+- [ _2024-10-07 17:07:22_ ] [a46b0be](https://github.com/dimaslanjaka/safelink/commit/a46b0be) drop `node-libcurl`
+- [ _2024-10-07 17:16:33_ ] [8c814eb](https://github.com/dimaslanjaka/safelink/commit/8c814eb) update dependencies
+
+**1.4.3**
+
+bump: v1.4.3 - fix: bad engine while install
+
+- [ _2024-10-15 13:12:46_ ] [59864be](https://github.com/dimaslanjaka/safelink/commit/59864be) Update keywords and files
+- [ _2024-10-15 16:49:34_ ] [3635fe4](https://github.com/dimaslanjaka/safelink/commit/3635fe4) build(deps): bump actions/setup-node from 3 to 4
+- [ _2024-10-15 16:49:37_ ] [851d6a0](https://github.com/dimaslanjaka/safelink/commit/851d6a0) build(deps): bump github/codeql-action from 2 to 3
+- [ _2024-10-15 16:49:39_ ] [b280d93](https://github.com/dimaslanjaka/safelink/commit/b280d93) build(deps): bump actions/cache from 3 to 4
+- [ _2024-10-15 16:49:42_ ] [d67213b](https://github.com/dimaslanjaka/safelink/commit/d67213b) build(deps): bump actions/checkout from 3 to 4
+- [ _2024-10-16 03:48:25_ ] [8705822](https://github.com/dimaslanjaka/safelink/commit/8705822) Merge pull request #279 from dimaslanjaka/dependabot/github_actions/actions/checkout-4
+- [ _2024-10-16 03:48:45_ ] [f05531d](https://github.com/dimaslanjaka/safelink/commit/f05531d) Merge pull request #278 from dimaslanjaka/dependabot/github_actions/actions/cache-4
+- [ _2024-10-16 03:49:00_ ] [bee1146](https://github.com/dimaslanjaka/safelink/commit/bee1146) Merge pull request #277 from dimaslanjaka/dependabot/github_actions/github/codeql-action-3
+- [ _2024-10-16 03:49:12_ ] [6feddee](https://github.com/dimaslanjaka/safelink/commit/6feddee) Merge pull request #276 from dimaslanjaka/dependabot/github_actions/actions/setup-node-4
+- [ _2024-10-18 14:51:21_ ] [6927776](https://github.com/dimaslanjaka/safelink/commit/6927776) ignore dist folder
+- [ _2024-10-20 13:24:51_ ] [55df6b0](https://github.com/dimaslanjaka/safelink/commit/55df6b0) update yarn
+- [ _2024-10-23 16:44:28_ ] [d70ca33](https://github.com/dimaslanjaka/safelink/commit/d70ca33) fix: invalid package master path
+- [ _2024-10-23 16:44:43_ ] [0047069](https://github.com/dimaslanjaka/safelink/commit/0047069) prepare development v2.0.0
+- [ _2024-10-23 16:45:43_ ] [c14c16e](https://github.com/dimaslanjaka/safelink/commit/c14c16e) drop postinstall
+- [ _2024-10-23 16:52:32_ ] [febc83f](https://github.com/dimaslanjaka/safelink/commit/febc83f) migrate to eslint v9
+- [ _2024-10-23 16:53:52_ ] [2d8cd88](https://github.com/dimaslanjaka/safelink/commit/2d8cd88) update dependencies
+- [ _2024-10-23 16:58:29_ ] [8b94f12](https://github.com/dimaslanjaka/safelink/commit/8b94f12) tsconfig builder extends project config
+- [ _2024-10-23 16:59:54_ ] [fbb2956](https://github.com/dimaslanjaka/safelink/commit/fbb2956) ignore front-matter databases (origin/pre-release)
+- [ _2024-10-23 17:09:20_ ] [5c76087](https://github.com/dimaslanjaka/safelink/commit/5c76087) feat: load .env file from cwd/hexo project
+- [ _2024-10-23 17:16:51_ ] [9ac4efb](https://github.com/dimaslanjaka/safelink/commit/9ac4efb) fix(TS2307): Cannot find module '../curl/check' or its corresponding type declarations. (HEAD -> pre-release)
