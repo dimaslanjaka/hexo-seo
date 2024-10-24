@@ -142,7 +142,7 @@ async function updatePackageSha(repoOwner, repoName, branch, packageName, urlFor
         if (res.headers['content-type'] === 'application/octet-stream') {
           production[packageName] = url;
         } else {
-          console.error(
+          throw new Error(
             `Error updating package SHA for ${packageName}: Unexpected content-type "${res.headers['content-type']}" at ${url}`
           );
         }
@@ -151,7 +151,7 @@ async function updatePackageSha(repoOwner, repoName, branch, packageName, urlFor
   } catch (error) {
     const errorUrl = error.config?.url;
     const message = error.response?.data?.message || error.message;
-    console.error(`Error updating package SHA for ${packageName}:`, message, errorUrl);
+    throw new Error(`Error updating package SHA for ${packageName}:`, message, errorUrl);
   }
 }
 
