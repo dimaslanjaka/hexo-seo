@@ -1261,4 +1261,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 18:28:53_ ] [4d75182](https://github.com/dimaslanjaka/safelink/commit/4d75182) fix: missing `object-assign`
 - [ _2024-10-23 19:15:04_ ] [481a1e0](https://github.com/dimaslanjaka/safelink/commit/481a1e0) update google-news-sitemap
 - [ _2024-10-23 19:16:33_ ] [646c631](https://github.com/dimaslanjaka/safelink/commit/646c631) fix: invalid local google-news-sitemap
-- [ _2024-10-23 19:17:11_ ] [2c344f4](https://github.com/dimaslanjaka/safelink/commit/2c344f4) refactor: package.json always add to index git (HEAD -> pre-release, origin/pre-release)
+- [ _2024-10-23 19:17:11_ ] [2c344f4](https://github.com/dimaslanjaka/safelink/commit/2c344f4) refactor: package.json always add to index git
+- [ _2024-10-23 19:44:35_ ] [4b56412](https://github.com/dimaslanjaka/safelink/commit/4b56412) chore: update `google-news-sitemap`
+- [ _2024-10-23 19:45:47_ ] [6c1dadc](https://github.com/dimaslanjaka/safelink/commit/6c1dadc) fix: resolutions
+- [ _2024-10-24 09:29:32_ ] [fa71024](https://github.com/dimaslanjaka/safelink/commit/fa71024) update markdown-it (HEAD -> pre-release, origin/pre-release)

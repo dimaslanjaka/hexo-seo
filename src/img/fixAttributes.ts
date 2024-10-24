@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import hexoIs from 'hexo-is';
+import { hexoIs } from 'hexo-is';
 import { JSDOM } from 'jsdom';
 import pkg from '../../package.json';
 import { CacheFile, releaseMemory } from '../cache';

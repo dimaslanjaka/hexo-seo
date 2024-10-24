@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
-import { default as GoogleNewsSitemap } from 'google-news-sitemap';
+import { GoogleNewsSitemap } from 'google-news-sitemap';
 import Hexo from 'hexo';
-import hexoIs from 'hexo-is';
+import { hexoIs } from 'hexo-is';
 import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment';

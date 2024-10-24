@@ -108,6 +108,7 @@
     "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^11.0.4",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
+    "@types/jsdom": "^21.1.7",
     "@types/minimist": "^1",
     "@types/node": "^22.7.9",
     "@types/object-assign": "^4.0.33",

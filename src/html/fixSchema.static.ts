@@ -1,14 +1,14 @@
-import hexoIs from 'hexo-is';
+import { deepmerge } from 'deepmerge-ts';
+import { hexoIs } from 'hexo-is';
+import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
-import { dump } from '../utils';
 import { BaseConfig } from '../config';
 import logger from '../log';
-import model from './schema/article/model4.json';
+import { dump } from '../utils';
 import { getAuthorName } from '../utils/getAuthor';
-import { url_for } from 'hexo-util';
-import { deepmerge } from 'deepmerge-ts';
+import model from './schema/article/model4.json';
 
 /**
  * Fix Schema Model 4
