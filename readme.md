@@ -48,6 +48,7 @@ npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
 | repository tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 
 # Usage
+
 **Configuration**
 
 [config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml#L138)
@@ -133,14 +134,61 @@ seo:
     # google news sitemap
     # location: /google-news-sitemap.xml
     gnews: true
+  search:
+    # hexo seo-search page type to index
+    type: ['page', 'post']
 ```
 
-<!-- > ~this plugin will run the functions based on development mode or production mode~
+**Generate search data**
 
-**development mode**
-```shell
-set NODE_ENV=development && hexo server
-``` -->
+Generate json data for all published posts or pages (based on `config.seo.search.type`)
+
+> Support generate more than 1k pages on device RAM 8 GB
+>
+> json data saved on `public_dir/hexo-seo-search.json` and `source_dir/hexo-seo-search.json`
+
+```bash
+hexo seo-search
+```
+
+<details>
+  <summary>Search data result</summary>
+
+  ```jsonc
+  [
+    {
+      "title": "Blockquote Shortcode",
+      "date": "2023-04-08T15:30:00.691Z",
+      "updated": "2023-04-08T15:30:00.691Z",
+      "slug": "blockquote",
+      "excerpt": "",
+      "permalink": "http://www.webmanajemen.com/docs/hexo-seo/blockquote.html",
+      "layout": "post",
+      "objectID": "54fb9f4665464c46cd47ce1259af43a1",
+      "date_as_int": 1680967800,
+      "updated_as_int": 1680967800,
+      "categories": [
+        {
+          "name": "hexo",
+          "path": "categories/hexo/"
+        }
+      ],
+      "tags": [
+        {
+          "name": "blockquote",
+          "path": "tags/blockquote/"
+        },
+        {
+          "name": "shortcode",
+          "path": "tags/shortcode/"
+        }
+      ],
+      "author": "Dimas Lanjaka"
+    },
+    // and more data here
+  ]
+  ```
+</details>
 
 # Preview
 

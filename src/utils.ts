@@ -2,7 +2,7 @@
 
 'use strict';
 
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { minimatch } from 'minimatch';
 import { rimrafSync } from 'rimraf';

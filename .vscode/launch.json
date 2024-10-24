@@ -10,6 +10,13 @@
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/site"
+    },
+    {
+      "command": "cross-env-shell NODE_ENV=development \"hexo seo-search --debug\"",
+      "name": "cli search",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/site"
     }
   ]
 }
