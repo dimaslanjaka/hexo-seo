@@ -49,7 +49,7 @@ const production = {
   'hexo-server': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-server.tgz',
   warehouse: 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/warehouse.tgz',
   'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/8c814eb/release/hexo-seo.tgz',
-  'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/95599a5/release/markdown-it.tgz',
+  'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/17ccc82/release/markdown-it.tgz',
   'hexo-renderers': 'https://github.com/dimaslanjaka/hexo-renderers/raw/3f727de/release/hexo-renderers.tgz',
   'hexo-shortcodes': 'https://github.com/dimaslanjaka/hexo-shortcodes/raw/f70a1c0/release/hexo-shortcodes.tgz',
   'static-blog-generator':
@@ -200,7 +200,8 @@ async function main() {
     );
 
     pkg.resolutions = production;
-    pkg.overrides = production;
+    // npm overrides sometimes give you error installation
+    // pkg.overrides = production;
   }
 
   // Sort by keys
