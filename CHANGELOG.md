@@ -1265,4 +1265,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-23 19:44:35_ ] [4b56412](https://github.com/dimaslanjaka/safelink/commit/4b56412) chore: update `google-news-sitemap`
 - [ _2024-10-23 19:45:47_ ] [6c1dadc](https://github.com/dimaslanjaka/safelink/commit/6c1dadc) fix: resolutions
 - [ _2024-10-24 09:29:32_ ] [fa71024](https://github.com/dimaslanjaka/safelink/commit/fa71024) update markdown-it
-- [ _2024-10-24 10:13:24_ ] [07a9c29](https://github.com/dimaslanjaka/safelink/commit/07a9c29) fix: hexoIs, GoogleNewsSitemap is not function (HEAD -> pre-release, origin/pre-release)
+- [ _2024-10-24 10:13:24_ ] [07a9c29](https://github.com/dimaslanjaka/safelink/commit/07a9c29) fix: hexoIs, GoogleNewsSitemap is not function
+- [ _2024-10-24 11:08:25_ ] [32c6a21](https://github.com/dimaslanjaka/safelink/commit/32c6a21) feat: integrate search data (https://github.com/dimaslanjaka/hexo-seo/issues/272)
+- [ _2024-10-24 11:12:48_ ] [62c6af0](https://github.com/dimaslanjaka/safelink/commit/62c6af0) update tarball links
+- [ _2024-10-25 13:53:58_ ] [4802a6a](https://github.com/dimaslanjaka/safelink/commit/4802a6a) fix(eslint): expected assignment (HEAD -> pre-release)

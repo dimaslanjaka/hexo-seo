@@ -1,3 +1,4 @@
+import ansiColors from 'ansi-colors';
 import { deepmerge } from 'deepmerge-ts';
 import { hexoIs } from 'hexo-is';
 import { url_for } from 'hexo-util';
@@ -9,6 +10,8 @@ import logger from '../log';
 import { dump } from '../utils';
 import { getAuthorName } from '../utils/getAuthor';
 import model from './schema/article/model4.json';
+
+const logname = `${ansiColors.magentaBright('hexo-seo')}(${ansiColors.blueBright('fixSchema.static')})`;
 
 /**
  * Fix Schema Model 4
@@ -213,7 +216,16 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
 
     if (schemahtml) {
       const head = dom.getElementsByTagName('head')[0];
-      head.insertAdjacentHTML('beforeend', schemahtml);
+      if (head) {
+        head.insertAdjacentHTML('beforeend', schemahtml);
+      } else {
+        const message = `Fail apply schema json on ${data.path}`;
+        if (typeof hexo !== 'undefined') {
+          hexo.log.error(logname, message);
+        } else {
+          console.error(logname, message);
+        }
+      }
     }
   }
 }
