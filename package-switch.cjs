@@ -34,9 +34,6 @@ const local = {
   'google-news-sitemap': 'file:../google-news-sitemap/release/google-news-sitemap.tgz'
 };
 
-if (local[pkg.name]) delete local[pkg.name];
-if (local[`@types/${pkg.name}`]) delete local[`@types/${pkg.name}`];
-
 const production = {
   'binary-collections': 'https://github.com/dimaslanjaka/bin/raw/fcd1121/releases/bin.tgz',
   '@types/hexo': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo.tgz',
@@ -48,7 +45,7 @@ const production = {
   'hexo-util': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-util.tgz',
   'hexo-server': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-server.tgz',
   warehouse: 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/warehouse.tgz',
-  'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/8c814eb/release/hexo-seo.tgz',
+  'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz',
   'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/17ccc82/release/markdown-it.tgz',
   'hexo-renderers': 'https://github.com/dimaslanjaka/hexo-renderers/raw/3f727de/release/hexo-renderers.tgz',
   'hexo-shortcodes': 'https://github.com/dimaslanjaka/hexo-shortcodes/raw/f70a1c0/release/hexo-shortcodes.tgz',
@@ -73,9 +70,6 @@ const production = {
   'hexo-generator-redirect':
     'https://github.com/dimaslanjaka/hexo-generator-redirect/raw/0885394/release/hexo-generator-redirect.tgz'
 };
-
-if (production[pkg.name]) delete production[pkg.name];
-if (production[`@types/${pkg.name}`]) delete production[`@types/${pkg.name}`];
 
 /**
  * Fetches the latest commit from a specified GitHub repository and branch.
@@ -179,6 +173,13 @@ async function main() {
     );
     await updatePackageSha(
       'dimaslanjaka',
+      'hexo-seo',
+      'pre-release',
+      'hexo-seo',
+      'https://github.com/dimaslanjaka/hexo-seo/raw/{sha}/release/hexo-seo.tgz'
+    );
+    await updatePackageSha(
+      'dimaslanjaka',
       'static-blog-generator',
       'sbg-api',
       'sbg-api',
@@ -205,10 +206,26 @@ async function main() {
   }
 
   // Sort by keys
-  if (pkg.dependencies) pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
-  if (pkg.devDependencies) pkg.devDependencies = Object.fromEntries(Object.entries(pkg.devDependencies).sort());
-  if (pkg.resolutions) pkg.resolutions = Object.fromEntries(Object.entries(pkg.resolutions).sort());
-  if (pkg.overrides) pkg.overrides = Object.fromEntries(Object.entries(pkg.overrides).sort());
+  if (pkg.dependencies) {
+    pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
+    if (pkg.dependencies[pkg.name]) delete pkg.dependencies[pkg.name];
+    if (pkg.dependencies[`@types/${pkg.name}`]) delete pkg.dependencies[`@types/${pkg.name}`];
+  }
+  if (pkg.devDependencies) {
+    pkg.devDependencies = Object.fromEntries(Object.entries(pkg.devDependencies).sort());
+    if (pkg.devDependencies[pkg.name]) delete pkg.devDependencies[pkg.name];
+    if (pkg.devDependencies[`@types/${pkg.name}`]) delete pkg.devDependencies[`@types/${pkg.name}`];
+  }
+  if (pkg.resolutions) {
+    pkg.resolutions = Object.fromEntries(Object.entries(pkg.resolutions).sort());
+    if (pkg.resolutions[pkg.name]) delete pkg.resolutions[pkg.name];
+    if (pkg.resolutions[`@types/${pkg.name}`]) delete pkg.resolutions[`@types/${pkg.name}`];
+  }
+  if (pkg.overrides) {
+    pkg.overrides = Object.fromEntries(Object.entries(pkg.overrides).sort());
+    if (pkg.overrides[pkg.name]) delete pkg.overrides[pkg.name];
+    if (pkg.overrides[`@types/${pkg.name}`]) delete pkg.overrides[`@types/${pkg.name}`];
+  }
 
   fs.writeFileSync(path.join(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
 }
