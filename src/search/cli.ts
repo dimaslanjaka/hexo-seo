@@ -2,7 +2,7 @@ import Hexo from 'hexo';
 import { Args } from 'hexo/dist/hexo/index-d';
 import { NodeJSLikeCallback } from 'hexo/dist/types';
 import path from 'path';
-import { array_unique, md5, normalizePath, writefile } from 'sbg-utility';
+import { array_unique, md5, normalizePathUnix, writefile } from 'sbg-utility';
 import Document from 'warehouse/dist/document';
 import getConfig from '../config';
 import { getAuthorName } from '../utils/getAuthor';
@@ -68,7 +68,7 @@ export async function hexoSeoSearch(this: Hexo, args: Args, callback?: NodeJSLik
     hexo.log.info('[hexo-seo] %d records to index (%s).', indexedPages.length, searchConfig.type.join(', '));
     paths.forEach((file) => writefile(file, JSON.stringify(dataToSave)));
     hexo.log.info(
-      `[hexo-seo] Local search saved to ${paths.map((file) => normalizePath(file).replace(normalizePath(hexo.base_dir), '')).join(', ')}.`
+      `[hexo-seo] Local search saved to ${paths.map((file) => normalizePathUnix(file).replace(normalizePathUnix(hexo.base_dir), '')).join(', ')}.`
     );
     hexo.log.info('[hexo-seo] Local search indexing done.');
   } catch (error) {

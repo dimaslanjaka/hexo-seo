@@ -17,6 +17,13 @@
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/site"
+    },
+    {
+      "command": "cross-env-shell NODE_ENV=development \"hexo seo-feed --debug\"",
+      "name": "cli feed",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/site"
     }
   ]
 }
