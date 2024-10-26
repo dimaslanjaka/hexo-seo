@@ -1,4 +1,5 @@
 import Hexo from 'hexo';
+import { generateFeeds } from './feeds';
 import { hexoSeoSearch } from './search/cli';
 
 /**
@@ -8,8 +9,14 @@ import { hexoSeoSearch } from './search/cli';
 export function initCLI(hexo: Hexo) {
   hexo.extend.console.register(
     'seo-search',
-    `Index your content and save to ${hexo.config.public_dir} and ${hexo.config.source_dir} directory`,
+    `Index your content and save as hexo-seo-search.json to ${hexo.config.public_dir} and ${hexo.config.source_dir} directory`,
     {},
     hexoSeoSearch
+  );
+  hexo.extend.console.register(
+    'seo-feed',
+    `Index your content and save as rss.xml to ${hexo.config.public_dir} and ${hexo.config.source_dir} directory`,
+    {},
+    generateFeeds
   );
 }

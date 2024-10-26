@@ -12,14 +12,14 @@
       "cwd": "${workspaceFolder}/site"
     },
     {
-      "command": "cross-env-shell NODE_ENV=development \"hexo seo-search --debug\"",
+      "command": "cross-env-shell NODE_ENV=development \"hexo seo-search\"",
       "name": "cli search",
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/site"
     },
     {
-      "command": "cross-env-shell NODE_ENV=development \"hexo seo-feed --debug\"",
+      "command": "cross-env-shell NODE_ENV=development \"hexo seo-feed\"",
       "name": "cli feed",
       "request": "launch",
       "type": "node-terminal",

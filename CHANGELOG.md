@@ -1272,5 +1272,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-25 13:53:58_ ] [4802a6a](https://github.com/dimaslanjaka/safelink/commit/4802a6a) fix(eslint): expected assignment
 - [ _2024-10-25 14:00:41_ ] [1627d57](https://github.com/dimaslanjaka/safelink/commit/1627d57) fix(fixSchemaStatic): head element is undefined condition
 - [ _2024-10-25 14:00:54_ ] [90c8ecf](https://github.com/dimaslanjaka/safelink/commit/90c8ecf) Merge branch 'pre-release' of https://github.com/dimaslanjaka/hexo-seo into pre-release
-- [ _2024-10-25 14:05:43_ ] [e9af1fa](https://github.com/dimaslanjaka/safelink/commit/e9af1fa) fix delete self package name from resolutions (origin/pre-release)
-- [ _2024-10-26 16:15:58_ ] [4da807d](https://github.com/dimaslanjaka/safelink/commit/4da807d) drop docs builder (HEAD -> pre-release)
+- [ _2024-10-25 14:05:43_ ] [e9af1fa](https://github.com/dimaslanjaka/safelink/commit/e9af1fa) fix delete self package name from resolutions
+- [ _2024-10-26 16:15:58_ ] [4da807d](https://github.com/dimaslanjaka/safelink/commit/4da807d) drop docs builder
+- [ _2024-10-26 16:21:37_ ] [ecc0b8a](https://github.com/dimaslanjaka/safelink/commit/ecc0b8a) feat: build `dist/index.cjs` for CJS calls on ESM
+- [ _2024-10-26 16:31:54_ ] [477eb3e](https://github.com/dimaslanjaka/safelink/commit/477eb3e) chore(log): convert to unix path (HEAD -> pre-release, origin/pre-release)

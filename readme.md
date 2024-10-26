@@ -48,9 +48,11 @@ npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
 | master tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
 | pre-release tarball | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
 
+> you can change `master` or `pre-release` with spesific **commit hash**
+
 # Usage
 
-**Configuration**
+## Configuration
 
 [config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml#L138)
 
@@ -138,9 +140,12 @@ seo:
   search:
     # hexo seo-search page type to index
     type: ['page', 'post']
+  feed:
+    # hexo seo-feed page type to index
+    type: [page, post]
 ```
 
-**Generate search data**
+## Generate search data
 
 Generate json data for all published posts or pages (based on `config.seo.search.type`)
 
@@ -191,6 +196,19 @@ hexo seo-search
   ```
 </details>
 
+## Generate feed and atom
+
+Generate RSS 2.0 and ATOM file
+
+```bash
+hexo seo-feed
+```
+
+Generated file written to
+
+- RSS: `public_dir/rss.xml` and `source_dir/rss.xml`
+- ATOM: `public_dir/atom.xml` and `source_dir/atom.xml`
+
 # Preview
 
 ![Google Rich Snippets using schema markup v4](https://github.com/dimaslanjaka/hexo-seo/assets/12471057/4851e1e8-cfc6-474c-903d-fdd9c19061aa "Google Rich Snippets using schema markup v4")
@@ -213,6 +231,7 @@ npm install node-libcurl --build-from-source
 ```
 
 - Fix javascript heap out of memory
+
 ```shell
 # POSIX
 export NODE_OPTIONS=--max_old_space_size=8096
@@ -221,9 +240,18 @@ set NODE_OPTIONS=--max_old_space_size=8096
 ```
 
 - **important** after you update this plugin, you could cleaning the temp folders with:
+
 ```shell
 hexo clean # this will cleaning temporarily folders of this plugin
 ```
+
+# FAQ
+
+- Why search, rss, atom separated to CLI usage ?
+
+> When compiled inside hexo process, these functions will generate new array with same size of all page/post length. This may caused **OUT OF MEMORY HEAP**, specially for device RAM 8 GB **OR** Github Actions (CI) free.
+>
+> So, the best practice is **separate the process**
 
 # Status
 [![Available](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Available.svg?color=brightgreen)](https://github.com/dimaslanjaka/hexo-seo/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Available%22) [![In Progress](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20In%20Progress.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status:%20In%20Progress) [![Review Needed](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Review%20Needed.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status%3A%20Review%20Needed)

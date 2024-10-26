@@ -1,8 +1,6 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const depcheck = require("depcheck");
-const { writeFileSync } = require("fs");
-const { join } = require("path");
+const depcheck = require('depcheck');
+const { writeFileSync } = require('fs');
+const { join } = require('path');
 
 // Check dependencies using depcheck
 // repo   : https://github.com/dimaslanjaka/hexo-seo/blob/master/unused.js
@@ -14,24 +12,24 @@ const options = {
   skipMissing: false, // skip calculation of missing dependencies
   ignorePatterns: [
     // files matching these patterns will be ignored
-    "sandbox",
-    "dist",
-    "bower_components",
-    "node_modules",
-    "docs",
-    "exclude"
+    'sandbox',
+    'dist',
+    'bower_components',
+    'node_modules',
+    'docs',
+    'exclude'
   ],
   ignoreMatches: [
     // ignore dependencies that matches these globs
-    "grunt-*",
-    "hexo-*",
-    "@typescript-eslint*"
+    'grunt-*',
+    'hexo-*',
+    '@typescript-eslint*'
   ],
   parsers: {
     // the target parsers
-    "**/*.ts": depcheck.parser.typescript,
-    "**/*.js": depcheck.parser.es6,
-    "**/*.jsx": depcheck.parser.jsx
+    '**/*.ts': depcheck.parser.typescript,
+    '**/*.js': depcheck.parser.es6,
+    '**/*.jsx': depcheck.parser.jsx
   },
   detectors: [
     // the target detectors
@@ -46,10 +44,10 @@ const options = {
   package: {
     // may specify dependencies instead of parsing package.json
     dependencies: {
-      lodash: "^4.17.15"
+      lodash: '^4.17.15'
     },
     devDependencies: {
-      eslint: "^6.6.0"
+      eslint: '^6.6.0'
     },
     peerDependencies: {},
     optionalDependencies: {}
@@ -57,5 +55,5 @@ const options = {
 };
 
 depcheck(__dirname, options).then((unused) => {
-  writeFileSync(join(__dirname, "unused.md"), "```json\n" + JSON.stringify(unused, null, 2) + "\n```");
+  writeFileSync(join(__dirname, 'unused.md'), '```json\n' + JSON.stringify(unused, null, 2) + '\n```');
 });
