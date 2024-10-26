@@ -1268,4 +1268,9 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-24 10:13:24_ ] [07a9c29](https://github.com/dimaslanjaka/safelink/commit/07a9c29) fix: hexoIs, GoogleNewsSitemap is not function
 - [ _2024-10-24 11:08:25_ ] [32c6a21](https://github.com/dimaslanjaka/safelink/commit/32c6a21) feat: integrate search data (https://github.com/dimaslanjaka/hexo-seo/issues/272)
 - [ _2024-10-24 11:12:48_ ] [62c6af0](https://github.com/dimaslanjaka/safelink/commit/62c6af0) update tarball links
-- [ _2024-10-25 13:53:58_ ] [4802a6a](https://github.com/dimaslanjaka/safelink/commit/4802a6a) fix(eslint): expected assignment (HEAD -> pre-release)
+- [ _2024-10-25 11:05:50_ ] [76ccb9b](https://github.com/dimaslanjaka/safelink/commit/76ccb9b) drop package overrides
+- [ _2024-10-25 13:53:58_ ] [4802a6a](https://github.com/dimaslanjaka/safelink/commit/4802a6a) fix(eslint): expected assignment
+- [ _2024-10-25 14:00:41_ ] [1627d57](https://github.com/dimaslanjaka/safelink/commit/1627d57) fix(fixSchemaStatic): head element is undefined condition
+- [ _2024-10-25 14:00:54_ ] [90c8ecf](https://github.com/dimaslanjaka/safelink/commit/90c8ecf) Merge branch 'pre-release' of https://github.com/dimaslanjaka/hexo-seo into pre-release
+- [ _2024-10-25 14:05:43_ ] [e9af1fa](https://github.com/dimaslanjaka/safelink/commit/e9af1fa) fix delete self package name from resolutions (origin/pre-release)
+- [ _2024-10-26 16:15:58_ ] [4da807d](https://github.com/dimaslanjaka/safelink/commit/4da807d) drop docs builder (HEAD -> pre-release)

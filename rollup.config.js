@@ -15,10 +15,10 @@ const banner = `// ${name} ${version} by ${author.name} <${author.email}> (${aut
 const esmBanner = `
 ${banner}
 
-import nodeUrl from 'url';
-import path from 'path';
+import nodeUrl from 'node:url';
+import nodePath from 'path';
 const __filename = nodeUrl.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = nodePath.dirname(__filename);
 `.trim();
 
 /**
@@ -29,6 +29,12 @@ const libs = {
   output: [
     {
       file: 'dist/index.js',
+      format: 'cjs',
+      exports: 'named',
+      banner
+    },
+    {
+      file: 'dist/index.cjs',
       format: 'cjs',
       exports: 'named',
       banner
