@@ -18,6 +18,7 @@ export const INDEXED_PROPERTIES = [
   'image',
   'categories',
   'tags',
+  'subtitle', // NextJS front-matter
   'updated',
   'description', // jekyll front-matter
   'thumbnail' // jekyll front-matter
@@ -40,10 +41,15 @@ export function pickPostObjectData(object: Document<any>, properties: any[], fix
     return filteredObj;
   }, {});
 
+  // fix labels
+  if (result.category && !result.categories) result.categories = result.category;
+  if (result.tag && !result.tags) result.tags = result.tag;
+
   if (fix) {
     // Fix missing properties
     if (!result.description && result.excerpt) result.description = result.excerpt;
     if (!result.excerpt && result.description) result.excerpt = result.description;
+    if (!result.description && result.subtitle) result.description = result.subtitle;
     if (!result.thumbnail && result.image) result.thumbnail = result.image;
     if (!result.image && result.thumbnail) result.image = result.thumbnail;
     if (!result.image && !result.thumbnail) {
@@ -80,7 +86,7 @@ export async function hexoSeoSearch(this: Hexo, args: Args, callback?: NodeJSLik
       indexedPages.push(...pages);
     }
     const dataToSave = indexedPages.map((data) => {
-      const storedPost = pickPostObjectData(data, INDEXED_PROPERTIES);
+      const storedPost = pickPostObjectData(data, INDEXED_PROPERTIES, true);
       storedPost.objectID = md5(data.path);
       storedPost.date_as_int = Date.parse(data.date) / 1000;
       storedPost.updated_as_int = Date.parse(data.updated) / 1000;

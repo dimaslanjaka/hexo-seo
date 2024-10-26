@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0"
+	xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>{{ siteTitle }}</title>
 		<link>{{ siteUrl }}</link>
@@ -14,7 +15,15 @@
 			<link>{{ item.link }}</link>
 			<description>{{ item.description }}</description>
 			<author>{{ item.authorEmail }} ({{ item.authorName }})</author>
+			{% if item.category %}
+					{% if item.category.length !== undefined %}
+							{% for category in item.category %}
+			<category>{{ category }}</category>
+							{% endfor %}
+					{% else %}
 			<category>{{ item.category }}</category>
+					{% endif %}
+			{% endif %}
 			<pubDate>{{ item.pubDate }}</pubDate>
 			<guid>{{ item.guid if item.guid else item.link }}</guid>
 		</item>

@@ -113,7 +113,8 @@ seo:
     enable: true
     # fix broken images
     broken: false
-    # default broken images
+    # default broken/missing images
+    # https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/search/cli.ts#L51
     default: https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg
     # broken images methods
     # serverside : process broken images from server side (caused javascript heap out of memory, if your post large and your device has insufficient memory)
@@ -208,6 +209,29 @@ Generated file written to
 
 - RSS: `public_dir/rss.xml` and `source_dir/rss.xml`
 - ATOM: `public_dir/atom.xml` and `source_dir/atom.xml`
+
+## Site/Post/Page front-matter metadata
+
+This plugin support parsing these customized metadata
+
+### Author
+
+By default hexo author is string with value author name
+
+```yaml
+author: Author Name
+```
+
+For this plugin, we can put author metadata with more **complex** information. [Reference](https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/utils/getAuthor.ts)
+
+```yaml
+author:
+  name: Author Name
+  link: http://facebook.com/authorUsername
+  email: author@gmail.com
+```
+
+> This parser supported for site config (**_config.yml**) and post markdown and page markdown
 
 # Preview
 

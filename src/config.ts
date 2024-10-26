@@ -92,6 +92,10 @@ export interface BaseConfig {
   search: {
     type: string[];
   };
+  /** hexo seo cli feed options */
+  feed: {
+    type: string[];
+  };
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
@@ -141,6 +145,9 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
     public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
     post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts'),
     search: {
+      type: ['post', 'page']
+    },
+    feed: {
       type: ['post', 'page']
     }
   };

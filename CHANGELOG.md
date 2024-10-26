@@ -1275,4 +1275,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-25 14:05:43_ ] [e9af1fa](https://github.com/dimaslanjaka/safelink/commit/e9af1fa) fix delete self package name from resolutions
 - [ _2024-10-26 16:15:58_ ] [4da807d](https://github.com/dimaslanjaka/safelink/commit/4da807d) drop docs builder
 - [ _2024-10-26 16:21:37_ ] [ecc0b8a](https://github.com/dimaslanjaka/safelink/commit/ecc0b8a) feat: build `dist/index.cjs` for CJS calls on ESM
-- [ _2024-10-26 16:31:54_ ] [477eb3e](https://github.com/dimaslanjaka/safelink/commit/477eb3e) chore(log): convert to unix path (HEAD -> pre-release, origin/pre-release)
+- [ _2024-10-26 16:31:54_ ] [477eb3e](https://github.com/dimaslanjaka/safelink/commit/477eb3e) chore(log): convert to unix path
+- [ _2024-10-26 17:21:39_ ] [b8fb3e2](https://github.com/dimaslanjaka/safelink/commit/b8fb3e2) feat: RSS v2.0 generator (https://github.com/dimaslanjaka/hexo-seo/issues/272) (origin/pre-release)
+- [ _2024-10-26 17:32:29_ ] [ea69e87](https://github.com/dimaslanjaka/safelink/commit/ea69e87) feat: get author email
+- [ _2024-10-26 17:57:40_ ] [339cc32](https://github.com/dimaslanjaka/safelink/commit/339cc32) feat(pickPostObjectData): fix missing undefined properties (HEAD -> pre-release)
