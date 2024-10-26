@@ -5,6 +5,9 @@
     "k--kato.intellij-idea-keybindings",
     "esbenp.prettier-vscode",
     "eliostruyf.vscode-front-matter",
-    "gruntfuggly.triggertaskonsave"
+    "gruntfuggly.triggertaskonsave",
+    "ginfuru.better-nunjucks",
+    "monosans.djlint",
+    "fabianlauer.vs-code-xml-format"
   ]
 }

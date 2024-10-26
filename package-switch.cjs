@@ -180,6 +180,13 @@ async function main() {
     );
     await updatePackageSha(
       'dimaslanjaka',
+      'hexo-renderers',
+      'pre-release',
+      'hexo-renderers',
+      'https://github.com/dimaslanjaka/hexo-renderers/raw/{sha}/release/hexo-renderers.tgz'
+    );
+    await updatePackageSha(
+      'dimaslanjaka',
       'static-blog-generator',
       'sbg-api',
       'sbg-api',
