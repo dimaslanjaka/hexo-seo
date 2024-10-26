@@ -7,13 +7,56 @@ import Document from 'warehouse/dist/document';
 import getConfig from '../config';
 import { getAuthorName } from '../utils/getAuthor';
 
-const INDEXED_PROPERTIES = ['title', 'date', 'updated', 'slug', 'excerpt', 'permalink', 'layout', 'image'];
+export const INDEXED_PROPERTIES = [
+  'title',
+  'date',
+  'updated',
+  'slug', // jekyll front-matter
+  'excerpt',
+  'permalink',
+  'layout',
+  'image',
+  'categories',
+  'tags',
+  'updated',
+  'description', // jekyll front-matter
+  'thumbnail' // jekyll front-matter
+];
 
-function pick(object: Document<any>, properties: any[]) {
-  return properties.reduce(function (filteredObj, prop) {
+/**
+ * Picks specified properties from a Document object and optionally fixes missing properties.
+ *
+ * @param object - The Document object from which to pick properties.
+ * @param properties - An array of property names to extract from the Document.
+ * @param fix - A boolean flag indicating whether to add default values for missing properties.
+ *               If true, the function will attempt to assign default values to properties that are undefined in the result.
+ *               Defaults to false.
+ * @returns An object containing the picked properties and their values. If `fix` is true, any missing properties will be assigned
+ *          default values (if available).
+ */
+export function pickPostObjectData(object: Document<any>, properties: any[], fix: boolean = false) {
+  const result = properties.reduce(function (filteredObj, prop) {
     filteredObj[prop] = object[prop];
     return filteredObj;
   }, {});
+
+  if (fix) {
+    // Fix missing properties
+    if (!result.description && result.excerpt) result.description = result.excerpt;
+    if (!result.excerpt && result.description) result.excerpt = result.description;
+    if (!result.thumbnail && result.image) result.thumbnail = result.image;
+    if (!result.image && result.thumbnail) result.image = result.thumbnail;
+    if (!result.image && !result.thumbnail) {
+      // no image in this page/post
+      // get from config.seo.img.default
+      if (typeof hexo !== 'undefined' && hexo.config.seo.img.default) {
+        result.image = hexo.config.seo.img.default;
+        result.thumbnail = hexo.config.seo.img.default;
+      }
+    }
+  }
+
+  return result;
 }
 
 export async function hexoSeoSearch(this: Hexo, args: Args, callback?: NodeJSLikeCallback<any>) {
@@ -37,7 +80,7 @@ export async function hexoSeoSearch(this: Hexo, args: Args, callback?: NodeJSLik
       indexedPages.push(...pages);
     }
     const dataToSave = indexedPages.map((data) => {
-      const storedPost = pick(data, INDEXED_PROPERTIES);
+      const storedPost = pickPostObjectData(data, INDEXED_PROPERTIES);
       storedPost.objectID = md5(data.path);
       storedPost.date_as_int = Date.parse(data.date) / 1000;
       storedPost.updated_as_int = Date.parse(data.updated) / 1000;
@@ -47,13 +90,13 @@ export async function hexoSeoSearch(this: Hexo, args: Args, callback?: NodeJSLik
         storedPost.categories = (data.categories.toArray ? data.categories.toArray() : data.categories).map(function (
           item: Document<any>
         ) {
-          return pick(item, ['name', 'path']);
+          return pickPostObjectData(item, ['name', 'path']);
         });
       }
 
       if (data.tags && (Array.isArray(data.tags) || typeof data.tags.toArray === 'function')) {
         storedPost.tags = (data.tags.toArray ? data.tags.toArray() : data.tags).map(function (item) {
-          return pick(item, ['name', 'path']);
+          return pickPostObjectData(item, ['name', 'path']);
         });
       }
 
