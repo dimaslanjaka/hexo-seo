@@ -70,7 +70,16 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
         }
 
         storedPost.title = he.encode(storedPost.title || '');
-        storedPost.description = he.encode(storedPost.description || '');
+        storedPost.description = he.encode(storedPost.description || storedPost.title);
+        if (storedPost.length === 0) return undefined;
+
+        // trim string values
+        for (const key in storedPost) {
+          if (Object.prototype.hasOwnProperty.call(storedPost, key)) {
+            const value = storedPost[key];
+            if (typeof value === 'string') storedPost[key] = (value || '').trim();
+          }
+        }
 
         if (storedPost.layout === 'post') {
           console.log(storedPost);
