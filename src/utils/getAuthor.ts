@@ -40,6 +40,22 @@ export function getAuthorLink(postObj: Record<string, any> | string, hexoConfig:
   return hexoConfig.url;
 }
 
+export function getAuthorEmail(postObj: Record<string, any> | string, hexoConfig: Hexo['config'] = {} as any) {
+  // return site url
+  if (postObj) {
+    // validate post object not null or undefined
+    const author: string | Record<string, any> =
+      typeof postObj == 'string' ? postObj : postObj.author || hexoConfig.author;
+    // validate author is not null or undefined
+    if (author) {
+      if (typeof author == 'string') return author;
+      if ('email' in author) return author.email;
+      if ('mail' in author) return author.mail;
+    }
+  }
+  return hexoConfig.url;
+}
+
 export default function getAuthor(postObj: Record<string, any> | string, hexoConfig: Hexo['config'] = {} as any) {
   return {
     name: getAuthorName(postObj, hexoConfig),
