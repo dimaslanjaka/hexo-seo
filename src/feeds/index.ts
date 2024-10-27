@@ -9,7 +9,7 @@ import path from 'path';
 import { writefile } from 'sbg-utility';
 import Document from 'warehouse/dist/document';
 import getConfig from '../config';
-import { INDEXED_PROPERTIES, pickPostObjectData } from '../search/cli';
+import { INDEXED_PROPERTIES, pickPostObjectData } from '../search';
 import { getAuthorEmail, getAuthorName } from '../utils/getAuthor';
 
 export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLikeCallback<any>) {

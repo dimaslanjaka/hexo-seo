@@ -114,7 +114,7 @@ seo:
     # fix broken images
     broken: false
     # default broken/missing images
-    # https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/search/cli.ts#L51
+    # https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/search/index.ts#L53
     default: https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg
     # broken images methods
     # serverside : process broken images from server side (caused javascript heap out of memory, if your post large and your device has insufficient memory)
@@ -199,7 +199,7 @@ hexo seo-search
   ```
 </details>
 
-## Generate feed and atom
+## Generate feeds
 
 Generate RSS 2.0 and ATOM file
 
