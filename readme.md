@@ -144,6 +144,8 @@ seo:
   feed:
     # hexo seo-feed page type to index
     type: [page, post]
+    # site icon for rss (PNG, JPEG, GIF)
+    icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
 ```
 
 ## Generate search data
@@ -231,7 +233,7 @@ author:
   email: author@gmail.com
 ```
 
-> This parser supported for site config (**_config.yml**) and post markdown and page markdown
+> This parser supported for site config (**_config.yml**) and post markdown and page markdown.
 
 # Preview
 

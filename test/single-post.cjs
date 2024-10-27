@@ -1,7 +1,8 @@
-const base = __dirname + '/../site/';
+const path = require('path');
+
+const base = path.resolve(__dirname, '/../site/');
 process.cwd = () => base;
 
-const path = require('path');
 const Bluebird = require('bluebird');
 const Hexo = require('hexo');
 const { fs } = require('sbg-utility');

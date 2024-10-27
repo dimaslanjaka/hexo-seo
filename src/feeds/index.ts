@@ -1,9 +1,9 @@
 import Bluebird from 'bluebird';
-import fs from 'fs-extra';
 import he from 'he';
 import Hexo from 'hexo';
 import { Args } from 'hexo/dist/hexo/index-d';
 import { NodeJSLikeCallback } from 'hexo/dist/types';
+import moment, { Moment } from 'moment';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import { writefile } from 'sbg-utility';
@@ -16,14 +16,14 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
   try {
     const hexoConfig = this.config;
     const config = getConfig(hexo);
-    const searchConfig = config.feed;
+    const feedConfig = config.feed;
     await hexo.load();
     const indexedPages = [];
-    if (searchConfig.type.includes('post')) {
+    if (feedConfig.type.includes('post')) {
       const posts = hexo.database.model('Post').find({ published: true }).toArray();
       indexedPages.push(...posts);
     }
-    if (searchConfig.type.includes('page')) {
+    if (feedConfig.type.includes('page')) {
       const pages = hexo.database.model('Page').toArray(); //.find({ published: true }).toArray();
       // .find({
       //   layout: { $in: pageLayouts }
@@ -53,7 +53,6 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
 
         storedPost.authorName = getAuthorName(data.author || hexoConfig.author);
         storedPost.authorEmail = getAuthorEmail(data.author || hexoConfig.author);
-        storedPost.pubDate = storedPost.date.utc().format('ddd, DD MMM YYYY HH:mm:ss +0000');
         storedPost.link = storedPost.permalink;
         storedPost.guid = storedPost.permalink;
 
@@ -71,6 +70,9 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
 
         storedPost.title = he.encode(storedPost.title || '');
         storedPost.description = he.encode(storedPost.description || storedPost.title);
+        storedPost.updatedDate = (storedPost.updated as Moment).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        storedPost.pubDate = (storedPost.date as Moment).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        storedPost.createdDate = (storedPost.date as Moment).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
 
         // skip empty page title
         if (storedPost.title.length === 0) return undefined;
@@ -83,9 +85,9 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
           }
         }
 
-        if (storedPost.layout === 'post') {
-          console.log(storedPost);
-        }
+        // if (storedPost.layout === 'post') {
+        //   console.log(storedPost);
+        // }
 
         // {
         //   title: 'Example Post Title',
@@ -101,6 +103,13 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
       })
       .filter((o) => typeof o === 'object');
 
+    const latestDate = moment(Math.max(...pageItems.map((o) => o.date).map((date) => date.valueOf()))).format(
+      'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+    );
+    const latestUpdated = moment(Math.max(...pageItems.map((o) => o.updated).map((date) => date.valueOf()))).format(
+      'YYYY-MM-DDTHH:mm:ss.SSS[Z]'
+    );
+
     const templateDir = path.join(__dirname, 'views');
     const env = nunjucks.configure(templateDir, {
       noCache: true,
@@ -110,30 +119,51 @@ export async function generateFeeds(this: Hexo, _args: Args, callback?: NodeJSLi
       lstripBlocks: false
     });
 
-    // Use render, ensuring the correct file path is referenced.
-    const result = env.renderString(fs.readFileSync(path.join(templateDir, 'rss.xml'), 'utf-8'), {
+    const context = {
+      config: hexoConfig,
       siteTitle: hexoConfig.title,
       siteUrl: hexoConfig.url,
+      feedUrl: `${hexoConfig.url}/rss.xml`,
+      iconUrl: config.feed.icon,
       siteDescription: hexoConfig.description,
       language: Array.isArray(hexoConfig.language) ? hexoConfig.language[0] : hexoConfig.language || 'en-us',
-      lastBuildDate: 'Sat, 26 Oct 2024 10:00:00 +0000',
-      pubDate: 'Sat, 26 Oct 2024 10:00:00 +0000',
+      authorName: getAuthorName(hexoConfig.author),
+      authorEmail: getAuthorEmail(hexoConfig.author),
+      // lastBuildDate: 'Sat, 26 Oct 2024 10:00:00 +0000',
+      lastBuildDate: latestUpdated,
+      updatedDate: latestUpdated,
+      // pubDate: 'Sat, 26 Oct 2024 10:00:00 +0000',
+      pubDate: latestDate,
       ttl: 1800,
-      items: pageItems
-    });
+      entries: pageItems
+    };
+    const RSSContent = env.render('rss.xml', context);
 
-    const paths = [path.join(config.source_dir, 'rss.xml'), path.join(config.public_dir, 'rss.xml')];
-    return Bluebird.all(paths)
+    const RSS = Bluebird.all([path.join(config.source_dir, 'rss.xml'), path.join(config.public_dir, 'rss.xml')])
       .each((file) => {
         // Split the file content into lines and filter out empty lines
-        const cleanedData = result
-          .split('\n') // Split by new lines
+        const cleanedData = RSSContent.split('\n') // Split by new lines
           .filter((line) => line.trim() !== '') // Remove empty lines
           .join('\n'); // Join back into a single string
         writefile(file, cleanedData);
         hexo.log.info(`[hexo-seo] RSS 2.0 saved to ${file}.`);
       })
       .catch(callback);
+
+    const ATOMContent = env.render('atom.xml', context);
+
+    const ATOM = Bluebird.all([path.join(config.source_dir, 'atom.xml'), path.join(config.public_dir, 'atom.xml')])
+      .each((file) => {
+        // Split the file content into lines and filter out empty lines
+        const cleanedData = ATOMContent.split('\n') // Split by new lines
+          .filter((line) => line.trim() !== '') // Remove empty lines
+          .join('\n'); // Join back into a single string
+        writefile(file, cleanedData);
+        hexo.log.info(`[hexo-seo] ATOM saved to ${file}.`);
+      })
+      .catch(callback);
+
+    return Bluebird.all([RSS, ATOM]);
   } catch (error) {
     callback(error);
   }
