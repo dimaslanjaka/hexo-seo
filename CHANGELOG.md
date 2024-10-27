@@ -1281,6 +1281,7 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-26 17:57:40_ ] [339cc32](https://github.com/dimaslanjaka/safelink/commit/339cc32) feat(pickPostObjectData): fix missing undefined properties
 - [ _2024-10-26 18:53:27_ ] [af52829](https://github.com/dimaslanjaka/safelink/commit/af52829) fix: missing RSS items (https://github.com/dimaslanjaka/hexo-seo/issues/272)
 - [ _2024-10-26 18:59:49_ ] [4030d1e](https://github.com/dimaslanjaka/safelink/commit/4030d1e) fix: skip post with empty title to index on RSS
-- [ _2024-10-26 19:08:22_ ] [088d219](https://github.com/dimaslanjaka/safelink/commit/088d219) fix: RSS invalid by author email feat: default author email is `noreply@blogger.com` fix: skip empty page title (origin/pre-release, origin/integrate-content-search-and-feed, pre-release)
+- [ _2024-10-26 19:08:22_ ] [088d219](https://github.com/dimaslanjaka/safelink/commit/088d219) fix: RSS invalid by author email feat: default author email is `noreply@blogger.com` fix: skip empty page title (origin/pre-release, pre-release)
 - [ _2024-10-27 08:32:11_ ] [4c69849](https://github.com/dimaslanjaka/safelink/commit/4c69849) use url validator from `sbg-utility`
-- [ _2024-10-27 11:14:27_ ] [d649371](https://github.com/dimaslanjaka/safelink/commit/d649371) fix: get author link and email fallback (HEAD -> integrate-content-search-and-feed)
+- [ _2024-10-27 11:14:27_ ] [d649371](https://github.com/dimaslanjaka/safelink/commit/d649371) fix: get author link and email fallback
+- [ _2024-10-27 12:09:15_ ] [7d9980b](https://github.com/dimaslanjaka/safelink/commit/7d9980b) feat(cli): `hexo seo-feed` ATOM generator (HEAD -> integrate-content-search-and-feed, origin/integrate-content-search-and-feed)

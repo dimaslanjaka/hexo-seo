@@ -9,15 +9,11 @@
     "dist/",
     "src/",
     "images/",
-    "source/",
-    "LICENSE",
-    "readme.md",
-    "index*.js",
-    "tsconfig*.json"
+    "source/"
   ],
   "scripts": {
-    "lint": "eslint ./src --ext .ts",
-    "lint-and-fix": "eslint ./src --ext .ts,.json --fix",
+    "lint": "eslint ./src",
+    "lint-and-fix": "eslint ./src --fix",
     "ts:normal": "tsc -p tsconfig.build.json",
     "build": "yarn run ts:normal && rollup -c && gulp",
     "clean": "rimraf dist && gulp clean && npm run build",
@@ -25,7 +21,7 @@
     "update:ncu": "npm-check-updates -u",
     "update": "yarn run update:project && yarn run update:ncu",
     "test:install": "cd test/demo && npm install",
-    "prepack": "node changelog.js && node package-switch.cjs production",
+    "prepack": "node package-switch.cjs production",
     "prepublish": "npm run prepack",
     "pack": "node packer.js --yarn",
     "prepare": "husky"
