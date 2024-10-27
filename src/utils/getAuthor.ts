@@ -1,4 +1,5 @@
 import Hexo from 'hexo';
+import { isValidHttpUrl } from 'sbg-utility';
 import { isValidEmail } from './string';
 
 // const cache = new persistentCache({ name: 'authors', persist: true });
@@ -27,6 +28,7 @@ export function getAuthorName(postObj: Record<string, any> | string, hexoConfig:
 }
 
 export function getAuthorLink(postObj: Record<string, any> | string, hexoConfig: Hexo['config'] = {} as any) {
+  let result = '';
   // return site url
   if (postObj) {
     // validate post object not null or undefined
@@ -34,10 +36,14 @@ export function getAuthorLink(postObj: Record<string, any> | string, hexoConfig:
       typeof postObj == 'string' ? postObj : postObj.author || hexoConfig.author;
     // validate author is not null or undefined
     if (author) {
-      if (typeof author == 'string') return author;
-      if ('link' in author) return author.link;
+      if (typeof author == 'string') {
+        result = author;
+      } else if ('link' in author) {
+        result = author.link;
+      }
     }
   }
+  if (isValidHttpUrl(result)) return result;
   return hexoConfig.url;
 }
 
@@ -86,8 +92,14 @@ export function getAuthorEmail(postObj: Record<string, any> | string, hexoConfig
       if (typeof author === 'string') {
         result = author; // Use the string author directly
       } else {
-        if ('email' in author) result = author.email; // Prefer email if available
-        if ('mail' in author) result = author.mail; // Fallback to mail if email is not present
+        if ('email' in author) {
+          result = author.email;
+        } else if ('mail' in author) {
+          result = author.mail;
+        } else if (hexoConfig.email) {
+          // get _config_yml.email
+          result = hexoConfig.email;
+        }
       }
     }
   }

@@ -21,6 +21,13 @@
       "ESNext"
     ]
   },
+  "include": [
+    "src",
+    "test",
+    "rollup.*",
+    "gulp*",
+    "package-*"
+  ],
   "exclude": [
     "**/node_modules/**",
     "**/*.spec.ts",

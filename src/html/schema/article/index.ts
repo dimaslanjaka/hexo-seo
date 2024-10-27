@@ -1,7 +1,7 @@
 import { CheerioAPI } from 'cheerio';
 import Hexo from 'hexo';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
-import { isValidUrlPattern } from '../../../utils/url';
+import { isValidHttpUrl } from 'sbg-utility';
 import mainSchema from './model3.json';
 
 export type SchemaAuthor = ObjectConstructor & {
@@ -184,7 +184,7 @@ class articleSchema {
         }
       }
     }
-    if (!isValidUrlPattern(authorUrl)) {
+    if (!isValidHttpUrl(authorUrl)) {
       authorUrl = this.hexo.config.url;
     }
     this.schema.author.sameAs = authorUrl;

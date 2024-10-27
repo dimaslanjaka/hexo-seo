@@ -95,6 +95,7 @@ export interface BaseConfig {
   /** hexo seo cli feed options */
   feed: {
     type: string[];
+    icon: string;
   };
 }
 
@@ -148,7 +149,8 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
       type: ['post', 'page']
     },
     feed: {
-      type: ['post', 'page']
+      type: ['post', 'page'],
+      icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
     }
   };
   const seo: BaseConfig = hexo.config.seo;
