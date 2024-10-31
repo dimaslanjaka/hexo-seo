@@ -31,7 +31,8 @@ const local = {
   'hexo-renderers': 'file:../hexo-renderers/release/hexo-renderers.tgz',
   'hexo-shortcodes': 'file:../hexo-shortcodes/release/hexo-shortcodes.tgz',
   'hexo-seo': 'file:../hexo-seo/release/hexo-seo.tgz',
-  'google-news-sitemap': 'file:../google-news-sitemap/release/google-news-sitemap.tgz'
+  'google-news-sitemap': 'file:../google-news-sitemap/release/google-news-sitemap.tgz',
+  'hexo-is': 'file:../hexo-is/release/hexo-is.tgz'
 };
 
 const production = {
@@ -46,6 +47,7 @@ const production = {
   'hexo-server': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-server.tgz',
   warehouse: 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/warehouse.tgz',
   'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz',
+  'hexo-is': 'https://github.com/dimaslanjaka/hexo-is/raw/master/release/hexo-is.tgz',
   'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/17ccc82/release/markdown-it.tgz',
   'hexo-renderers': 'https://github.com/dimaslanjaka/hexo-renderers/raw/3f727de/release/hexo-renderers.tgz',
   'hexo-shortcodes': 'https://github.com/dimaslanjaka/hexo-shortcodes/raw/f70a1c0/release/hexo-shortcodes.tgz',
