@@ -2,7 +2,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./tmp/dist",
@@ -12,14 +11,6 @@
     "skipDefaultLibCheck": true,
     "checkJs": false,
     "skipLibCheck": true
-  },
-  "paths": {
-    "@root/*": [
-      "./*"
-    ],
-    "src/*": [
-      "./src/*"
-    ]
   },
   "exclude": [
     "**/node_modules/**",

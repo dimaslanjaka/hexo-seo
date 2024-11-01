@@ -2,9 +2,10 @@
   "$schema": "http://json.schemastore.org/nodemon",
   "exec": "yarn run build && yarn run pack",
   "watch": [
-    "./src/**/*.ts",
-    "./src/**/*.xml",
-    "./src/**/*.xsl"
+    "./src/**/*",
+    "./source/**/*",
+    "./rollup.config.js",
+    "./gulpfile.js"
   ],
   "ignore": [
     "*.test.js",
@@ -21,5 +22,5 @@
   ],
   "delay": 3000,
   "ext": "js,cjs,mjs,ts,xml,xsl",
-  "verbose": false
+  "verbose": true
 }

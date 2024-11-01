@@ -175,10 +175,24 @@ async function main() {
     );
     await updatePackageSha(
       'dimaslanjaka',
+      'hexo-is',
+      'master',
+      'hexo-is',
+      'https://github.com/dimaslanjaka/hexo-is/raw/{sha}/release/hexo-is.tgz'
+    );
+    await updatePackageSha(
+      'dimaslanjaka',
       'hexo-seo',
       'pre-release',
       'hexo-seo',
       'https://github.com/dimaslanjaka/hexo-seo/raw/{sha}/release/hexo-seo.tgz'
+    );
+    await updatePackageSha(
+      'dimaslanjaka',
+      'hexo-adsense',
+      'master',
+      'hexo-adsense',
+      'https://github.com/dimaslanjaka/hexo-adsense/raw/{sha}/release/hexo-adsense.tgz'
     );
     await updatePackageSha(
       'dimaslanjaka',

@@ -37,10 +37,9 @@ npm i hexo-seo
 
 Using Git Repository (Development)
 ```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
+npm i hexo-seo@https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz
 ```
 
-### Packages Links
 > Using tarball is useful for git which not installed properly or for you in chinese mainland
 
 | description | link |
@@ -114,7 +113,7 @@ seo:
     # fix broken images
     broken: false
     # default broken/missing images
-    # https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/search/index.ts#L53
+    # https://github.com/dimaslanjaka/hexo-seo/blob/f4cf27fbc7de2b831462d3b26cf70ece2499d15b/src/search/index.ts#L53
     default: https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg
     # broken images methods
     # serverside : process broken images from server side (caused javascript heap out of memory, if your post large and your device has insufficient memory)
