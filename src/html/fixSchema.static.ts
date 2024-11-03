@@ -6,6 +6,7 @@ import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
 import { BaseConfig } from '../config';
+import { isDev } from '../hexo-seo';
 import logger from '../log';
 import { dump } from '../utils';
 import { getAuthorName } from '../utils/getAuthor';
@@ -211,8 +212,12 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
   if (schema.length > 0) {
     const JSONschema = JSON.stringify(schema, null, 2);
     const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
-    logger.log('schema created', title, url);
-    dump('schema-' + title + '.json', schemahtml);
+    if (['archive', 'tags', data.config.title, 'categories', 'homepage'].includes(title.toLowerCase())) {
+      logger.debug('schema created', title, url);
+    }
+    if (isDev) {
+      dump('schema-' + title + '.json', schemahtml);
+    }
 
     if (schemahtml) {
       const head = dom.getElementsByTagName('head')[0];
