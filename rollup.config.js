@@ -8,7 +8,7 @@ const json = require('@rollup/plugin-json').default;
 const { author, dependencies, devDependencies, name, version } = packageJson;
 
 const external = [...Object.keys(dependencies), ...Object.keys(devDependencies)].filter(
-  (pkgName) => !['p-limit', 'deepmerge-ts', 'hexo-is'].includes(pkgName)
+  (pkgName) => !['p-limit', 'deepmerge-ts', 'hexo-is', 'is-stream', 'markdown-it'].includes(pkgName)
 );
 
 const banner = `// ${name} ${version} by ${author.name} <${author.email}> (${author.url})`.trim();

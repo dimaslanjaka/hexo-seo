@@ -223,6 +223,18 @@ async function main() {
       'https://github.com/dimaslanjaka/static-blog-generator/raw/{sha}/packages/sbg-cli/release/sbg-cli.tgz'
     );
 
+    const hexoFamily = ['hexo', 'hexo-util', 'warehouse', 'hexo-server', 'hexo-log', 'hexo-front-matter', 'hexo-cli'];
+    const hexoFamilyMap = hexoFamily.map((pkgName) => {
+      return updatePackageSha(
+        'dimaslanjaka',
+        'hexo',
+        'monorepo-v7',
+        pkgName,
+        `https://github.com/dimaslanjaka/hexo/raw/{sha}/releases/${pkgName}.tgz`
+      );
+    });
+    await Promise.all(hexoFamilyMap);
+
     pkg.resolutions = production;
     // npm overrides sometimes give you error installation
     // pkg.overrides = production;
