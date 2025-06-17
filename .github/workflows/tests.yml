@@ -1,0 +1,36 @@
+name: Cross-Platform Tests for Hexo SEO Plugin
+
+on:
+  push:
+    branches: [ pre-release ]
+  pull_request:
+    branches: [ pre-release ]
+
+jobs:
+  test:
+    name: Run Tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: ⬇️ Clone Hexo Site (hexo-seo branch)
+        run: git clone --branch hexo-seo https://github.com/dimaslanjaka/site site
+
+      - name: 📦 Install Node.js Dependencies
+        run: yarn install
+
+      - name: 🛠️ Build Workspace
+        run: npm run build
+
+      - name: ✅ Run Test Suite
+        run: npm run test

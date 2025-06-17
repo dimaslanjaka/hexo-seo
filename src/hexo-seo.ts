@@ -35,15 +35,6 @@ export default function HexoSeo(hexo: Hexo) {
     return;
   }
 
-  // Check if post not empty
-  const totalPosts = hexo.locals.get('posts').length;
-  if (totalPosts === 0) {
-    hexo.log.error(logname, 'No posts found. Exiting hexo-seo.');
-    return;
-  } else {
-    hexo.log.info(logname, `Total posts: ${totalPosts}`);
-  }
-
   // detect hexo arguments
   let hexoCmd: string;
   if (hexo.env.args._ && hexo.env.args._.length > 0) {
