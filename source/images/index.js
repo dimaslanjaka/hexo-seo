@@ -1,7 +1,5 @@
-/* eslint-disable no-undef */
-
 function imagebroker() {
-  const images = document.querySelectorAll("img");
+  const images = document.querySelectorAll('img');
   for (let index = 0; index < images.length; index++) {
     const img = images[index];
     img.onerror = function () {
@@ -9,6 +7,7 @@ function imagebroker() {
     };
   }
 }
+
 /**
  * Image load error callback
  * @param {HTMLImageElement} _this

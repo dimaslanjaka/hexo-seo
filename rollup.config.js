@@ -8,17 +8,17 @@ const json = require('@rollup/plugin-json').default;
 const { author, dependencies, devDependencies, name, version } = packageJson;
 
 const external = [...Object.keys(dependencies), ...Object.keys(devDependencies)].filter(
-  (pkgName) => !['p-limit', 'deepmerge-ts'].includes(pkgName)
+  (pkgName) => !['p-limit', 'deepmerge-ts', 'hexo-is', 'is-stream', 'markdown-it'].includes(pkgName)
 );
 
 const banner = `// ${name} ${version} by ${author.name} <${author.email}> (${author.url})`.trim();
 const esmBanner = `
 ${banner}
 
-import nodeUrl from 'url';
-import path from 'path';
+import nodeUrl from 'node:url';
+import nodePath from 'path';
 const __filename = nodeUrl.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = nodePath.dirname(__filename);
 `.trim();
 
 /**
@@ -29,6 +29,12 @@ const libs = {
   output: [
     {
       file: 'dist/index.js',
+      format: 'cjs',
+      exports: 'named',
+      banner
+    },
+    {
+      file: 'dist/index.cjs',
       format: 'cjs',
       exports: 'named',
       banner

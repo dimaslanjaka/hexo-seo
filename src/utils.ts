@@ -2,7 +2,7 @@
 
 'use strict';
 
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { minimatch } from 'minimatch';
 import { rimrafSync } from 'rimraf';
@@ -87,9 +87,9 @@ export function dump(filename: string, ...obj: any) {
   const filePath = path.join(process.cwd(), '/tmp/hexo-seo/dump', hash);
 
   // truncate directory on first time
-  if (!('dump' in firstIndicator)) {
+  if (!(hash in firstIndicator)) {
     rimrafSync(filePath);
-    firstIndicator['dump'] = true;
+    firstIndicator[hash] = true;
   }
 
   if (!fs.existsSync(path.dirname(filePath))) {

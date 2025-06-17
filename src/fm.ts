@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import { writefile } from 'sbg-utility';
-import * as path from 'upath';
+import path from 'upath';
 
 /**
  * Temp folder

@@ -1,8 +1,11 @@
 {
   "$schema": "http://json.schemastore.org/nodemon",
-  "exec": "yarn run lint-and-fix && yarn build",
+  "exec": "yarn run build && yarn run pack",
   "watch": [
-    "./src/**/*.ts"
+    "./src/**/*",
+    "./source/**/*",
+    "./rollup.config.js",
+    "./gulpfile.js"
   ],
   "ignore": [
     "*.test.js",
@@ -18,6 +21,6 @@
     "**/tmp/**"
   ],
   "delay": 3000,
-  "ext": "ts,js",
-  "verbose": false
+  "ext": "js,cjs,mjs,ts,xml,xsl",
+  "verbose": true
 }

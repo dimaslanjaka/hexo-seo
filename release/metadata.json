@@ -19,12 +19,12 @@
   },
   "/release/hexo-seo.tgz": {
     "integrity": {
-      "sha1": "8395a52f51f9d126a91784fa21f277caefd44eb6",
-      "sha256": "UssRIMskQHylsi195OzvMPrD0yM/GKaEbjmR0YCt1Jg=",
-      "md5": "9f4fcb0c60c980a2e483484880c2f531",
-      "sha512": "ivKS1NQc99PLVDBRVXy9DpEAP6BJOycqnzCuU6oK6d/93OKGn+XyE6Qj3XFfTTIQUbid/84WGgiLiemCJSglzw=="
+      "sha1": "27ad56d202a125be65130ddff527c8642f13cd09",
+      "sha256": "ENKLAZYxDRDcjnvHVd6/Lmtx0d/814ewZkYq6wI4lU0=",
+      "md5": "5af2cc7615b093e3e77ddcdc20db58a6",
+      "sha512": "4c3OsPJjQtzaQfp05ylVVXCRRSxCjR0wsA6idKwgPLSEJFPfED4nu6iqczRBoPsd1djCmEHpUraz+nfD6dkUQw=="
     },
-    "size": "432.81 KB"
+    "size": "428.94 KB"
   },
   "/package-lock.json": {
     "integrity": {
@@ -55,12 +55,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "50591e1fdf4a6a5219bab013a97ea352ea540735",
-      "sha256": "AentbJjUYLsjJGYF3pL+7P/yLIFXYV6oKsC5z7bp/qk=",
-      "md5": "2b2e32ac08edc0702652fba21600545a",
-      "sha512": "3p2LC2FttlXUiVRcLdUmFeYyHrUnxyMgc6MXYxrcAl1rGIQYZyLIzRusidDylr7YE/kZuLe/Ob+WM5D3kLwyEA=="
+      "sha1": "beeebef5532c94dcd339fcecc63d2fd3f68ad31a",
+      "sha256": "N7+7I5q1cn7ucoGVWVuJgh54r0O38W4O3FmLjB9bpS4=",
+      "md5": "b9590b722b80a8b67cff7b610183e3d8",
+      "sha512": "K4JIGgLlBaxJNZcIHaK4bRvI6iWljjUx5QjFuCa6lHrD2Pwbiay9S7etMMhDUNYRP9DxZw72kSXRGBvhqkbPzA=="
     },
-    "size": "455.38 KB"
+    "size": "537.26 KB"
   },
   "/release/hexo-seo-1.1.6.tgz": {
     "integrity": {
@@ -160,5 +160,23 @@
       "sha512": "ivKS1NQc99PLVDBRVXy9DpEAP6BJOycqnzCuU6oK6d/93OKGn+XyE6Qj3XFfTTIQUbid/84WGgiLiemCJSglzw=="
     },
     "size": "432.81 KB"
+  },
+  "/release/hexo-seo-2.0.0.tgz": {
+    "integrity": {
+      "sha1": "8b8660dd52994e02993d177e100446b22a7c8c27",
+      "sha256": "cMHrhiFHc1++rsFVQ+yluRdMkE4SgXsJQ9mjL5jBOmE=",
+      "md5": "e6ff557cee012d473673935cebd7e587",
+      "sha512": "cEdmf+REyO4bDc7HS+fXsyNtdKIAW+Jx6hI68+EPIaUT3vM+MKY0ZbRvofsB99VvkKa6dCwCc3cG5dQNy5kLrg=="
+    },
+    "size": "424.52 KB"
+  },
+  "/release/hexo-seo-2.0.1.tgz": {
+    "integrity": {
+      "sha1": "27ad56d202a125be65130ddff527c8642f13cd09",
+      "sha256": "ENKLAZYxDRDcjnvHVd6/Lmtx0d/814ewZkYq6wI4lU0=",
+      "md5": "5af2cc7615b093e3e77ddcdc20db58a6",
+      "sha512": "4c3OsPJjQtzaQfp05ylVVXCRRSxCjR0wsA6idKwgPLSEJFPfED4nu6iqczRBoPsd1djCmEHpUraz+nfD6dkUQw=="
+    },
+    "size": "428.94 KB"
   }
 }

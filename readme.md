@@ -37,18 +37,21 @@ npm i hexo-seo
 
 Using Git Repository (Development)
 ```shell
-npm i git+https://github.com/dimaslanjaka/hexo-seo.git#pre-release
+npm i hexo-seo@https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz
 ```
 
-### Packages Links
 > Using tarball is useful for git which not installed properly or for you in chinese mainland
 
 | description | link |
 | :--- | :--- |
-| repository tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| master tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| pre-release tarball | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
+
+> you can change `master` or `pre-release` with spesific **commit hash**
 
 # Usage
-**Configuration**
+
+## Configuration
 
 [config full example](https://github.com/dimaslanjaka/site/blob/hexo-seo/_config.yml#L138)
 
@@ -109,7 +112,8 @@ seo:
     enable: true
     # fix broken images
     broken: false
-    # default broken images
+    # default broken/missing images
+    # https://github.com/dimaslanjaka/hexo-seo/blob/f4cf27fbc7de2b831462d3b26cf70ece2499d15b/src/search/index.ts#L53
     default: https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg
     # broken images methods
     # serverside : process broken images from server side (caused javascript heap out of memory, if your post large and your device has insufficient memory)
@@ -133,14 +137,102 @@ seo:
     # google news sitemap
     # location: /google-news-sitemap.xml
     gnews: true
+  search:
+    # hexo seo-search page type to index
+    type: ['page', 'post']
+  feed:
+    # hexo seo-feed page type to index
+    type: [page, post]
+    # site icon for rss (PNG, JPEG, GIF)
+    icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
 ```
 
-<!-- > ~this plugin will run the functions based on development mode or production mode~
+## Generate search data
 
-**development mode**
-```shell
-set NODE_ENV=development && hexo server
-``` -->
+Generate json data for all published posts or pages (based on `config.seo.search.type`)
+
+> Support generate more than 1k pages on device RAM 8 GB
+>
+> json data saved on `public_dir/hexo-seo-search.json` and `source_dir/hexo-seo-search.json`
+
+```bash
+hexo seo-search
+```
+
+<details>
+  <summary>Search data result</summary>
+
+  ```jsonc
+  [
+    {
+      "title": "Blockquote Shortcode",
+      "date": "2023-04-08T15:30:00.691Z",
+      "updated": "2023-04-08T15:30:00.691Z",
+      "slug": "blockquote",
+      "excerpt": "",
+      "permalink": "http://www.webmanajemen.com/docs/hexo-seo/blockquote.html",
+      "layout": "post",
+      "objectID": "54fb9f4665464c46cd47ce1259af43a1",
+      "date_as_int": 1680967800,
+      "updated_as_int": 1680967800,
+      "categories": [
+        {
+          "name": "hexo",
+          "path": "categories/hexo/"
+        }
+      ],
+      "tags": [
+        {
+          "name": "blockquote",
+          "path": "tags/blockquote/"
+        },
+        {
+          "name": "shortcode",
+          "path": "tags/shortcode/"
+        }
+      ],
+      "author": "Dimas Lanjaka"
+    },
+    // and more data here
+  ]
+  ```
+</details>
+
+## Generate feeds
+
+Generate RSS 2.0 and ATOM file
+
+```bash
+hexo seo-feed
+```
+
+Generated file written to
+
+- RSS: `public_dir/rss.xml` and `source_dir/rss.xml`
+- ATOM: `public_dir/atom.xml` and `source_dir/atom.xml`
+
+## Site/Post/Page front-matter metadata
+
+This plugin support parsing these customized metadata
+
+### Author
+
+By default hexo author is string with value author name
+
+```yaml
+author: Author Name
+```
+
+For this plugin, we can put author metadata with more **complex** information. [Reference](https://github.com/dimaslanjaka/hexo-seo/blob/pre-release/src/utils/getAuthor.ts)
+
+```yaml
+author:
+  name: Author Name
+  link: http://facebook.com/authorUsername
+  email: author@gmail.com
+```
+
+> This parser supported for site config (**_config.yml**) and post markdown and page markdown.
 
 # Preview
 
@@ -164,6 +256,7 @@ npm install node-libcurl --build-from-source
 ```
 
 - Fix javascript heap out of memory
+
 ```shell
 # POSIX
 export NODE_OPTIONS=--max_old_space_size=8096
@@ -172,9 +265,18 @@ set NODE_OPTIONS=--max_old_space_size=8096
 ```
 
 - **important** after you update this plugin, you could cleaning the temp folders with:
+
 ```shell
 hexo clean # this will cleaning temporarily folders of this plugin
 ```
+
+# FAQ
+
+- Why search, rss, atom separated to CLI usage ?
+
+> When compiled inside hexo process, these functions will generate new array with same size of all page/post length. This may caused **OUT OF MEMORY HEAP**, specially for device RAM 8 GB **OR** Github Actions (CI) free.
+>
+> So, the best practice is **separate the process**
 
 # Status
 [![Available](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Available.svg?color=brightgreen)](https://github.com/dimaslanjaka/hexo-seo/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Available%22) [![In Progress](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20In%20Progress.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status:%20In%20Progress) [![Review Needed](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Review%20Needed.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status%3A%20Review%20Needed)

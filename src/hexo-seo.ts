@@ -3,14 +3,15 @@
 import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
+import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 import minimist from 'minimist';
 import serveStatic from 'serve-static';
+import { initCLI } from './cli';
 import getConfig, { cache_key_router, coreCache, setMode } from './config';
 import { buildFolder, tmpFolder } from './fm';
 import HexoSeoHtml from './html';
 import HexoSeoCss from './minifier/css';
 import HexoSeoJs from './minifier/js';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 
 const argv = minimist(process.argv.slice(2));
 
@@ -53,13 +54,14 @@ export default function HexoSeo(hexo: Hexo) {
         break;
       }
       if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         hexoCmd = 'clean';
         setMode('c');
         break;
       }
     }
   }
+
+  hexo.log.debug(logname, 'command', hexoCmd || 'unknown');
 
   // clean build and temp folder on `hexo clean`
   hexo.extend.filter.register('after_clean', function () {
@@ -72,6 +74,9 @@ export default function HexoSeo(hexo: Hexo) {
   // bind configuration
   const config = getConfig(hexo);
   hexo.config.seo = config;
+
+  // init CLI
+  initCLI(hexo);
 
   // Registers serving of the lib used by the plugin with Hexo.
   hexo.extend.generator.register('hexo-seo-js', () => {

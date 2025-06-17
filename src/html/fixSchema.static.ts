@@ -1,14 +1,19 @@
-import hexoIs from 'hexo-is';
+import ansiColors from 'ansi-colors';
+import { deepmerge } from 'deepmerge-ts';
+import Hexo from 'hexo';
+import { hexoIs } from 'hexo-is';
+import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment-timezone';
 import { HTMLElement } from 'node-html-parser';
-import { dump } from '../utils';
 import { BaseConfig } from '../config';
+import { isDev } from '../hexo-seo';
 import logger from '../log';
-import model from './schema/article/model4.json';
+import { dump } from '../utils';
 import { getAuthorName } from '../utils/getAuthor';
-import { url_for } from 'hexo-util';
-import { deepmerge } from 'deepmerge-ts';
+import model from './schema/article/model4.json';
+
+const logname = `${ansiColors.magentaBright('hexo-seo')}(${ansiColors.blueBright('fixSchema.static')})`;
 
 /**
  * Fix Schema Model 4
@@ -16,7 +21,7 @@ import { deepmerge } from 'deepmerge-ts';
  * @param hexoSeoConfig hexo-seo config (config_yml.seo)
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+export default function fixSchemaStatic(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
   if (!hexoSeoConfig.schema) {
     // skip when schema option is false
     return;
@@ -195,7 +200,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
           image:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png',
           name: getAuthorName(post.author),
-          sameAs: url_for(post.permalink)
+          sameAs: url_for.bind(this)(post.permalink)
         },
         image:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png'
@@ -208,12 +213,25 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
   if (schema.length > 0) {
     const JSONschema = JSON.stringify(schema, null, 2);
     const schemahtml = `\n\n<script type="application/ld+json" id="hexo-seo-schema">${JSONschema}</script>\n\n`;
-    logger.log('schema created', title, url);
-    dump('schema-' + title + '.json', schemahtml);
+    if (['archive', 'tags', data.config.title, 'categories', 'homepage'].includes(title.toLowerCase())) {
+      logger.debug('schema created', title, url);
+    }
+    if (isDev) {
+      dump('schema-' + title + '.json', schemahtml);
+    }
 
     if (schemahtml) {
       const head = dom.getElementsByTagName('head')[0];
-      head.insertAdjacentHTML('beforeend', schemahtml);
+      if (head) {
+        head.insertAdjacentHTML('beforeend', schemahtml);
+      } else {
+        const message = `Fail apply schema json on ${data.path}`;
+        if (typeof hexo !== 'undefined') {
+          hexo.log.error(logname, message);
+        } else {
+          console.error(logname, message);
+        }
+      }
     }
   }
 }

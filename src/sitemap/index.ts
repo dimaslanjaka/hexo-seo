@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
-import * as GoogleNewsSitemap from 'google-news-sitemap';
+import { GoogleNewsSitemap } from 'google-news-sitemap';
 import Hexo from 'hexo';
-import hexoIs from 'hexo-is';
+import { hexoIs } from 'hexo-is';
 import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment';
@@ -47,7 +47,7 @@ interface SitemapIndexItem {
   lastmod: string;
 }
 
-const googleNewsSitemap = new GoogleNewsSitemap.default();
+const googleNewsSitemap = new GoogleNewsSitemap();
 
 function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
   if (!sitemapGroup[type]) {
@@ -129,7 +129,7 @@ let turnError = false;
 /**
  * process sitemap of page
  */
-export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
   if (!hexoSeoConfig.sitemap) {
     if (!turnError) {
       turnError = true;
@@ -204,7 +204,7 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
           publication_language: post.lang || post.language || 'en',
           publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
           title: post.title || 'no title',
-          location: url_for(post.permalink)
+          location: url_for.bind(this)(post.permalink)
         });
       }
     } else if (post.is.page) {

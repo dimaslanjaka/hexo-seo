@@ -2,6 +2,7 @@ import ansiColors from 'ansi-colors';
 import Hexo from 'hexo';
 
 import fs from 'fs-extra';
+import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import { writefile } from 'sbg-utility';
@@ -20,7 +21,6 @@ import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { HexoSeo } from './schema/article';
 import { isExternal } from './types';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 
 /**
  * get page full source
@@ -117,10 +117,10 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     }
 
     // TODO process schema
-    fixSchemaStatic(root, cfg, data);
+    fixSchemaStatic.bind(this)(root, cfg, data);
 
     // TODO process sitemap
-    sitemap(root, cfg, data);
+    sitemap.bind(this)(root, cfg, data);
 
     // START concatenate javascripts
     if (cfg.js.concat === true) {
@@ -233,7 +233,7 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
         scriptContent = await minifyJS(scriptContent, cfg.js.options);
       }
       // write js
-      writefile(jsFilePath, scriptContent).file;
+      writefile(jsFilePath, scriptContent);
       // show log
       hexo.log.debug(logname, jsFilePath);
 

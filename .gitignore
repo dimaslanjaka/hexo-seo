@@ -12,3 +12,4 @@ package-lock.json
 .frontmatter/
 /package*/
 /site
+**/.env

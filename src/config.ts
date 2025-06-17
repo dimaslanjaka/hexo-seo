@@ -1,8 +1,8 @@
 import { deepmerge } from 'deepmerge-ts';
-import { writeFileSync } from 'fs-extra';
 import Hexo from 'hexo';
-import { persistentCache } from 'sbg-utility';
+import { persistentCache, writefile } from 'sbg-utility';
 import path from 'upath';
+import configData from './_config_data.json';
 import { tmpFolder } from './fm';
 import { isDev } from './hexo-seo';
 import { hyperlinkOptions } from './html/types';
@@ -10,7 +10,6 @@ import { imgOptions } from './img/index.old';
 import { cssMinifyOptions } from './minifier/css';
 import { MinifyOptions as htmlMinifyOptions } from './minifier/html';
 import { jsMinifyOptions } from './minifier/js';
-import configData from './_config_data.json';
 
 export interface Switcher {
   enable: boolean;
@@ -85,8 +84,19 @@ export interface BaseConfig {
   readonly theme_dir: string;
   /** source assets directory */
   readonly source_dir: string;
+  /** generated public directory */
+  readonly public_dir: string;
   /** original source post directory */
   readonly post_dir: string;
+  /** hexo seo cli search options */
+  search: {
+    type: string[];
+  };
+  /** hexo seo cli feed options */
+  feed: {
+    type: string[];
+    icon: string;
+  };
 }
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
@@ -133,10 +143,18 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
     sitemap: false,
     theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
     source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
-    post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
+    public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
+    post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts'),
+    search: {
+      type: ['post', 'page']
+    },
+    feed: {
+      type: ['post', 'page'],
+      icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+    }
   };
   const seo: BaseConfig = hexo.config.seo;
-  writeFileSync(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+  writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
   if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
   return deepmerge(defaultOpt, seo, {
     // disable cache on dev

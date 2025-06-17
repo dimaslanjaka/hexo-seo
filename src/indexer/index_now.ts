@@ -1,5 +1,5 @@
-import pathFn from 'node:path';
 import fs from 'node:fs';
+import pathFn from 'node:path';
 import readline from 'node:readline';
 
 export function generatorURLs(locals) {

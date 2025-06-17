@@ -1,7 +1,6 @@
 /* ONLY FOR VSCODE */
 {
   "compilerOptions": {
-    "baseUrl": ".", // This must be specified if "paths" is.
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./tmp/dist",
@@ -22,14 +21,13 @@
       "ESNext"
     ]
   },
-  "paths": {
-    "@root/*": [
-      "./*"
-    ],
-    "src/*": [
-      "./src/*"
-    ]
-  },
+  "include": [
+    "src",
+    "test",
+    "rollup.*",
+    "gulp*",
+    "package-*"
+  ],
   "exclude": [
     "**/node_modules/**",
     "**/*.spec.ts",
