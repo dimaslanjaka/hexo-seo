@@ -115,6 +115,11 @@ const yaml = require('yaml');
       process.exit(1);
     }
 
+    console.log('🧹\tCleaning Hexo cache and files...');
+    await runCommand('npx', ['hexo', 'clean'], {
+      cwd: targetDir
+    });
+
     // Run `hexo generate` in the cloned site
     console.log('⚙️\tGenerating static site with Hexo...');
     await runCommand('npx', ['hexo', 'generate'], {
