@@ -117,10 +117,10 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     }
 
     // TODO process schema
-    fixSchemaStatic(root, cfg, data);
+    fixSchemaStatic.bind(this)(root, cfg, data);
 
     // TODO process sitemap
-    sitemap(root, cfg, data);
+    sitemap.bind(this)(root, cfg, data);
 
     // START concatenate javascripts
     if (cfg.js.concat === true) {

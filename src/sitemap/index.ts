@@ -129,7 +129,7 @@ let turnError = false;
 /**
  * process sitemap of page
  */
-export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
   if (!hexoSeoConfig.sitemap) {
     if (!turnError) {
       turnError = true;
@@ -204,7 +204,7 @@ export function sitemap(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoL
           publication_language: post.lang || post.language || 'en',
           publication_date: post.date.format('YYYY-MM-DDTHH:mm:ssZ'),
           title: post.title || 'no title',
-          location: url_for(post.permalink)
+          location: url_for.bind(this)(post.permalink)
         });
       }
     } else if (post.is.page) {

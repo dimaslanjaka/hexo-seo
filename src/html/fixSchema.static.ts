@@ -1,5 +1,6 @@
 import ansiColors from 'ansi-colors';
 import { deepmerge } from 'deepmerge-ts';
+import Hexo from 'hexo';
 import { hexoIs } from 'hexo-is';
 import { url_for } from 'hexo-util';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
@@ -20,7 +21,7 @@ const logname = `${ansiColors.magentaBright('hexo-seo')}(${ansiColors.blueBright
  * @param hexoSeoConfig hexo-seo config (config_yml.seo)
  * @param data
  */
-export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
+export default function fixSchemaStatic(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
   if (!hexoSeoConfig.schema) {
     // skip when schema option is false
     return;
@@ -199,7 +200,7 @@ export default function fixSchemaStatic(dom: HTMLElement, hexoSeoConfig: BaseCon
           image:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png',
           name: getAuthorName(post.author),
-          sameAs: url_for(post.permalink)
+          sameAs: url_for.bind(this)(post.permalink)
         },
         image:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/120px-No_image_available.svg.png'
