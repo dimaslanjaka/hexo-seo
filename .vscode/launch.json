@@ -12,6 +12,13 @@
       "cwd": "${workspaceFolder}/site"
     },
     {
+      "command": "cross-env-shell NODE_ENV=development \"npx hexo generate --debug\"",
+      "name": "Run test site generate",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/site"
+    },
+    {
       "command": "cross-env-shell NODE_ENV=development \"hexo seo-search\"",
       "name": "cli search",
       "request": "launch",
