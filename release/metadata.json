@@ -19,12 +19,12 @@
   },
   "/release/hexo-seo.tgz": {
     "integrity": {
-      "sha1": "432ab746cefa9570504e44f6c53c2343f84fa553",
-      "sha256": "MmI2jkHoqVGd9uAZDOMtaaim52dl2Ts6ti9RdGuChok=",
-      "md5": "d1279ee6d8bca0582d7a765fcbbc6410",
-      "sha512": "L9z+kxNg8MdMuvEc+cSM/oBVzCEPHh2n1J15WbcnvhEYHYQpA6VxJ9XG7tpqKjEQvS9tYCeWIaj3ZIXLzl8Rcg=="
+      "sha1": "27ad56d202a125be65130ddff527c8642f13cd09",
+      "sha256": "ENKLAZYxDRDcjnvHVd6/Lmtx0d/814ewZkYq6wI4lU0=",
+      "md5": "5af2cc7615b093e3e77ddcdc20db58a6",
+      "sha512": "4c3OsPJjQtzaQfp05ylVVXCRRSxCjR0wsA6idKwgPLSEJFPfED4nu6iqczRBoPsd1djCmEHpUraz+nfD6dkUQw=="
     },
-    "size": "428.50 KB"
+    "size": "428.94 KB"
   },
   "/package-lock.json": {
     "integrity": {
@@ -55,12 +55,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "949817e01504ce2f9246a417a36d64eeb1c22f4e",
-      "sha256": "DZqrWDCaMUUsSrsAUqI/Ocvd2SAwW0G39BbsUV92faU=",
-      "md5": "4b511f1a8049daff6b188b6e4bc4f6b8",
-      "sha512": "SHJIdcsqBphiXJk0AgDR4mKfEfC8cTw5f8lu9+gBXWFECZQ5iVCjcCsBQMpPtvkXD9XdtuG7IIwSbbQeB9sCfQ=="
+      "sha1": "beeebef5532c94dcd339fcecc63d2fd3f68ad31a",
+      "sha256": "N7+7I5q1cn7ucoGVWVuJgh54r0O38W4O3FmLjB9bpS4=",
+      "md5": "b9590b722b80a8b67cff7b610183e3d8",
+      "sha512": "K4JIGgLlBaxJNZcIHaK4bRvI6iWljjUx5QjFuCa6lHrD2Pwbiay9S7etMMhDUNYRP9DxZw72kSXRGBvhqkbPzA=="
     },
-    "size": "534.65 KB"
+    "size": "537.26 KB"
   },
   "/release/hexo-seo-1.1.6.tgz": {
     "integrity": {
@@ -172,11 +172,11 @@
   },
   "/release/hexo-seo-2.0.1.tgz": {
     "integrity": {
-      "sha1": "432ab746cefa9570504e44f6c53c2343f84fa553",
-      "sha256": "MmI2jkHoqVGd9uAZDOMtaaim52dl2Ts6ti9RdGuChok=",
-      "md5": "d1279ee6d8bca0582d7a765fcbbc6410",
-      "sha512": "L9z+kxNg8MdMuvEc+cSM/oBVzCEPHh2n1J15WbcnvhEYHYQpA6VxJ9XG7tpqKjEQvS9tYCeWIaj3ZIXLzl8Rcg=="
+      "sha1": "27ad56d202a125be65130ddff527c8642f13cd09",
+      "sha256": "ENKLAZYxDRDcjnvHVd6/Lmtx0d/814ewZkYq6wI4lU0=",
+      "md5": "5af2cc7615b093e3e77ddcdc20db58a6",
+      "sha512": "4c3OsPJjQtzaQfp05ylVVXCRRSxCjR0wsA6idKwgPLSEJFPfED4nu6iqczRBoPsd1djCmEHpUraz+nfD6dkUQw=="
     },
-    "size": "428.50 KB"
+    "size": "428.94 KB"
   }
 }

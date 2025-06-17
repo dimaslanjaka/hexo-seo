@@ -35,6 +35,15 @@ export default function HexoSeo(hexo: Hexo) {
     return;
   }
 
+  // Check if post not empty
+  const totalPosts = hexo.locals.get('posts').length;
+  if (totalPosts === 0) {
+    hexo.log.error(logname, 'No posts found. Exiting hexo-seo.');
+    return;
+  } else {
+    hexo.log.info(logname, `Total posts: ${totalPosts}`);
+  }
+
   // detect hexo arguments
   let hexoCmd: string;
   if (hexo.env.args._ && hexo.env.args._.length > 0) {
@@ -54,13 +63,14 @@ export default function HexoSeo(hexo: Hexo) {
         break;
       }
       if (hexo.env.args._[i] == 'c' || hexo.env.args._[i] == 'clean') {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         hexoCmd = 'clean';
         setMode('c');
         break;
       }
     }
   }
+
+  hexo.log.debug(logname, 'command', hexoCmd || 'unknown');
 
   // clean build and temp folder on `hexo clean`
   hexo.extend.filter.register('after_clean', function () {
