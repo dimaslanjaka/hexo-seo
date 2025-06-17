@@ -1,4 +1,4 @@
-name: Cross-Platform Tests for Hexo SEO Plugin
+name: Cross-Platform Tests
 
 on:
   push:
