@@ -1,4 +1,6 @@
-import { bindProcessExit, fs, path } from 'sbg-utility';
+import fs from 'fs';
+import { bindProcessExit } from 'sbg-utility';
+import path from 'upath';
 import { baseSite, envHexo } from '../env.cjs';
 
 // test only activate yoastseo sitemap
