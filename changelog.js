@@ -57,6 +57,7 @@ gitExec(['log', '--pretty=format:%h !|! %ad !|! %s %d', `--date=format:%Y-%m-%d 
         message: splitx[2]
       };
       if (o.message.includes('tag: v')) {
+        console.log(`Found tag: ${o.message}`);
         const regex = /(.+)\s+\(tag:.+((0|[1-9][0-9]*).(0|[1-9][0-9]*).(0|[1-9][0-9]*))\)/im;
         const m = o.message.match(regex);
         let versionTitle;
@@ -66,7 +67,11 @@ gitExec(['log', '--pretty=format:%h !|! %ad !|! %s %d', `--date=format:%Y-%m-%d 
           versionMessage = m[1];
           markdown += `\n**${versionTitle}**\n\n${versionMessage}\n` + EOL;
         } else {
-          markdown += `\n**${o.message.replace(/\(.*\),?/, '').trim()}**\n` + EOL;
+          markdown +=
+            `\n**${o.message
+              .replace(/\(.*\),?/, '')
+              .replace(/tag:?\s/, '')
+              .trim()}**\n` + EOL;
         }
       } else {
         markdown +=
