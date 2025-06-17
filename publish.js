@@ -1,8 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-shadow */
-/* eslint-disable no-console */
-/* eslint-disable new-cap */
-/* eslint-disable @typescript-eslint/no-var-requires */
 /** npm run publish with auto changelog **/
 
 const { exec } = require('child_process');
@@ -17,10 +12,11 @@ const version = new versionParser(packages.version);
 
 function updateChangelog(callback) {
   exec('node changelog.js', (err, _stdout, _stderr) => {
-    if (!err) {
-      if (typeof callback === 'function') callback();
+    if (err) {
+      console.error('Failed to generate changelog:', err.message);
+      return;
     }
-    throw err;
+    if (typeof callback === 'function') callback();
   });
 }
 

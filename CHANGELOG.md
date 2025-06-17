@@ -1281,7 +1281,30 @@ bump: v1.4.3 - fix: bad engine while install
 - [ _2024-10-26 17:57:40_ ] [339cc32](https://github.com/dimaslanjaka/safelink/commit/339cc32) feat(pickPostObjectData): fix missing undefined properties
 - [ _2024-10-26 18:53:27_ ] [af52829](https://github.com/dimaslanjaka/safelink/commit/af52829) fix: missing RSS items (https://github.com/dimaslanjaka/hexo-seo/issues/272)
 - [ _2024-10-26 18:59:49_ ] [4030d1e](https://github.com/dimaslanjaka/safelink/commit/4030d1e) fix: skip post with empty title to index on RSS
-- [ _2024-10-26 19:08:22_ ] [088d219](https://github.com/dimaslanjaka/safelink/commit/088d219) fix: RSS invalid by author email feat: default author email is `noreply@blogger.com` fix: skip empty page title (origin/pre-release, pre-release)
+- [ _2024-10-26 19:08:22_ ] [088d219](https://github.com/dimaslanjaka/safelink/commit/088d219) fix: RSS invalid by author email feat: default author email is `noreply@blogger.com` fix: skip empty page title
 - [ _2024-10-27 08:32:11_ ] [4c69849](https://github.com/dimaslanjaka/safelink/commit/4c69849) use url validator from `sbg-utility`
 - [ _2024-10-27 11:14:27_ ] [d649371](https://github.com/dimaslanjaka/safelink/commit/d649371) fix: get author link and email fallback
-- [ _2024-10-27 12:09:15_ ] [7d9980b](https://github.com/dimaslanjaka/safelink/commit/7d9980b) feat(cli): `hexo seo-feed` ATOM generator (HEAD -> integrate-content-search-and-feed, origin/integrate-content-search-and-feed)
+
+**2.0.0**
+
+feat(cli): `hexo seo-feed` ATOM generator
+
+- [ _2024-10-27 12:17:25_ ] [2cefa50](https://github.com/dimaslanjaka/safelink/commit/2cefa50) refactor: drop auto changelog builder (origin/integrate-content-search-and-feed)
+- [ _2024-10-27 12:18:42_ ] [4813173](https://github.com/dimaslanjaka/safelink/commit/4813173) Merge pull request #285 from dimaslanjaka/integrate-content-search-and-feed
+- [ _2024-10-27 12:51:28_ ] [f4cf27f](https://github.com/dimaslanjaka/safelink/commit/f4cf27f) feat: `hexo seo` cli all in one generations
+- [ _2024-10-31 10:50:14_ ] [7729b42](https://github.com/dimaslanjaka/safelink/commit/7729b42) feat: hexo-is
+- [ _2024-11-01 11:11:31_ ] [661fc12](https://github.com/dimaslanjaka/safelink/commit/661fc12) feat: update hexo-is and bundle it
+- [ _2024-11-03 11:54:34_ ] [9245940](https://github.com/dimaslanjaka/safelink/commit/9245940) chore: update `sbg-utility`
+- [ _2024-11-03 16:23:03_ ] [3472cb5](https://github.com/dimaslanjaka/safelink/commit/3472cb5) chore: log as debug chore: dump only for development mode
+- [ _2024-11-03 16:24:21_ ] [d32ba5a](https://github.com/dimaslanjaka/safelink/commit/d32ba5a) chore: dump indicator for each filename hash
+- [ _2025-06-17 17:54:44_ ] [136e622](https://github.com/dimaslanjaka/safelink/commit/136e622) chore: update hexo dependencies to latest versions
+- [ _2025-06-18 01:38:54_ ] [73bc04d](https://github.com/dimaslanjaka/safelink/commit/73bc04d) chore: skip process on empty post ref https://github.com/dimaslanjaka/hexo-seo/issues/292
+- [ _2025-06-18 01:54:40_ ] [364d105](https://github.com/dimaslanjaka/safelink/commit/364d105) chore: enhance package exports for better module resolution
+- [ _2025-06-18 02:20:45_ ] [1e50015](https://github.com/dimaslanjaka/safelink/commit/1e50015) chore: reorganize imports for clarity in yoastseo test file
+- [ _2025-06-18 02:21:11_ ] [4a15f9d](https://github.com/dimaslanjaka/safelink/commit/4a15f9d) chore: add duplicate configuration for generating test site
+- [ _2025-06-18 02:28:10_ ] [8a51db4](https://github.com/dimaslanjaka/safelink/commit/8a51db4) chore: bind Hexo context to fixSchemaStatic and sitemap functions for proper execution
+- [ _2025-06-18 02:41:03_ ] [88da427](https://github.com/dimaslanjaka/safelink/commit/88da427) feat: test for no post and page ref https://github.com/dimaslanjaka/hexo-seo/issues/292
+- [ _2025-06-18 03:16:25_ ] [7bc6db3](https://github.com/dimaslanjaka/safelink/commit/7bc6db3) chore(deps): upgrade to Yarn v4.9.2
+- [ _2025-06-18 03:17:48_ ] [b5865d0](https://github.com/dimaslanjaka/safelink/commit/b5865d0) chore: simplify workflow name for cross-platform tests
+- [ _2025-06-18 03:21:15_ ] [3bdf915](https://github.com/dimaslanjaka/safelink/commit/3bdf915) chore: update workflow steps for Git configuration and repository checkout
+- [ _2025-06-18 03:24:34_ ] [33bb1a5](https://github.com/dimaslanjaka/safelink/commit/33bb1a5) feat: add cache cleaning step before generating static site with Hexo (HEAD -> pre-release, origin/pre-release)
