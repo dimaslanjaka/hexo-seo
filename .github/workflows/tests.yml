@@ -11,12 +11,20 @@ jobs:
     name: Run Tests on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
+        with:
+          branch: pre-release
+
+      - name: 📦 Set up Git Config
+        run: |
+          git config --global user.name "dimaslanjaka"
+          git config --global user.email "dimaslanjaka@gmail.com"
 
       - name: 🔧 Set up Node.js Environment
         uses: actions/setup-node@v4
