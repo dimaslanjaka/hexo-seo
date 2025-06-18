@@ -272,11 +272,11 @@ hexo clean # this will cleaning temporarily folders of this plugin
 
 # FAQ
 
-- Why search, rss, atom separated to CLI usage ?
+### Why are **search**, **RSS**, and **Atom** handled separately via the CLI?
 
-> When compiled inside hexo process, these functions will generate new array with same size of all page/post length. This may caused **OUT OF MEMORY HEAP**, specially for device RAM 8 GB **OR** Github Actions (CI) free.
+> When these features are executed within the Hexo process, they generate arrays that match the size of all pages or posts. This can lead to **out-of-memory heap errors**, especially on devices with only **8 GB RAM** or in limited environments like **Free GitHub Actions (CI)**.
 >
-> So, the best practice is **separate the process**
+> To avoid this, the recommended best practice is to **run these processes separately** via the CLI.
 
 # Status
 [![Available](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Available.svg?color=brightgreen)](https://github.com/dimaslanjaka/hexo-seo/issues?q=is%3Aopen+is%3Aissue+label%3A%22Status%3A+Available%22) [![In Progress](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20In%20Progress.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status:%20In%20Progress) [![Review Needed](https://img.shields.io/github/issues/dimaslanjaka/hexo-seo/Status:%20Review%20Needed.svg)](https://github.com/dimaslanjaka/hexo-seo/labels/Status%3A%20Review%20Needed)
