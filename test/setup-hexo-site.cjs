@@ -47,6 +47,7 @@ async function setupHexoSite({
     Object.assign(config, {
       title: 'Hexo SEO Test Site',
       description: 'A test site for Hexo SEO plugin',
+      permalink: ':title.html',
       seo: {
         html: { enable: true, fix: true, exclude: ['*.min.{htm,html}'] },
         css: { enable: true, exclude: ['**/*.min.css'] },
