@@ -272,36 +272,53 @@ export function generateSitemapIndex(hexoinstance: Hexo = null) {
   }
 
   // push post-sitemap.xml to sitemapindex
-  const latestPostDate = getLatestFromArrayDates(postUpdateDates);
-  log.log('latest updated post', latestPostDate);
-  sitemapIndex.sitemapindex.sitemap.push({
-    loc: hexo.config.url.toString() + '/post-sitemap.xml',
-    lastmod: moment(latestPostDate).format('YYYY-MM-DDTHH:mm:ssZ')
-  });
+  if (postUpdateDates.length > 0) {
+    const latestPostDate = getLatestFromArrayDates(postUpdateDates);
+    if (moment(latestPostDate).isValid()) {
+      log.log('latest updated post', latestPostDate);
+      sitemapIndex.sitemapindex.sitemap.push({
+        loc: hexo.config.url.toString() + '/post-sitemap.xml',
+        lastmod: moment(latestPostDate).format('YYYY-MM-DDTHH:mm:ssZ')
+      });
+    }
+  }
 
   // push page-sitemap.xml to sitemapindex
-  const latestPageDate = getLatestFromArrayDates(pageUpdateDates);
-  log.log('latest updated page', latestPageDate);
-  if (moment(latestPageDate).isValid())
-    sitemapIndex.sitemapindex.sitemap.push({
-      loc: hexo.config.url.toString() + '/page-sitemap.xml',
-      lastmod: moment(latestPageDate).format('YYYY-MM-DDTHH:mm:ssZ')
-    });
+  if (pageUpdateDates.length > 0) {
+    const latestPageDate = getLatestFromArrayDates(pageUpdateDates);
+    if (moment(latestPageDate).isValid()) {
+      log.log('latest updated page', latestPageDate);
+      sitemapIndex.sitemapindex.sitemap.push({
+        loc: hexo.config.url.toString() + '/page-sitemap.xml',
+        lastmod: moment(latestPageDate).format('YYYY-MM-DDTHH:mm:ssZ')
+      });
+    }
+  }
 
   // build tag-sitemap.xml
   const tags = categoryTagsInfo.tags;
-  tags.map((tag) => {
-    sitemapGroup['tag'].urlset.url.push({
-      loc: tag.permalink.toString(),
-      // set latest post updated from this tag
-      lastmod: moment(tag.latest).format('YYYY-MM-DDTHH:mm:ssZ'),
-      changefreq: 'weekly',
-      priority: '0.2'
+
+  if (tags.length > 0) {
+    // Iterate through each tag and build its sitemap entry
+    tags.forEach((tag) => {
+      if (moment(tag.latest).isValid()) {
+        sitemapGroup['tag'].urlset.url.push({
+          loc: tag.permalink.toString(),
+          // Set the lastmod from the latest post under this tag
+          lastmod: moment(tag.latest).format('YYYY-MM-DDTHH:mm:ssZ'),
+          changefreq: 'weekly',
+          priority: '0.2'
+        });
+      }
     });
-  });
-  const destTagSitemap = join(hexo.public_dir, 'tag-sitemap.xml');
-  writefile(destTagSitemap, createXML(sitemapGroup['tag']).end({ prettyPrint: true }));
-  log.log('tag sitemap saved', destTagSitemap);
+
+    // If there are any tag URLs added, write them to the tag-sitemap.xml file
+    if (sitemapGroup['tag'].urlset.url.length > 0) {
+      const destTagSitemap = join(hexo.public_dir, 'tag-sitemap.xml');
+      writefile(destTagSitemap, createXML(sitemapGroup['tag']).end({ prettyPrint: true }));
+      log.log('tag sitemap saved', destTagSitemap);
+    }
+  }
 
   // push tag-sitemap.xml to sitemapindex
   const latestTagDate = getLatestFromArrayDates(
@@ -309,26 +326,38 @@ export function generateSitemapIndex(hexoinstance: Hexo = null) {
       return tag.latest;
     })
   );
-  log.log('latest updated tag', latestTagDate);
-  sitemapIndex.sitemapindex.sitemap.push({
-    loc: hexo.config.url.toString() + '/tag-sitemap.xml',
-    lastmod: moment(latestTagDate).format('YYYY-MM-DDTHH:mm:ssZ')
-  });
+  if (moment(latestTagDate).isValid()) {
+    log.log('latest updated tag', latestTagDate);
+    sitemapIndex.sitemapindex.sitemap.push({
+      loc: hexo.config.url.toString() + '/tag-sitemap.xml',
+      lastmod: moment(latestTagDate).format('YYYY-MM-DDTHH:mm:ssZ')
+    });
+  }
 
   // build category-sitemap.xml
   const categories = categoryTagsInfo.categories;
-  categories.map((category) => {
-    sitemapGroup['category'].urlset.url.push({
-      loc: category.permalink.toString(),
-      // set latest post updated from this tag
-      lastmod: moment(category.latest).format('YYYY-MM-DDTHH:mm:ssZ'),
-      changefreq: 'weekly',
-      priority: '0.2'
+
+  if (categories.length > 0) {
+    // Iterate through each category and build its sitemap entry
+    categories.forEach((category) => {
+      if (moment(category.latest).isValid()) {
+        sitemapGroup['category'].urlset.url.push({
+          loc: category.permalink.toString(),
+          // Set the last modification date from the latest post under this category
+          lastmod: moment(category.latest).format('YYYY-MM-DDTHH:mm:ssZ'),
+          changefreq: 'weekly',
+          priority: '0.2'
+        });
+      }
     });
-  });
-  const destCategorySitemap = join(hexo.public_dir, 'category-sitemap.xml');
-  writefile(destCategorySitemap, createXML(sitemapGroup['category']).end({ prettyPrint: true }));
-  log.log('category sitemap saved', destCategorySitemap);
+
+    // If there are any category URLs added, write them to the category-sitemap.xml file
+    if (sitemapGroup['category'].urlset.url.length > 0) {
+      const destCategorySitemap = join(hexo.public_dir, 'category-sitemap.xml');
+      writefile(destCategorySitemap, createXML(sitemapGroup['category']).end({ prettyPrint: true }));
+      log.log('category sitemap saved', destCategorySitemap);
+    }
+  }
 
   // push category-sitemap.xml to sitemapindex
   const latestCategoryDate = getLatestFromArrayDates(
@@ -336,11 +365,13 @@ export function generateSitemapIndex(hexoinstance: Hexo = null) {
       return category.latest;
     })
   );
-  log.log('latest updated category', latestCategoryDate);
-  sitemapIndex.sitemapindex.sitemap.push({
-    loc: hexo.config.url.toString() + '/category-sitemap.xml',
-    lastmod: moment(latestCategoryDate).format('YYYY-MM-DDTHH:mm:ssZ')
-  });
+  if (moment(latestCategoryDate).isValid()) {
+    log.log('latest updated category', latestCategoryDate);
+    sitemapIndex.sitemapindex.sitemap.push({
+      loc: hexo.config.url.toString() + '/category-sitemap.xml',
+      lastmod: moment(latestCategoryDate).format('YYYY-MM-DDTHH:mm:ssZ')
+    });
+  }
 
   const destIndexSitemap = join(hexo.public_dir, 'sitemap.xml');
   writefile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
