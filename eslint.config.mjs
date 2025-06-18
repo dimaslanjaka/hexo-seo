@@ -57,6 +57,7 @@ export default [
         ...globals.browser, // Browser global variables
         ...globals.amd, // AMD module globals
         ...globals.node, // Node.js global variables
+        ...globals.jest, // Jest testing globals
         $: 'readonly', // jQuery object
         jQuery: 'readonly', // jQuery object
         adsbygoogle: 'writable', // Google Ads

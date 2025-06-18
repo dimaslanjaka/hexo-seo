@@ -1,0 +1,111 @@
+const path = require('path');
+const fs = require('fs');
+const yaml = require('yaml');
+const { runCommand } = require('./utils.cjs');
+
+/**
+ * Clones a Hexo starter, builds the workspace, installs it,
+ * modifies config, and generates the static site.
+ *
+ * @param {object} options
+ * @param {string} options.repoUrl - Git repository URL
+ * @param {string} options.targetDir - Directory to clone repo into
+ * @param {string} options.workspaceDir - Directory of the current project
+ */
+async function setupHexoSite({
+  repoUrl = 'https://github.com/hexojs/hexo-starter.git',
+  targetDir = path.resolve(__dirname, '../tmp/site'),
+  workspaceDir = path.join(__dirname, '../')
+} = {}) {
+  try {
+    if (!fs.existsSync(targetDir)) {
+      console.log('📦\tCloning repository...');
+      await runCommand('git', ['clone', repoUrl, targetDir]);
+    } else {
+      console.log('ℹ️\tTarget directory already exists. Skipping clone.');
+    }
+
+    console.log('🛠️\tBuilding current workspace...');
+    await runCommand('npm', ['run', 'build'], { cwd: workspaceDir });
+
+    console.log('📦\tInstalling local workspace into target site...');
+    await runCommand('npm', ['install', workspaceDir], { cwd: targetDir });
+
+    const sourceDir = path.join(targetDir, 'source');
+    if (fs.existsSync(sourceDir)) {
+      console.log('🗑️\tDeleting existing source folder...');
+      fs.rmSync(sourceDir, { recursive: true, force: true });
+    }
+
+    const configPath = path.join(targetDir, '_config.yml');
+    if (!fs.existsSync(configPath)) {
+      throw new Error('_config.yml not found in the cloned site.');
+    }
+
+    console.log('✏️\tModifying _config.yml...');
+    const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+    Object.assign(config, {
+      title: 'Hexo SEO Test Site',
+      description: 'A test site for Hexo SEO plugin',
+      seo: {
+        html: { enable: true, fix: true, exclude: ['*.min.{htm,html}'] },
+        css: { enable: true, exclude: ['**/*.min.css'] },
+        js: {
+          enable: true,
+          concat: false,
+          exclude: ['**/*.min.js'],
+          options: {
+            compress: { dead_code: true },
+            mangle: { toplevel: true, safari10: true }
+          }
+        },
+        schema: {
+          article: { enable: true },
+          breadcrumb: { enable: true },
+          sitelink: {
+            enable: true,
+            searchUrl: 'https://www.webmanajemen.com/search?q={search_term_string}'
+          },
+          homepage: { enable: true }
+        },
+        img: {
+          enable: true,
+          broken: false,
+          default: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+          onerror: 'serverside'
+        },
+        links: {
+          enable: true,
+          exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
+        },
+        sitemap: { yoast: true, gnews: true },
+        search: { type: ['page', 'post'] },
+        feed: {
+          type: ['page', 'post'],
+          icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+        }
+      }
+    });
+
+    fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
+
+    // console.log('🧹\tCleaning Hexo cache and files...');
+    // await runCommand('npx', ['hexo', 'clean'], { cwd: targetDir });
+
+    // console.log('⚙️\tGenerating static site with Hexo...');
+    // await runCommand('npx', ['hexo', 'generate'], { cwd: targetDir });
+
+    // console.log('✅\tSite generated.');
+  } catch (err) {
+    console.error('❌\tError:', err.message);
+    process.exit(1);
+  }
+  return { repoUrl, targetDir, workspaceDir };
+}
+
+// If called directly from CLI
+if (require.main === module) {
+  setupHexoSite();
+}
+
+module.exports = { setupHexoSite };
