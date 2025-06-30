@@ -83,7 +83,7 @@
     "cheerio": "^1.1.0",
     "clean-css": "^5.3.3",
     "deepmerge-ts": "7.1.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "file-type": "^21.0.0",
     "fs-extra": "^11.3.0",
     "google-news-sitemap": "^1.1.1",
