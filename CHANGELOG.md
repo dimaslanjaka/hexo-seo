@@ -670,11 +670,7 @@ Update dependabot.yml
 - [ _2022-10-13 11:30:18_ ] [580ef0c](https://github.com/dimaslanjaka/safelink/commit/580ef0c) Update package.json
 - [ _2022-10-13 11:31:55_ ] [5334fbf](https://github.com/dimaslanjaka/safelink/commit/5334fbf) using http instead ssh
 - [ _2022-10-13 11:32:49_ ] [a6477a5](https://github.com/dimaslanjaka/safelink/commit/a6477a5) use serve-static from npm registry
-
-**1.0.33**
-
-1.0.33
-
+- [ _2022-10-13 11:33:04_ ] [da31462](https://github.com/dimaslanjaka/safelink/commit/da31462) 1.0.33
 - [ _2022-10-13 11:41:59_ ] [91af9ea](https://github.com/dimaslanjaka/safelink/commit/91af9ea) apply on push
 - [ _2022-10-13 11:44:40_ ] [a27e0e2](https://github.com/dimaslanjaka/safelink/commit/a27e0e2) Update build-master.yml
 - [ _2022-10-13 11:45:24_ ] [9d2eeb6](https://github.com/dimaslanjaka/safelink/commit/9d2eeb6) GitFlow Deploy 🚀 2022-10-13T11:45:13
@@ -692,11 +688,7 @@ Update dependabot.yml
 - [ _2022-10-13 13:32:40_ ] [37bcd25](https://github.com/dimaslanjaka/safelink/commit/37bcd25) integrate auto config and fix sitelink schema
 - [ _2022-10-13 13:40:44_ ] [2287339](https://github.com/dimaslanjaka/safelink/commit/2287339) detach schema model 3 and 4
 - [ _2022-10-13 13:55:59_ ] [6b657c1](https://github.com/dimaslanjaka/safelink/commit/6b657c1) using git instead gitpkg
-
-**1.0.34**
-
-1.0.34
-
+- [ _2022-10-13 13:56:10_ ] [02635c5](https://github.com/dimaslanjaka/safelink/commit/02635c5) 1.0.34
 - [ _2022-10-13 13:57:36_ ] [5453085](https://github.com/dimaslanjaka/safelink/commit/5453085) GitFlow Deploy 🚀 2022-10-13T13:57:23
 - [ _2022-10-13 14:01:09_ ] [b33d47b](https://github.com/dimaslanjaka/safelink/commit/b33d47b) prepare migration
 - [ _2022-10-13 14:02:00_ ] [f67ba35](https://github.com/dimaslanjaka/safelink/commit/f67ba35) GitFlow Deploy 🚀 2022-10-13T14:01:47
@@ -1289,7 +1281,7 @@ bump: v1.4.3 - fix: bad engine while install
 
 feat(cli): `hexo seo-feed` ATOM generator
 
-- [ _2024-10-27 12:17:25_ ] [2cefa50](https://github.com/dimaslanjaka/safelink/commit/2cefa50) refactor: drop auto changelog builder (origin/integrate-content-search-and-feed)
+- [ _2024-10-27 12:17:25_ ] [2cefa50](https://github.com/dimaslanjaka/safelink/commit/2cefa50) refactor: drop auto changelog builder
 - [ _2024-10-27 12:18:42_ ] [4813173](https://github.com/dimaslanjaka/safelink/commit/4813173) Merge pull request #285 from dimaslanjaka/integrate-content-search-and-feed
 - [ _2024-10-27 12:51:28_ ] [f4cf27f](https://github.com/dimaslanjaka/safelink/commit/f4cf27f) feat: `hexo seo` cli all in one generations
 - [ _2024-10-31 10:50:14_ ] [7729b42](https://github.com/dimaslanjaka/safelink/commit/7729b42) feat: hexo-is
@@ -1307,4 +1299,17 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-06-18 03:16:25_ ] [7bc6db3](https://github.com/dimaslanjaka/safelink/commit/7bc6db3) chore(deps): upgrade to Yarn v4.9.2
 - [ _2025-06-18 03:17:48_ ] [b5865d0](https://github.com/dimaslanjaka/safelink/commit/b5865d0) chore: simplify workflow name for cross-platform tests
 - [ _2025-06-18 03:21:15_ ] [3bdf915](https://github.com/dimaslanjaka/safelink/commit/3bdf915) chore: update workflow steps for Git configuration and repository checkout
-- [ _2025-06-18 03:24:34_ ] [33bb1a5](https://github.com/dimaslanjaka/safelink/commit/33bb1a5) feat: add cache cleaning step before generating static site with Hexo (HEAD -> pre-release, origin/pre-release)
+- [ _2025-06-18 03:24:34_ ] [33bb1a5](https://github.com/dimaslanjaka/safelink/commit/33bb1a5) feat: add cache cleaning step before generating static site with Hexo
+- [ _2025-06-18 03:38:40_ ] [580eaec](https://github.com/dimaslanjaka/safelink/commit/580eaec) fix(publish): improve error handling in changelog update function
+- [ _2025-06-18 03:39:04_ ] [8ca786b](https://github.com/dimaslanjaka/safelink/commit/8ca786b) fix(changelog): enhance tag message formatting in changelog generation
+- [ _2025-06-18 03:46:46_ ] [ae0ddb1](https://github.com/dimaslanjaka/safelink/commit/ae0ddb1) drop darwin
+- [ _2025-06-18 11:37:32_ ] [c907fca](https://github.com/dimaslanjaka/safelink/commit/c907fca) fix(readme): clarify separation of search, RSS, and Atom processes in CLI to prevent memory issues
+- [ _2025-06-18 19:08:52_ ] [c5d74e8](https://github.com/dimaslanjaka/safelink/commit/c5d74e8) test: set up Jest for unit testing
+- [ _2025-06-18 19:15:49_ ] [66fb3d3](https://github.com/dimaslanjaka/safelink/commit/66fb3d3) feat(tests): add tests for Hexo site setup and markdown post generation
+- [ _2025-06-18 19:37:01_ ] [18a0769](https://github.com/dimaslanjaka/safelink/commit/18a0769) refactor: improve documentation and error handling in getLatestFromArrayDates function
+- [ _2025-06-18 19:42:03_ ] [8458eba](https://github.com/dimaslanjaka/safelink/commit/8458eba) fix: handle empty sitemap data gracefully
+- [ _2025-06-18 20:01:15_ ] [8b00c4c](https://github.com/dimaslanjaka/safelink/commit/8b00c4c) refactor(tests): replace npm test command with specific Jest test suites for better clarity
+- [ _2025-06-18 20:04:31_ ] [c4e006b](https://github.com/dimaslanjaka/safelink/commit/c4e006b) refactor: enhance Jest configuration with detailed comments and structured settings
+- [ _2025-07-01 16:34:07_ ] [32f1e1d](https://github.com/dimaslanjaka/safelink/commit/32f1e1d) build(deps): bump dotenv from 16.6.1 to 17.0.1
+- [ _2025-07-04 03:52:28_ ] [b174efe](https://github.com/dimaslanjaka/safelink/commit/b174efe) Merge pull request #294 from dimaslanjaka/dependabot/npm_and_yarn/dotenv-17.0.1
+- [ _2025-07-17 17:03:54_ ] [2910398](https://github.com/dimaslanjaka/safelink/commit/2910398) chore: update package resolutions and release files, improve sitemap processing (HEAD -> pre-release, origin/pre-release, origin/HEAD)

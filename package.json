@@ -35,6 +35,7 @@
     "test:generate": "npm run build && cd site && hexo g",
     "test": "run-s test:** && node test/index.cjs",
     "prepublish": "npm run prepack",
+    "prepack": "node changelog.js",
     "pack": "node packer.js --yarn",
     "prepare": "husky"
   },
