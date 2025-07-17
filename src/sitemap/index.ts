@@ -130,7 +130,9 @@ let turnError = false;
  * process sitemap of page
  */
 export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig, data: HexoLocalsData) {
-  if (!hexoSeoConfig.sitemap) {
+  const isYoastSeoSitemap =
+    (typeof hexoSeoConfig.sitemap === 'object' && hexoSeoConfig.sitemap.yoast) || hexoSeoConfig.sitemap === true;
+  if (!isYoastSeoSitemap) {
     if (!turnError) {
       turnError = true;
       log.error('[hexo-seo][sitemap] config sitemap not set');
