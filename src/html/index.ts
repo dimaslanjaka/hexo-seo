@@ -119,8 +119,11 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
     // TODO process schema
     fixSchemaStatic.bind(this)(root, cfg, data);
 
-    // TODO process sitemap
-    sitemap.bind(this)(root, cfg, data);
+    const isYoastSeoSitemap = (typeof cfg.sitemap === 'object' && cfg.sitemap.yoast) || cfg.sitemap === true;
+    if (isYoastSeoSitemap) {
+      // TODO process sitemap
+      sitemap.bind(this)(root, cfg, data);
+    }
 
     // START concatenate javascripts
     if (cfg.js.concat === true) {
