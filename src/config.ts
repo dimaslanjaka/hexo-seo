@@ -48,7 +48,13 @@ export interface BaseConfig {
       /**
        * concatenate js files
        */
-      concat?: boolean;
+      concat?:
+        | boolean
+        | {
+            enable: boolean;
+            exclude?: string[];
+            download_external?: boolean;
+          };
     };
   /**
    * Optimize css
@@ -101,58 +107,84 @@ export interface BaseConfig {
 
 //const cache = persistentCache({ persist: true, name: "hexo-seo", base: join(process.cwd(), "tmp") });
 
-const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
-  const defaultOpt: BaseConfig = {
-    cache: true,
-    js: { enable: false, concat: false, exclude: ['*.min.js'] } as any,
-    css: { enable: false, exclude: ['*.min.css'] } as any,
-    html: {
-      enable: false,
-      fix: false,
-      exclude: [],
-      collapseBooleanAttributes: true,
-      collapseWhitespace: true,
-      // Ignore '<!-- more -->' https://hexo.io/docs/tag-plugins#Post-Excerpt
-      ignoreCustomComments: [/^\s*more/],
-      removeComments: true,
-      removeEmptyAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      minifyJS: true,
-      minifyCSS: true
-    } as any,
-    img: {
-      enable: false,
-      default:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png',
-      onerror: 'clientside'
-    } as any,
-    host: new URL(hexo.config.url).host,
-    links: {
-      blank: true,
-      enable: true,
-      allow: ['webmanajemen.com']
-    } as any,
-    schema: {
-      sitelink: {
-        enable: false
+export const defaultOpt: BaseConfig = {
+  cache: true,
+  js: {
+    enable: false,
+    exclude: ['*.min.js', '**/*.min.js'],
+    concat: { enable: false },
+    options: {
+      compress: {
+        dead_code: true
       },
-      article: { enable: false },
-      breadcrumb: { enable: false }
-    } as any,
-    sitemap: false,
-    theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
-    source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
-    public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
-    post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts'),
-    search: {
-      type: ['post', 'page']
-    },
-    feed: {
-      type: ['post', 'page'],
-      icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+      mangle: {
+        toplevel: true,
+        safari10: true
+      }
     }
-  };
+  },
+  css: {
+    enable: false,
+    exclude: ['*.min.css', '**/*.min.css']
+  },
+  html: {
+    enable: false,
+    fix: false,
+    exclude: ['*.min.{htm,html}'],
+    collapseBooleanAttributes: true,
+    collapseWhitespace: true,
+    ignoreCustomComments: [/^\s*more/, {}],
+    removeComments: true,
+    removeEmptyAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    minifyJS: true,
+    minifyCSS: true
+  },
+  img: {
+    enable: false,
+    default:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png',
+    onerror: 'clientside',
+    broken: false
+  },
+  host: new URL(hexo.config.url).host,
+  links: {
+    blank: true,
+    enable: true,
+    allow: ['webmanajemen.com'],
+    exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
+  },
+  schema: {
+    sitelink: {
+      enable: false,
+      searchUrl: 'https://www.webmanajemen.com/hexo-seo/search?q='
+    },
+    article: {
+      enable: false
+    },
+    breadcrumb: {
+      enable: false
+    },
+    homepage: {
+      enable: true
+    }
+  },
+  sitemap: false,
+  theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
+  source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
+  public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
+  post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts'),
+  search: {
+    type: ['post', 'page']
+  },
+  feed: {
+    type: ['post', 'page'],
+    icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+  }
+};
+
+const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const seo: BaseConfig = hexo.config.seo;
   if (typeof seo !== 'undefined') {
     writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));

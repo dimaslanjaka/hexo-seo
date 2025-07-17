@@ -1,28 +1,30 @@
 {
+  "cache": true,
   "js": {
     "enable": true,
-    "exclude": ["*.min.js", "**/*.min.js"],
-    "options": {
-      "compress": {
-        "dead_code": true
-      },
-      "mangle": {
-        "toplevel": true,
-        "safari10": true
-      }
+    "concat": {
+      "enable": true
     }
   },
   "css": {
-    "enable": true,
-    "exclude": ["*.min.css", "**/*.min.css"]
+    "enable": false,
+    "exclude": [
+      "*.min.css",
+      "**/*.min.css"
+    ]
   },
   "html": {
-    "enable": true,
-    "fix": true,
-    "exclude": ["*.min.{htm,html}"],
+    "enable": false,
+    "fix": false,
+    "exclude": [
+      "*.min.{htm,html}"
+    ],
     "collapseBooleanAttributes": true,
     "collapseWhitespace": true,
-    "ignoreCustomComments": [{}],
+    "ignoreCustomComments": [
+      {},
+      {}
+    ],
     "removeComments": true,
     "removeEmptyAttributes": true,
     "removeScriptTypeAttributes": true,
@@ -31,32 +33,54 @@
     "minifyCSS": true
   },
   "img": {
-    "enable": true,
-    "default": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+    "enable": false,
+    "default": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
     "onerror": "clientside",
     "broken": false
   },
-  "host": "www.webmanajemen.com",
+  "host": "example.com",
   "links": {
     "blank": true,
     "enable": true,
-    "allow": ["webmanajemen.com"],
-    "exclude": ["webmanajemen.com", "web-manajemen.blogspot.com"]
+    "allow": [
+      "webmanajemen.com"
+    ],
+    "exclude": [
+      "webmanajemen.com",
+      "web-manajemen.blogspot.com"
+    ]
   },
   "schema": {
     "sitelink": {
-      "enable": true,
+      "enable": false,
       "searchUrl": "https://www.webmanajemen.com/hexo-seo/search?q="
     },
     "article": {
-      "enable": true
+      "enable": false
     },
     "breadcrumb": {
-      "enable": true
+      "enable": false
     },
     "homepage": {
       "enable": true
     }
   },
-  "sitemap": true
+  "sitemap": false,
+  "theme_dir": "D:/Repositories/hexo-seo/tmp/site/themes/landscape",
+  "source_dir": "D:/Repositories/hexo-seo/tmp/site",
+  "public_dir": "D:/Repositories/hexo-seo/tmp/site/public",
+  "post_dir": "D:/Repositories/hexo-seo/tmp/site/_posts",
+  "search": {
+    "type": [
+      "post",
+      "page"
+    ]
+  },
+  "feed": {
+    "type": [
+      "post",
+      "page"
+    ],
+    "icon": "https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png"
+  }
 }
