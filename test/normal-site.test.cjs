@@ -72,7 +72,7 @@ describe('Hexo Clean', () => {
     });
   }, 120000);
 
-  test('generate post', async () => {
+  test('should generate a post file', async () => {
     const postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
     const { content } = generateMarkdownPost({
       title: 'Hello world',
@@ -88,7 +88,7 @@ describe('Hexo Clean', () => {
     expect(consoleSpy).not.toBeNull();
   }, 120000);
 
-  test('generate site', async () => {
+  test('should generate site output', async () => {
     const sourcePath = path.join(hexoSite.targetDir, 'source');
     const publicDir = path.join(hexoSite.targetDir, 'public');
     const publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
@@ -101,8 +101,8 @@ describe('Hexo Clean', () => {
     expect(fs.existsSync(publicDir)).toBe(true);
   }, 120000);
 
-  describe('Sitemap Tests', () => {
-    test('sitemaps exists', async () => {
+  describe('Sitemap', () => {
+    test('should generate all sitemap files', async () => {
       modifyConfig({
         seo: {
           sitemap: { yoast: true, gnews: true, txt: true },
@@ -119,7 +119,7 @@ describe('Hexo Clean', () => {
       expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
     }, 60000);
 
-    test('only sitemap.txt', async () => {
+    test('should generate only sitemap.txt', async () => {
       const publicDir = path.join(hexoSite.targetDir, 'public');
       modifyConfig({
         seo: {
