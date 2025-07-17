@@ -63,8 +63,5 @@ jobs:
       - name: �🛠️ Build Workspace
         run: npm run build
 
-      - name: 🧪 Run Empty Posts Test Suite
-        run: npx jest --runInBand --detectOpenHandles --logHeapUsage --collect-coverage --update-snapshot --config=jest.config.ts -- empty-posts.test
-
-      - name: 🧪 Run Normal Site Test Suite
-        run: npx jest --runInBand --detectOpenHandles --logHeapUsage --collect-coverage --update-snapshot --config=jest.config.ts -- normal-site.test
+      - name: 🧪 Run Test Suite
+        run: npm test
