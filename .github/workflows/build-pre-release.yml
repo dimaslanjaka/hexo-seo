@@ -1,23 +1,21 @@
-jobs:
-
 name: Build Pre-release
 
 on:
   push:
-    branches: ["pre-release"]
+    branches: ['pre-release']
     paths-ignore:
-      - "**/*.tgz"
-      - "**/*.gz"
-      - "**/release/**"
-      - "**garbage-collector**"
-      - "**codeql**"
+      - '**/*.tgz'
+      - '**/*.gz'
+      - '**/release/**'
+      - '**garbage-collector**'
+      - '**codeql**'
   pull_request:
     types: [closed]
     paths-ignore:
-      - "**/release/**"
-      - "**/*.tgz"
-      - "**/*.gz"
-      - "**/test*/**"
+      - '**/release/**'
+      - '**/*.tgz'
+      - '**/*.gz'
+      - '**/test*/**'
   workflow_dispatch:
 
 concurrency:
@@ -29,7 +27,7 @@ jobs:
     name: Build Package
     runs-on: ubuntu-latest
     env:
-      NODE_OPTIONS: "--max_old_space_size=8192"
+      NODE_OPTIONS: '--max_old_space_size=8192'
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
