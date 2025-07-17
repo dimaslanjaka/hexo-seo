@@ -150,7 +150,7 @@ async function setupHexoSite({
     // console.log('✅\tSite generated.');
   } catch (err) {
     console.error('❌\tError:', err.message);
-    process.exit(1);
+    throw err;
   }
   return { repoUrl, targetDir, workspaceDir };
 }
