@@ -1317,4 +1317,25 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 17:11:17_ ] [13b2d61](https://github.com/dimaslanjaka/safelink/commit/13b2d61) chore: add search.exclude setting to ignore Yarn files
 - [ _2025-07-17 17:15:22_ ] [aa8b3cb](https://github.com/dimaslanjaka/safelink/commit/aa8b3cb) fix: update sitemap function to check for Yoast SEO sitemap configuration
 - [ _2025-07-17 17:16:38_ ] [4327a65](https://github.com/dimaslanjaka/safelink/commit/4327a65) fix: simplify sitemap processing logic in HexoSeoHtml function fix: remove redundant check yoast seo sitemap
-- [ _2025-07-17 17:19:08_ ] [c15e4ba](https://github.com/dimaslanjaka/safelink/commit/c15e4ba) fix: remove redundant yoast seo sitemap check (HEAD -> pre-release, origin/pre-release, origin/HEAD)
+- [ _2025-07-17 17:19:08_ ] [c15e4ba](https://github.com/dimaslanjaka/safelink/commit/c15e4ba) fix: remove redundant yoast seo sitemap check
+- [ _2025-07-17 17:20:12_ ] [cf3a156](https://github.com/dimaslanjaka/safelink/commit/cf3a156) fix: ensure Yoast and Google News sitemap configurations default to true
+- [ _2025-07-17 17:40:41_ ] [844acc4](https://github.com/dimaslanjaka/safelink/commit/844acc4) feat: add instructions for Git commit messages and Node.js configuration
+- [ _2025-07-17 18:12:17_ ] [177d045](https://github.com/dimaslanjaka/safelink/commit/177d045) fix: jest test unit
+- [ _2025-07-17 18:12:35_ ] [916e56a](https://github.com/dimaslanjaka/safelink/commit/916e56a) chore: update exports
+- [ _2025-07-17 18:12:46_ ] [f6b71e5](https://github.com/dimaslanjaka/safelink/commit/f6b71e5) fix: simplify test command in code runner configuration
+- [ _2025-07-17 18:25:05_ ] [05df1e7](https://github.com/dimaslanjaka/safelink/commit/05df1e7) refactor: move getConfig call before cache check and add cache config option
+- [ _2025-07-17 18:31:31_ ] [9fa9a73](https://github.com/dimaslanjaka/safelink/commit/9fa9a73) test: add console.log spy and increase test timeouts in empty-posts.test.cjs
+- [ _2025-07-17 18:33:45_ ] [0d41162](https://github.com/dimaslanjaka/safelink/commit/0d41162) test: improve Hexo Clean tests with console spy and increased timeouts
+- [ _2025-07-17 18:45:28_ ] [50c83ac](https://github.com/dimaslanjaka/safelink/commit/50c83ac) refactor: simplify cache check by introducing isCacheMiss variable
+- [ _2025-07-17 18:59:20_ ] [cc6ef91](https://github.com/dimaslanjaka/safelink/commit/cc6ef91) docs(setup-hexo-site): improve JSDoc for setupHexoSite function
+- [ _2025-07-17 19:00:46_ ] [0708d53](https://github.com/dimaslanjaka/safelink/commit/0708d53) test: use full HTML fixture for HexoSeoHtml tests
+- [ _2025-07-17 19:01:51_ ] [2a9547c](https://github.com/dimaslanjaka/safelink/commit/2a9547c) chore(test): disable collectCoverage by default and add test:cov script
+- [ _2025-07-17 19:11:16_ ] [260bbf7](https://github.com/dimaslanjaka/safelink/commit/260bbf7) docs(readme): enhance installation instructions and clarify usage of commit hashes
+- [ _2025-07-17 19:27:33_ ] [b88d8c5](https://github.com/dimaslanjaka/safelink/commit/b88d8c5) refactor(config): avoid writing file when SEO config is undefined
+- [ _2025-07-17 19:44:46_ ] [aec2ae1](https://github.com/dimaslanjaka/safelink/commit/aec2ae1) refactor: update config structure and dependencies
+- [ _2025-07-17 20:01:59_ ] [a58fe44](https://github.com/dimaslanjaka/safelink/commit/a58fe44) test: increase timeouts for setup and post generation to 2 minutes
+- [ _2025-07-17 20:18:46_ ] [f723506](https://github.com/dimaslanjaka/safelink/commit/f723506) fix(setup): specify package name when installing local workspace in target site
+- [ _2025-07-17 20:22:18_ ] [418ef06](https://github.com/dimaslanjaka/safelink/commit/418ef06) docs: improve JSDoc types for spawn options in setupHexoSite and runCommand
+- [ _2025-07-17 20:31:41_ ] [50cb748](https://github.com/dimaslanjaka/safelink/commit/50cb748) feat(setup): clone sample posts into source/\_posts if not present
+- [ _2025-07-17 20:33:20_ ] [f2bc81c](https://github.com/dimaslanjaka/safelink/commit/f2bc81c) fix(test): ensure posts directory is deleted for clean state before tests
+- [ _2025-07-17 20:48:52_ ] [02de85a](https://github.com/dimaslanjaka/safelink/commit/02de85a) feat(setup): remove unnecessary files from sample posts directory (HEAD -> pre-release, origin/pre-release, origin/HEAD)

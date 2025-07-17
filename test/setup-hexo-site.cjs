@@ -116,7 +116,7 @@ async function setupHexoSite({
           enable: true,
           exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
         },
-        sitemap: { yoast: true, gnews: true },
+        sitemap: { yoast: true, gnews: true, txt: true },
         search: { type: ['page', 'post'] },
         feed: {
           type: ['page', 'post'],

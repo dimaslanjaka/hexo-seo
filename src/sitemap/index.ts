@@ -151,13 +151,15 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
   // resolve configs
   let isYoastActive = false;
   let isGnewsActive = false;
+  let isTxtActive = false;
   const sitemapConfig = hexoSeoConfig.sitemap;
   if (sitemapConfig) {
     if (typeof sitemapConfig == 'boolean' && sitemapConfig === true) {
-      isYoastActive = isGnewsActive = true;
+      isYoastActive = isGnewsActive = isTxtActive = true;
     } else {
       isYoastActive = typeof sitemapConfig.yoast == 'boolean' ? sitemapConfig.yoast : true;
       isGnewsActive = typeof sitemapConfig.gnews == 'boolean' ? sitemapConfig.gnews : true;
+      isTxtActive = typeof sitemapConfig.txt == 'boolean' ? sitemapConfig.txt : true;
     }
   }
 
@@ -253,6 +255,25 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
           const gnewsPageSitemap = join(hexo.public_dir, 'google-news-sitemap.xml');
           writefile(gnewsPageSitemap, googleNewsSitemap.toString());
           log.log('google news sitemap saved', gnewsPageSitemap);
+        }
+
+        if (isTxtActive) {
+          // Generate sitemap.txt (plain text sitemap)
+          const allUrls: string[] = [];
+          // Collect URLs from all sitemap groups
+          ['post', 'page', 'tag', 'category'].forEach((type) => {
+            if (sitemapGroup[type] && sitemapGroup[type].urlset && Array.isArray(sitemapGroup[type].urlset.url)) {
+              sitemapGroup[type].urlset.url.forEach((item: Record<string, any>) => {
+                if (item.loc) allUrls.push(item.loc.toString());
+              });
+            }
+          });
+          // Remove duplicates
+          const uniqueUrls = Array.from(new Set(allUrls));
+          // Write to sitemap.txt
+          const destTxtSitemap = join(hexo.public_dir, 'sitemap.txt');
+          writefile(destTxtSitemap, uniqueUrls.join('\n'));
+          log.log('plain text sitemap saved', destTxtSitemap);
         }
       });
     }
