@@ -45,85 +45,58 @@ export async function jsConcat(this: Hexo, { root, logname, logconcatname, fileP
   const filename = 'concat-' + md5(path.basename(filePath));
   const scriptContents: string[] = [];
   hexo.log.debug(logname, 'concatenate', scripts.length + ' javascripts');
-  for (let i = 0; i < scripts.length; i++) {
-    const script = scripts[i] as any;
-    let src = script.getAttribute ? script.getAttribute('src') : undefined;
+  for (const [i, script] of scripts.entries()) {
+    const src = script.getAttribute?.('src');
     let textContent = script.textContent ?? '';
     const srcIsUrl =
       typeof src === 'string' && (src.startsWith('//') || src.startsWith('http:') || src.startsWith('https:'));
-    // skip external js
-    if (typeof src === 'string' && src.trim().length > 0 && srcIsUrl) continue;
 
-    // download external javascript
-    if (srcIsUrl && jsConcatDownloadExternal) {
-      // exclude download external js from these domains (supports glob patterns)
+    // Helper to remove script tag
+    const removeScriptTag = () => {
+      script.parentNode?.removeChild?.(script);
+    };
+
+    // Helper to add script content
+    const separator = `/*--- ${typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
+    const addScript = (text: string) => {
+      scriptContents.push(separator, text, '\n\n');
+      removeScriptTag();
+    };
+
+    // External JS logic
+    if (typeof src === 'string' && src.trim().length > 0 && srcIsUrl) {
+      if (!jsConcatDownloadExternal) continue;
+      // Exclude patterns
       const excludes = ['-adnow.com/', '.googlesyndication.com/'].concat(jsConcatExclude);
       if (excludes.some((pattern) => minimatch(src, pattern))) continue;
       const cachedExternal = cache.getCache('donwload-' + src, null as string | null);
-      if (src.startsWith('//')) {
-        src = 'http:' + src;
-      }
+      const fetchSrc = src.startsWith('//') ? 'http:' + src : src;
       try {
-        let data: string;
-        if (cachedExternal === null) {
-          data = (await axios.get(src)).data;
-        } else {
-          data = cachedExternal;
-        }
-        // replace text content (inner) string with response data
+        const data = cachedExternal === null ? (await axios.get(fetchSrc)).data : cachedExternal;
         textContent = data;
-        // remove src attribute
-        if (script.removeAttribute) {
-          script.removeAttribute('src');
-        }
-        // save downloaded js to cache
+        script.removeAttribute?.('src');
         cache.setCache('download-' + src, data);
       } catch (error) {
-        hexo.log.error(logconcatname, 'download failed', error.message);
+        hexo.log.error(logconcatname, 'download failed', (error as Error).message);
       }
+      addScript(textContent);
+      continue;
     }
 
-    /**
-     * indicator
-     */
-    const separator = `/*--- ${typeof src === 'string' && src.trim().length > 0 ? src : 'inner-' + i} --*/\n\n`;
-    /**
-     * add to scripts container
-     * @param text javascript text
-     */
-    const addScript = function (text: string) {
-      scriptContents.push(separator, text, '\n\n');
-      // delete current script tag
-      if (script.parentNode && typeof script.parentNode.removeChild === 'function') {
-        script.parentNode.removeChild(script);
-      }
-    };
-    // parse javascript
+    // Local JS logic
     if (typeof src === 'string' && src.trim().length > 0) {
-      // skip external js
-      if (srcIsUrl) continue;
-      /**
-       * find js file from theme, source, post directories
-       */
       const originalSources = [
-        // find from theme source directory
         path.join(cfg.theme_dir, 'source'),
-        // find from node_modules directory
         path.join(process.cwd(), 'node_modules'),
-        // find from our plugins directory
         path.join(process.cwd(), 'node_modules/hexo-shortcodes'),
-        // find from source directory
         cfg.source_dir,
-        // find from post directory
         cfg.post_dir,
-        // find from asset post folder
         path.join(cfg.post_dir, path.basename(filePath))
       ].map((dir: string) => path.join(dir, src));
       const sources = originalSources.filter(fs.existsSync);
       if (sources.length > 0) {
         try {
           const rendered = await hexo.render.render({ path: sources[0], engine: 'js' });
-          // push src
           addScript(rendered);
         } catch (e: any) {
           hexo.log.error(logconcatname, 'failed', src, e.message);
@@ -135,15 +108,13 @@ export async function jsConcat(this: Hexo, { root, logname, logconcatname, fileP
           'log',
           writefile(path.join(tmpFolder, 'logs', filename + '.log'), originalSources).file
         );
-        // Remove script tag if not found
-        if (script.parentNode && typeof script.parentNode.removeChild === 'function') {
-          script.parentNode.removeChild(script);
-        }
+        removeScriptTag();
       }
-    } else {
-      // push inner
-      addScript(textContent);
+      continue;
     }
+
+    // Inline JS
+    addScript(textContent);
   }
   const filePathWithoutExt = path.join(tmpFolder, 'html', filename);
   const jsFilePath = path.join(buildFolder, 'hexo-seo-js', filename) + '.js';
