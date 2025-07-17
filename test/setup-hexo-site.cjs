@@ -4,13 +4,23 @@ const yaml = require('yaml');
 const { runCommand } = require('./utils.cjs');
 
 /**
- * Clones a Hexo starter, builds the workspace, installs it,
- * modifies config, and generates the static site.
+ * Sets up a Hexo test site for plugin development and testing.
  *
- * @param {object} options
- * @param {string} options.repoUrl - Git repository URL
- * @param {string} options.targetDir - Directory to clone repo into
- * @param {string} options.workspaceDir - Directory of the current project
+ * Steps performed:
+ * 1. Clones a Hexo starter repository (if not already present).
+ * 2. Builds the current workspace (plugin project).
+ * 3. Installs the local workspace as a dependency in the test site.
+ * 4. Deletes the default 'source' folder in the test site.
+ * 5. Modifies the test site's _config.yml with SEO and plugin options.
+ * 6. (Optional) Cleans Hexo cache and generates the static site.
+ *
+ * @async
+ * @function setupHexoSite
+ * @param {object} [options] - Configuration options
+ * @param {string} [options.repoUrl] - Git repository URL to clone (default: 'https://github.com/hexojs/hexo-starter.git')
+ * @param {string} [options.targetDir] - Directory to clone repo into (default: '../tmp/site')
+ * @param {string} [options.workspaceDir] - Directory of the current project (default: '../')
+ * @returns {Promise<{repoUrl: string, targetDir: string, workspaceDir: string}>} - Paths used for setup
  */
 async function setupHexoSite({
   repoUrl = 'https://github.com/hexojs/hexo-starter.git',
