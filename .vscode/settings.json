@@ -210,5 +210,8 @@
     "typescriptreact",
     "javascriptreact"
   ],
-  "git.useCommitInputAsStashMessage": true
+  "git.useCommitInputAsStashMessage": true,
+  "search.exclude": {
+    "**/.yarn/**": true
+  }
 }
