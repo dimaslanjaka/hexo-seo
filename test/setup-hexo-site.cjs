@@ -38,8 +38,8 @@ async function setupHexoSite({
     console.log('🛠️\tBuilding current workspace...');
     await runCommand('npm', ['run', 'build'], { cwd: workspaceDir });
 
-    console.log('📦\tInstalling local workspace into target site...');
-    await runCommand('npm', ['install', workspaceDir], { cwd: targetDir });
+    console.log(`📦\tInstalling local workspace (hexo-seo@${workspaceDir}) into target site...`);
+    await runCommand('npm', ['install', `hexo-seo@${workspaceDir}`], { cwd: targetDir });
 
     const sourceDir = path.join(targetDir, 'source');
     if (fs.existsSync(sourceDir)) {
