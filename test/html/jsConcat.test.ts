@@ -1,5 +1,7 @@
+import fs from 'fs';
 import Hexo from 'hexo';
 import { parse as nodeHtmlParser } from 'node-html-parser';
+import path from 'path';
 import { setupHexoSite } from '../setup-hexo-site.cjs';
 
 describe('jsConcat', () => {
@@ -124,5 +126,41 @@ describe('jsConcat', () => {
 
     hexo.config.seo.js.exclude = []; // Reset exclude patterns for other tests
     hexo.config.seo.js.concat.download_external = false; // Reset download_external for other tests
+  }, 120000);
+
+  it('should not concatenate excluded local js files', async () => {
+    const jsDir = path.join(hexoSite.targetDir, 'source/js');
+    fs.mkdirSync(jsDir, { recursive: true });
+    const files = ['file1.js', 'file2.js', 'file3.js'];
+    const contents = ["console.log('file1');", "console.log('file2');", "console.log('file3');"];
+    for (let i = 0; i < files.length; i++) {
+      fs.writeFileSync(path.join(jsDir, files[i]), contents[i]);
+    }
+    // Exclude file2.js
+    hexo.config.seo.js.exclude = ['file2.js'];
+    hexo.config.seo.js.concat.download_external = false;
+    // Build html referencing all three local js files
+    const html = `<!DOCTYPE html><html><body>
+      <script src="/js/file1.js"></script>
+      <script src="/js/file2.js"></script>
+      <script src="/js/file3.js"></script>
+    </body></html>`;
+    const root = nodeHtmlParser(html);
+    const filePath = 'local-exclude.html';
+    const result = await jsConcat.call(hexo, {
+      root,
+      logname,
+      logconcatname,
+      filePath
+    });
+    // Should not concatenate file2.js
+    expect(result).not.toContain('file2.js');
+    // Should concatenate file1.js and file3.js
+    expect(result).toMatch(/<script src="\/hexo-seo-js\/concat-[a-f0-9]+\.js"><\/script>/);
+    // Clean up
+    for (let i = 0; i < files.length; i++) {
+      fs.unlinkSync(path.join(jsDir, files[i]));
+    }
+    hexo.config.seo.js.exclude = [];
   }, 120000);
 });
