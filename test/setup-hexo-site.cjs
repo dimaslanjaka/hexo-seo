@@ -49,6 +49,19 @@ async function setupHexoSite({
       fs.rmSync(sourceDir, { recursive: true, force: true });
     }
 
+    // Populate the source directory with a sample post
+    if (!fs.existsSync(path.join(sourceDir, '_posts/.git'))) {
+      if (path.join(sourceDir, '_posts')) {
+        fs.rmSync(path.join(sourceDir, '_posts'), { recursive: true, force: true });
+      }
+      console.log('📦\tCloning sample posts into source/_posts...');
+      await runCommand('git', [
+        'clone',
+        'https://github.com/frontendweb3/Demo-markdown-posts.git',
+        path.join(sourceDir, '_posts')
+      ]);
+    }
+
     const configPath = path.join(targetDir, '_config.yml');
     if (!fs.existsSync(configPath)) {
       throw new Error('_config.yml not found in the cloned site.');
