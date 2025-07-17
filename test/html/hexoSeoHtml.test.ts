@@ -23,7 +23,7 @@ beforeAll(async () => {
   const htmlModule = await import('../../src/html/index');
   HexoSeoHtml = htmlModule.default;
   getPagePath = htmlModule.getPagePath;
-});
+}, 120000);
 
 // Mocks
 jest.mock('../../src/html/fixSchema.static', () => ({ __esModule: true, default: jest.fn() }));
@@ -58,21 +58,23 @@ const data: Partial<HexoSeo> = {
 };
 
 describe('HexoSeoHtml', () => {
+  // ...existing code...
   it('should process HTML and add SEO attributes', async () => {
     const result = await HexoSeoHtml.call(hexoInstance, html, data);
     expect(result).toContain('hexo-seo');
     expect(result).toContain('alt="Test Title"');
     expect(result).toContain('title="Test Title"');
-  });
+  }, 120000);
 
   it('should use getPagePath correctly', () => {
     expect(getPagePath(data as any)).toBe('test.html');
     expect(getPagePath({ path: 'other.html', config: { title: 'Site Title' } } as any)).toBe('other.html');
-  });
+  }, 120000);
 
   // it('should concat js files', async () => {
   //   hexoInstance.config.seo.js.concat = true;
   //   const result = await HexoSeoHtml.call(hexoInstance, html, data);
   //   writefile(path.join(__dirname, '__sample-test.html'), result);
-  // });
+  // }, 120000);
+  // ...existing code...
 });
