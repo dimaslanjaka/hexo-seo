@@ -1316,4 +1316,5 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 17:11:04_ ] [3ae7e71](https://github.com/dimaslanjaka/safelink/commit/3ae7e71) fix: ensure changelog script runs during prepack stage
 - [ _2025-07-17 17:11:17_ ] [13b2d61](https://github.com/dimaslanjaka/safelink/commit/13b2d61) chore: add search.exclude setting to ignore Yarn files
 - [ _2025-07-17 17:15:22_ ] [aa8b3cb](https://github.com/dimaslanjaka/safelink/commit/aa8b3cb) fix: update sitemap function to check for Yoast SEO sitemap configuration
-- [ _2025-07-17 17:16:38_ ] [4327a65](https://github.com/dimaslanjaka/safelink/commit/4327a65) fix: simplify sitemap processing logic in HexoSeoHtml function fix: remove redundant check yoast seo sitemap (HEAD -> pre-release, origin/pre-release, origin/HEAD)
+- [ _2025-07-17 17:16:38_ ] [4327a65](https://github.com/dimaslanjaka/safelink/commit/4327a65) fix: simplify sitemap processing logic in HexoSeoHtml function fix: remove redundant check yoast seo sitemap
+- [ _2025-07-17 17:19:08_ ] [c15e4ba](https://github.com/dimaslanjaka/safelink/commit/c15e4ba) fix: remove redundant yoast seo sitemap check (HEAD -> pre-release, origin/pre-release, origin/HEAD)

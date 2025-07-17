@@ -156,8 +156,8 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
     if (typeof sitemapConfig == 'boolean' && sitemapConfig === true) {
       isYoastActive = isGnewsActive = true;
     } else {
-      isYoastActive = sitemapConfig.yoast;
-      isGnewsActive = sitemapConfig.gnews;
+      isYoastActive = typeof sitemapConfig.yoast == 'boolean' ? sitemapConfig.yoast : true;
+      isGnewsActive = typeof sitemapConfig.gnews == 'boolean' ? sitemapConfig.gnews : true;
     }
   }
 
