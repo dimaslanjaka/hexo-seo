@@ -86,6 +86,11 @@ async function setupHexoSite({
       console.log('ℹ️\tTheme "light" already exists. Skipping clone.');
     }
 
+    await runCommand('npm', ['install', 'hexo-theme-light@file:./themes/light', 'nib', 'stylus'], {
+      cwd: targetDir,
+      ...spawnOptions
+    });
+
     const configPath = path.join(targetDir, '_config.yml');
     if (!fs.existsSync(configPath)) {
       throw new Error(`${configPath} not found in the cloned site.`);
