@@ -1314,5 +1314,6 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-04 03:52:28_ ] [b174efe](https://github.com/dimaslanjaka/safelink/commit/b174efe) Merge pull request #294 from dimaslanjaka/dependabot/npm_and_yarn/dotenv-17.0.1
 - [ _2025-07-17 17:03:54_ ] [2910398](https://github.com/dimaslanjaka/safelink/commit/2910398) chore: update package resolutions and release files, improve sitemap processing
 - [ _2025-07-17 17:11:04_ ] [3ae7e71](https://github.com/dimaslanjaka/safelink/commit/3ae7e71) fix: ensure changelog script runs during prepack stage
-- [ _2025-07-17 17:11:17_ ] [13b2d61](https://github.com/dimaslanjaka/safelink/commit/13b2d61) chore: add search.exclude setting to ignore Yarn files (origin/pre-release, origin/HEAD)
-- [ _2025-07-17 17:15:22_ ] [aa8b3cb](https://github.com/dimaslanjaka/safelink/commit/aa8b3cb) fix: update sitemap function to check for Yoast SEO sitemap configuration (HEAD -> pre-release)
+- [ _2025-07-17 17:11:17_ ] [13b2d61](https://github.com/dimaslanjaka/safelink/commit/13b2d61) chore: add search.exclude setting to ignore Yarn files
+- [ _2025-07-17 17:15:22_ ] [aa8b3cb](https://github.com/dimaslanjaka/safelink/commit/aa8b3cb) fix: update sitemap function to check for Yoast SEO sitemap configuration
+- [ _2025-07-17 17:16:38_ ] [4327a65](https://github.com/dimaslanjaka/safelink/commit/4327a65) fix: simplify sitemap processing logic in HexoSeoHtml function fix: remove redundant check yoast seo sitemap (HEAD -> pre-release, origin/pre-release, origin/HEAD)
