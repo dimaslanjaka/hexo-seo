@@ -16,16 +16,18 @@ const { runCommand } = require('./utils.cjs');
  *
  * @async
  * @function setupHexoSite
- * @param {object} [options] - Configuration options
+ * @param {Object} [options] - Configuration options
  * @param {string} [options.repoUrl] - Git repository URL to clone (default: 'https://github.com/hexojs/hexo-starter.git')
  * @param {string} [options.targetDir] - Directory to clone repo into (default: '../tmp/site')
  * @param {string} [options.workspaceDir] - Directory of the current project (default: '../')
+ * @param {import('child_process').SpawnOptions} [options.spawnOptions] - Options for process spawning
  * @returns {Promise<{repoUrl: string, targetDir: string, workspaceDir: string}>} - Paths used for setup
  */
 async function setupHexoSite({
   repoUrl = 'https://github.com/hexojs/hexo-starter.git',
   targetDir = path.resolve(__dirname, '../tmp/site'),
-  workspaceDir = path.join(__dirname, '../')
+  workspaceDir = path.join(__dirname, '../'),
+  spawnOptions = {}
 } = {}) {
   try {
     if (!fs.existsSync(targetDir)) {
@@ -36,10 +38,10 @@ async function setupHexoSite({
     }
 
     console.log('🛠️\tBuilding current workspace...');
-    await runCommand('npm', ['run', 'build'], { cwd: workspaceDir });
+    await runCommand('npm', ['run', 'build'], { cwd: workspaceDir, ...spawnOptions });
 
     console.log(`📦\tInstalling local workspace (hexo-seo@${workspaceDir}) into target site...`);
-    await runCommand('npm', ['install', `hexo-seo@${workspaceDir}`], { cwd: targetDir });
+    await runCommand('npm', ['install', `hexo-seo@${workspaceDir}`], { cwd: targetDir, ...spawnOptions });
 
     const sourceDir = path.join(targetDir, 'source');
     if (fs.existsSync(sourceDir)) {

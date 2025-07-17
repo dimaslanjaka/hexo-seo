@@ -38,7 +38,7 @@ function generateMarkdownPost({
  * Runs a shell command with live output
  * @param {string} command - The command to run
  * @param {string[]} [args=[]] - Arguments for the command
- * @param {object} [options={}] - Options for spawn
+ * @param {import('child_process').SpawnOptions} [options={}] - Options for spawn
  * @returns {Promise<void>} Resolves when the command completes successfully
  */
 function runCommand(command, args = [], options = {}) {
