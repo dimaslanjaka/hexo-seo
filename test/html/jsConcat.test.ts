@@ -20,6 +20,8 @@ describe('jsConcat', () => {
     // Overwrite process.cwd to always return hexoSiteDir
     process.cwd = () => hexoSite.targetDir;
     hexo = new Hexo(hexoSite.targetDir);
+    await hexo.init();
+    await hexo.load();
     (global as any).hexo = hexo;
     // Set config for Hexo instance
     if (!hexo.config.seo) {
