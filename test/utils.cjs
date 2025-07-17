@@ -1,3 +1,5 @@
+const { spawn } = require('cross-spawn');
+
 /**
  * Generate a markdown file with front-matter
  *
@@ -42,7 +44,6 @@ function generateMarkdownPost({
  * @returns {Promise<void>} Resolves when the command completes successfully
  */
 function runCommand(command, args = [], options = {}) {
-  const { spawn } = require('cross-spawn');
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       stdio: 'inherit',
