@@ -57,7 +57,10 @@ jobs:
       - name: 📦 Install Node.js Dependencies
         run: yarn install
 
-      - name: 🛠️ Build Workspace
+      - name: � Run Yarn Prepare
+        run: yarn prepare
+
+      - name: �🛠️ Build Workspace
         run: npm run build
 
       - name: 🧪 Run Empty Posts Test Suite
