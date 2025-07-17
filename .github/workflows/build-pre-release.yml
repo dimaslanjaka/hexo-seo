@@ -1,44 +1,45 @@
+jobs:
+
 name: Build Pre-release
 
 on:
   push:
-    branches: ['pre-release']
+    branches: ["pre-release"]
     paths-ignore:
-      - '**/*.tgz'
-      - '**/*.gz'
-      - '**/release/**'
-      - '**garbage-collector**'
-      - '**codeql**'
+      - "**/*.tgz"
+      - "**/*.gz"
+      - "**/release/**"
+      - "**garbage-collector**"
+      - "**codeql**"
   pull_request:
-    types:
-      - closed
+    types: [closed]
     paths-ignore:
-      - '**/release/**'
-      - '**/*.tgz'
-      - '**/*.gz'
-      - '**/test*/**'
+      - "**/release/**"
+      - "**/*.tgz"
+      - "**/*.gz"
+      - "**/test*/**"
   workflow_dispatch:
 
-# run single job
 concurrency:
-  group: build-release #actions-${{ github.head_ref }}
+  group: build-release
   cancel-in-progress: true
 
 jobs:
   build:
+    name: Build Package
     runs-on: ubuntu-latest
     env:
-      NODE_OPTIONS: '--max_old_space_size=8192' #8192 4096 --expose-gc
+      NODE_OPTIONS: "--max_old_space_size=8192"
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-    name: Build Package
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          # repository: dimaslanjaka/nodejs-package-types
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: monorepo
-      - name: Set env
+
+      - name: Set environment variables
         id: set-env
         shell: bash
         run: |
@@ -59,7 +60,7 @@ jobs:
           fi
           echo "architecture=$(getconf LONG_BIT)" >> $GITHUB_ENV
 
-      - name: Get env
+      - name: Print environment info
         run: |
           echo "branch      : ${{ env.GITHUB_BRANCH }}"
           echo "commit msg  : ${{ github.event.head_commit.message }}"
@@ -76,19 +77,17 @@ jobs:
           git config core.autocrlf input
           git checkout-index --force --all
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js (version 18.x)
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 18.x # Node.js version
           token: ${{ secrets.ACCESS_TOKEN }}
-          #architecture: ${{ matrix.architecture }}
-          #cache: 'npm'
-          #cache-dependency-path: '**/yarn.json'
 
       - name: Enable corepack
         run: corepack enable
 
-      - uses: actions/cache@v4
+      - name: Restore cache
+        uses: actions/cache@v4
         id: cache
         with:
           path: |
@@ -99,16 +98,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ hashFiles('**/yarn.json') }}
             ${{ runner.os }}-
-      - run: yarn build
-      - name: push master
-        working-directory: package
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
-          git commit -m "Update build from ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
-          git push
-      - name: push monorepo
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build project
+        run: yarn build
+
+      - name: Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
