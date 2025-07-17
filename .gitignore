@@ -15,3 +15,6 @@ coverage/
 /site
 /dist
 **/.env
+
+## Auto generated
+__*.*

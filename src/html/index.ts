@@ -42,6 +42,7 @@ export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
   const concatRoutes = coreCache.getSync('jslibs', [] as { path: string; absolute: string }[]);
 
   const hexo = this;
+  const cfg = getConfig(this);
   let path0: string = getPagePath(data);
   let allowCache = true;
   if (!path0) {
@@ -56,9 +57,8 @@ export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
     title = data.config.title;
   }
 
-  if (cache.isFileChanged(md5(path0)) || isDev) {
+  if (cache.isFileChanged(md5(path0)) || isDev || !cfg.cache) {
     const root = nodeHtmlParser(content);
-    const cfg = getConfig(this);
     //** fix hyperlink */
     if (cfg.links.enable) {
       const a = root.querySelectorAll('a[href]');
