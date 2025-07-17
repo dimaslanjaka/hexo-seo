@@ -57,7 +57,9 @@ export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
     title = data.config.title;
   }
 
-  if (cache.isFileChanged(md5(path0)) || isDev || !cfg.cache) {
+  const isCacheMiss = cache.isFileChanged(md5(path0)) || isDev || !cfg.cache;
+
+  if (isCacheMiss) {
     const root = nodeHtmlParser(content);
     //** fix hyperlink */
     if (cfg.links.enable) {
