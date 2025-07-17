@@ -60,6 +60,18 @@ async function setupHexoSite({
         'https://github.com/frontendweb3/Demo-markdown-posts.git',
         path.join(sourceDir, '_posts')
       ]);
+      // Remove unnecessary files
+      const filesToRemoveRegex = [/^readme\.md$/i, /^license$/i, /^contributing\.md$/i, /^code_of_conduct\.md$/i];
+      const postsDir = path.join(sourceDir, '_posts');
+      if (fs.existsSync(postsDir)) {
+        fs.readdirSync(postsDir).forEach((file) => {
+          if (filesToRemoveRegex.some((regex) => regex.test(file))) {
+            const filePath = path.join(postsDir, file);
+            console.log(`🗑️\tRemoving ${file}...`);
+            fs.unlinkSync(filePath);
+          }
+        });
+      }
     }
 
     const configPath = path.join(targetDir, '_config.yml');
