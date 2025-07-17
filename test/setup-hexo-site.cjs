@@ -48,10 +48,6 @@ async function setupHexoSite({
     await runCommand('npm', ['install', `hexo-seo@${workspaceDir}`], { cwd: targetDir, ...spawnOptions });
 
     const sourceDir = path.join(targetDir, 'source');
-    if (fs.existsSync(sourceDir)) {
-      console.log('🗑️\tDeleting existing source folder...');
-      fs.rmSync(sourceDir, { recursive: true, force: true });
-    }
 
     // Populate the source directory with a sample post
     if (!fs.existsSync(path.join(sourceDir, '_posts/.git'))) {

@@ -36,6 +36,7 @@
     "test:index": "run-s test:** && node test/index.cjs",
     "test": "npx jest --runInBand --forceExit",
     "test:cov": "npm test -- --coverage",
+    "test:watch": "npm test -- --watch",
     "prepublish": "npm run prepack",
     "prepack": "node changelog.cjs",
     "pack": "node packer.js --yarn",
