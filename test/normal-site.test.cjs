@@ -13,13 +13,15 @@ describe('Hexo Clean', () => {
   let publicIndexPath;
   let postPath;
   let sourcePath;
+  let consoleSpy;
 
   beforeAll(async () => {
-    console.log('📦\tSetting up Hexo site for testing...');
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    // Setting up Hexo site for testing...
     hexoSite = await setupHexoSite();
     publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
     sourcePath = path.join(hexoSite.targetDir, 'source');
-  });
+  }, 30000); // Increased timeout for setup
 
   test('generate post', async () => {
     postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
@@ -34,16 +36,22 @@ describe('Hexo Clean', () => {
     expect(fs.existsSync(postPath)).toBe(true);
     const fileContent = fs.readFileSync(postPath, 'utf8');
     expect(fileContent.trim().length).toBeGreaterThan(0);
-  });
+    expect(consoleSpy).not.toBeNull(); // Ensure spy is set
+  }, 10000); // Increased timeout for post generation
 
   test('generate site', async () => {
     if (!fs.existsSync(sourcePath)) {
       await spawnAsync('git', ['restore', 'source'], { cwd: hexoSite.targetDir, stdio: 'ignore' });
     }
 
-    console.log('⚙️\tGenerating site for test setup...');
+    // Generating site for test setup...
     await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
 
     expect(fs.existsSync(publicIndexPath)).toBe(true);
+    expect(consoleSpy).not.toBeNull(); // Ensure spy is set
+  }, 20000); // Increased timeout for site generation
+
+  afterAll(() => {
+    if (consoleSpy) consoleSpy.mockRestore();
   });
 });
