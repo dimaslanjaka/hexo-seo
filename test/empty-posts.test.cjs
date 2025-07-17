@@ -14,6 +14,11 @@ describe('Hexo Clean', () => {
   beforeAll(async () => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     hexoSite = await setupHexoSite();
+    // Delete the posts directory to ensure clean state
+    const postsPath = path.join(hexoSite.targetDir, 'source/_posts');
+    if (fs.existsSync(postsPath)) {
+      fs.rmSync(postsPath, { recursive: true, force: true });
+    }
     publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
   }, 120000); // Set timeout to 2 minutes for setup
 
