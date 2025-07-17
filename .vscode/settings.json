@@ -174,7 +174,7 @@
     "less": "cd $dir && lessc $fileName $fileNameWithoutExt.css"
   },
   "code-runner.executorMapByGlob": {
-    "*.test.{ts,js,cjs}": "npx jest --runInBand --detectOpenHandles --logHeapUsage --collect-coverage --update-snapshot --config=jest.config.ts -- $fileNameWithoutExt"
+    "*.test.{ts,js,cjs}": "npm test -- $fileNameWithoutExt"
   },
   "code-runner.runInTerminal": true,
   "code-runner.cwd": "${workspaceFolder}",
