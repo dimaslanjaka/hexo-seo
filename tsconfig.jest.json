@@ -1,0 +1,41 @@
+{
+  // custom schema (non-vscode environment)
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./tmp/jest/dist",
+    "allowJs": true,
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "noImplicitAny": false,
+    /* Strict Type-Checking Options */
+    "strict": false,
+    /* Module Resolution Options */
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "jest"
+    ]
+  },
+  "exclude": [
+    "**/*.runner.*",
+    "**/*.explicit.*",
+    "**/*.builder.*",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/tmp/**"
+  ],
+  "include": [
+    "./test/**/*",
+    "./src/**/*"
+  ]
+}

@@ -1,18 +1,74 @@
+import { existsSync, mkdirSync } from 'fs';
+import { defaults } from 'jest-config';
+import path, { join } from 'path';
+import type { JestConfigWithTsJest } from 'ts-jest';
+
 /**
- * Jest configuration object.
- *
- * @see https://jestjs.io/docs/configuration
+ * @see {@link https://jestjs.io/docs/configuration}
+ * * how to run single test {@link https://stackoverflow.com/questions/28725955/how-do-i-test-a-single-file-using-jest}
  */
-const config = {
-  // Only run test files with the specified extensions
-  moduleFileExtensions: ['cjs', 'js', 'mjs', 'ts'],
-  // Use the specified test environment
+const config: JestConfigWithTsJest = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/*.test.{cjs,js,mjs,ts}'],
-  // Global timeout for all tests
-  globalTimeout: 300000,
-  // Default timeout for each test
-  testTimeout: 300000
+  moduleFileExtensions: [...defaults.moduleFileExtensions, 'mts'],
+  verbose: true,
+  cache: true,
+  cacheDirectory: join(__dirname, 'tmp/jest'),
+  collectCoverageFrom: [
+    'src/*.{js,ts}',
+    '!**/node_modules/**',
+    '!**/vendor/**',
+    '!**/test/**',
+    '!**/*.test.{js,ts}',
+    '!**/*.builder.ts',
+    '!**/.deploy_git/**'
+  ],
+  roots: [`<rootDir>/test`],
+  coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/tmp/', '/test/'],
+  testMatch: [
+    '**/__tests__/**/*.+(ts|tsx|[cm]js)',
+    '**/?(*.)+(spec|test).+(ts|tsx|[cm]js)',
+    '**/test/*.test.ts',
+    '!**/.deploy_git/**'
+  ],
+  // extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1'
+  },
+  transform: {
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      {
+        babelConfig: {
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                targets: { node: 'current' }
+              }
+            ],
+            '@babel/preset-typescript'
+          ]
+        },
+        useESM: true,
+        tsconfig: path.join(__dirname, 'tsconfig.jest.json')
+      }
+    ],
+    '^.+\\.cjs$': [
+      'babel-jest',
+      {
+        presets: [['@babel/preset-env', { targets: { node: 'current' } }]]
+      }
+    ]
+  },
+  // detectLeaks: true,
+  // detectOpenHandles: true,
+  clearMocks: true,
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8'
 };
+
+if (!existsSync(<string>config.cacheDirectory)) mkdirSync(<string>config.cacheDirectory, { recursive: true });
 
 export default config;
