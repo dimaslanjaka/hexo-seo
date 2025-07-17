@@ -154,12 +154,14 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
     }
   };
   const seo: BaseConfig = hexo.config.seo;
-  writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
-  if (typeof seo === 'undefined') return <BaseConfig>defaultOpt;
-  return deepmerge(defaultOpt, seo, {
-    // disable cache on dev
-    cache: isDev ? false : seo.cache || defaultOpt.cache
-  }) as BaseConfig;
+  if (typeof seo !== 'undefined') {
+    writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
+    return deepmerge(defaultOpt, seo, {
+      // disable cache on dev
+      cache: isDev ? false : seo.cache || defaultOpt.cache
+    }) as BaseConfig;
+  }
+  return <BaseConfig>defaultOpt;
 };
 
 /**
