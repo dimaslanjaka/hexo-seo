@@ -113,7 +113,7 @@ export const defaultOpt: BaseConfig = {
   js: {
     enable: false,
     exclude: ['*.min.js', '**/*.min.js'],
-    concat: { enable: false },
+    concat: { enable: false, download_external: false },
     options: {
       compress: {
         dead_code: true
