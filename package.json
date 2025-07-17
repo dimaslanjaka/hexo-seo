@@ -35,6 +35,7 @@
     "test:generate": "npm run build && cd site && hexo g",
     "test:index": "run-s test:** && node test/index.cjs",
     "test": "npx jest --runInBand --forceExit",
+    "test:cov": "npm test -- --coverage",
     "prepublish": "npm run prepack",
     "prepack": "node changelog.js",
     "pack": "node packer.js --yarn",
