@@ -78,12 +78,20 @@ async function setupHexoSite({
       }
     }
 
-    const configPath = path.join(targetDir, '_config.yml');
-    if (!fs.existsSync(configPath)) {
-      throw new Error('_config.yml not found in the cloned site.');
+    const themeDir = path.join(targetDir, 'themes', 'light');
+    if (!fs.existsSync(themeDir) || !fs.existsSync(path.join(themeDir, '.git'))) {
+      console.log('📦\tCloning hexo-theme-light into themes/light...');
+      await runCommand('git', ['clone', '--depth', '1', 'https://github.com/hexojs/hexo-theme-light', themeDir]);
+    } else {
+      console.log('ℹ️\tTheme "light" already exists. Skipping clone.');
     }
 
-    console.log('✏️\tModifying _config.yml...');
+    const configPath = path.join(targetDir, '_config.yml');
+    if (!fs.existsSync(configPath)) {
+      throw new Error(`${configPath} not found in the cloned site.`);
+    }
+
+    console.log(`✏️\tModifying ${configPath}...`);
     const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
     Object.assign(config, {
       title: 'Hexo SEO Test Site',
@@ -126,7 +134,8 @@ async function setupHexoSite({
           type: ['page', 'post'],
           icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
         }
-      }
+      },
+      theme: 'light'
     });
 
     fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
