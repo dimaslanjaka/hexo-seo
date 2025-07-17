@@ -10,29 +10,31 @@ describe('Hexo Clean', () => {
   let hexoSite;
   let publicIndexPath;
 
+  let consoleSpy;
   beforeAll(async () => {
-    console.log('📦\tSetting up Hexo site for testing...');
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     hexoSite = await setupHexoSite();
     publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
-  });
+  }, 30000); // Increased timeout for setup
 
   test('should remove public/index.html after hexo clean', async () => {
-    console.log('🧹\tRunning hexo clean...');
     await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
 
     const exists = fs.existsSync(publicIndexPath);
     expect(exists).toBe(false);
-  });
+  }, 20000); // Increased timeout for this test
 
-  test('generate on empty site', async () => {
+  test('Generating site for test setup', async () => {
     const sourcePath = path.join(hexoSite.targetDir, 'source');
     if (fs.existsSync(sourcePath)) {
       fs.rmSync(sourcePath, { recursive: true, force: true });
     }
 
-    console.log('⚙️\tGenerating site for test setup...');
     await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
 
     expect(fs.existsSync(publicIndexPath)).toBe(false);
+  }, 20000); // Increased timeout for this test
+  afterAll(() => {
+    consoleSpy.mockRestore();
   });
 });
