@@ -35,7 +35,7 @@ export function getPagePath(data: HexoSeo | HexoLocalsData) {
   if (data.path) return data.path;
 }
 
-export default async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
+export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
   const logname = ansiColors.magentaBright('hexo-seo(html)');
   const logconcatname = ansiColors.magentaBright('hexo-seo(html-concat)');
   const cache = new CacheFile('html');
@@ -274,3 +274,5 @@ export default async function HexoSeoHtml(this: Hexo, content: string, data: Hex
 
   return content;
 }
+
+export default HexoSeoHtml;
