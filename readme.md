@@ -69,6 +69,10 @@ Replace `<commit>` with a specific commit hash, or use `pre-release` for the lat
 ```yaml
 # https://github.com/dimaslanjaka/hexo-seo
 seo:
+  # enable persistent cache for faster builds
+  cache: true
+  # blog hostname (auto-detected if omitted)
+  host: yoursite.com
   # minify html
   html:
     enable: true
@@ -77,22 +81,46 @@ seo:
     # exclude from minify
     exclude:
       - "*.min.{htm,html}"
+    # collapse boolean attributes (default: true)
+    collapseBooleanAttributes: true
+    # remove unnecessary whitespace (default: true)
+    collapseWhitespace: true
+    # ignore custom comments (regex supported)
+    ignoreCustomComments:
+      - "^\s*more"
+    # remove HTML comments
+    removeComments: true
+    # remove empty attributes
+    removeEmptyAttributes: true
+    # remove type="text/javascript" from script tags
+    removeScriptTypeAttributes: true
+    # remove type="text/css" from style/link tags
+    removeStyleLinkTypeAttributes: true
+    # minify inline JS
+    minifyJS: true
+    # minify inline CSS
+    minifyCSS: true
   # minify css
   css:
     enable: true
     # If you want to customize the css minifier settings, you can put below
     # exclude css from minifying, multiple supported
     exclude:
+      - "*.min.css"
       - "**/*.min.css"
   # minify js
   js:
     enable: true
     # concatenate all js into one tag
     ## WARNING: DO NOT USING ANOTHER MINIFIER PLUGIN
-    concat: false
+    concat:
+      enable: false
+      # download external JS before concatenation
+      download_external: false
     # If you want to customize the js minifier settings, you can put below
-    # exclude css from minifying, multiple supported
+    # exclude js from minifying, multiple supported
     exclude:
+      - "*.min.js"
       - "**/*.min.js"
     # this is terser options, you can customize minifier with terser options
     # https://github.com/terser/terser?tab=readme-ov-file#minify-options-structure
@@ -134,7 +162,12 @@ seo:
   links:
     # enable or false
     enable: true
+    # open external links in new tab
+    blank: true
     # allowed following links, otherwise nofollow others
+    allow:
+      - webmanajemen.com
+    # exclude these domains from nofollow
     exclude:
       - webmanajemen.com
       - web-manajemen.blogspot.com

@@ -4,13 +4,16 @@
 ### Bug Fixes
 
 * **changelog:** enhance tag message formatting in changelog generation ([8ca786b](https://github.com/dimaslanjaka/hexo-seo/commit/8ca786b9b47cd6695284ae62df7a5a4480467bf5))
+* **config:** add missing download_external option to js concat settings ([3540663](https://github.com/dimaslanjaka/hexo-seo/commit/3540663f17ad285d702df482e922c86723faa8ae))
 * ensure changelog script runs during prepack stage ([3ae7e71](https://github.com/dimaslanjaka/hexo-seo/commit/3ae7e71a4862d4e98ba1b682bef5a543830e89cd))
 * ensure Yoast and Google News sitemap configurations default to true ([cf3a156](https://github.com/dimaslanjaka/hexo-seo/commit/cf3a156a0ea70c1787dd8a0b4772aa1475c342b2))
 * handle empty sitemap data gracefully ([8458eba](https://github.com/dimaslanjaka/hexo-seo/commit/8458eba50bcdd42edf1ecc42dfc09f3d211477a4)), closes [#292](https://github.com/dimaslanjaka/hexo-seo/issues/292)
 * jest test unit ([177d045](https://github.com/dimaslanjaka/hexo-seo/commit/177d0451d30185721f308fa494eb75c25c415e62))
+* **prepare:** add missing __dirname definition for file path resolution ([2e8ebf4](https://github.com/dimaslanjaka/hexo-seo/commit/2e8ebf416f3307f4f3c31952af043e4875e63edf))
 * **publish:** improve error handling in changelog update function ([580eaec](https://github.com/dimaslanjaka/hexo-seo/commit/580eaec8b734e10635220b3b52cca992ed92fa3a))
 * **readme:** clarify separation of search, RSS, and Atom processes in CLI to prevent memory issues ([c907fca](https://github.com/dimaslanjaka/hexo-seo/commit/c907fca00c16f5ba9b8ba019f8bf847114ab5d2b))
 * remove redundant yoast seo sitemap check ([c15e4ba](https://github.com/dimaslanjaka/hexo-seo/commit/c15e4bad4311015d9f1bf8948617f7bc62b953ee))
+* **setupHexoSite:** throw error instead of exiting process on failure ([7db99c5](https://github.com/dimaslanjaka/hexo-seo/commit/7db99c5862bd2cb08a8a59b40160339a51f0f5af))
 * **setup:** specify package name when installing local workspace in target site ([f723506](https://github.com/dimaslanjaka/hexo-seo/commit/f723506ca6e522b6149740e3372d9e083fb993bc))
 * simplify sitemap processing logic in HexoSeoHtml function ([4327a65](https://github.com/dimaslanjaka/hexo-seo/commit/4327a65a48cce48a366b1d763d3902f5dcbbfea5))
 * simplify test command in code runner configuration ([f6b71e5](https://github.com/dimaslanjaka/hexo-seo/commit/f6b71e57d71ddb3063678adc72fd31e4031c7c06))
@@ -24,7 +27,9 @@
 * add cache cleaning step before generating static site with Hexo ([33bb1a5](https://github.com/dimaslanjaka/hexo-seo/commit/33bb1a598955edf7a8037a8d10b5f2db26ba9383))
 * add instructions for Git commit messages and Node.js configuration ([844acc4](https://github.com/dimaslanjaka/hexo-seo/commit/844acc4faf4c340b09683e2e189a81985607bbce))
 * clone hexo-theme-light if missing and set as default theme in setup script ([1cb07b8](https://github.com/dimaslanjaka/hexo-seo/commit/1cb07b8ec27c3b67bbab5f1d4a31ee2bdc1aa886))
+* generate config data on prepare, update .gitignore and package scripts ([600480c](https://github.com/dimaslanjaka/hexo-seo/commit/600480c4b5eb8e163e96f3e89957bd2ec7f4c5f3))
 * hexo-is ([7729b42](https://github.com/dimaslanjaka/hexo-seo/commit/7729b4246934d7319c4bcacbbe01a3748b5f5056))
+* refactor JS concatenation logic into jsConcat module and add tests ([52dd9ff](https://github.com/dimaslanjaka/hexo-seo/commit/52dd9ff1c5b39c77f4aa08fcc4aee59119a80eab))
 * **setup:** add cleanup for existing target directory before cloning ([4c95157](https://github.com/dimaslanjaka/hexo-seo/commit/4c9515793d86ba6925d41343bd55b9ade1d3cbf6))
 * **setup:** clone sample posts into source/_posts if not present ([50cb748](https://github.com/dimaslanjaka/hexo-seo/commit/50cb748903821d788534caed259cf466079e50a5))
 * **setupHexoSite:** check if targetDir is a git repo before skipping clone ([d77834c](https://github.com/dimaslanjaka/hexo-seo/commit/d77834c4b54775624783b892e9520d95ebb93be2))
@@ -1389,4 +1394,12 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 21:25:31_ ] [1cb07b8](https://github.com/dimaslanjaka/safelink/commit/1cb07b8) feat: clone hexo-theme-light if missing and set as default theme in setup script
 - [ _2025-07-17 21:30:41_ ] [96097db](https://github.com/dimaslanjaka/safelink/commit/96097db) feat(setupHexoSite): install hexo-theme-light and its dependencies during setup
 - [ _2025-07-17 21:50:02_ ] [5368721](https://github.com/dimaslanjaka/safelink/commit/5368721) test: enhance Hexo SEO tests and add sitemap coverage
-- [ _2025-07-17 22:19:24_ ] [970d5b0](https://github.com/dimaslanjaka/safelink/commit/970d5b0) refactor(test): extract Hexo config modification to helper function (HEAD -> pre-release, origin/pre-release, origin/HEAD)
+- [ _2025-07-17 22:19:24_ ] [970d5b0](https://github.com/dimaslanjaka/safelink/commit/970d5b0) refactor(test): extract Hexo config modification to helper function
+- [ _2025-07-18 02:47:50_ ] [69da417](https://github.com/dimaslanjaka/safelink/commit/69da417) refactor(changelog): migrate changelog.js to changelog.cjs and enhance changelog generation (origin/pre-release, origin/HEAD)
+- [ _2025-07-18 02:49:21_ ] [ba9295f](https://github.com/dimaslanjaka/safelink/commit/ba9295f) test: improve test descriptions for clarity and consistency
+- [ _2025-07-18 04:18:26_ ] [42b18f6](https://github.com/dimaslanjaka/safelink/commit/42b18f6) refactor(setupHexoSite): remove existing source folder deletion logic
+- [ _2025-07-18 04:19:50_ ] [3540663](https://github.com/dimaslanjaka/safelink/commit/3540663) fix(config): add missing download_external option to js concat settings
+- [ _2025-07-18 04:23:18_ ] [600480c](https://github.com/dimaslanjaka/safelink/commit/600480c) feat: generate config data on prepare, update .gitignore and package scripts
+- [ _2025-07-18 04:32:25_ ] [7db99c5](https://github.com/dimaslanjaka/safelink/commit/7db99c5) fix(setupHexoSite): throw error instead of exiting process on failure
+- [ _2025-07-18 04:33:22_ ] [2e8ebf4](https://github.com/dimaslanjaka/safelink/commit/2e8ebf4) fix(prepare): add missing \_\_dirname definition for file path resolution
+- [ _2025-07-18 04:41:45_ ] [52dd9ff](https://github.com/dimaslanjaka/safelink/commit/52dd9ff) feat: refactor JS concatenation logic into jsConcat module and add tests (HEAD -> pre-release)
