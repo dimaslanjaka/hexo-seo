@@ -53,7 +53,9 @@ export interface BaseConfig {
       concat?:
         | boolean
         | {
+            /** enable js concatenation */
             enable: boolean;
+            /** download external scripts */
             download_external?: boolean;
           };
     };
