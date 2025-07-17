@@ -40,7 +40,7 @@
     "prepublish": "npm run prepack",
     "prepack": "node changelog.cjs",
     "pack": "node packer.js --yarn",
-    "prepare": "husky"
+    "prepare": "husky && node prepare.mjs"
   },
   "repository": "dimaslanjaka/hexo-seo",
   "homepage": "https://www.webmanajemen.com/docs/hexo-seo",
