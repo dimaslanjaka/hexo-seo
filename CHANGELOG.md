@@ -1338,4 +1338,5 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 20:22:18_ ] [418ef06](https://github.com/dimaslanjaka/safelink/commit/418ef06) docs: improve JSDoc types for spawn options in setupHexoSite and runCommand
 - [ _2025-07-17 20:31:41_ ] [50cb748](https://github.com/dimaslanjaka/safelink/commit/50cb748) feat(setup): clone sample posts into source/\_posts if not present
 - [ _2025-07-17 20:33:20_ ] [f2bc81c](https://github.com/dimaslanjaka/safelink/commit/f2bc81c) fix(test): ensure posts directory is deleted for clean state before tests
-- [ _2025-07-17 20:48:52_ ] [02de85a](https://github.com/dimaslanjaka/safelink/commit/02de85a) feat(setup): remove unnecessary files from sample posts directory (HEAD -> pre-release)
+- [ _2025-07-17 20:48:52_ ] [02de85a](https://github.com/dimaslanjaka/safelink/commit/02de85a) feat(setup): remove unnecessary files from sample posts directory
+- [ _2025-07-17 21:02:27_ ] [77b9fe1](https://github.com/dimaslanjaka/safelink/commit/77b9fe1) feat(sitemap): add support for plain text sitemap.txt generation (HEAD -> pre-release)
