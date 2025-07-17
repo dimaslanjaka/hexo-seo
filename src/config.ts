@@ -38,6 +38,8 @@ export interface BaseConfig {
         yoast: boolean;
         /** google news */
         gnews: boolean;
+        /** txt sitemap */
+        txt?: boolean;
       };
   /**
    * Optimize js
@@ -52,7 +54,6 @@ export interface BaseConfig {
         | boolean
         | {
             enable: boolean;
-            exclude?: string[];
             download_external?: boolean;
           };
     };

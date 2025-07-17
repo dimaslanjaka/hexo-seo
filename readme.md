@@ -148,6 +148,9 @@ seo:
     # google news sitemap
     # location: /google-news-sitemap.xml
     gnews: true
+    # sitemap.txt
+    # location: /sitemap.txt
+    txt: true
   search:
     # hexo seo-search page type to index
     type: ['page', 'post']
