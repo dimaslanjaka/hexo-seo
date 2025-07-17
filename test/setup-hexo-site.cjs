@@ -30,15 +30,15 @@ async function setupHexoSite({
   spawnOptions = {}
 } = {}) {
   try {
-    if (fs.existsSync(targetDir) && !fs.existsSync(path.join(targetDir, '.git'))) {
-      console.log('🗑️\tRemoving existing target directory...');
-      fs.rmSync(targetDir, { recursive: true, force: true });
-    }
-    if (!fs.existsSync(targetDir)) {
+    if (!fs.existsSync(targetDir) || !fs.existsSync(path.join(targetDir, '.git'))) {
+      if (fs.existsSync(targetDir)) {
+        console.log('🗑️\tRemoving existing target directory...');
+        fs.rmSync(targetDir, { recursive: true, force: true });
+      }
       console.log('📦\tCloning repository...');
       await runCommand('git', ['clone', repoUrl, targetDir]);
     } else {
-      console.log('ℹ️\tTarget directory already exists. Skipping clone.');
+      console.log('ℹ️\tTarget directory already exists and is a git repo. Skipping clone.');
     }
 
     console.log('🛠️\tBuilding current workspace...');
