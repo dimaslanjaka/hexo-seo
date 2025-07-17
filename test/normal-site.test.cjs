@@ -8,19 +8,26 @@ const yaml = require('yaml');
 const { deepMerge } = require('hexo-util');
 
 describe('Hexo Clean', () => {
-  /**
-   * @type {Awaited<ReturnType<typeof setupHexoSite>>}
-   */
+  /** @type {Awaited<ReturnType<typeof setupHexoSite>>} */
   let hexoSite;
   let consoleSpy;
 
-  beforeAll(async () => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    // Setting up Hexo site for testing...
-    hexoSite = await setupHexoSite();
+  /**
+   * Helper to modify Hexo config YAML file
+   * @param {object} obj - Object to deep merge into config
+   */
+  function modifyConfig(obj) {
+    if (!hexoSite || !hexoSite.targetDir) throw new Error('Hexo site directory not available');
     const configPath = path.join(hexoSite.targetDir, '_config.yml');
     const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
-    let modified = deepMerge(config, {
+    const modified = deepMerge(config, obj);
+    fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
+  }
+
+  beforeAll(async () => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    hexoSite = await setupHexoSite();
+    modifyConfig({
       title: 'Hexo SEO Test Site',
       description: 'A test site for Hexo SEO plugin',
       permalink: ':title.html',
@@ -63,8 +70,7 @@ describe('Hexo Clean', () => {
         }
       }
     });
-    fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
-  }, 120000); // Set timeout to 2 minutes for setup
+  }, 120000);
 
   test('generate post', async () => {
     const postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
@@ -79,8 +85,8 @@ describe('Hexo Clean', () => {
     expect(fs.existsSync(postPath)).toBe(true);
     const fileContent = fs.readFileSync(postPath, 'utf8');
     expect(fileContent.trim().length).toBeGreaterThan(0);
-    expect(consoleSpy).not.toBeNull(); // Ensure spy is set
-  }, 120000); // Set timeout to 2 minutes for post generation
+    expect(consoleSpy).not.toBeNull();
+  }, 120000);
 
   test('generate site', async () => {
     const sourcePath = path.join(hexoSite.targetDir, 'source');
@@ -89,24 +95,15 @@ describe('Hexo Clean', () => {
     if (!fs.existsSync(sourcePath)) {
       await spawnAsync('git', ['restore', 'source'], { cwd: hexoSite.targetDir, stdio: 'ignore' });
     }
-
-    // Generating site for test setup...
     await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-
     expect(fs.existsSync(publicIndexPath)).toBe(true);
-    expect(consoleSpy).not.toBeNull(); // Ensure spy is set
+    expect(consoleSpy).not.toBeNull();
     expect(fs.existsSync(publicDir)).toBe(true);
-  }, 120000); // Set timeout to 2 minutes for site generation
+  }, 120000);
 
   describe('Sitemap Tests', () => {
-    beforeAll(async () => {
-      hexoSite = await setupHexoSite();
-    });
-
     test('sitemaps exists', async () => {
-      const configPath = path.join(hexoSite.targetDir, '_config.yml');
-      const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
-      let modified = deepMerge(config, {
+      modifyConfig({
         seo: {
           sitemap: { yoast: true, gnews: true, txt: true },
           feed: {
@@ -115,7 +112,6 @@ describe('Hexo Clean', () => {
           }
         }
       });
-      fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
       await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
       const publicDir = path.join(hexoSite.targetDir, 'public');
       expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
@@ -125,14 +121,12 @@ describe('Hexo Clean', () => {
 
     test('only sitemap.txt', async () => {
       const publicDir = path.join(hexoSite.targetDir, 'public');
-      const configPath = path.join(hexoSite.targetDir, '_config.yml');
-      const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
-      let modified = deepMerge(config, {
+      modifyConfig({
         seo: {
           sitemap: { yoast: false, gnews: false, txt: true }
         }
       });
-      fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
       await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
       expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
       expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
