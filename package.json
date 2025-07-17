@@ -37,7 +37,7 @@
     "test": "npx jest --runInBand --forceExit",
     "test:cov": "npm test -- --coverage",
     "prepublish": "npm run prepack",
-    "prepack": "node changelog.js",
+    "prepack": "node changelog.cjs",
     "pack": "node packer.js --yarn",
     "prepare": "husky"
   },
@@ -146,6 +146,9 @@
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "@typescript-eslint/parser": "^8.34.1",
     "binary-collections": "https://github.com/dimaslanjaka/bin/raw/refs/heads/master/releases/bin.tgz",
+    "conventional-changelog": "^7.1.1",
+    "conventional-changelog-angular": "^8.0.0",
+    "conventional-changelog-core": "^9.0.0",
     "cross-env": "^7.0.3",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/80999ac/release/cross-spawn.tgz",
     "depcheck": "^1.4.7",

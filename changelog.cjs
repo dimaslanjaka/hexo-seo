@@ -1,14 +1,40 @@
-const { writeFileSync } = require('fs');
-const { EOL } = require('os');
-const { join } = require('path');
-const spawn = require('child_process').spawn;
-
 /*
  * Generate CHANGELOG.md from commits and tags
  * repo: https://github.com/dimaslanjaka/nodejs-package-types/blob/main/changelog.js
  * raw: https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js
  * update: curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js
  */
+
+const fs = require('fs');
+const { EOL } = require('os');
+const { join } = require('path');
+const spawn = require('child_process').spawn;
+const { default: conventionalChangelog } = require('conventional-changelog-core');
+const angularPreset = require('conventional-changelog-angular');
+const { spawnAsync } = require('cross-spawn');
+
+function _getChangelogMarkdown() {
+  return new Promise((resolve, reject) => {
+    let output = '';
+    // npx conventional-changelog -p angular -i CHANGELOG.md -s -r 1
+    // npx conventional-changelog -p angular -s -o CHANGELOG.md
+
+    conventionalChangelog(
+      { preset: angularPreset },
+      null, // package.json (null = auto)
+      null, // git-raw-commits options
+      null, // parser options
+      null // writer options
+    )
+      .on('data', (chunk) => {
+        output += chunk.toString();
+      })
+      .on('end', () => {
+        resolve(output);
+      })
+      .on('error', reject);
+  });
+}
 
 /**
  * git
@@ -38,19 +64,21 @@ const gitExec = (command) =>
     });
   });
 
-let markdown = ``;
-
 // git log reference https://www.edureka.co/blog/git-format-commit-history/
 // git log date format reference https://stackoverflow.com/questions/7853332/how-to-change-git-log-date-formats
 // custom --pretty=format:"%h %ad | %s %d [%an]" --date=short v1.1.4...v1.1.8
 // default --pretty=oneline v1.1.4...v1.1.8
-gitExec(['log', '--pretty=format:%h !|! %ad !|! %s %d', `--date=format:%Y-%m-%d %H:%M:%S`]).then(function (commits) {
-  commits
-    .split(/\r?\n/gm)
-    .slice()
-    .reverse()
-    .forEach((str, index, all) => {
-      const splitx = str.split('!|!').map((str) => str.trim());
+(async () => {
+  try {
+    let markdown = ``;
+
+    fs.writeFileSync(join(__dirname, 'CHANGELOG.md'), markdown); // reset
+
+    const commits = await gitExec(['log', '--pretty=format:%h !|! %ad !|! %s %d', `--date=format:%Y-%m-%d %H:%M:%S`]);
+    const commitList = commits.split(/\r?\n/gm).slice().reverse();
+    for (let index = 0; index < commitList.length; index++) {
+      const str = commitList[index];
+      const splitx = str.split('!|!').map((s) => s.trim());
       const o = {
         hash: splitx[0],
         date: splitx[1],
@@ -80,23 +108,25 @@ gitExec(['log', '--pretty=format:%h !|! %ad !|! %s %d', `--date=format:%Y-%m-%d 
             ''
           )}` + EOL;
       }
-      if (index === all.length - 1) {
+      if (index === commitList.length - 1) {
         if (!markdown.trim().startsWith('**')) {
           markdown = '**0.0.1** - _init project_\n' + markdown;
         }
-
-        import('prettier')
-          .then((prettier) => {
-            // format markdown
-            prettier.format(markdown, { parser: 'markdown' }).then((result) => {
-              // write changelog with prettier
-              writeFileSync(join(__dirname, 'CHANGELOG.md'), result);
-            });
-          })
-          .catch(() => {
-            // write changelog without prettier
-            writeFileSync(join(__dirname, 'CHANGELOG.md'), markdown);
-          });
+        try {
+          const prettier = await import('prettier');
+          const result = await prettier.format(markdown, { parser: 'markdown' });
+          fs.writeFileSync(join(__dirname, 'CHANGELOG.md'), result);
+        } catch {
+          fs.writeFileSync(join(__dirname, 'CHANGELOG.md'), markdown);
+        }
       }
-    });
-});
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  await spawnAsync('npx', ['conventional-changelog', '-p', 'angular', '-s', '-o', 'CHANGELOG.md'], {
+    stdio: 'inherit',
+    cwd: __dirname
+  });
+})();

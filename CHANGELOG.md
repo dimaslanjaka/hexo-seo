@@ -1,3 +1,44 @@
+## [2.0.2](https://github.com/dimaslanjaka/hexo-seo/compare/v2.0.0...v2.0.2) (2025-07-17)
+
+
+### Bug Fixes
+
+* **changelog:** enhance tag message formatting in changelog generation ([8ca786b](https://github.com/dimaslanjaka/hexo-seo/commit/8ca786b9b47cd6695284ae62df7a5a4480467bf5))
+* ensure changelog script runs during prepack stage ([3ae7e71](https://github.com/dimaslanjaka/hexo-seo/commit/3ae7e71a4862d4e98ba1b682bef5a543830e89cd))
+* ensure Yoast and Google News sitemap configurations default to true ([cf3a156](https://github.com/dimaslanjaka/hexo-seo/commit/cf3a156a0ea70c1787dd8a0b4772aa1475c342b2))
+* handle empty sitemap data gracefully ([8458eba](https://github.com/dimaslanjaka/hexo-seo/commit/8458eba50bcdd42edf1ecc42dfc09f3d211477a4)), closes [#292](https://github.com/dimaslanjaka/hexo-seo/issues/292)
+* jest test unit ([177d045](https://github.com/dimaslanjaka/hexo-seo/commit/177d0451d30185721f308fa494eb75c25c415e62))
+* **publish:** improve error handling in changelog update function ([580eaec](https://github.com/dimaslanjaka/hexo-seo/commit/580eaec8b734e10635220b3b52cca992ed92fa3a))
+* **readme:** clarify separation of search, RSS, and Atom processes in CLI to prevent memory issues ([c907fca](https://github.com/dimaslanjaka/hexo-seo/commit/c907fca00c16f5ba9b8ba019f8bf847114ab5d2b))
+* remove redundant yoast seo sitemap check ([c15e4ba](https://github.com/dimaslanjaka/hexo-seo/commit/c15e4bad4311015d9f1bf8948617f7bc62b953ee))
+* **setup:** specify package name when installing local workspace in target site ([f723506](https://github.com/dimaslanjaka/hexo-seo/commit/f723506ca6e522b6149740e3372d9e083fb993bc))
+* simplify sitemap processing logic in HexoSeoHtml function ([4327a65](https://github.com/dimaslanjaka/hexo-seo/commit/4327a65a48cce48a366b1d763d3902f5dcbbfea5))
+* simplify test command in code runner configuration ([f6b71e5](https://github.com/dimaslanjaka/hexo-seo/commit/f6b71e57d71ddb3063678adc72fd31e4031c7c06))
+* **test:** ensure posts directory is deleted for clean state before tests ([f2bc81c](https://github.com/dimaslanjaka/hexo-seo/commit/f2bc81c4abc0e62343b4a9ac7a4e5e1f08b0a3e1))
+* update sitemap function to check for Yoast SEO sitemap configuration ([aa8b3cb](https://github.com/dimaslanjaka/hexo-seo/commit/aa8b3cbef370d4f54e47a4ed057f0f6ebe88568c))
+
+
+### Features
+
+* `hexo seo` cli all in one generations ([f4cf27f](https://github.com/dimaslanjaka/hexo-seo/commit/f4cf27fbc7de2b831462d3b26cf70ece2499d15b))
+* add cache cleaning step before generating static site with Hexo ([33bb1a5](https://github.com/dimaslanjaka/hexo-seo/commit/33bb1a598955edf7a8037a8d10b5f2db26ba9383))
+* add instructions for Git commit messages and Node.js configuration ([844acc4](https://github.com/dimaslanjaka/hexo-seo/commit/844acc4faf4c340b09683e2e189a81985607bbce))
+* clone hexo-theme-light if missing and set as default theme in setup script ([1cb07b8](https://github.com/dimaslanjaka/hexo-seo/commit/1cb07b8ec27c3b67bbab5f1d4a31ee2bdc1aa886))
+* hexo-is ([7729b42](https://github.com/dimaslanjaka/hexo-seo/commit/7729b4246934d7319c4bcacbbe01a3748b5f5056))
+* **setup:** add cleanup for existing target directory before cloning ([4c95157](https://github.com/dimaslanjaka/hexo-seo/commit/4c9515793d86ba6925d41343bd55b9ade1d3cbf6))
+* **setup:** clone sample posts into source/_posts if not present ([50cb748](https://github.com/dimaslanjaka/hexo-seo/commit/50cb748903821d788534caed259cf466079e50a5))
+* **setupHexoSite:** check if targetDir is a git repo before skipping clone ([d77834c](https://github.com/dimaslanjaka/hexo-seo/commit/d77834c4b54775624783b892e9520d95ebb93be2))
+* **setupHexoSite:** install hexo-theme-light and its dependencies during setup ([96097db](https://github.com/dimaslanjaka/hexo-seo/commit/96097dbe5e909915a50c4591cef0d748a3158ba4))
+* **setup:** remove unnecessary files from sample posts directory ([02de85a](https://github.com/dimaslanjaka/hexo-seo/commit/02de85aa493cbda6c461ad132bf5a7a76f4e1960))
+* **sitemap:** add support for plain text sitemap.txt generation ([77b9fe1](https://github.com/dimaslanjaka/hexo-seo/commit/77b9fe1ea5287a524fbc6ae03855025f96dc0ee8))
+* **sitemap:** add support for plain text sitemap.txt generation ([32c0717](https://github.com/dimaslanjaka/hexo-seo/commit/32c0717a8db03a3bed3e9eddf9c5d2dddf55b7a9))
+* test for no post and page ([88da427](https://github.com/dimaslanjaka/hexo-seo/commit/88da427d33b23b52a2c75bcb4a45353ad69a8873))
+* **tests:** add hexo generation tests for post and site generation ([67ad53b](https://github.com/dimaslanjaka/hexo-seo/commit/67ad53bc0ab355bfbf836c63d42cf33aeb85203b))
+* **tests:** add tests for Hexo site setup and markdown post generation ([66fb3d3](https://github.com/dimaslanjaka/hexo-seo/commit/66fb3d318a914aad675cb0199bd36bd5e53326e5))
+* update hexo-is and bundle it ([661fc12](https://github.com/dimaslanjaka/hexo-seo/commit/661fc12e8f6a1e5588fffbe325de88d4c199bacb))
+
+
+
 **0.0.1** - _init project_
 
 - [ _2021-11-11 20:15:20_ ] [41808df](https://github.com/dimaslanjaka/safelink/commit/41808df) Initial commit
@@ -1339,4 +1380,13 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 20:31:41_ ] [50cb748](https://github.com/dimaslanjaka/safelink/commit/50cb748) feat(setup): clone sample posts into source/\_posts if not present
 - [ _2025-07-17 20:33:20_ ] [f2bc81c](https://github.com/dimaslanjaka/safelink/commit/f2bc81c) fix(test): ensure posts directory is deleted for clean state before tests
 - [ _2025-07-17 20:48:52_ ] [02de85a](https://github.com/dimaslanjaka/safelink/commit/02de85a) feat(setup): remove unnecessary files from sample posts directory
-- [ _2025-07-17 21:02:27_ ] [77b9fe1](https://github.com/dimaslanjaka/safelink/commit/77b9fe1) feat(sitemap): add support for plain text sitemap.txt generation (HEAD -> pre-release)
+- [ _2025-07-17 21:00:23_ ] [32c0717](https://github.com/dimaslanjaka/safelink/commit/32c0717) feat(sitemap): add support for plain text sitemap.txt generation
+- [ _2025-07-17 21:02:27_ ] [77b9fe1](https://github.com/dimaslanjaka/safelink/commit/77b9fe1) feat(sitemap): add support for plain text sitemap.txt generation
+- [ _2025-07-17 21:03:26_ ] [0bb4e23](https://github.com/dimaslanjaka/safelink/commit/0bb4e23) Merge branch 'pre-release' of https://github.com/dimaslanjaka/hexo-seo into pre-release
+- [ _2025-07-17 21:14:09_ ] [4c95157](https://github.com/dimaslanjaka/safelink/commit/4c95157) feat(setup): add cleanup for existing target directory before cloning
+- [ _2025-07-17 21:14:31_ ] [67ad53b](https://github.com/dimaslanjaka/safelink/commit/67ad53b) feat(tests): add hexo generation tests for post and site generation
+- [ _2025-07-17 21:18:51_ ] [d77834c](https://github.com/dimaslanjaka/safelink/commit/d77834c) feat(setupHexoSite): check if targetDir is a git repo before skipping clone
+- [ _2025-07-17 21:25:31_ ] [1cb07b8](https://github.com/dimaslanjaka/safelink/commit/1cb07b8) feat: clone hexo-theme-light if missing and set as default theme in setup script
+- [ _2025-07-17 21:30:41_ ] [96097db](https://github.com/dimaslanjaka/safelink/commit/96097db) feat(setupHexoSite): install hexo-theme-light and its dependencies during setup
+- [ _2025-07-17 21:50:02_ ] [5368721](https://github.com/dimaslanjaka/safelink/commit/5368721) test: enhance Hexo SEO tests and add sitemap coverage
+- [ _2025-07-17 22:19:24_ ] [970d5b0](https://github.com/dimaslanjaka/safelink/commit/970d5b0) refactor(test): extract Hexo config modification to helper function (HEAD -> pre-release, origin/pre-release, origin/HEAD)
