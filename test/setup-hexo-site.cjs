@@ -42,6 +42,7 @@ async function setupHexoSite({
     }
 
     console.log('🛠️\tBuilding current workspace...');
+    await runCommand('npm', ['run', 'prepare'], { cwd: workspaceDir, ...spawnOptions });
     await runCommand('npm', ['run', 'build'], { cwd: workspaceDir, ...spawnOptions });
 
     console.log(`📦\tInstalling local workspace (hexo-seo@${workspaceDir}) into target site...`);
