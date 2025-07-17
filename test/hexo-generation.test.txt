@@ -1,0 +1,99 @@
+import { spawnAsync } from 'cross-spawn';
+import { deepmerge } from 'deepmerge-ts';
+import fs from 'fs';
+import Hexo from 'hexo';
+import sbgUtil from 'sbg-utility';
+import path from 'upath';
+import yaml from 'yaml';
+import type { BaseConfig } from '../src/config';
+import { setupHexoSite } from './setup-hexo-site.cjs';
+import { generateMarkdownPost } from './utils.cjs';
+
+describe('Hexo Clean', () => {
+  type HexoSiteType = Awaited<ReturnType<typeof setupHexoSite>>;
+  let hexoSite: HexoSiteType;
+  let consoleSpy: jest.SpyInstance;
+  let hexo: Hexo;
+
+  async function modifyHexoConfig(data: Record<string, any> & { seo?: Partial<BaseConfig> }) {
+    if (!hexoSite) {
+      hexoSite = await setupHexoSite();
+    }
+    const configPath = path.join(hexoSite.targetDir, '_config.yml');
+    const configContent = fs.readFileSync(configPath, 'utf8');
+    const config = yaml.parse(configContent);
+    // Merge with default options`
+    config.seo = await import('../src/config').then((mod) => mod.defaultOpt);
+    fs.writeFileSync(configPath, yaml.stringify(deepmerge(config, data)));
+  }
+
+  beforeAll(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  }, 60000);
+
+  afterAll(() => {
+    if (consoleSpy) consoleSpy.mockRestore();
+  }, 60000);
+
+  beforeEach(async () => {
+    // Setting up Hexo site for testing...
+    hexoSite = await setupHexoSite({ spawnOptions: { stdio: 'ignore' } });
+    // Change working directory
+    process.chdir(hexoSite.targetDir);
+    // Overwrite process.cwd to always return hexoSiteDir
+    process.cwd = () => hexoSite.targetDir;
+    hexo = new Hexo(hexoSite.targetDir);
+    modifyHexoConfig({
+      exclude: ['node_modules', 'public', 'db.json', 'package-lock.json', '**/readme*']
+    });
+    await hexo.init();
+    await hexo.load();
+    (global as any).hexo = hexo;
+  }, 60000);
+
+  test('generate post', async () => {
+    const postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
+    const { content } = generateMarkdownPost({
+      title: 'Hello world',
+      date: '2024-05-10T00:00:00+07:00',
+      tags: ['sample'],
+      categories: ['sample'],
+      body: 'This is body'
+    });
+    sbgUtil.writefile(postPath, content);
+    expect(fs.existsSync(postPath)).toBe(true);
+    const fileContent = fs.readFileSync(postPath, 'utf8');
+    expect(fileContent.trim().length).toBeGreaterThan(0);
+    expect(consoleSpy).not.toBeNull();
+  }, 60000);
+
+  test('generate site', async () => {
+    const sourcePath = path.join(hexoSite.targetDir, 'source');
+    if (!fs.existsSync(sourcePath)) {
+      await spawnAsync('git', ['restore', 'source'], { cwd: hexoSite.targetDir, stdio: 'ignore' });
+    }
+    await hexo.call('generate', { silent: true });
+    const publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
+    expect(fs.existsSync(publicIndexPath)).toBe(true);
+    expect(consoleSpy).not.toBeNull();
+  }, 60000);
+
+  it('should generate sitemap', async () => {
+    // Modify config
+    modifyHexoConfig({
+      seo: {
+        sitemap: { yoast: true, gnews: true }
+      }
+    });
+
+    await hexo.call('generate', { silent: true });
+
+    const sitemapPath = path.join(hexoSite.targetDir, 'public/sitemap.xml');
+    expect(fs.existsSync(sitemapPath)).toBe(true);
+
+    const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
+    expect(sitemapContent).toMatch(/<urlset[^>]*>/);
+    expect(sitemapContent).toMatch(/<loc>.*<\/loc>/);
+    expect(sitemapContent.length).toBeGreaterThan(100);
+  }, 60000);
+});
