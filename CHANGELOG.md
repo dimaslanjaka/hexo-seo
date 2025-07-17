@@ -1312,4 +1312,7 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-06-18 20:04:31_ ] [c4e006b](https://github.com/dimaslanjaka/safelink/commit/c4e006b) refactor: enhance Jest configuration with detailed comments and structured settings
 - [ _2025-07-01 16:34:07_ ] [32f1e1d](https://github.com/dimaslanjaka/safelink/commit/32f1e1d) build(deps): bump dotenv from 16.6.1 to 17.0.1
 - [ _2025-07-04 03:52:28_ ] [b174efe](https://github.com/dimaslanjaka/safelink/commit/b174efe) Merge pull request #294 from dimaslanjaka/dependabot/npm_and_yarn/dotenv-17.0.1
-- [ _2025-07-17 17:03:54_ ] [2910398](https://github.com/dimaslanjaka/safelink/commit/2910398) chore: update package resolutions and release files, improve sitemap processing (HEAD -> pre-release, origin/pre-release, origin/HEAD)
+- [ _2025-07-17 17:03:54_ ] [2910398](https://github.com/dimaslanjaka/safelink/commit/2910398) chore: update package resolutions and release files, improve sitemap processing
+- [ _2025-07-17 17:11:04_ ] [3ae7e71](https://github.com/dimaslanjaka/safelink/commit/3ae7e71) fix: ensure changelog script runs during prepack stage
+- [ _2025-07-17 17:11:17_ ] [13b2d61](https://github.com/dimaslanjaka/safelink/commit/13b2d61) chore: add search.exclude setting to ignore Yarn files (origin/pre-release, origin/HEAD)
+- [ _2025-07-17 17:15:22_ ] [aa8b3cb](https://github.com/dimaslanjaka/safelink/commit/aa8b3cb) fix: update sitemap function to check for Yoast SEO sitemap configuration (HEAD -> pre-release)
