@@ -119,6 +119,7 @@ describe('jsConcat', () => {
     });
     expect(result).toMatch(/<script src="\/hexo-seo-js\/concat-[a-f0-9]+\.js"><\/script>/);
     expect(result).not.toContain('<script>console.log(');
+    expect(result).not.toContain('https://cdn.jsdelivr.net/npm/js-sample@0.1.6-beta1/lib/index.js');
     expect(result).toContain('https://cdn.jsdelivr.net/npm/js-sample@0.1.6-beta1/lib/index.min.js');
 
     hexo.config.seo.js.exclude = []; // Reset exclude patterns for other tests
