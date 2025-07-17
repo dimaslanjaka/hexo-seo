@@ -1,5 +1,6 @@
 # hexo-seo
 Automated Hexo Seo Optimizer.
+
 [![Post Update](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml/badge.svg)](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml)
 <!--
 [![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
@@ -30,24 +31,34 @@ demo site generated with `hexo-seo`
 
 # Installation
 
-Using NPM Repository (Production)
+
+## Production (NPM Registry)
 ```shell
-npm i hexo-seo
+npm install hexo-seo
 ```
 
-Using Git Repository (Development)
+## Development (Git Repository)
 ```shell
-npm i hexo-seo@https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz
+npm install hexo-seo@https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz
 ```
 
-> Using tarball is useful for git which not installed properly or for you in chinese mainland
+> Using a tarball is helpful if git is not installed properly or for users in mainland China.
 
-| description | link |
-| :--- | :--- |
-| master tarball | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
-| pre-release tarball | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
+| Description         | Link                                                                 |
+| :------------------ | :------------------------------------------------------------------- |
+| Master tarball      | https://github.com/dimaslanjaka/hexo-seo/raw/master/release/hexo-seo.tgz |
+| Pre-release tarball | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
 
-> you can change `master` or `pre-release` with spesific **commit hash**
+> You can replace `master` or `pre-release` with a specific **commit hash** for a targeted version.
+
+### Install Latest Patch by Commit
+```shell
+npm install hexo-seo@https://github.com/dimaslanjaka/hexo-seo/raw/<commit>/release/hexo-seo.tgz
+```
+Replace `<commit>` with a specific commit hash, or use `pre-release` for the latest patch.
+
+> When using the latest `pre-release`, always clear npm/yarn caches before installing.
+
 
 # Usage
 
