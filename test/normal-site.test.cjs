@@ -4,27 +4,70 @@ const { runCommand, generateMarkdownPost } = require('./utils.cjs');
 const { setupHexoSite } = require('./setup-hexo-site.cjs');
 const { spawnAsync } = require('cross-spawn');
 const sbgUtil = require('sbg-utility');
+const yaml = require('yaml');
+const { deepMerge } = require('hexo-util');
 
 describe('Hexo Clean', () => {
   /**
    * @type {Awaited<ReturnType<typeof setupHexoSite>>}
    */
   let hexoSite;
-  let publicIndexPath;
-  let postPath;
-  let sourcePath;
   let consoleSpy;
 
   beforeAll(async () => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // Setting up Hexo site for testing...
     hexoSite = await setupHexoSite();
-    publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
-    sourcePath = path.join(hexoSite.targetDir, 'source');
+    const configPath = path.join(hexoSite.targetDir, '_config.yml');
+    const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+    let modified = deepMerge(config, {
+      title: 'Hexo SEO Test Site',
+      description: 'A test site for Hexo SEO plugin',
+      permalink: ':title.html',
+      seo: {
+        html: { enable: true, fix: true, exclude: ['*.min.{htm,html}'] },
+        css: { enable: true, exclude: ['**/*.min.css'] },
+        js: {
+          enable: true,
+          concat: false,
+          exclude: ['**/*.min.js'],
+          options: {
+            compress: { dead_code: true },
+            mangle: { toplevel: true, safari10: true }
+          }
+        },
+        schema: {
+          article: { enable: true },
+          breadcrumb: { enable: true },
+          sitelink: {
+            enable: true,
+            searchUrl: 'https://www.webmanajemen.com/search?q={search_term_string}'
+          },
+          homepage: { enable: true }
+        },
+        img: {
+          enable: true,
+          broken: false,
+          default: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+          onerror: 'serverside'
+        },
+        links: {
+          enable: true,
+          exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
+        },
+        sitemap: { yoast: true, gnews: true, txt: true },
+        search: { type: ['page', 'post'] },
+        feed: {
+          type: ['page', 'post'],
+          icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+        }
+      }
+    });
+    fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
   }, 120000); // Set timeout to 2 minutes for setup
 
   test('generate post', async () => {
-    postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
+    const postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
     const { content } = generateMarkdownPost({
       title: 'Hello world',
       date: '2024-05-10T00:00:00+07:00',
@@ -40,6 +83,9 @@ describe('Hexo Clean', () => {
   }, 120000); // Set timeout to 2 minutes for post generation
 
   test('generate site', async () => {
+    const sourcePath = path.join(hexoSite.targetDir, 'source');
+    const publicDir = path.join(hexoSite.targetDir, 'public');
+    const publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
     if (!fs.existsSync(sourcePath)) {
       await spawnAsync('git', ['restore', 'source'], { cwd: hexoSite.targetDir, stdio: 'ignore' });
     }
@@ -49,7 +95,50 @@ describe('Hexo Clean', () => {
 
     expect(fs.existsSync(publicIndexPath)).toBe(true);
     expect(consoleSpy).not.toBeNull(); // Ensure spy is set
+    expect(fs.existsSync(publicDir)).toBe(true);
   }, 120000); // Set timeout to 2 minutes for site generation
+
+  describe('Sitemap Tests', () => {
+    beforeAll(async () => {
+      hexoSite = await setupHexoSite();
+    });
+
+    test('sitemaps exists', async () => {
+      const configPath = path.join(hexoSite.targetDir, '_config.yml');
+      const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+      let modified = deepMerge(config, {
+        seo: {
+          sitemap: { yoast: true, gnews: true, txt: true },
+          feed: {
+            type: ['page', 'post'],
+            icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
+          }
+        }
+      });
+      fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
+    }, 60000);
+
+    test('only sitemap.txt', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      const configPath = path.join(hexoSite.targetDir, '_config.yml');
+      const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+      let modified = deepMerge(config, {
+        seo: {
+          sitemap: { yoast: false, gnews: false, txt: true }
+        }
+      });
+      fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
+    }, 60000);
+  });
 
   afterAll(() => {
     if (consoleSpy) consoleSpy.mockRestore();
