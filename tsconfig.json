@@ -19,7 +19,11 @@
       "DOM",
       "ES2015",
       "ESNext"
-    ]
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
   },
   "include": [
     "src",
