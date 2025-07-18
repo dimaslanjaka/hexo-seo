@@ -13,6 +13,7 @@ services:
       - node18_modules:/app/node_modules
       - node18_dist:/app/dist
       - node18_tmp:/app/tmp
+      - node18_yarnlock:/app/yarn.lock
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
   node20:
     image: node:20
@@ -22,6 +23,7 @@ services:
       - node20_modules:/app/node_modules
       - node20_dist:/app/dist
       - node20_tmp:/app/tmp
+      - node20_yarnlock:/app/yarn.lock
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
   node22:
     image: node:22
@@ -31,6 +33,7 @@ services:
       - node22_modules:/app/node_modules
       - node22_dist:/app/dist
       - node22_tmp:/app/tmp
+      - node22_yarnlock:/app/yarn.lock
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
 
 volumes:
@@ -43,3 +46,6 @@ volumes:
   node18_tmp:
   node20_tmp:
   node22_tmp:
+  node18_yarnlock:
+  node20_yarnlock:
+  node22_yarnlock:
