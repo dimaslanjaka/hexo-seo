@@ -92,9 +92,9 @@ jobs:
             ${{ steps.set-env.outputs.cache-npm }}
             ${{ steps.set-env.outputs.cache-yarn }}
             tmp
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.json') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('**/yarn.json') }}
+            ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
             ${{ runner.os }}-
 
       - name: Install dependencies
