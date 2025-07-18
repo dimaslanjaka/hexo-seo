@@ -110,7 +110,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add release
+          git add release CHANGELOG.md
           if [ $(git status --porcelain release | wc -l) -gt "0" ]; then
             git commit -m "chore(tarball): build from CI" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "commit hash: ${{ env.GITHUB_SHA_SHORT }}" -m "commit url: ${{ env.GITHUB_COMMIT_URL }}" -m "runner: ${{ env.GITHUB_RUNNER_URL }}"
             git push
