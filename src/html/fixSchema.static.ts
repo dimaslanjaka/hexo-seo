@@ -47,7 +47,7 @@ export default function fixSchemaStatic(this: Hexo, dom: HTMLElement, hexoSeoCon
     //
   }
   hexoSeoConfig = deepmerge(defaultConfig, hexoSeoConfig);
-  const is = hexoIs(data);
+  const is = hexoIs.call(this, data);
   const breadcrumbs = model[0];
   const article = model[1];
   const sitelink = model[2];
