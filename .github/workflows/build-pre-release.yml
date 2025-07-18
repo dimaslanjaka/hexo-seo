@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: build-release
+  group: build-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
