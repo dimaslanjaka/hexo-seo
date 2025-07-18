@@ -1,11 +1,18 @@
-## [2.0.2](https://github.com/dimaslanjaka/hexo-seo/compare/v2.0.0...v2.0.2) (2025-07-17)
+## [2.0.2](https://github.com/dimaslanjaka/hexo-seo/compare/v2.0.0...v2.0.2) (2025-07-18)
 
 
 ### Bug Fixes
 
+* add missing prepare command before building workspace ([686b100](https://github.com/dimaslanjaka/hexo-seo/commit/686b1004365a182b602765394363d63a2995ff51))
+* add missing prepare command before building workspace ([f193b19](https://github.com/dimaslanjaka/hexo-seo/commit/f193b195236ea1125c1f285cf07610716044b065))
+* add pretest script to ensure build runs before tests ([2e64765](https://github.com/dimaslanjaka/hexo-seo/commit/2e647650f1e595943e7f9d82cf4f1d1c64764bfe))
 * **changelog:** enhance tag message formatting in changelog generation ([8ca786b](https://github.com/dimaslanjaka/hexo-seo/commit/8ca786b9b47cd6695284ae62df7a5a4480467bf5))
 * **config:** add missing download_external option to js concat settings ([3540663](https://github.com/dimaslanjaka/hexo-seo/commit/3540663f17ad285d702df482e922c86723faa8ae))
+* correct context binding for hexoIs function in fixSchemaStatic ([1f3d17a](https://github.com/dimaslanjaka/hexo-seo/commit/1f3d17a0d86c888951100964cca90afb73c00be1))
+* define targetDir and workspaceDir constants for setupHexoSite function ([aa136a0](https://github.com/dimaslanjaka/hexo-seo/commit/aa136a0e842a7185f546896b2713dfd92ffcff4f))
 * ensure changelog script runs during prepack stage ([3ae7e71](https://github.com/dimaslanjaka/hexo-seo/commit/3ae7e71a4862d4e98ba1b682bef5a543830e89cd))
+* ensure concatRoutes defaults to an empty array if undefined ([14f144e](https://github.com/dimaslanjaka/hexo-seo/commit/14f144eb33608ec795b85082b329a180e2e03f11))
+* ensure hexo is initialized and loaded before tests ([d1cccb7](https://github.com/dimaslanjaka/hexo-seo/commit/d1cccb71dade1ec0dde1288da991d08adce01cd5))
 * ensure Yoast and Google News sitemap configurations default to true ([cf3a156](https://github.com/dimaslanjaka/hexo-seo/commit/cf3a156a0ea70c1787dd8a0b4772aa1475c342b2))
 * handle empty sitemap data gracefully ([8458eba](https://github.com/dimaslanjaka/hexo-seo/commit/8458eba50bcdd42edf1ecc42dfc09f3d211477a4)), closes [#292](https://github.com/dimaslanjaka/hexo-seo/issues/292)
 * jest test unit ([177d045](https://github.com/dimaslanjaka/hexo-seo/commit/177d0451d30185721f308fa494eb75c25c415e62))
@@ -18,6 +25,11 @@
 * simplify sitemap processing logic in HexoSeoHtml function ([4327a65](https://github.com/dimaslanjaka/hexo-seo/commit/4327a65a48cce48a366b1d763d3902f5dcbbfea5))
 * simplify test command in code runner configuration ([f6b71e5](https://github.com/dimaslanjaka/hexo-seo/commit/f6b71e57d71ddb3063678adc72fd31e4031c7c06))
 * **test:** ensure posts directory is deleted for clean state before tests ([f2bc81c](https://github.com/dimaslanjaka/hexo-seo/commit/f2bc81c4abc0e62343b4a9ac7a4e5e1f08b0a3e1))
+* **tests:** ensure external scripts are correctly excluded in jsConcat tests ([6389d77](https://github.com/dimaslanjaka/hexo-seo/commit/6389d77ccc26447563ce7109ae3b228a56351bb0))
+* **tests:** increase timeout for HTML processing and path retrieval tests ([5c28705](https://github.com/dimaslanjaka/hexo-seo/commit/5c287055151909e336901dd94706b770e51dfe81))
+* **tests:** simplify test suite execution by consolidating test commands ([80ff68f](https://github.com/dimaslanjaka/hexo-seo/commit/80ff68f14a238af4116e9cd6fab05569a41ba224))
+* **tests:** update step names for Yarn preparation and build process ([3a14b5c](https://github.com/dimaslanjaka/hexo-seo/commit/3a14b5c7bb8ca813557c9a5b0643ffc870240560))
+* update build process to conditionally commit release files ([6cbcb3e](https://github.com/dimaslanjaka/hexo-seo/commit/6cbcb3e3e9925651a7b1e0030a825086366e9152))
 * update sitemap function to check for Yoast SEO sitemap configuration ([aa8b3cb](https://github.com/dimaslanjaka/hexo-seo/commit/aa8b3cbef370d4f54e47a4ed057f0f6ebe88568c))
 
 
@@ -29,7 +41,7 @@
 * clone hexo-theme-light if missing and set as default theme in setup script ([1cb07b8](https://github.com/dimaslanjaka/hexo-seo/commit/1cb07b8ec27c3b67bbab5f1d4a31ee2bdc1aa886))
 * generate config data on prepare, update .gitignore and package scripts ([600480c](https://github.com/dimaslanjaka/hexo-seo/commit/600480c4b5eb8e163e96f3e89957bd2ec7f4c5f3))
 * hexo-is ([7729b42](https://github.com/dimaslanjaka/hexo-seo/commit/7729b4246934d7319c4bcacbbe01a3748b5f5056))
-* refactor JS concatenation logic into jsConcat module and add tests ([52dd9ff](https://github.com/dimaslanjaka/hexo-seo/commit/52dd9ff1c5b39c77f4aa08fcc4aee59119a80eab))
+* refactor JS concatenation logic into jsConcat module and add tests ([9f3fecf](https://github.com/dimaslanjaka/hexo-seo/commit/9f3fecfae268e6999932102a38e153b9c6dbbd0d))
 * **setup:** add cleanup for existing target directory before cloning ([4c95157](https://github.com/dimaslanjaka/hexo-seo/commit/4c9515793d86ba6925d41343bd55b9ade1d3cbf6))
 * **setup:** clone sample posts into source/_posts if not present ([50cb748](https://github.com/dimaslanjaka/hexo-seo/commit/50cb748903821d788534caed259cf466079e50a5))
 * **setupHexoSite:** check if targetDir is a git repo before skipping clone ([d77834c](https://github.com/dimaslanjaka/hexo-seo/commit/d77834c4b54775624783b892e9520d95ebb93be2))
@@ -38,9 +50,11 @@
 * **sitemap:** add support for plain text sitemap.txt generation ([77b9fe1](https://github.com/dimaslanjaka/hexo-seo/commit/77b9fe1ea5287a524fbc6ae03855025f96dc0ee8))
 * **sitemap:** add support for plain text sitemap.txt generation ([32c0717](https://github.com/dimaslanjaka/hexo-seo/commit/32c0717a8db03a3bed3e9eddf9c5d2dddf55b7a9))
 * test for no post and page ([88da427](https://github.com/dimaslanjaka/hexo-seo/commit/88da427d33b23b52a2c75bcb4a45353ad69a8873))
+* **tests:** add caching for Yarn dependencies in CI workflow ([783c5d4](https://github.com/dimaslanjaka/hexo-seo/commit/783c5d406aafdfb5f05193aee8f46ad4d04e9c6c))
 * **tests:** add hexo generation tests for post and site generation ([67ad53b](https://github.com/dimaslanjaka/hexo-seo/commit/67ad53bc0ab355bfbf836c63d42cf33aeb85203b))
 * **tests:** add tests for Hexo site setup and markdown post generation ([66fb3d3](https://github.com/dimaslanjaka/hexo-seo/commit/66fb3d318a914aad675cb0199bd36bd5e53326e5))
 * update hexo-is and bundle it ([661fc12](https://github.com/dimaslanjaka/hexo-seo/commit/661fc12e8f6a1e5588fffbe325de88d4c199bacb))
+* **workflow:** add build release workflow for pre-release branch ([7b1ca61](https://github.com/dimaslanjaka/hexo-seo/commit/7b1ca61e87f4cf1bf3b34a0039beab9877eeb344))
 
 
 
@@ -1395,11 +1409,35 @@ feat(cli): `hexo seo-feed` ATOM generator
 - [ _2025-07-17 21:30:41_ ] [96097db](https://github.com/dimaslanjaka/safelink/commit/96097db) feat(setupHexoSite): install hexo-theme-light and its dependencies during setup
 - [ _2025-07-17 21:50:02_ ] [5368721](https://github.com/dimaslanjaka/safelink/commit/5368721) test: enhance Hexo SEO tests and add sitemap coverage
 - [ _2025-07-17 22:19:24_ ] [970d5b0](https://github.com/dimaslanjaka/safelink/commit/970d5b0) refactor(test): extract Hexo config modification to helper function
-- [ _2025-07-18 02:47:50_ ] [69da417](https://github.com/dimaslanjaka/safelink/commit/69da417) refactor(changelog): migrate changelog.js to changelog.cjs and enhance changelog generation (origin/pre-release, origin/HEAD)
+- [ _2025-07-18 02:47:50_ ] [69da417](https://github.com/dimaslanjaka/safelink/commit/69da417) refactor(changelog): migrate changelog.js to changelog.cjs and enhance changelog generation
 - [ _2025-07-18 02:49:21_ ] [ba9295f](https://github.com/dimaslanjaka/safelink/commit/ba9295f) test: improve test descriptions for clarity and consistency
 - [ _2025-07-18 04:18:26_ ] [42b18f6](https://github.com/dimaslanjaka/safelink/commit/42b18f6) refactor(setupHexoSite): remove existing source folder deletion logic
 - [ _2025-07-18 04:19:50_ ] [3540663](https://github.com/dimaslanjaka/safelink/commit/3540663) fix(config): add missing download_external option to js concat settings
 - [ _2025-07-18 04:23:18_ ] [600480c](https://github.com/dimaslanjaka/safelink/commit/600480c) feat: generate config data on prepare, update .gitignore and package scripts
 - [ _2025-07-18 04:32:25_ ] [7db99c5](https://github.com/dimaslanjaka/safelink/commit/7db99c5) fix(setupHexoSite): throw error instead of exiting process on failure
 - [ _2025-07-18 04:33:22_ ] [2e8ebf4](https://github.com/dimaslanjaka/safelink/commit/2e8ebf4) fix(prepare): add missing \_\_dirname definition for file path resolution
-- [ _2025-07-18 04:41:45_ ] [52dd9ff](https://github.com/dimaslanjaka/safelink/commit/52dd9ff) feat: refactor JS concatenation logic into jsConcat module and add tests (HEAD -> pre-release)
+- [ _2025-07-18 04:42:38_ ] [9f3fecf](https://github.com/dimaslanjaka/safelink/commit/9f3fecf) feat: refactor JS concatenation logic into jsConcat module and add tests
+- [ _2025-07-18 04:45:31_ ] [6389d77](https://github.com/dimaslanjaka/safelink/commit/6389d77) fix(tests): ensure external scripts are correctly excluded in jsConcat tests
+- [ _2025-07-18 04:50:21_ ] [783c5d4](https://github.com/dimaslanjaka/safelink/commit/783c5d4) feat(tests): add caching for Yarn dependencies in CI workflow
+- [ _2025-07-18 04:51:23_ ] [3a14b5c](https://github.com/dimaslanjaka/safelink/commit/3a14b5c) fix(tests): update step names for Yarn preparation and build process
+- [ _2025-07-18 05:08:37_ ] [861de20](https://github.com/dimaslanjaka/safelink/commit/861de20) test: add case for excluding local JS files from concatenation
+- [ _2025-07-18 05:10:41_ ] [80ff68f](https://github.com/dimaslanjaka/safelink/commit/80ff68f) fix(tests): simplify test suite execution by consolidating test commands
+- [ _2025-07-18 05:13:17_ ] [5c28705](https://github.com/dimaslanjaka/safelink/commit/5c28705) fix(tests): increase timeout for HTML processing and path retrieval tests
+- [ _2025-07-18 05:14:17_ ] [9270405](https://github.com/dimaslanjaka/safelink/commit/9270405) refactor(jsConcat): simplify script processing logic
+- [ _2025-07-18 05:19:38_ ] [7b1ca61](https://github.com/dimaslanjaka/safelink/commit/7b1ca61) feat(workflow): add build release workflow for pre-release branch
+- [ _2025-07-18 05:23:04_ ] [078e8c9](https://github.com/dimaslanjaka/safelink/commit/078e8c9) refactor: remove build-monorepo workflow and rename build-pre-release workflow
+- [ _2025-07-18 05:26:34_ ] [0c368e5](https://github.com/dimaslanjaka/safelink/commit/0c368e5) refactor(workflow): improve readability and consistency in build-pre-release.yml
+- [ _2025-07-18 05:32:57_ ] [87b5aad](https://github.com/dimaslanjaka/safelink/commit/87b5aad) refactor(CI): update build-pre-release workflow to use single quotes and remove redundant jobs key
+- [ _2025-07-18 05:35:10_ ] [be6b04e](https://github.com/dimaslanjaka/safelink/commit/be6b04e) refactor(utils): move spawn import to the top of the file for consistency
+- [ _2025-07-18 05:45:53_ ] [c12b1f7](https://github.com/dimaslanjaka/safelink/commit/c12b1f7) refactor: add ts-essentials, update tsconfig typeRoots, and add global utility types
+- [ _2025-07-18 05:49:51_ ] [4ee2437](https://github.com/dimaslanjaka/safelink/commit/4ee2437) refactor(config): add JSDoc comments for js concatenation options
+- [ _2025-07-18 05:56:40_ ] [14f144e](https://github.com/dimaslanjaka/safelink/commit/14f144e) fix: ensure concatRoutes defaults to an empty array if undefined
+- [ _2025-07-18 06:07:49_ ] [f193b19](https://github.com/dimaslanjaka/safelink/commit/f193b19) fix: add missing prepare command before building workspace
+- [ _2025-07-18 06:08:46_ ] [686b100](https://github.com/dimaslanjaka/safelink/commit/686b100) fix: add missing prepare command before building workspace
+- [ _2025-07-18 06:08:55_ ] [0d01ce7](https://github.com/dimaslanjaka/safelink/commit/0d01ce7) Merge branch 'pre-release' of https://github.com/dimaslanjaka/hexo-seo into pre-release
+- [ _2025-07-18 06:09:15_ ] [d1cccb7](https://github.com/dimaslanjaka/safelink/commit/d1cccb7) fix: ensure hexo is initialized and loaded before tests
+- [ _2025-07-18 07:19:11_ ] [6cbcb3e](https://github.com/dimaslanjaka/safelink/commit/6cbcb3e) fix: update build process to conditionally commit release files
+- [ _2025-07-18 07:40:23_ ] [aa136a0](https://github.com/dimaslanjaka/safelink/commit/aa136a0) fix: define targetDir and workspaceDir constants for setupHexoSite function
+- [ _2025-07-18 07:48:56_ ] [2e64765](https://github.com/dimaslanjaka/safelink/commit/2e64765) fix: add pretest script to ensure build runs before tests
+- [ _2025-07-18 07:49:09_ ] [1f3d17a](https://github.com/dimaslanjaka/safelink/commit/1f3d17a) fix: correct context binding for hexoIs function in fixSchemaStatic
+- [ _2025-07-18 07:49:38_ ] [e325653](https://github.com/dimaslanjaka/safelink/commit/e325653) refactor(test): update HexoSeoHtml tests for improved mocking and setup (HEAD -> pre-release, origin/pre-release, origin/HEAD)
