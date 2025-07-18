@@ -7,8 +7,12 @@ const json = require('@rollup/plugin-json').default;
 
 const { author, dependencies, devDependencies, name, version } = packageJson;
 
+// Packages that should be bundled
+const bundledPackages = ['p-limit', 'deepmerge-ts', 'hexo-is', 'is-stream', 'markdown-it', 'node-cache'];
+
+// List external dependencies, excluding specific packages that should be bundled
 const external = [...Object.keys(dependencies), ...Object.keys(devDependencies)].filter(
-  (pkgName) => !['p-limit', 'deepmerge-ts', 'hexo-is', 'is-stream', 'markdown-it'].includes(pkgName)
+  (pkgName) => !bundledPackages.includes(pkgName)
 );
 
 const banner = `// ${name} ${version} by ${author.name} <${author.email}> (${author.url})`.trim();
@@ -51,7 +55,20 @@ const libs = {
     json(),
     resolve({ preferBuiltins: true }),
     commonjs(),
-    babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      presets: [['@babel/preset-env', { targets: { node: '18' } }]]
+    }),
+    {
+      name: 'replace-process-env',
+      transform(code) {
+        return {
+          code: code.replace(/process\.env\.NODE_ENV/g, JSON.stringify('production')),
+          map: { mappings: '' }
+        };
+      }
+    }
   ]
 };
 
@@ -59,7 +76,7 @@ const libs = {
  * @type {import('rollup').RollupOptions}
  */
 const declaration = {
-  input: './tmp/dist/src/index.d.ts',
+  input: './tmp/dist/src/hexo-seo.d.ts',
   output: [
     { file: 'dist/index.d.ts', format: 'es', exports: 'named' },
     { file: 'dist/index.d.mts', format: 'es', exports: 'named' },

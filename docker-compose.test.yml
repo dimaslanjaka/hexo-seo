@@ -1,0 +1,25 @@
+version: '3.8'
+# docker-compose -f docker-compose.test.yml up --abort-on-container-exit
+# Use the following commands to run tests in different Node.js versions
+# docker-compose -f docker-compose.test.yml run --rm node18
+# docker-compose -f docker-compose.test.yml run --rm node20
+# docker-compose -f docker-compose.test.yml run --rm node22
+services:
+  node18:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
+  node20:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
+  node22:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
