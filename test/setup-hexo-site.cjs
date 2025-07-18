@@ -3,6 +3,9 @@ const fs = require('fs');
 const yaml = require('yaml');
 const { runCommand } = require('./utils.cjs');
 
+const targetDir = path.resolve(__dirname, '../tmp/site');
+const workspaceDir = path.join(__dirname, '../');
+
 /**
  * Sets up a Hexo test site for plugin development and testing.
  *
@@ -161,4 +164,6 @@ if (require.main === module) {
   setupHexoSite();
 }
 
-module.exports = { setupHexoSite };
+module.exports.setupHexoSite = setupHexoSite;
+module.exports.targetDir = targetDir;
+module.exports.workspaceDir = workspaceDir;
