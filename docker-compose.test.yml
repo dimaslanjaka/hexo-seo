@@ -10,16 +10,36 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+      - node18_modules:/app/node_modules
+      - node18_dist:/app/dist
+      - node18_tmp:/app/tmp
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
   node20:
     image: node:20
     working_dir: /app
     volumes:
       - .:/app
+      - node20_modules:/app/node_modules
+      - node20_dist:/app/dist
+      - node20_tmp:/app/tmp
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
   node22:
     image: node:22
     working_dir: /app
     volumes:
       - .:/app
+      - node22_modules:/app/node_modules
+      - node22_dist:/app/dist
+      - node22_tmp:/app/tmp
     command: sh -c "touch yarn.lock && yarn install && npm test -- normal"
+
+volumes:
+  node18_modules:
+  node20_modules:
+  node22_modules:
+  node18_dist:
+  node20_dist:
+  node22_dist:
+  node18_tmp:
+  node20_tmp:
+  node22_tmp:
