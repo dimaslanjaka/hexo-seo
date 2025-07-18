@@ -1,80 +1,88 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import path from 'path';
-import { HexoSeo } from '../../src/html/schema/article';
+import type { DeepPartial } from 'ts-essentials';
+import { targetDir } from '../setup-hexo-site.cjs';
 
-let HexoSeoHtml: typeof import('../../src/html/index').default,
-  getPagePath: typeof import('../../src/html/index').getPagePath;
-let hexoInstance: Hexo;
-
-// Set working directory for tests
-const hexoSiteDir = path.resolve(__dirname, '../../tmp/site');
-process.chdir(hexoSiteDir);
-// Overwrite process.cwd to always return hexoSiteDir
-process.cwd = () => hexoSiteDir;
-
-beforeAll(async () => {
-  hexoInstance = new Hexo(hexoSiteDir, { silent: true });
-  await hexoInstance.init();
-  await hexoInstance.load();
-  // Always disable cache
-  hexoInstance.config.seo.cache = false;
-  (global as any).hexo = hexoInstance;
-  const htmlModule = await import('../../src/html/index');
-  HexoSeoHtml = htmlModule.default;
-  getPagePath = htmlModule.getPagePath;
-}, 120000);
-
-// Mocks
-jest.mock('../../src/html/fixSchema.static', () => ({ __esModule: true, default: jest.fn() }));
-jest.mock('../../src/html/fixHyperlinks.static', () => ({ identifyRels: jest.fn(() => ['nofollow']) }));
-jest.mock('../../src/html/types', () => ({ isExternal: jest.fn(() => true) }));
-jest.mock('../../src/html/schema/article', () => ({ HexoSeo: jest.fn() }));
-
-const mockConfig = {
-  links: { enable: true },
-  html: { fix: true },
-  img: { enable: true, broken: false, onerror: '', default: 'no-image.png' },
-  js: { concat: false, enable: false, options: {} },
-  theme_dir: '',
-  source_dir: '',
-  post_dir: ''
-};
-
-jest.mock('../../src/config', () => ({
-  __esModule: true,
-  default: () => mockConfig,
-  cache_key_router: 'cache_key_router',
-  coreCache: { getSync: jest.fn(() => []), setSync: jest.fn() },
-  getMode: jest.fn(() => 'g')
-}));
-jest.mock('../../src/hexo-seo', () => ({ isDev: true }));
-
-// Minimal HTML for testing
-const html = fs.readFileSync(path.join(__dirname, '../fixtures/full.html'), 'utf-8');
-const data: Partial<HexoSeo> = {
-  page: { title: 'Test Title', full_source: 'test.html', path: 'test.html' },
-  config: { title: 'Site Title' } as any
-};
+jest.mock('hexo-is', () => {
+  const mockIs = jest.fn(() => ({})) as any;
+  mockIs.post = jest.fn(() => false);
+  mockIs.page = jest.fn(() => false);
+  mockIs.home = jest.fn(() => false);
+  mockIs.archive = jest.fn(() => false);
+  mockIs.category = jest.fn(() => false);
+  mockIs.tag = jest.fn(() => false);
+  return {
+    __esModule: true,
+    default: mockIs,
+    post: mockIs.post,
+    page: mockIs.page,
+    home: mockIs.home,
+    archive: mockIs.archive,
+    category: mockIs.category,
+    tag: mockIs.tag,
+    hexoIs: mockIs
+  };
+});
 
 describe('HexoSeoHtml', () => {
-  // ...existing code...
+  let hexo: Hexo;
+  let HexoSeoHtml: typeof import('../../src/html/index').HexoSeoHtml;
+  let getPagePath: typeof import('../../src/html/index').getPagePath;
+  let mockConfig: DeepPartial<typeof import('../../src/config').defaultOpt>;
+
+  beforeAll(async () => {
+    try {
+      // Set working directory for tests
+      process.chdir(targetDir);
+      process.cwd = () => targetDir;
+
+      // Dynamically import defaultOpt after chdir
+      mockConfig = {
+        links: { enable: true },
+        html: { fix: true },
+        img: { enable: true, broken: false, onerror: undefined, default: 'no-image.png' },
+        js: { concat: false as any, enable: false, options: {} }
+      };
+
+      hexo = new Hexo(targetDir, { silent: true });
+      // Always disable cache
+      hexo.config.seo = {
+        ...(hexo.config.seo || {}),
+        ...mockConfig,
+        cache: false
+      };
+      await hexo.init();
+      // await hexo.load();
+      (global as any).hexo = hexo;
+      const htmlModule = await import('../../src/html/index');
+      HexoSeoHtml = htmlModule.default;
+      getPagePath = htmlModule.getPagePath;
+    } catch (e) {
+      console.error('beforeAll error:', e);
+      throw e;
+    }
+  }, 120000);
+
+  it('should use getPagePath correctly', () => {
+    expect(getPagePath({ page: { full_source: 'test.md' } } as any)).toBe('test.md');
+    expect(getPagePath({ path: 'other.html', config: { title: 'Site Title' } } as any)).toBe('other.html');
+  }, 120000);
+
   it('should process HTML and add SEO attributes', async () => {
-    const result = await HexoSeoHtml.call(hexoInstance, html, data);
+    const html = fs.readFileSync(path.join(__dirname, '/../fixtures/full.html'), 'utf-8');
+    const data: DeepPartial<import('../../src/html/schema/article').HexoSeo> = {
+      page: {
+        title: 'Test Title',
+        full_source: 'test.md',
+        path: 'test.html',
+        source: 'test.md'
+      },
+      config: { title: 'Site Title' }
+    };
+    const result = await HexoSeoHtml.call(hexo, html, data);
     expect(result).toContain('hexo-seo');
     expect(result).toContain('alt="Test Title"');
     expect(result).toContain('title="Test Title"');
   }, 120000);
-
-  it('should use getPagePath correctly', () => {
-    expect(getPagePath(data as any)).toBe('test.html');
-    expect(getPagePath({ path: 'other.html', config: { title: 'Site Title' } } as any)).toBe('other.html');
-  }, 120000);
-
-  // it('should concat js files', async () => {
-  //   hexoInstance.config.seo.js.concat = true;
-  //   const result = await HexoSeoHtml.call(hexoInstance, html, data);
-  //   writefile(path.join(__dirname, '__sample-test.html'), result);
-  // }, 120000);
-  // ...existing code...
 });
