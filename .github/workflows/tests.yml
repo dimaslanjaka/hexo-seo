@@ -77,4 +77,5 @@ jobs:
 
       - name: 🧹 Clean GitHub Actions Caches
         if: matrix.os == 'ubuntu-latest' && matrix.node == 22
+        continue-on-error: true
         run: npx clean-github-actions-caches
