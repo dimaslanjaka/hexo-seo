@@ -2,10 +2,8 @@
 Automated Hexo Seo Optimizer.
 
 [![Post Update](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml/badge.svg)](https://github.com/dimaslanjaka/source-posts/actions/workflows/build-site-reusable.yml)
-<!--
-[![Test Demo](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/test-demo.yml)
-[![Build Release](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-release.yml)
--->
+[![Build Pre-release](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-pre-release.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/build-pre-release.yml)
+[![Cross-Platform Tests](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/tests.yml/badge.svg)](https://github.com/dimaslanjaka/hexo-seo/actions/workflows/tests.yml)
 
 # Features
 
