@@ -5,6 +5,10 @@ const { runCommand } = require('./utils.cjs');
 
 const targetDir = path.resolve(__dirname, '../tmp/site');
 const workspaceDir = path.join(__dirname, '../');
+const repoUrl = 'https://github.com/hexojs/hexo-starter.git';
+module.exports.repoUrl = repoUrl;
+module.exports.targetDir = targetDir;
+module.exports.workspaceDir = workspaceDir;
 
 /**
  * Sets up a Hexo test site for plugin development and testing.
@@ -170,5 +174,3 @@ if (require.main === module) {
 }
 
 module.exports.setupHexoSite = setupHexoSite;
-module.exports.targetDir = targetDir;
-module.exports.workspaceDir = workspaceDir;
