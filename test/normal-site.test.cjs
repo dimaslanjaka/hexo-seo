@@ -132,6 +132,66 @@ describe('Hexo Clean', () => {
       expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
       expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
     }, 60000);
+
+    test('should generate only sitemap.xml (yoast)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: true, gnews: false, txt: false } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
+    }, 60000);
+
+    test('should generate only google-news-sitemap.xml (gnews)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: false, gnews: true, txt: false } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
+    }, 60000);
+
+    test('should generate sitemap.xml and google-news-sitemap.xml (yoast + gnews)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: true, gnews: true, txt: false } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
+    }, 60000);
+
+    test('should generate sitemap.xml and sitemap.txt (yoast + txt)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: true, gnews: false, txt: true } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
+    }, 60000);
+
+    test('should generate google-news-sitemap.xml and sitemap.txt (gnews + txt)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: false, gnews: true, txt: true } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
+    }, 60000);
+
+    test('should generate no sitemap files (all false)', async () => {
+      const publicDir = path.join(hexoSite.targetDir, 'public');
+      modifyConfig({ seo: { sitemap: { yoast: false, gnews: false, txt: false } } });
+      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
+      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
+      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
+    }, 60000);
   });
 
   afterAll(() => {
