@@ -47,9 +47,14 @@ async function setupHexoSite({
     console.log('🛠️\tBuilding current workspace...');
     await runCommand('npm', ['run', 'prepare'], { cwd: workspaceDir, ...spawnOptions });
     await runCommand('npm', ['run', 'build'], { cwd: workspaceDir, ...spawnOptions });
+    await runCommand('npm', ['run', 'pack'], { cwd: workspaceDir, ...spawnOptions });
 
-    console.log(`📦\tInstalling local workspace (hexo-seo@${workspaceDir}) into target site...`);
-    await runCommand('npm', ['install', `hexo-seo@${workspaceDir}`], { cwd: targetDir, ...spawnOptions });
+    const tarballPath = path.join(workspaceDir, 'release', 'hexo-seo.tgz');
+    console.log(`📦\tInstalling local workspace (hexo-seo@${tarballPath}) into target site...`);
+    await runCommand('npm', ['install', `hexo-seo@${tarballPath.replace(/\\/g, '/')}`], {
+      cwd: targetDir,
+      ...spawnOptions
+    });
 
     const sourceDir = path.join(targetDir, 'source');
 
