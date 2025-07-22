@@ -19,3 +19,5 @@ coverage/
 __*.*
 src/_config_data.json
 /CHANGELOG.md
+/*.tgz
+/*.gz
