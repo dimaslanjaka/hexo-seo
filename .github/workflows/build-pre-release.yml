@@ -31,13 +31,13 @@ jobs:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
-      - name: Checkout repository
+      - name: 🛎️ Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: monorepo
 
-      - name: Set environment variables
+      - name: 🏷️ Set environment variables
         id: set-env
         shell: bash
         run: |
@@ -58,7 +58,7 @@ jobs:
           fi
           echo "architecture=$(getconf LONG_BIT)" >> $GITHUB_ENV
 
-      - name: Print environment info
+      - name: 🖨️ Print environment info
         run: |
           echo "branch      : ${{ env.GITHUB_BRANCH }}"
           echo "commit msg  : ${{ github.event.head_commit.message }}"
@@ -68,23 +68,23 @@ jobs:
           echo "cache npm   : ${{ env.CACHE_NPM }}"
           echo "cache yarn  : ${{ env.CACHE_YARN }}"
 
-      - name: Set EOL git configs
+      - name: ⚙️ Set EOL git configs
         continue-on-error: true
         run: |
           git config core.eol lf
           git config core.autocrlf input
           git checkout-index --force --all
 
-      - name: Setup Node.js (version 18.x)
+      - name: 🟢 Setup Node.js (version 18.x)
         uses: actions/setup-node@v4
         with:
           node-version: 18.x # Node.js version
           token: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Enable corepack
+      - name: 📦 Enable corepack
         run: corepack enable
 
-      - name: Restore cache
+      - name: ♻️ Restore cache
         uses: actions/cache@v4
         id: cache
         with:
@@ -97,16 +97,21 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
             ${{ runner.os }}-
 
-      - name: Install dependencies
+      - name: 📥 Install dependencies
         run: yarn install
 
-      - name: Run prepare script
+      - name: 🛠️ Run prepare script
         run: yarn run prepare
 
-      - name: Build project
+      - name: 🏗️ Build project
         run: yarn build
 
-      - name: Push
+      - name: 🧪 Run tests
+        run: yarn test
+      - name: 📦 Pack project
+        run: yarn run pack
+
+      - name: 🚀 Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
