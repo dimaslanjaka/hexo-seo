@@ -103,17 +103,21 @@ fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 if (currentChecksum !== prevChecksum) {
   // Build workspace
   log('🔨\tBuilding hexo-seo workspace...');
-  runCmd('npm', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
+  runCmd('yarn', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
   log('🔨\tPacking hexo-seo workspace...');
-  runCmd('npm', ['run', 'pack'], { cwd: __dirname, stdio: 'ignore' });
+  runCmd('yarn', ['run', 'pack'], { cwd: __dirname, stdio: 'ignore' });
 } else {
   log('ℹ️\tSkipping build and pack due to unchanged source checksum.');
 }
 
 // Install workspace tarball to target directory
 log('📦\tInstalling hexo-seo from tarball...');
+if (!fs.existsSync(path.join(targetDir, 'yarn.lock'))) {
+  fs.writeFileSync(path.join(targetDir, 'yarn.lock'), '', 'utf8');
+  log('ℹ️\tCreated empty yarn.lock in target directory.');
+}
 const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
-runCmd('npm', ['install', `hexo-seo@file:${tarballPath}`], {
+runCmd('yarn', ['add', `hexo-seo@file:${tarballPath}`], {
   cwd: targetDir,
   stdio: 'ignore'
 });
