@@ -184,7 +184,8 @@
   },
   "packageManager": "yarn@4.9.2",
   "workspaces": [
-    "site"
+    "site",
+    "packages/*"
   ],
   "resolutions": {
     "@types/git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/34c0cae5545b8bdc6c7b1a3e0f4b85c09af2a855/release/git-command-helper.tgz",
