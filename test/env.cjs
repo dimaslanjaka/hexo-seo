@@ -1,7 +1,8 @@
 const Bluebird = require('bluebird');
 const { deepmerge } = require('deepmerge-ts');
 const Hexo = require('hexo');
-const { fs, path } = require('sbg-utility');
+const fs = require('fs-extra');
+const path = require('upath');
 
 const base = path.resolve(__dirname, '../tmp/site/');
 const base_node_modules = path.join(base, 'node_modules');
@@ -22,8 +23,11 @@ function envHexo(config) {
     .then(() => {
       return Bluebird.all(fs.readdir(base_node_modules)).each((pluginName) => {
         if (pluginName.startsWith('hexo-')) {
-          // console.log('load plugin', pluginName, require.resolve(pluginName, { paths: [base] }));
-          return hexo.loadPlugin(require.resolve(pluginName, { paths: [base] }));
+          try {
+            return hexo.loadPlugin(require.resolve(pluginName, { paths: [base] }));
+          } catch {
+            // ignore if plugin not found
+          }
         }
       });
     })
