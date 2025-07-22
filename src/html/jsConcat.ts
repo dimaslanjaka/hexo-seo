@@ -124,10 +124,9 @@ export async function jsConcat(this: Hexo, { root, logname, logconcatname, fileP
   }
   writefile(jsFilePath, scriptContent);
   hexo.log.debug(logname, jsFilePath);
-  let content = root.toString();
   const newsrc = `/hexo-seo-js/${filename}.js`;
   const newScript = `<script src="${newsrc}"></script>`;
-  content = content.replace('</body>', newScript + '</body>');
+  root.querySelector('body')?.appendChild(nodeHtmlParser(newScript));
   concatRoutes.push({
     path: newsrc,
     absolute: jsFilePath
@@ -138,6 +137,7 @@ export async function jsConcat(this: Hexo, { root, logname, logconcatname, fileP
     'written',
     writefile(path.join(process.cwd(), hexo.config.public_dir, newsrc), scriptContent).file
   );
+  const content = root.toString();
   hexo.log.debug(logname, writefile(filePathWithoutExt + '.html', content).file);
   return content;
 }
