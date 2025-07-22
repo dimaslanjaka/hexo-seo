@@ -97,7 +97,7 @@ export interface returnPageData extends HexoLocalsData {
  * @param data
  * @returns
  */
-export function getPageData(data: HexoLocalsData) {
+export function getPageData(this: Hexo, data: HexoLocalsData) {
   const is = hexoIs(data);
   if (data['page']) {
     const page = <returnPageData>data['page'];
@@ -105,20 +105,6 @@ export function getPageData(data: HexoLocalsData) {
     return page;
   }
 }
-
-// init each sitemap
-const groups = ['post', 'page', 'category', 'tag'];
-groups.forEach((group) => {
-  if (!sitemapGroup[group]) initSitemap(group);
-  if (sitemapGroup[group].urlset.url.length === 0) {
-    sitemapGroup[group].urlset.url.push({
-      loc: hexo.config.url,
-      lastmod: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-      priority: '1',
-      changefreq: 'daily'
-    });
-  }
-});
 
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
 const postUpdateDates: string[] = [];
@@ -136,6 +122,20 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
       log.error('[hexo-seo][sitemap] config sitemap not set');
     }
     return;
+  }
+  // init each sitemap
+  const groups = ['post', 'page', 'category', 'tag'];
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    if (!sitemapGroup[group]) initSitemap(group);
+    if (sitemapGroup[group].urlset.url.length === 0) {
+      sitemapGroup[group].urlset.url.push({
+        loc: this.config.url,
+        lastmod: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
+        priority: '1',
+        changefreq: 'daily'
+      });
+    }
   }
   // set category and tag information of posts
   if (!categoryTagsInfo) {
@@ -177,7 +177,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
       head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
   }
 
-  const post = getPageData(data);
+  const post = getPageData.call(this, data);
   if (post) {
     const isPagePost = post.is.post || post.is.page;
     if (isPagePost) {
