@@ -9,7 +9,7 @@ import { CacheFile } from '../cache';
 import getConfig, { cache_key_router, coreCache, getMode } from '../config';
 import { buildFolder, tmpFolder } from '../fm';
 import { minifyJS } from '../minifier/js';
-import { md5 } from '../utils/md5-file';
+import { md5 } from '../utils/file-checksum.cjs';
 
 export interface JsConcatOptions {
   root: ReturnType<typeof nodeHtmlParser>;

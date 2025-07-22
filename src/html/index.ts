@@ -9,7 +9,7 @@ import { isDev } from '../hexo-seo';
 import logger from '../log';
 import sitemap from '../sitemap';
 import { array_remove_empties, array_unique } from '../utils/array';
-import { md5 } from '../utils/md5-file';
+import { md5 } from '../utils/file-checksum.cjs';
 import { identifyRels } from './fixHyperlinks.static';
 import fixSchemaStatic from './fixSchema.static';
 import { jsConcat } from './jsConcat';

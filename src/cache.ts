@@ -4,7 +4,7 @@ import { bindProcessExit, writefile } from 'sbg-utility';
 import path from 'upath';
 import { buildFolder, readFile, tmpFolder } from './fm';
 import logger from './log';
-import md5File, { md5, sync as md5FileSync } from './utils/md5-file';
+import md5File, { md5, sync as md5FileSync } from './utils/file-checksum.cjs';
 
 const myCache = new NodeCache({ stdTTL: 500, checkperiod: 520 });
 

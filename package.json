@@ -89,6 +89,7 @@
     "dotenv": "^17.2.0",
     "file-type": "^21.0.0",
     "fs-extra": "^11.3.0",
+    "glob": "^11.0.3",
     "google-news-sitemap": "^1.1.1",
     "he": "^1.2.0",
     "hexo-is": "^2.0.2",
