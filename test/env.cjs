@@ -16,7 +16,7 @@ process.cwd = () => base;
  * @returns
  */
 function envHexo(config) {
-  const hexo = new Hexo(base, Object.assign(config, { silent: true }));
+  const hexo = new Hexo(base, Object.assign({ silent: true }, config || {}));
   const initialized = hexo
     .init()
     // load hexo plugins
