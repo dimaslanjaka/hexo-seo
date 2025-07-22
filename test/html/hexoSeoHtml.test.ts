@@ -2,7 +2,7 @@ import fs from 'fs';
 import Hexo from 'hexo';
 import path from 'path';
 import type { DeepPartial } from 'ts-essentials';
-import { targetDir } from '../setup-hexo-site.cjs';
+import { targetDir } from '../../pretest.cjs';
 
 jest.mock('hexo-is', () => {
   const mockIs = jest.fn(() => ({})) as any;

@@ -1,41 +1,36 @@
 const fs = require('fs');
 const path = require('upath');
 const { runCommand } = require('./utils.cjs');
-const { setupHexoSite } = require('./setup-hexo-site.cjs');
+const { targetDir } = require('../pretest.cjs');
 
 describe('Hexo Clean', () => {
-  /**
-   * @type {Awaited<ReturnType<typeof setupHexoSite>>}
-   */
-  let hexoSite;
   let publicIndexPath;
 
   let consoleSpy;
   beforeAll(async () => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    hexoSite = await setupHexoSite();
     // Delete the posts directory to ensure clean state
-    const postsPath = path.join(hexoSite.targetDir, 'source/_posts');
+    const postsPath = path.join(targetDir, 'source/_posts');
     if (fs.existsSync(postsPath)) {
       fs.rmSync(postsPath, { recursive: true, force: true });
     }
-    publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
+    publicIndexPath = path.join(targetDir, 'public/index.html');
   }, 120000); // Set timeout to 2 minutes for setup
 
   test('should remove public/index.html after hexo clean', async () => {
-    await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
+    await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: targetDir });
 
     const exists = fs.existsSync(publicIndexPath);
     expect(exists).toBe(false);
   }, 120000); // Set timeout to 2 minutes for this test
 
   test('Generating site for test setup', async () => {
-    const sourcePath = path.join(hexoSite.targetDir, 'source');
+    const sourcePath = path.join(targetDir, 'source');
     if (fs.existsSync(sourcePath)) {
       fs.rmSync(sourcePath, { recursive: true, force: true });
     }
 
-    await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+    await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: targetDir });
 
     expect(fs.existsSync(publicIndexPath)).toBe(false);
   }, 120000); // Set timeout to 2 minutes for this test

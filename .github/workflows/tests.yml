@@ -72,9 +72,6 @@ jobs:
       - name: �🛠️ Build Workspace
         run: npm run build
 
-      - name: 🏗️ Setup Hexo Site
-        run: node test/setup-hexo-site.cjs
-
       - name: 🧪 Run Test Suite
         run: npm test
 

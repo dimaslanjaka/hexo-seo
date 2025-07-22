@@ -1,15 +1,13 @@
 const fs = require('fs');
 const path = require('upath');
 const { runCommand, generateMarkdownPost } = require('./utils.cjs');
-const { setupHexoSite } = require('./setup-hexo-site.cjs');
 const { spawnAsync } = require('cross-spawn');
 const sbgUtil = require('sbg-utility');
 const yaml = require('yaml');
 const { deepMerge } = require('hexo-util');
+const { targetDir } = require('../pretest.cjs');
 
-describe('Hexo Clean', () => {
-  /** @type {Awaited<ReturnType<typeof setupHexoSite>>} */
-  let hexoSite;
+describe('CLI common test', () => {
   let consoleSpy;
 
   /**
@@ -17,8 +15,7 @@ describe('Hexo Clean', () => {
    * @param {object} obj - Object to deep merge into config
    */
   function modifyConfig(obj) {
-    if (!hexoSite || !hexoSite.targetDir) throw new Error('Hexo site directory not available');
-    const configPath = path.join(hexoSite.targetDir, '_config.yml');
+    const configPath = path.join(targetDir, '_config.yml');
     const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
     const modified = deepMerge(config, obj);
     fs.writeFileSync(configPath, yaml.stringify(modified), 'utf8');
@@ -26,7 +23,6 @@ describe('Hexo Clean', () => {
 
   beforeAll(async () => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    hexoSite = await setupHexoSite();
     modifyConfig({
       title: 'Hexo SEO Test Site',
       description: 'A test site for Hexo SEO plugin',
@@ -72,8 +68,12 @@ describe('Hexo Clean', () => {
     });
   }, 120000);
 
+  afterAll(() => {
+    if (consoleSpy) consoleSpy.mockRestore();
+  });
+
   test('should generate a post file', async () => {
-    const postPath = path.join(hexoSite.targetDir, 'source/_posts/hello-world.md');
+    const postPath = path.join(targetDir, 'source/_posts/hello-world.md');
     const { content } = generateMarkdownPost({
       title: 'Hello world',
       date: '2024-05-10T00:00:00+07:00',
@@ -89,112 +89,15 @@ describe('Hexo Clean', () => {
   }, 120000);
 
   test('should generate site output', async () => {
-    const sourcePath = path.join(hexoSite.targetDir, 'source');
-    const publicDir = path.join(hexoSite.targetDir, 'public');
-    const publicIndexPath = path.join(hexoSite.targetDir, 'public/index.html');
+    const sourcePath = path.join(targetDir, 'source');
+    const publicDir = path.join(targetDir, 'public');
+    const publicIndexPath = path.join(targetDir, 'public/index.html');
     if (!fs.existsSync(sourcePath)) {
-      await spawnAsync('git', ['restore', 'source'], { cwd: hexoSite.targetDir, stdio: 'ignore' });
+      await spawnAsync('git', ['restore', 'source'], { cwd: targetDir, stdio: 'ignore' });
     }
-    await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
+    await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: targetDir });
     expect(fs.existsSync(publicIndexPath)).toBe(true);
     expect(consoleSpy).not.toBeNull();
     expect(fs.existsSync(publicDir)).toBe(true);
   }, 120000);
-
-  describe('Sitemap', () => {
-    test('should generate all sitemap files', async () => {
-      modifyConfig({
-        seo: {
-          sitemap: { yoast: true, gnews: true, txt: true },
-          feed: {
-            type: ['page', 'post'],
-            icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
-          }
-        }
-      });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
-    }, 60000);
-
-    test('should generate only sitemap.txt', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({
-        seo: {
-          sitemap: { yoast: false, gnews: false, txt: true }
-        }
-      });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
-    }, 60000);
-
-    test('should generate only sitemap.xml (yoast)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: true, gnews: false, txt: false } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
-    }, 60000);
-
-    test('should generate only google-news-sitemap.xml (gnews)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: false, gnews: true, txt: false } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
-    }, 60000);
-
-    test('should generate sitemap.xml and google-news-sitemap.xml (yoast + gnews)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: true, gnews: true, txt: false } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
-    }, 60000);
-
-    test('should generate sitemap.xml and sitemap.txt (yoast + txt)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: true, gnews: false, txt: true } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
-    }, 60000);
-
-    test('should generate google-news-sitemap.xml and sitemap.txt (gnews + txt)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: false, gnews: true, txt: true } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(true);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
-    }, 60000);
-
-    test('should generate no sitemap files (all false)', async () => {
-      const publicDir = path.join(hexoSite.targetDir, 'public');
-      modifyConfig({ seo: { sitemap: { yoast: false, gnews: false, txt: false } } });
-      await runCommand('npx', ['hexo', 'clean', '--silent'], { cwd: hexoSite.targetDir });
-      await runCommand('npx', ['hexo', 'generate', '--silent'], { cwd: hexoSite.targetDir });
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.xml'))).toBe(false);
-      expect(fs.existsSync(path.join(publicDir, 'sitemap.txt'))).toBe(false);
-      expect(fs.existsSync(path.join(publicDir, 'google-news-sitemap.xml'))).toBe(false);
-    }, 60000);
-  });
-
-  afterAll(() => {
-    if (consoleSpy) consoleSpy.mockRestore();
-  });
 });

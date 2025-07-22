@@ -2,24 +2,22 @@ import fs from 'fs';
 import Hexo from 'hexo';
 import { parse as nodeHtmlParser } from 'node-html-parser';
 import path from 'path';
-import { setupHexoSite } from '../setup-hexo-site.cjs';
+import { targetDir } from '../../pretest.cjs';
 
 describe('jsConcat', () => {
   let hexo: Hexo;
   let logname: string;
   let logconcatname: string;
-  let hexoSite: Awaited<ReturnType<typeof setupHexoSite>>;
   let jsConcat: (typeof import('../../src/html/jsConcat'))['jsConcat'];
   let consoleLogSpy: jest.SpyInstance;
 
   beforeAll(async () => {
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    hexoSite = await setupHexoSite({ spawnOptions: { stdio: 'ignore' } });
     // Change working directory
-    process.chdir(hexoSite.targetDir);
+    process.chdir(targetDir);
     // Overwrite process.cwd to always return hexoSiteDir
-    process.cwd = () => hexoSite.targetDir;
-    hexo = new Hexo(hexoSite.targetDir);
+    process.cwd = () => targetDir;
+    hexo = new Hexo(targetDir);
     await hexo.init();
     await hexo.load();
     (global as any).hexo = hexo;
@@ -131,7 +129,7 @@ describe('jsConcat', () => {
   }, 120000);
 
   it('should not concatenate excluded local js files', async () => {
-    const jsDir = path.join(hexoSite.targetDir, 'source/js');
+    const jsDir = path.join(targetDir, 'source/js');
     fs.mkdirSync(jsDir, { recursive: true });
     const files = ['file1.js', 'file2.js', 'file3.js'];
     const contents = ["console.log('file1');", "console.log('file2');", "console.log('file3');"];
