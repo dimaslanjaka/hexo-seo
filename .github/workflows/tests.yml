@@ -42,6 +42,13 @@ jobs:
           repository: hexojs/hexo-theme-light
           path: tmp/site/themes/light
 
+      - name: 📦 Checkout dimaslanjaka/site (hexo-seo branch)
+        uses: actions/checkout@v4
+        with:
+          repository: dimaslanjaka/site
+          path: site
+          ref: hexo-seo
+
       - name: 📦 Set up Git Config
         run: |
           git config --global user.name "dimaslanjaka"
@@ -52,8 +59,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: ⬇️ Clone Hexo Site (hexo-seo branch)
-        run: git clone --branch hexo-seo https://github.com/dimaslanjaka/site site
       - name: Get Yarn cache folder
         id: yarn-cache
         run: echo "cacheFolder=$(yarn config get cacheFolder)" >> $GITHUB_ENV
@@ -76,12 +81,6 @@ jobs:
             ${{ runner.os }}-yarn-${{ matrix.node }}-
 
       - name: 📦 Install Node.js Dependencies
-        run: yarn install
-
-      - name: 📦 Install Git Submodules
-        run: npx submodule-install
-
-      - name: 📦 Re-install dependencies
         run: yarn install
 
       - name: 🛠️ Run Yarn Prepare
