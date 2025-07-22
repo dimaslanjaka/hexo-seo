@@ -21,12 +21,28 @@ beforeAll(async () => {
   sitemapModule = await import('../../src/sitemap/index');
 });
 
+// Set Jest timeout for all tests in this file to 2 minutes (120000 ms)
+jest.setTimeout(120000);
+
 describe('generateSitemapIndex', () => {
   it('throws when called with null', () => {
     expect(() => sitemapModule.generateSitemapIndex(null as any)).toThrow(TypeError);
   });
 
-  it('returns a string when called with a valid hexo instance', () => {
+  it('returns a string when called with a valid hexo instance', async () => {
+    // Add a post with a tag and a category to the Hexo instance
+    await hexo.model('Post').insert({
+      title: 'Test Post',
+      slug: 'test-post',
+      source: 'test-post.md',
+      date: new Date(),
+      tags: ['test-tag'],
+      categories: ['test-category'],
+      content: 'Test content',
+      permalink: '/test-post/'
+    });
+    await hexo.init();
+    await hexo.call('generate');
     const result = sitemapModule.generateSitemapIndex(hexo);
     expect(typeof result).toBe('string');
     expect(result).toContain('tag-sitemap.xml');
