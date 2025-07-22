@@ -106,6 +106,21 @@ export function getPageData(this: Hexo, data: HexoLocalsData) {
   }
 }
 
+// initialize each sitemap
+const groups = ['post', 'page', 'category', 'tag'];
+for (let i = 0; i < groups.length; i++) {
+  const group = groups[i];
+  if (!sitemapGroup[group]) initSitemap(group);
+  if (sitemapGroup[group].urlset.url.length === 0 && typeof hexo !== 'undefined' && hexo.config) {
+    sitemapGroup[group].urlset.url.push({
+      loc: hexo.config.url,
+      lastmod: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
+      priority: '1',
+      changefreq: 'daily'
+    });
+  }
+}
+
 let categoryTagsInfo: ReturnType<typeof getCategoryTags>;
 const postUpdateDates: string[] = [];
 const pageUpdateDates: string[] = [];
@@ -123,20 +138,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
     }
     return;
   }
-  // init each sitemap
-  const groups = ['post', 'page', 'category', 'tag'];
-  for (let i = 0; i < groups.length; i++) {
-    const group = groups[i];
-    if (!sitemapGroup[group]) initSitemap(group);
-    if (sitemapGroup[group].urlset.url.length === 0) {
-      sitemapGroup[group].urlset.url.push({
-        loc: this.config.url,
-        lastmod: moment(Date.now()).format('YYYY-MM-DDTHH:mm:ssZ'),
-        priority: '1',
-        changefreq: 'daily'
-      });
-    }
-  }
+
   // set category and tag information of posts
   if (!categoryTagsInfo) {
     categoryTagsInfo = getCategoryTags(hexo);
