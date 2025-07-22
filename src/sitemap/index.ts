@@ -98,7 +98,7 @@ export interface returnPageData extends HexoLocalsData {
  * @returns
  */
 export function getPageData(this: Hexo, data: HexoLocalsData) {
-  const is = hexoIs(data);
+  const is = hexoIs.call(this, data);
   if (data['page']) {
     const page = <returnPageData>data['page'];
     page.is = is;
@@ -177,7 +177,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
       head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
   }
 
-  const post = getPageData.call(this, data);
+  const post: ReturnType<typeof getPageData> = getPageData.call(this, data);
   if (post) {
     const isPagePost = post.is.post || post.is.page;
     if (isPagePost) {
