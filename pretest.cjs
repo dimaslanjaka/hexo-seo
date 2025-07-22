@@ -23,11 +23,7 @@ const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
 let prevChecksum = null;
 if (fs.existsSync(checksumFile)) {
   prevChecksum = fs.readFileSync(checksumFile, 'utf8').trim();
-  if (prevChecksum === currentChecksum) {
-    log('✅\tSource checksum unchanged.');
-  } else {
-    log('⚠️\tSource checksum changed.');
-  }
+  log(prevChecksum === currentChecksum ? '✅\tSource checksum unchanged.' : '⚠️\tSource checksum changed.');
 } else {
   log('ℹ️\tNo previous checksum found.');
 }
@@ -35,9 +31,7 @@ if (fs.existsSync(checksumFile)) {
 const targetDir = path.resolve(__dirname, 'tmp/site');
 const workspaceDir = path.toUnix(__dirname);
 const repoUrl = 'https://github.com/dimaslanjaka/site.git';
-module.exports.repoUrl = repoUrl;
-module.exports.targetDir = targetDir;
-module.exports.workspaceDir = workspaceDir;
+module.exports = { repoUrl, targetDir, workspaceDir };
 
 const targetGitDir = path.join(targetDir, '.git');
 if (!fs.existsSync(targetGitDir)) {
@@ -56,8 +50,7 @@ const configPath = path.join(targetDir, '_config.yml');
 log(`✏️\tModifying ${configPath}...`);
 let config = {};
 if (fs.existsSync(configPath)) {
-  const configContent = fs.readFileSync(configPath, 'utf8');
-  config = yaml.parse(configContent);
+  config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
 }
 Object.assign(config, {
   title: 'Hexo SEO Test Site',
@@ -105,7 +98,6 @@ Object.assign(config, {
 fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 
 if (currentChecksum !== prevChecksum) {
-  // Build workspace
   log('🔨\tBuilding hexo-seo workspace...');
   runCmd('yarn', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
   log('🔨\tPacking hexo-seo workspace...');
@@ -114,11 +106,18 @@ if (currentChecksum !== prevChecksum) {
   log('ℹ️\tSkipping build and pack due to unchanged source checksum.');
 }
 
-if (!currentChecksum != prevChecksum) {
-  // Install workspace tarball to target directory
+// Install workspace tarball to target directory
+const packageJsonPath = path.join(targetDir, 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const needsInstall =
+  currentChecksum !== prevChecksum ||
+  !packageJson.dependencies['hexo-seo'] ||
+  !packageJson.dependencies['hexo-seo'].includes('file:');
+if (needsInstall) {
   log('📦\tInstalling hexo-seo from tarball...');
-  if (!fs.existsSync(path.join(targetDir, 'yarn.lock'))) {
-    fs.writeFileSync(path.join(targetDir, 'yarn.lock'), '', 'utf8');
+  const yarnLockPath = path.join(targetDir, 'yarn.lock');
+  if (!fs.existsSync(yarnLockPath)) {
+    fs.writeFileSync(yarnLockPath, '', 'utf8');
     log('ℹ️\tCreated empty yarn.lock in target directory.');
   }
   const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
@@ -130,7 +129,6 @@ if (!currentChecksum != prevChecksum) {
   log('ℹ️\tSkipping installation of hexo-seo tarball due to unchanged source checksum.');
 }
 
-// Save the current checksum
 if (currentChecksum !== prevChecksum) {
   fs.writeFileSync(checksumFile, currentChecksum, 'utf8');
   log('✅\tNew checksum saved.');
