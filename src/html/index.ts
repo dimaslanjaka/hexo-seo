@@ -52,8 +52,23 @@ export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
 
   const isCacheMiss = cache.isFileChanged(md5(path0)) || isDev || !cfg.cache;
 
-  if (isCacheMiss) {
-    const root = nodeHtmlParser(content);
+  const root = nodeHtmlParser(content);
+
+  // TODO process sitemap
+  sitemap.bind(this)(root, cfg, data);
+
+  // TODO process schema
+  fixSchemaStatic.bind(this)(root, cfg, data);
+
+  // TODO concatenate javascripts
+  await jsConcat.bind(hexo)({
+    root,
+    logname,
+    logconcatname,
+    filePath: path0
+  });
+
+  if (isCacheMiss && cfg.html.enable) {
     //** fix hyperlink */
     if (cfg.links.enable) {
       const a = root.querySelectorAll('a[href]');
@@ -111,31 +126,14 @@ export async function HexoSeoHtml(this: Hexo, content: string, data: HexoSeo) {
       });
     }
 
-    // TODO process schema
-    fixSchemaStatic.bind(this)(root, cfg, data);
-
-    // TODO process sitemap
-    sitemap.bind(this)(root, cfg, data);
-
-    // concatenate javascripts
-    content = await jsConcat.bind(hexo)({
-      root,
-      logname,
-      logconcatname,
-      filePath: path0
-    });
-
-    // modify html content
-    content = root.toString();
-
     if (allowCache) cache.set(md5(path0), content);
     hexo.log.debug(logname, 'no-cache content');
   } else {
     hexo.log.debug(logname, 'cached content');
-    content = cache.getCache(md5(path0), content) as string;
+    return cache.getCache(md5(path0), content) as string;
   }
 
-  return content;
+  return root.toString();
 }
 
 export default HexoSeoHtml;
