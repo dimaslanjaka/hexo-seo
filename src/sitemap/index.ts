@@ -318,9 +318,22 @@ export function generateSitemapIndex(hexoinstance: Hexo) {
     }
   }
 
+  // Defensive: ensure categoryTagsInfo is initialized
+  let localHexo = hexo;
+  if (!categoryTagsInfo) {
+    if (!localHexo && hexoinstance) {
+      localHexo = hexoinstance;
+    }
+    if (typeof getCategoryTags === 'function' && localHexo) {
+      categoryTagsInfo = getCategoryTags(localHexo);
+    }
+  }
+  if (!categoryTagsInfo || !categoryTagsInfo.tags || !categoryTagsInfo.categories) {
+    throw new TypeError('categoryTagsInfo or its properties are undefined');
+  }
+
   // build tag-sitemap.xml
   const tags = categoryTagsInfo.tags;
-
   if (tags.length > 0) {
     // Iterate through each tag and build its sitemap entry
     tags.forEach((tag) => {
