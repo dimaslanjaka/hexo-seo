@@ -110,8 +110,6 @@ export default function HexoSeo(hexo: Hexo) {
     // minify css
     hexo.extend.filter.register('after_render:css', HexoSeoCss as StoreFunction);
   }
-  if (config.html && config.html.enable) {
-    // all in one html fixer
-    hexo.extend.filter.register('after_render:html', HexoSeoHtml as StoreFunction);
-  }
+  // all in one html fixer
+  hexo.extend.filter.register('after_render:html', HexoSeoHtml as StoreFunction);
 }
