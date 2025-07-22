@@ -3,7 +3,7 @@ const { deepmerge } = require('deepmerge-ts');
 const Hexo = require('hexo');
 const { fs, path } = require('sbg-utility');
 
-const base = path.resolve(__dirname, '../site/');
+const base = path.resolve(__dirname, '../tmp/site/');
 const base_node_modules = path.join(base, 'node_modules');
 
 // override process.cwd()
