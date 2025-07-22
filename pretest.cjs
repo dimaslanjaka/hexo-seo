@@ -31,7 +31,9 @@ if (fs.existsSync(checksumFile)) {
 const targetDir = path.resolve(__dirname, 'tmp/site');
 const workspaceDir = path.toUnix(__dirname);
 const repoUrl = 'https://github.com/dimaslanjaka/site.git';
-module.exports = { repoUrl, targetDir, workspaceDir };
+module.exports.repoUrl = repoUrl;
+module.exports.targetDir = targetDir;
+module.exports.workspaceDir = workspaceDir;
 
 const targetGitDir = path.join(targetDir, '.git');
 if (!fs.existsSync(targetGitDir)) {
@@ -46,56 +48,74 @@ if (!fs.existsSync(targetGitDir)) {
   }
 }
 
-const configPath = path.join(targetDir, '_config.yml');
-log(`✏️\tModifying ${configPath}...`);
-let config = {};
-if (fs.existsSync(configPath)) {
-  config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
-}
-Object.assign(config, {
-  title: 'Hexo SEO Test Site',
-  description: 'A test site for Hexo SEO plugin',
-  permalink: ':title.html',
-  seo: {
-    html: { enable: true, fix: true, exclude: ['*.min.{htm,html}'] },
-    css: { enable: true, exclude: ['**/*.min.css'] },
-    js: {
-      enable: true,
-      concat: false,
-      exclude: ['**/*.min.js'],
-      options: {
-        compress: { dead_code: true },
-        mangle: { toplevel: true, safari10: true }
+/**
+ * Modify the Hexo config YAML at the global targetDir.
+ * @param {Record<string, any>} [overrides] - Optional overrides to merge into config
+ */
+function modifyHexoConfig(overrides = {}) {
+  const configPath = path.join(targetDir, '_config.yml');
+  log(`✏️\tModifying ${configPath}...`);
+  let config = {};
+  if (fs.existsSync(configPath)) {
+    config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+  }
+  Object.assign(config, {
+    title: 'Hexo SEO Test Site',
+    description: 'A test site for Hexo SEO plugin',
+    permalink: ':title.html',
+    seo: {
+      html: { enable: true, fix: true, exclude: ['*.min.{htm,html}'] },
+      css: { enable: true, exclude: ['**/*.min.css'] },
+      js: {
+        enable: true,
+        concat: false,
+        exclude: ['**/*.min.js'],
+        options: {
+          compress: { dead_code: true },
+          mangle: { toplevel: true, safari10: true }
+        }
+      },
+      schema: {
+        article: { enable: true },
+        breadcrumb: { enable: true },
+        sitelink: {
+          enable: true,
+          searchUrl: 'https://www.webmanajemen.com/search?q={search_term_string}'
+        },
+        homepage: { enable: true }
+      },
+      img: {
+        enable: true,
+        broken: false,
+        default: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+        onerror: 'serverside'
+      },
+      links: {
+        enable: true,
+        exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
+      },
+      sitemap: { yoast: true, gnews: true, txt: true },
+      search: { type: ['page', 'post'] },
+      feed: {
+        type: ['page', 'post'],
+        icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
       }
     },
-    schema: {
-      article: { enable: true },
-      breadcrumb: { enable: true },
-      sitelink: {
-        enable: true,
-        searchUrl: 'https://www.webmanajemen.com/search?q={search_term_string}'
-      },
-      homepage: { enable: true }
-    },
-    img: {
-      enable: true,
-      broken: false,
-      default: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
-      onerror: 'serverside'
-    },
-    links: {
-      enable: true,
-      exclude: ['webmanajemen.com', 'web-manajemen.blogspot.com']
-    },
-    sitemap: { yoast: true, gnews: true, txt: true },
-    search: { type: ['page', 'post'] },
-    feed: {
-      type: ['page', 'post'],
-      icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
-    }
-  }
+    ...overrides
+  });
+  fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
+}
+
+// Export the helper for use in other modules
+module.exports.modifyHexoConfig = modifyHexoConfig;
+
+// Modify the Hexo config with default settings
+log('🔧\tModifying Hexo config with default settings...');
+modifyHexoConfig({
+  title: 'Hexo SEO Test Site',
+  description: 'A test site for Hexo SEO plugin',
+  permalink: ':title.html'
 });
-fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 
 if (currentChecksum !== prevChecksum) {
   log('🔨\tBuilding hexo-seo workspace...');
