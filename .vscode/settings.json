@@ -167,14 +167,10 @@
   "code-runner.executorMap": {
     "typescriptreact": "ts-node --expose-gc",
     "javascript": "node --expose-gc --require dotenv/config",
-    "typescript": "ts-node",
-    "coffeescript": "coffee",
-    "sass": "sass --style expanded",
-    "scss": "scss --style expanded",
-    "less": "cd $dir && lessc $fileName $fileNameWithoutExt.css"
+    "typescript": "ts-node"
   },
   "code-runner.executorMapByGlob": {
-    "*.test.{ts,js,cjs}": "npm test -- $fileNameWithoutExt"
+    "*.test.{ts,js,cjs}": "npm test --"
   },
   "code-runner.runInTerminal": true,
   "code-runner.cwd": "${workspaceFolder}",
