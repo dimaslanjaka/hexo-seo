@@ -67,7 +67,8 @@ if (!fs.existsSync(targetGitDir)) {
   log(`📦\tCloning repo into ${targetDir}...`);
   runCmd('git', ['clone', '-b', 'hexo-seo', repoUrl, targetDir]);
 } else {
-  log('ℹ️\tTarget directory already exists and is a git repo. Skipping clone.');
+  log('🔄\tPulling latest changes...');
+  runCmd('git', ['pull'], { cwd: targetDir });
 }
 
 let themeShouldInstall = false;
