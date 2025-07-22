@@ -25,7 +25,6 @@ beforeAll(async () => {
 describe('Sitemap Module Integration (Hexo)', () => {
   describe('sitemap', () => {
     it('does not throw when called with a real hexo instance and valid DOM', async () => {
-      // Use a real HTMLElement from node-html-parser
       const { parse } = await import('node-html-parser');
       const dom = parse('<div><span></span></div>');
       const hexoSeoConfig = { sitemap: true };
@@ -52,11 +51,9 @@ describe('Sitemap Module Integration (Hexo)', () => {
       expect(() => sitemapModule.sitemap.call(hexo, dom, undefined, data)).not.toThrow();
     });
 
-    it('does not throw when data is missing page property', () => {
-      const dom = {
-        querySelector: jest.fn().mockReturnValue(null),
-        getElementsByTagName: jest.fn().mockReturnValue([{ innerHTML: '' }])
-      } as unknown as HTMLElement;
+    it('does not throw when data is missing page property', async () => {
+      const { parse } = await import('node-html-parser');
+      const dom = parse('<div><span></span></div>');
       const hexoSeoConfig = { sitemap: true };
       const data = {};
       expect(() => sitemapModule.sitemap.call(hexo, dom, hexoSeoConfig, data)).not.toThrow();
