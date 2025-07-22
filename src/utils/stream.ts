@@ -1,11 +1,11 @@
 import Promise from 'bluebird';
 import { Stream } from 'stream';
 
-export function isStream(stream) {
+export function isStream(stream: Stream) {
   return stream !== null && typeof stream === 'object' && typeof stream.pipe === 'function';
 }
 
-export function isWritableStream(stream) {
+export function isWritableStream(stream: any) {
   return (
     isStream(stream) &&
     stream.writable !== false &&
@@ -14,7 +14,7 @@ export function isWritableStream(stream) {
   );
 }
 
-export function isReadableStream(stream) {
+export function isReadableStream(stream: any) {
   return (
     isStream(stream) &&
     stream.readable !== false &&
@@ -23,11 +23,11 @@ export function isReadableStream(stream) {
   );
 }
 
-export function isDuplexStream(stream) {
+export function isDuplexStream(stream: any) {
   return isWritableStream(stream) && isReadableStream(stream);
 }
 
-export function isTransformStream(stream) {
+export function isTransformStream(stream: any) {
   return isDuplexStream(stream) && typeof stream._transform === 'function';
 }
 
