@@ -46,7 +46,7 @@ describe('file-checksum', () => {
   });
 
   test('checksum returns sha256 for files and folders', () => {
-    const sha = fileChecksum.checksum(testFile, testDir);
+    const sha = fileChecksum.checksum({ patterns: [testFile, testDir] });
     expect(sha).toMatch(/^[a-f0-9]{64}$/);
   });
 });
