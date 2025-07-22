@@ -213,5 +213,11 @@
   "jest.debugMode": true,
   "jest.jestCommandLine": "npm test --",
   "jest.runMode": "watch",
-  "jest.monitorLongRun": 120000
+  "jest.monitorLongRun": 120000,
+  "git.repositoryScanIgnoredFolders": [
+    "node_modules",
+    "vendor",
+    "tmp",
+    "dist"
+  ]
 }
