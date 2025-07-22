@@ -59,6 +59,24 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: 🔄 Update and Sync Git Submodules
+        continue-on-error: true
+        run: |
+          git submodule update --init --recursive
+          git submodule update --recursive --remote
+          git pull -X theirs
+          echo "init submodules"
+          git submodule init
+          git submodule foreach "git submodule init"
+          echo "sync submodules"
+          git submodule sync
+          git submodule foreach "git submodule sync"
+          echo "update submodules"
+          mkdir -p bin >/dev/null 2>&1
+          npm install -g rimraf binary-collections@https://raw.githubusercontent.com/dimaslanjaka/bin/master/releases/bin.tgz
+          npx rimraf .git/modules
+          npx submodule-install
+
       - name: Get Yarn cache folder
         id: yarn-cache
         run: echo "cacheFolder=$(yarn config get cacheFolder)" >> $GITHUB_ENV
