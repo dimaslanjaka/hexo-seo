@@ -45,7 +45,11 @@ if (!fs.existsSync(targetGitDir)) {
   runCmd('git', ['clone', '-b', 'hexo-seo', repoUrl, targetDir]);
 } else {
   log('🔄\tPulling latest changes...');
-  runCmd('git', ['pull'], { cwd: targetDir });
+  const pull = runCmd('git', ['pull'], { cwd: targetDir });
+  if (pull.error) {
+    log('❌\tFailed to pull latest changes, resetting to HEAD...');
+    runCmd('git', ['reset', '--hard', 'HEAD'], { cwd: targetDir });
+  }
 }
 
 const configPath = path.join(targetDir, '_config.yml');
