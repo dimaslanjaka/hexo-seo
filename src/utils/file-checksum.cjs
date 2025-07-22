@@ -87,11 +87,34 @@ function checksumFolder(dir) {
 
 module.exports.checksumFolder = checksumFolder;
 
-function checksum(...patterns) {
+/**
+ * Calculate a checksum for files/folders matching given patterns.
+ * @param {Object} config
+ * @param {string[]} config.patterns - Glob patterns to include
+ * @param {string[]} [config.ignore] - Glob patterns to ignore (default: defaultIgnorePatterns)
+ * @returns {string} sha256 checksum
+ */
+function checksum(config) {
+  if (!config || !Array.isArray(config.patterns)) {
+    throw new Error('checksum: config.patterns (array) is required');
+  }
+  const defaultIgnorePatterns = [
+    '**/node_modules/**',
+    '**/.git/**',
+    '**/.cache/**',
+    '**/coverage/**',
+    '**/dist/**',
+    '**/build/**',
+    '**/tmp/**',
+    '**/temp/**',
+    '**/logs/**',
+    '**/*.log'
+  ];
+  const ignore = Array.isArray(config.ignore) ? config.ignore : defaultIgnorePatterns;
   const allFiles = new Set();
 
-  for (const pattern of patterns) {
-    const matches = glob.sync(pattern, { nodir: false });
+  for (const pattern of config.patterns) {
+    const matches = glob.sync(pattern, { nodir: false, ignore });
 
     for (const match of matches) {
       const stat = fs.statSync(match);

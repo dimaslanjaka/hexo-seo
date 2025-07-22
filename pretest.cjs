@@ -17,7 +17,7 @@ function log(...args) {
 }
 
 const srcDir = path.resolve(__dirname, 'src');
-const currentChecksum = checksum(srcDir, 'package.json');
+const currentChecksum = checksum({ patterns: [srcDir, path.resolve(__dirname, 'package.json')] });
 log(`🔑\tChecksum for src: ${currentChecksum}`);
 const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
 let prevChecksum = null;
