@@ -1,6 +1,9 @@
+import { spawnSync } from 'cross-spawn';
+import { deepmerge } from 'deepmerge-ts';
 import Hexo from 'hexo';
-import { envHexo } from '../env.cjs';
+import { baseSite } from '../env.cjs';
 
+const targetDir = baseSite;
 let hexo: Hexo;
 let sitemapModule: typeof import('../../src/sitemap/index');
 const config = {
@@ -14,11 +17,16 @@ const config = {
 };
 
 beforeAll(async () => {
-  hexo = await envHexo(config);
-  await hexo.call('clean');
+  spawnSync('git', ['restore', 'source'], { cwd: targetDir, stdio: 'ignore' });
+  hexo = new Hexo(targetDir, { silent: true });
+  hexo.config = deepmerge(hexo.config, config) as any;
   (global as any).hexo = hexo;
   // Dynamically import sitemapModule after global hexo is set
   sitemapModule = await import('../../src/sitemap/index');
+});
+
+afterAll(async () => {
+  await hexo.exit();
 });
 
 // Set Jest timeout for all tests in this file to 2 minutes (120000 ms)
@@ -30,18 +38,8 @@ describe('generateSitemapIndex', () => {
   });
 
   it('returns a string when called with a valid hexo instance', async () => {
-    // Add a post with a tag and a category to the Hexo instance
-    await hexo.model('Post').insert({
-      title: 'Test Post',
-      slug: 'test-post',
-      source: 'test-post.md',
-      date: new Date(),
-      tags: ['test-tag'],
-      categories: ['test-category'],
-      content: 'Test content',
-      permalink: '/test-post/'
-    });
     await hexo.init();
+    await hexo.call('clean');
     await hexo.call('generate');
     const result = sitemapModule.generateSitemapIndex(hexo);
     expect(typeof result).toBe('string');
