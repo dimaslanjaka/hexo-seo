@@ -2,7 +2,7 @@ const path = require('upath');
 const fs = require('fs');
 const yaml = require('yaml');
 const { spawnSync } = require('cross-spawn');
-const crypto = require('crypto');
+const { checksum } = require('./src/utils/file-checksum.cjs');
 
 function runCmd(cmd, args, opts = {}) {
   const result = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
@@ -12,41 +12,18 @@ function runCmd(cmd, args, opts = {}) {
   return result;
 }
 
-function folderChecksum(dir) {
-  const files = [];
-  function walk(current) {
-    for (const file of fs.readdirSync(current)) {
-      const fullPath = path.join(current, file);
-      const stat = fs.statSync(fullPath);
-      if (stat.isDirectory()) {
-        walk(fullPath);
-      } else {
-        files.push(fullPath);
-      }
-    }
-  }
-  walk(dir);
-  files.sort();
-  const hash = crypto.createHash('sha256');
-  for (const file of files) {
-    hash.update(file.replace(dir, ''));
-    hash.update(fs.readFileSync(file));
-  }
-  return hash.digest('hex');
-}
-
 function log(...args) {
   console.log(...args);
 }
 
 const srcDir = path.resolve(__dirname, 'src');
-const checksum = folderChecksum(srcDir);
-log(`🔑\tChecksum for src: ${checksum}`);
+const currentChecksum = checksum(srcDir, 'package.json');
+log(`🔑\tChecksum for src: ${currentChecksum}`);
 const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
 let prevChecksum = null;
 if (fs.existsSync(checksumFile)) {
   prevChecksum = fs.readFileSync(checksumFile, 'utf8').trim();
-  if (prevChecksum === checksum) {
+  if (prevChecksum === currentChecksum) {
     log('✅\tSource checksum unchanged.');
   } else {
     log('⚠️\tSource checksum changed.');
@@ -82,7 +59,7 @@ if (!fs.existsSync(themeDir) || !fs.existsSync(themeGitDir)) {
   log('ℹ️\tTheme "light" already exists. Skipping clone.');
 }
 
-if (checksum !== prevChecksum || themeShouldInstall) {
+if (currentChecksum !== prevChecksum || themeShouldInstall) {
   const themeLightNodeModules = path.join(targetDir, 'node_modules/hexo-theme-light');
   if (!fs.existsSync(themeLightNodeModules)) {
     log('📦\tInstalling hexo-theme-light...');
@@ -149,7 +126,7 @@ Object.assign(config, {
 });
 fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 
-if (checksum !== prevChecksum) {
+if (currentChecksum !== prevChecksum) {
   // Build workspace
   log('🔨\tBuilding hexo-seo workspace...');
   runCmd('npm', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
@@ -168,7 +145,7 @@ runCmd('npm', ['install', `hexo-seo@file:${tarballPath}`], {
 });
 
 // Save the current checksum
-if (checksum !== prevChecksum) {
-  fs.writeFileSync(checksumFile, checksum, 'utf8');
+if (currentChecksum !== prevChecksum) {
+  fs.writeFileSync(checksumFile, currentChecksum, 'utf8');
   log('✅\tNew checksum saved.');
 }
