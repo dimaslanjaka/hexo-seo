@@ -285,13 +285,13 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
 export default sitemap;
 
 /** generate YoastSeo index sitemap */
-export function generateSitemapIndex(hexoinstance: Hexo = null) {
+export function generateSitemapIndex(hexoinstance: Hexo) {
   const sourceIndexXML = join(__dirname, 'views/sitemap.xml');
   const sitemapIndexDoc = createXML(readFileSync(sourceIndexXML).toString());
   const sitemapIndex = <SitemapIndex>new Object(sitemapIndexDoc.end({ format: 'object' }));
   sitemapIndex.sitemapindex.sitemap = [];
-  if (!hexoinstance && typeof hexo != 'undefined') {
-    hexoinstance = hexo;
+  if (!hexoinstance) {
+    throw new TypeError('hexoinstance parameter is required and cannot be null');
   }
 
   // push post-sitemap.xml to sitemapindex
