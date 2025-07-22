@@ -116,3 +116,23 @@ Object.assign(config, {
 });
 
 fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
+
+// Build workspace
+console.log('🔨\tBuilding hexo-seo workspace...');
+spawnSync('npm', ['run', 'build'], {
+  cwd: __dirname,
+  stdio: 'ignore'
+});
+console.log('🔨\tPacking hexo-seo workspace...');
+spawnSync('npm', ['run', 'pack'], {
+  cwd: __dirname,
+  stdio: 'ignore'
+});
+
+// Install workspace tarball to target directory
+console.log('📦\tInstalling hexo-seo from tarball...');
+const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
+spawnSync('npm', ['install', `hexo-seo@file:${tarballPath}`], {
+  cwd: targetDir,
+  stdio: 'ignore'
+});

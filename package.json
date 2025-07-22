@@ -34,7 +34,7 @@
     "update": "yarn run update:project && yarn run update:ncu",
     "test:generate": "npm run build && cd site && hexo g",
     "test:index": "run-s test:** && node test/index.cjs",
-    "pretest": "npm run build && node pretest.cjs",
+    "pretest": "node pretest.cjs",
     "test": "npx jest --runInBand --forceExit",
     "test:cov": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
