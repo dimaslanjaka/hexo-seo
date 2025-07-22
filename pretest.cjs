@@ -2,6 +2,58 @@ const path = require('upath');
 const fs = require('fs');
 const yaml = require('yaml');
 const { spawnSync } = require('cross-spawn');
+const crypto = require('crypto');
+
+function runCmd(cmd, args, opts = {}) {
+  const result = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
+  if (result.error) {
+    console.error(`❌\tError running ${cmd} ${args.join(' ')}:`, result.error);
+  }
+  return result;
+}
+
+function folderChecksum(dir) {
+  const files = [];
+  function walk(current) {
+    for (const file of fs.readdirSync(current)) {
+      const fullPath = path.join(current, file);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        walk(fullPath);
+      } else {
+        files.push(fullPath);
+      }
+    }
+  }
+  walk(dir);
+  files.sort();
+  const hash = crypto.createHash('sha256');
+  for (const file of files) {
+    hash.update(file.replace(dir, ''));
+    hash.update(fs.readFileSync(file));
+  }
+  return hash.digest('hex');
+}
+
+function log(...args) {
+  console.log(...args);
+}
+
+const srcDir = path.resolve(__dirname, 'src');
+const checksum = folderChecksum(srcDir);
+log(`🔑\tChecksum for src: ${checksum}`);
+const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
+let prevChecksum = null;
+if (fs.existsSync(checksumFile)) {
+  prevChecksum = fs.readFileSync(checksumFile, 'utf8').trim();
+  if (prevChecksum === checksum) {
+    log('✅\tSource checksum unchanged.');
+  } else {
+    log('⚠️\tSource checksum changed.');
+  }
+} else {
+  log('ℹ️\tNo previous checksum found.');
+}
 
 const targetDir = path.resolve(__dirname, 'tmp/site');
 const workspaceDir = path.toUnix(__dirname);
@@ -10,61 +62,65 @@ module.exports.repoUrl = repoUrl;
 module.exports.targetDir = targetDir;
 module.exports.workspaceDir = workspaceDir;
 
-if (!fs.existsSync(path.join(targetDir, '.git'))) {
-  spawnSync('git', ['clone', repoUrl, targetDir], {
-    stdio: 'inherit'
-  });
+const targetGitDir = path.join(targetDir, '.git');
+if (!fs.existsSync(targetGitDir)) {
+  log(`📦\tCloning repo into ${targetDir}...`);
+  runCmd('git', ['clone', repoUrl, targetDir]);
 } else {
-  console.log('ℹ️\tTarget directory already exists and is a git repo. Skipping clone.');
+  log('ℹ️\tTarget directory already exists and is a git repo. Skipping clone.');
 }
 
 const sourceDir = path.join(targetDir, 'source');
-if (!fs.existsSync(path.join(sourceDir, '_posts/.git'))) {
-  if (path.join(sourceDir, '_posts')) {
-    fs.rmSync(path.join(sourceDir, '_posts'), { recursive: true, force: true });
+const postsGitDir = path.join(sourceDir, '_posts/.git');
+const postsDir = path.join(sourceDir, '_posts');
+if (!fs.existsSync(postsGitDir)) {
+  if (fs.existsSync(postsDir)) {
+    fs.rmSync(postsDir, { recursive: true, force: true });
   }
-  console.log('📦\tCloning sample posts into source/_posts...');
-  spawnSync('git', [
-    'clone',
-    'https://github.com/frontendweb3/Demo-markdown-posts.git',
-    path.join(sourceDir, '_posts')
-  ]);
+  log('📦\tCloning sample posts into source/_posts...');
+  runCmd('git', ['clone', 'https://github.com/frontendweb3/Demo-markdown-posts.git', postsDir]);
   // Remove unnecessary files
   const filesToRemoveRegex = [/^readme\.md$/i, /^license$/i, /^contributing\.md$/i, /^code_of_conduct\.md$/i];
-  const postsDir = path.join(sourceDir, '_posts');
   if (fs.existsSync(postsDir)) {
-    fs.readdirSync(postsDir).forEach((file) => {
+    for (const file of fs.readdirSync(postsDir)) {
       if (filesToRemoveRegex.some((regex) => regex.test(file))) {
         const filePath = path.join(postsDir, file);
-        console.log(`🗑️\tRemoving ${file}...`);
+        log(`🗑️\tRemoving ${file}...`);
         fs.unlinkSync(filePath);
       }
-    });
+    }
   }
 } else {
-  console.log('ℹ️\tSample posts already exist in source/_posts. Skipping clone.');
+  log('ℹ️\tSample posts already exist in source/_posts. Skipping clone.');
 }
 
+let themeShouldInstall = false;
 const themeDir = path.join(targetDir, 'themes', 'light');
-if (!fs.existsSync(themeDir) || !fs.existsSync(path.join(themeDir, '.git'))) {
-  console.log('📦\tCloning hexo-theme-light into themes/light...');
-  spawnSync('git', ['clone', '--depth', '1', 'https://github.com/hexojs/hexo-theme-light', themeDir]);
+const themeGitDir = path.join(themeDir, '.git');
+if (!fs.existsSync(themeDir) || !fs.existsSync(themeGitDir)) {
+  log('📦\tCloning hexo-theme-light into themes/light...');
+  runCmd('git', ['clone', '--depth', '1', 'https://github.com/hexojs/hexo-theme-light', themeDir]);
+  themeShouldInstall = true;
 } else {
-  console.log('ℹ️\tTheme "light" already exists. Skipping clone.');
+  log('ℹ️\tTheme "light" already exists. Skipping clone.');
 }
 
-const themeLightNodeModules = path.join(targetDir, 'node_modules/hexo-theme-light');
-if (!fs.existsSync(themeLightNodeModules)) {
-  console.log('📦\tInstalling hexo-theme-light...');
-  spawnSync('npm', ['install', 'hexo-theme-light@file:./themes/light', 'nib', 'stylus'], {
-    cwd: targetDir
-  });
+if (checksum !== prevChecksum || themeShouldInstall) {
+  const themeLightNodeModules = path.join(targetDir, 'node_modules/hexo-theme-light');
+  if (!fs.existsSync(themeLightNodeModules)) {
+    log('📦\tInstalling hexo-theme-light...');
+    runCmd('npm', ['install', 'hexo-theme-light@file:./themes/light', 'nib', 'stylus'], {
+      cwd: targetDir
+    });
+  } else {
+    log('ℹ️\thexo-theme-light already installed. Skipping install.');
+  }
 } else {
-  console.log('ℹ️\thexo-theme-light already installed. Skipping install.');
+  log('ℹ️\tSkipping theme installation due to unchanged source checksum.');
 }
 
 const configPath = path.join(targetDir, '_config.yml');
-console.log(`✏️\tModifying ${configPath}...`);
+log(`✏️\tModifying ${configPath}...`);
 let config = {};
 if (fs.existsSync(configPath)) {
   const configContent = fs.readFileSync(configPath, 'utf8');
@@ -114,25 +170,28 @@ Object.assign(config, {
   },
   theme: 'light'
 });
-
 fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 
-// Build workspace
-console.log('🔨\tBuilding hexo-seo workspace...');
-spawnSync('npm', ['run', 'build'], {
-  cwd: __dirname,
-  stdio: 'ignore'
-});
-console.log('🔨\tPacking hexo-seo workspace...');
-spawnSync('npm', ['run', 'pack'], {
-  cwd: __dirname,
-  stdio: 'ignore'
-});
+if (checksum !== prevChecksum) {
+  // Build workspace
+  log('🔨\tBuilding hexo-seo workspace...');
+  runCmd('npm', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
+  log('🔨\tPacking hexo-seo workspace...');
+  runCmd('npm', ['run', 'pack'], { cwd: __dirname, stdio: 'ignore' });
+} else {
+  log('ℹ️\tSkipping build and pack due to unchanged source checksum.');
+}
 
 // Install workspace tarball to target directory
-console.log('📦\tInstalling hexo-seo from tarball...');
+log('📦\tInstalling hexo-seo from tarball...');
 const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
-spawnSync('npm', ['install', `hexo-seo@file:${tarballPath}`], {
+runCmd('npm', ['install', `hexo-seo@file:${tarballPath}`], {
   cwd: targetDir,
   stdio: 'ignore'
 });
+
+// Save the current checksum
+if (checksum !== prevChecksum) {
+  fs.writeFileSync(checksumFile, checksum, 'utf8');
+  log('✅\tNew checksum saved.');
+}

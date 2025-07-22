@@ -209,5 +209,9 @@
   "git.useCommitInputAsStashMessage": true,
   "search.exclude": {
     "**/.yarn/**": true
-  }
+  },
+  "jest.debugMode": true,
+  "jest.jestCommandLine": "npm test --",
+  "jest.runMode": "watch",
+  "jest.monitorLongRun": 120000
 }
