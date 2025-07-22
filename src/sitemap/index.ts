@@ -410,6 +410,8 @@ export function generateSitemapIndex(hexoinstance: Hexo) {
   }
 
   const destIndexSitemap = join(hexo.public_dir, 'sitemap.xml');
-  writefile(destIndexSitemap, createXML(sitemapIndex).end({ prettyPrint: true }));
+  const xmlString = createXML(sitemapIndex).end({ prettyPrint: true });
+  writefile(destIndexSitemap, xmlString);
   log.log('index sitemap saved', destIndexSitemap);
+  return xmlString;
 }
