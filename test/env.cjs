@@ -41,4 +41,5 @@ function envHexo(config) {
   return initialized;
 }
 
-module.exports = { baseSite: base, envHexo };
+module.exports.baseSite = base;
+module.exports.envHexo = envHexo;
