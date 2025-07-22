@@ -30,6 +30,18 @@ jobs:
         with:
           branch: pre-release
 
+      - name: 📦 Checkout Hexo Starter (as tmp/site)
+        uses: actions/checkout@v4
+        with:
+          repository: hexojs/hexo-starter
+          path: tmp/site
+
+      - name: 📦 Checkout Hexo Theme Light (as tmp/site/themes/light)
+        uses: actions/checkout@v4
+        with:
+          repository: hexojs/hexo-theme-light
+          path: tmp/site/themes/light
+
       - name: 📦 Set up Git Config
         run: |
           git config --global user.name "dimaslanjaka"
