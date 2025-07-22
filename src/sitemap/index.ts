@@ -166,17 +166,19 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
   }
 
   // TODO modify or add sitemap href in html
-  const linksitemap = dom.querySelector('link[rel="sitemap"]');
-  if (linksitemap) {
-    linksitemap.setAttribute('href', '/sitemap.xml');
-    linksitemap.setAttribute('type', 'application/xml');
-    linksitemap.setAttribute('rel', 'sitemap');
-    linksitemap.setAttribute('title', 'Sitemap');
-  } else {
-    // add the sitemap when not exist
-    const head = dom.getElementsByTagName('head');
-    if (head.length)
-      head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
+  if (typeof dom.querySelector === 'function') {
+    const linksitemap = dom.querySelector('link[rel="sitemap"]');
+    if (linksitemap) {
+      linksitemap.setAttribute('href', '/sitemap.xml');
+      linksitemap.setAttribute('type', 'application/xml');
+      linksitemap.setAttribute('rel', 'sitemap');
+      linksitemap.setAttribute('title', 'Sitemap');
+    } else if (typeof dom.getElementsByTagName === 'function') {
+      // add the sitemap when not exist
+      const head = dom.getElementsByTagName('head');
+      if (head.length)
+        head[0].innerHTML += '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />';
+    }
   }
 
   const post: ReturnType<typeof getPageData> = getPageData.call(this, data);
