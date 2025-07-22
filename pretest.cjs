@@ -57,7 +57,7 @@ if (fs.existsSync(checksumFile)) {
 
 const targetDir = path.resolve(__dirname, 'tmp/site');
 const workspaceDir = path.toUnix(__dirname);
-const repoUrl = 'https://github.com/hexojs/hexo-starter.git';
+const repoUrl = 'https://github.com/dimaslanjaka/site.git';
 module.exports.repoUrl = repoUrl;
 module.exports.targetDir = targetDir;
 module.exports.workspaceDir = workspaceDir;
@@ -65,33 +65,9 @@ module.exports.workspaceDir = workspaceDir;
 const targetGitDir = path.join(targetDir, '.git');
 if (!fs.existsSync(targetGitDir)) {
   log(`📦\tCloning repo into ${targetDir}...`);
-  runCmd('git', ['clone', repoUrl, targetDir]);
+  runCmd('git', ['clone', '-b', 'hexo-seo', repoUrl, targetDir]);
 } else {
   log('ℹ️\tTarget directory already exists and is a git repo. Skipping clone.');
-}
-
-const sourceDir = path.join(targetDir, 'source');
-const postsGitDir = path.join(sourceDir, '_posts/.git');
-const postsDir = path.join(sourceDir, '_posts');
-if (!fs.existsSync(postsGitDir)) {
-  if (fs.existsSync(postsDir)) {
-    fs.rmSync(postsDir, { recursive: true, force: true });
-  }
-  log('📦\tCloning sample posts into source/_posts...');
-  runCmd('git', ['clone', 'https://github.com/frontendweb3/Demo-markdown-posts.git', postsDir]);
-  // Remove unnecessary files
-  const filesToRemoveRegex = [/^readme\.md$/i, /^license$/i, /^contributing\.md$/i, /^code_of_conduct\.md$/i];
-  if (fs.existsSync(postsDir)) {
-    for (const file of fs.readdirSync(postsDir)) {
-      if (filesToRemoveRegex.some((regex) => regex.test(file))) {
-        const filePath = path.join(postsDir, file);
-        log(`🗑️\tRemoving ${file}...`);
-        fs.unlinkSync(filePath);
-      }
-    }
-  }
-} else {
-  log('ℹ️\tSample posts already exist in source/_posts. Skipping clone.');
 }
 
 let themeShouldInstall = false;
