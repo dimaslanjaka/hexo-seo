@@ -78,7 +78,13 @@ jobs:
       - name: 📦 Install Node.js Dependencies
         run: yarn install
 
-      - name: � Run Yarn Prepare
+      - name: 📦 Install Git Submodules
+        run: npx submodule-install
+
+      - name: 📦 Re-install dependencies
+        run: yarn install
+
+      - name: 🛠️ Run Yarn Prepare
         run: yarn prepare
 
       - name: �🛠️ Build Workspace
