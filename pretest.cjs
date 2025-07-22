@@ -48,31 +48,6 @@ if (!fs.existsSync(targetGitDir)) {
   runCmd('git', ['pull'], { cwd: targetDir });
 }
 
-let themeShouldInstall = false;
-const themeDir = path.join(targetDir, 'themes', 'light');
-const themeGitDir = path.join(themeDir, '.git');
-if (!fs.existsSync(themeDir) || !fs.existsSync(themeGitDir)) {
-  log('📦\tCloning hexo-theme-light into themes/light...');
-  runCmd('git', ['clone', '--depth', '1', 'https://github.com/hexojs/hexo-theme-light', themeDir]);
-  themeShouldInstall = true;
-} else {
-  log('ℹ️\tTheme "light" already exists. Skipping clone.');
-}
-
-if (currentChecksum !== prevChecksum || themeShouldInstall) {
-  const themeLightNodeModules = path.join(targetDir, 'node_modules/hexo-theme-light');
-  if (!fs.existsSync(themeLightNodeModules)) {
-    log('📦\tInstalling hexo-theme-light...');
-    runCmd('npm', ['install', 'hexo-theme-light@file:./themes/light', 'nib', 'stylus'], {
-      cwd: targetDir
-    });
-  } else {
-    log('ℹ️\thexo-theme-light already installed. Skipping install.');
-  }
-} else {
-  log('ℹ️\tSkipping theme installation due to unchanged source checksum.');
-}
-
 const configPath = path.join(targetDir, '_config.yml');
 log(`✏️\tModifying ${configPath}...`);
 let config = {};
@@ -121,8 +96,7 @@ Object.assign(config, {
       type: ['page', 'post'],
       icon: 'https://w7.pngwing.com/pngs/745/306/png-transparent-gallery-image-images-photo-picture-pictures-set-app-incredibles-icon-thumbnail.png'
     }
-  },
-  theme: 'light'
+  }
 });
 fs.writeFileSync(configPath, yaml.stringify(config), 'utf8');
 
