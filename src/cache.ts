@@ -1,4 +1,4 @@
-import { existsSync } from 'fs-extra';
+import fs from 'fs-extra';
 import NodeCache from 'node-cache';
 import { bindProcessExit, writefile } from 'sbg-utility';
 import path from 'upath';
@@ -238,7 +238,7 @@ export class CacheFile2 {
   get(key: string, fallback = null) {
     if (typeof this.dbTemp[key] == 'undefined') {
       const saveLocation = this.getKeyLocation(key);
-      if (existsSync(saveLocation)) {
+      if (fs.existsSync(saveLocation)) {
         const readCache = readFile(saveLocation).toString();
         this.dbTemp[key] = readCache;
         return readCache;

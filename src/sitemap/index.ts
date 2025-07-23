@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'fs-extra';
+import fs from 'fs-extra';
 import { GoogleNewsSitemap } from 'google-news-sitemap';
 import Hexo from 'hexo';
 import { hexoIs } from 'hexo-is';
@@ -7,7 +7,7 @@ import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import moment from 'moment';
 import { HTMLElement } from 'node-html-parser';
 import { bindProcessExit, writefile } from 'sbg-utility';
-import { dirname, join } from 'upath';
+import path from 'upath';
 import { create as createXML } from 'xmlbuilder2';
 import { BaseConfig } from '../config';
 import log from '../log';
@@ -51,9 +51,9 @@ const googleNewsSitemap = new GoogleNewsSitemap();
 
 function initSitemap(type: string | 'post' | 'page' | 'category' | 'tag') {
   if (!sitemapGroup[type]) {
-    const sourceXML = join(__dirname, 'views/' + type + '-sitemap.xml');
-    if (!existsSync(sourceXML)) throw 'Source ' + sourceXML + ' Not Found';
-    const doc = createXML(readFileSync(sourceXML).toString());
+    const sourceXML = path.join(__dirname, 'views/' + type + '-sitemap.xml');
+    if (!fs.existsSync(sourceXML)) throw 'Source ' + sourceXML + ' Not Found';
+    const doc = createXML(fs.readFileSync(sourceXML).toString());
     sitemapGroup[type] = <sitemapObj>new Object(doc.end({ format: 'object' }));
     sitemapGroup[type].urlset.url = [];
   }
@@ -187,7 +187,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
     if (isPagePost) {
       // if post updated not found, get source file last modified time
       if (!post.updated) {
-        const stats = statSync(post.full_source);
+        const stats = fs.statSync(post.full_source);
         post.updated = moment(stats.mtime);
       }
     }
@@ -231,23 +231,25 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
       bindProcessExit('writeSitemap', () => {
         if (isYoastActive) {
           // copy xsl
-          const destXSL = join(hexo.public_dir, 'sitemap.xsl');
-          if (!existsSync(dirname(destXSL))) mkdirSync(dirname(destXSL), { recursive: true });
-          const sourceXSL = join(__dirname, 'views/sitemap.xsl');
-          if (existsSync(sourceXSL)) {
-            copyFileSync(sourceXSL, destXSL);
+          const destXSL = path.join(hexo.public_dir, 'sitemap.xsl');
+          if (!fs.existsSync(path.dirname(destXSL))) {
+            fs.mkdirSync(path.dirname(destXSL), { recursive: true });
+          }
+          const sourceXSL = path.join(__dirname, 'views/sitemap.xsl');
+          if (fs.existsSync(sourceXSL)) {
+            fs.copyFileSync(sourceXSL, destXSL);
             log.log('XSL sitemap copied to ' + destXSL);
           } else {
             log.error('XSL sitemap not found');
           }
 
           // TODO write post-sitemap.xml
-          const destPostSitemap = join(hexo.public_dir, 'post-sitemap.xml');
+          const destPostSitemap = path.join(hexo.public_dir, 'post-sitemap.xml');
           writefile(destPostSitemap, createXML(sitemapGroup['post']).end({ prettyPrint: true }));
           log.log('post sitemap saved', destPostSitemap);
 
           // TODO write page-sitemap.xml
-          const destPageSitemap = join(hexo.public_dir, 'page-sitemap.xml');
+          const destPageSitemap = path.join(hexo.public_dir, 'page-sitemap.xml');
           writefile(destPageSitemap, createXML(sitemapGroup['page']).end({ prettyPrint: true }));
           log.log('page sitemap saved', destPageSitemap);
 
@@ -256,7 +258,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
 
         if (isGnewsActive) {
           // TODO write google-news-sitemap.xml
-          const gnewsPageSitemap = join(hexo.public_dir, 'google-news-sitemap.xml');
+          const gnewsPageSitemap = path.join(hexo.public_dir, 'google-news-sitemap.xml');
           writefile(gnewsPageSitemap, googleNewsSitemap.toString());
           log.log('google news sitemap saved', gnewsPageSitemap);
         }
@@ -275,7 +277,7 @@ export function sitemap(this: Hexo, dom: HTMLElement, hexoSeoConfig: BaseConfig,
           // Remove duplicates
           const uniqueUrls = Array.from(new Set(allUrls));
           // Write to sitemap.txt
-          const destTxtSitemap = join(hexo.public_dir, 'sitemap.txt');
+          const destTxtSitemap = path.join(hexo.public_dir, 'sitemap.txt');
           writefile(destTxtSitemap, uniqueUrls.join('\n'));
           log.log('plain text sitemap saved', destTxtSitemap);
         }
@@ -288,8 +290,8 @@ export default sitemap;
 
 /** generate YoastSeo index sitemap */
 export function generateSitemapIndex(hexoinstance: Hexo) {
-  const sourceIndexXML = join(__dirname, 'views/sitemap.xml');
-  const sitemapIndexDoc = createXML(readFileSync(sourceIndexXML).toString());
+  const sourceIndexXML = path.join(__dirname, 'views/sitemap.xml');
+  const sitemapIndexDoc = createXML(fs.readFileSync(sourceIndexXML).toString());
   const sitemapIndex = <SitemapIndex>new Object(sitemapIndexDoc.end({ format: 'object' }));
   sitemapIndex.sitemapindex.sitemap = [];
   if (!hexoinstance) {
@@ -352,7 +354,7 @@ export function generateSitemapIndex(hexoinstance: Hexo) {
 
     // If there are any tag URLs added, write them to the tag-sitemap.xml file
     if (sitemapGroup['tag'].urlset.url.length > 0) {
-      const destTagSitemap = join(hexo.public_dir, 'tag-sitemap.xml');
+      const destTagSitemap = path.join(hexo.public_dir, 'tag-sitemap.xml');
       writefile(destTagSitemap, createXML(sitemapGroup['tag']).end({ prettyPrint: true }));
       log.log('tag sitemap saved', destTagSitemap);
     }
@@ -391,7 +393,7 @@ export function generateSitemapIndex(hexoinstance: Hexo) {
 
     // If there are any category URLs added, write them to the category-sitemap.xml file
     if (sitemapGroup['category'].urlset.url.length > 0) {
-      const destCategorySitemap = join(hexo.public_dir, 'category-sitemap.xml');
+      const destCategorySitemap = path.join(hexo.public_dir, 'category-sitemap.xml');
       writefile(destCategorySitemap, createXML(sitemapGroup['category']).end({ prettyPrint: true }));
       log.log('category sitemap saved', destCategorySitemap);
     }
@@ -411,7 +413,7 @@ export function generateSitemapIndex(hexoinstance: Hexo) {
     });
   }
 
-  const destIndexSitemap = join(hexo.public_dir, 'sitemap.xml');
+  const destIndexSitemap = path.join(hexo.public_dir, 'sitemap.xml');
   const xmlString = createXML(sitemapIndex).end({ prettyPrint: true });
   writefile(destIndexSitemap, xmlString);
   log.log('index sitemap saved', destIndexSitemap);
