@@ -41,7 +41,7 @@
     "test:watch": "npm test -- --watch",
     "prepublish": "npm run prepack",
     "prepack": "node changelog.cjs",
-    "pack": "node packer.js --yarn",
+    "pack": "node packer.cjs --yarn",
     "prepare": "husky && node prepare.mjs"
   },
   "repository": "dimaslanjaka/hexo-seo",
