@@ -87,7 +87,7 @@ module.exports.modifyHexoConfig = modifyHexoConfig;
 function main() {
   // Checksum
   const srcDir = path.resolve(__dirname, 'src');
-  const currentChecksum = checksum({ patterns: [srcDir, path.resolve(__dirname, 'package.json')] });
+  const currentChecksum = checksum({ patterns: [srcDir, path.resolve(__dirname, 'package.json'), 'rollup.*.js'] });
   log(`🔑\tChecksum for src: ${currentChecksum}`);
   const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
   let prevChecksum = null;
