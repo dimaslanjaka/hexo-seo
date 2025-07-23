@@ -109,6 +109,7 @@ function main() {
     if (pull.error) {
       log('❌\tFailed to pull latest changes, resetting to HEAD...');
       runCmd('git', ['reset', '--hard', 'HEAD'], { cwd: targetDir });
+      runCmd('git', ['pull'], { cwd: targetDir });
     }
   }
 
