@@ -7,7 +7,7 @@ export function generatorURLs(locals) {
   const config = this.config;
   let count = config.hexo_indexnow.count;
   const urlsPath = config.hexo_indexnow.txt_name;
-  const linkReplace = config.hexo_indexnow.replace;
+  const _linkReplace = config.hexo_indexnow.replace;
   if (count === 'latest') {
     count = 1;
   } else if (!count) {
@@ -34,7 +34,7 @@ export function generatorURLs(locals) {
   };
 }
 
-export function apiKey(locals) {
+export function apiKey(_locals) {
   const log = this.log;
   const apiKey = this.config.hexo_indexnow.apikey;
   log.info('Indexnow apikey generated');
@@ -58,7 +58,7 @@ function FileReadline(ReadName: string, callback: (arr: any[]) => void) {
   });
 }
 
-export function submitURLs(args) {
+export function submitURLs(_args) {
   const log = this.log;
   const config = this.config;
   const publicDir = this.public_dir;

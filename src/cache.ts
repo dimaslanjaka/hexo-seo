@@ -158,7 +158,7 @@ export class CacheFile {
         this.md5Cache[path0 + '-hash'] = pathMd5;
       }
       return result;
-    } catch (e) {
+    } catch {
       return true;
     }
   }

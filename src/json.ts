@@ -7,7 +7,7 @@
 export function parse(json: string, fallback?: any) {
   try {
     return JSON.parse(json);
-  } catch (e) {
+  } catch {
     return fallback;
   }
 }
