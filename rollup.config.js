@@ -23,11 +23,30 @@ const external = [...Object.keys(dependencies), ...Object.keys(devDependencies)]
 
 const banner = `// ${name} ${version} by ${author.name} <${author.email}> (${author.url})`.trim();
 const esmBanner = `${banner}\n\nimport nodeUrl from 'node:url';\nimport nodePath from 'path';\nconst __filename = nodeUrl.fileURLToPath(import.meta.url);\nconst __dirname = nodePath.dirname(__filename);`;
+const plugins = [
+  json(),
+  resolve({ preferBuiltins: true }),
+  commonjs({ exclude: ['**/*.cjs', '**/*.d.cts'] }),
+  babel({
+    babelHelpers: 'bundled',
+    exclude: 'node_modules/**',
+    presets: [['@babel/preset-env', { targets: { node: '18' } }]]
+  }),
+  {
+    name: 'replace-process-env',
+    transform(code) {
+      return {
+        code: code.replace(/process\.env\.NODE_ENV/g, JSON.stringify('production')),
+        map: { mappings: '' }
+      };
+    }
+  }
+];
 
 /**
  * @type {import('rollup').RollupOptions}
  */
-const libs = {
+const _libs = {
   input: './tmp/dist/src/index.js',
   output: [
     {
@@ -59,32 +78,49 @@ const libs = {
     }
   ],
   external,
-  plugins: [
-    json(),
-    resolve({ preferBuiltins: true }),
-    commonjs(),
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
-      presets: [['@babel/preset-env', { targets: { node: '18' } }]]
-    }),
+  plugins
+};
+
+const _exports = {
+  input: './tmp/dist/src/exports.js',
+  output: [
     {
-      name: 'replace-process-env',
-      transform(code) {
-        return {
-          code: code.replace(/process\.env\.NODE_ENV/g, JSON.stringify('production')),
-          map: { mappings: '' }
-        };
-      }
+      dir: 'dist',
+      format: 'esm',
+      banner,
+      preserveModules: true,
+      preserveModulesRoot: 'tmp/dist',
+      entryFileNames: entryFileNamesWithExt('js'),
+      chunkFileNames: chunkFileNamesWithExt('js')
+    },
+    {
+      dir: 'dist',
+      format: 'cjs',
+      banner,
+      preserveModules: true,
+      preserveModulesRoot: 'tmp/dist',
+      entryFileNames: entryFileNamesWithExt('cjs'),
+      chunkFileNames: chunkFileNamesWithExt('cjs')
+    },
+    {
+      dir: 'dist',
+      format: 'esm',
+      banner: esmBanner,
+      preserveModules: true,
+      preserveModulesRoot: 'tmp/dist',
+      entryFileNames: entryFileNamesWithExt('mjs'),
+      chunkFileNames: chunkFileNamesWithExt('mjs')
     }
-  ]
+  ],
+  external,
+  plugins
 };
 
 /**
  * @type {import('rollup').RollupOptions}
  */
-const declaration = {
-  input: './tmp/dist/src/hexo-seo.d.ts',
+const _declaration = {
+  input: './tmp/dist/src/exports.d.ts',
   output: [
     {
       dir: 'dist',
@@ -112,7 +148,7 @@ const declaration = {
   external
 };
 
-export default [libs, declaration];
+export default [_libs, _exports];
 
 fs.ensureDirSync('tmp');
 fs.writeFileSync('tmp/rollup.log', `Rollup build started at ${new Date().toISOString()}\n\n`);

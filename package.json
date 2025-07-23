@@ -2,15 +2,15 @@
   "name": "hexo-seo",
   "version": "3.0.0",
   "description": "Automated Seo Optimizer For Hexo",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
+  "main": "dist/src/index.cjs",
+  "types": "dist/src/index.d.ts",
+  "module": "dist/src/index.mjs",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/src/index.mjs",
+      "require": "./dist/src/index.cjs",
+      "types": "./dist/src/index.d.ts"
     },
     "./src/*": {
       "import": "./src/*.ts",
@@ -20,6 +20,7 @@
   },
   "files": [
     "dist/",
+    "src/",
     "images/",
     "source/"
   ],

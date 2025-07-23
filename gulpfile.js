@@ -40,9 +40,13 @@ async function gulpCopyAsync(src, dest, options) {
 async function build(_done) {
   const ignore = ['**/node_modules/**', '**/.git**', '**/.github/**', '**.gitmodules**', '**/tmp/**'];
   console.log('copy sitemaps xml/xsl to dist');
-  await gulpCopyAsync('./src/sitemap/**/*.{xml,xsl}', './dist', { ignore });
+  await gulpCopyAsync('./src/sitemap/**/*.{xml,xsl}', './dist/src/sitemap', { ignore });
   console.log('copy feed/atom xml to dist');
-  await gulpCopyAsync('./src/feeds/**/*.{xml,xsl}', './dist', { ignore });
+  await gulpCopyAsync('./src/feeds/**/*.{xml,xsl}', './dist/src/feeds', { ignore });
+  console.log('copy declaration files to dist');
+  await gulpCopyAsync('./tmp/dist/src/**/*.d.{ts,cts,mts}', './dist/src', { cwd: __dirname });
+  console.log('copy json files to dist');
+  await gulpCopyAsync('./tmp/dist/**/*.json', './dist', { cwd: __dirname });
 }
 
 gulp.task('default', build);
