@@ -151,7 +151,7 @@ export const defaultOpt: BaseConfig = {
     onerror: 'clientside',
     broken: false
   },
-  host: new URL(hexo.config.url).host,
+  host: 'https://example.com',
   links: {
     blank: true,
     enable: true,
@@ -174,10 +174,10 @@ export const defaultOpt: BaseConfig = {
     }
   },
   sitemap: false,
-  theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
-  source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
-  public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
-  post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts'),
+  theme_dir: 'landscape',
+  source_dir: 'source',
+  public_dir: 'public',
+  post_dir: 'source/_posts',
   search: {
     type: ['post', 'page']
   },
@@ -191,10 +191,21 @@ const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
   const seo: BaseConfig = hexo.config.seo;
   if (typeof seo !== 'undefined') {
     writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
-    return deepmerge(defaultOpt, seo, {
-      // disable cache on dev
-      cache: isDev ? false : seo.cache || defaultOpt.cache
-    }) as BaseConfig;
+    return deepmerge(
+      defaultOpt,
+      {
+        host: new URL(hexo.config.url).host,
+        theme_dir: path.join(process.cwd(), 'themes', String(hexo.config.theme || 'landscape')),
+        source_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source')),
+        public_dir: path.join(process.cwd(), String(hexo.config.public_dir || 'public')),
+        post_dir: path.join(process.cwd(), String(hexo.config.source_dir || 'source'), '_posts')
+      },
+      seo,
+      {
+        // disable cache on dev
+        cache: isDev ? false : seo.cache || defaultOpt.cache
+      }
+    ) as BaseConfig;
   }
   return <BaseConfig>defaultOpt;
 };
