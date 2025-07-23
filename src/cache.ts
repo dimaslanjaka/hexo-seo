@@ -295,4 +295,5 @@ export function releaseMemory() {
   }
 }
 
+export { Cache };
 export default Cache;

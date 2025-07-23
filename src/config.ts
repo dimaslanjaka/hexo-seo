@@ -216,6 +216,7 @@ export const coreCache = new persistentCache({
 
 export const cache_key_router = 'jslib';
 
+export { getConfig };
 export default getConfig;
 
 /**

@@ -27,7 +27,7 @@ export const isDev = arg || env;
 const logname = ansiColors.magentaBright('hexo-seo');
 
 // core
-export default function HexoSeo(hexo: Hexo) {
+export function HexoSeo(hexo: Hexo) {
   //console.log("hexo-seo starting", { dev: env });
   // return if hexo-seo configuration unavailable
   if (typeof hexo.config.seo == 'undefined') {
@@ -113,3 +113,5 @@ export default function HexoSeo(hexo: Hexo) {
   // all in one html fixer
   hexo.extend.filter.register('after_render:html', HexoSeoHtml as StoreFunction);
 }
+
+export default HexoSeo;
