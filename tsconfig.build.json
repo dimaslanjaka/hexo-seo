@@ -21,7 +21,8 @@
     "**/node_modules/**",
     "**/.git/**",
     "test",
-    "**/*.runner.ts"
+    "**/*.runner.ts",
+    "**/*.builder.ts"
   ],
   "include": [
     "./src/**/*",

@@ -21,3 +21,5 @@ src/_config_data.json
 /CHANGELOG.md
 /*.tgz
 /*.gz
+src/index-exports.*
+src/exports.*
