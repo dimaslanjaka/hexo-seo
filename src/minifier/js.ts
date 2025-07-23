@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import Hexo from 'hexo';
 import assign from 'object-assign';
 import { minify, MinifyOptions } from 'terser';
-import pkg from '../../package.json';
+import pkg from '../../package.json' with { type: 'json' };
 import Cache from '../cache';
 import getConfig from '../config';
 import log from '../log';

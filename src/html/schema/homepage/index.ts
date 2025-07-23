@@ -1,6 +1,6 @@
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { SchemaArticleOptions } from '../article';
-import data from './data-index.json';
+import data from './data-index.json' with { type: 'json' };
 
 type articleListElement = (typeof data.mainEntity.itemListElement)[0];
 export interface homepageArticle extends ObjectConstructor, articleListElement {

@@ -4,7 +4,7 @@ import ansiColors from 'ansi-colors';
 import CleanCSS from 'clean-css';
 import Hexo from 'hexo';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
-import pkg from '../../package.json';
+import pkg from '../../package.json' with { type: 'json' };
 import Cache from '../cache';
 import getConfig from '../config';
 import log from '../log';

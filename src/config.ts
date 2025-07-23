@@ -2,7 +2,7 @@ import { deepmerge } from 'deepmerge-ts';
 import Hexo from 'hexo';
 import { persistentCache, writefile } from 'sbg-utility';
 import path from 'upath';
-import configData from './_config_data.json';
+import configData from './_config_data.json' with { type: 'json' };
 import { tmpFolder } from './fm';
 import { isDev } from './hexo-seo';
 import { hyperlinkOptions } from './html/types';

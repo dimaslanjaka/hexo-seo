@@ -1,7 +1,7 @@
 import Hexo from 'hexo';
 import { hexoIs } from 'hexo-is';
 import { JSDOM } from 'jsdom';
-import pkg from '../../package.json';
+import pkg from '../../package.json' with { type: 'json' };
 import { CacheFile, releaseMemory } from '../cache';
 import getConfig from '../config';
 import { HexoSeo } from '../html/schema/article';

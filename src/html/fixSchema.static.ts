@@ -11,7 +11,7 @@ import { isDev } from '../hexo-seo';
 import logger from '../log';
 import { dump } from '../utils';
 import { getAuthorName } from '../utils/getAuthor';
-import model from './schema/article/model4.json';
+import model from './schema/article/model4.json' with { type: 'json' };
 
 const logname = `${ansiColors.magentaBright('hexo-seo')}(${ansiColors.blueBright('fixSchema.static')})`;
 

@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 import Hexo from 'hexo';
 import { Options as htmlMinifyOptions, minify } from 'html-minifier-terser';
 import { minimatch } from 'minimatch';
-import pkg from '../../package.json';
+import pkg from '../../package.json' with { type: 'json' };
 import getConfig from '../config';
 import logger from '../log';
 import { isIgnore } from '../utils';

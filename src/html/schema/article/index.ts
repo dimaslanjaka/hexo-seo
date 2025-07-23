@@ -2,7 +2,7 @@ import { CheerioAPI } from 'cheerio';
 import Hexo from 'hexo';
 import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import { isValidHttpUrl } from 'sbg-utility';
-import mainSchema from './model3.json';
+import mainSchema from './model3.json' with { type: 'json' };
 
 export type SchemaAuthor = ObjectConstructor & {
   image: string;

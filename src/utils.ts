@@ -9,7 +9,7 @@ import { rimrafSync } from 'rimraf';
 import sanitizeFilename from 'sanitize-filename';
 import path from 'upath';
 import utils from 'util';
-import pkg from '../package.json';
+import pkg from '../package.json' with { type: 'json' };
 import { isDev } from './hexo-seo';
 
 /**
