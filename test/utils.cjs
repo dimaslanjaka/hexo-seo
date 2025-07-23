@@ -45,17 +45,38 @@ function generateMarkdownPost({
  */
 function runCommand(command, args = [], options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      stdio: 'inherit',
+    // If stdio is not inherit, capture output for error reporting
+    const stdio = options.stdio || 'inherit';
+    let stdout = '';
+    let stderr = '';
+    const spawnOpts = {
       shell: true,
-      ...options
-    });
+      ...options,
+      stdio: stdio === 'inherit' ? 'inherit' : ['ignore', 'pipe', 'pipe']
+    };
+    const child = spawn(command, args, spawnOpts);
+
+    if (spawnOpts.stdio !== 'inherit') {
+      if (child.stdout)
+        child.stdout.on('data', (data) => {
+          stdout += data.toString();
+        });
+      if (child.stderr)
+        child.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
+    }
 
     child.on('error', reject);
 
     child.on('close', (code) => {
       if (code !== 0) {
-        return reject(new Error(`Command failed: ${command} ${args.join(' ')}`));
+        let msg = `Command failed: ${command} ${args.join(' ')}`;
+        if (spawnOpts.stdio !== 'inherit') {
+          if (stdout) msg += `\nstdout:\n${stdout}`;
+          if (stderr) msg += `\nstderr:\n${stderr}`;
+        }
+        return reject(new Error(msg));
       }
       resolve();
     });
