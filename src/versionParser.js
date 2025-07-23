@@ -1,6 +1,3 @@
-/* eslint-disable radix */
-/* eslint-disable no-throw-literal */
-
 /**
  * Version Parser
  */
@@ -43,4 +40,4 @@ class versionParser {
   }
 }
 
-module.exports = versionParser;
+export default versionParser;
