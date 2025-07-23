@@ -1,16 +1,21 @@
-const Bluebird = require('bluebird');
-const { existsSync, rmSync } = require('fs-extra');
-const gulp = require('gulp');
-const { join } = require('upath');
+import Bluebird from 'bluebird';
+import fs from 'fs-extra';
+import gulp from 'gulp';
+import path from 'upath';
+import { fileURLToPath } from 'url';
+// import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.join(fileURLToPath(import.meta.url), '..');
 
 /**
  * Cleans up the directories 'dist' and 'docs'.
  * @returns {Promise<void[]>} A promise that resolves when all paths are cleaned.
  */
 function clean() {
-  const paths = ['dist', 'docs'].map((str) => join(__dirname, str)).filter((path) => existsSync(path));
+  const paths = ['dist', 'docs'].map((str) => path.join(__dirname, str)).filter((path) => fs.existsSync(path));
   return Bluebird.all(paths).each((str) => {
-    rmSync(str, { recursive: true, force: true });
+    fs.rmSync(str, { recursive: true, force: true });
   });
 }
 
