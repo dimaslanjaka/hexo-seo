@@ -5,7 +5,7 @@ import { dts } from 'rollup-plugin-dts';
 import packageJson from './package.json' with { type: 'json' };
 import json from '@rollup/plugin-json';
 import path from 'upath';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -114,6 +114,9 @@ const declaration = {
 
 export default [libs, declaration];
 
+fs.ensureDirSync('tmp');
+fs.writeFileSync('tmp/rollup.log', `Rollup build started at ${new Date().toISOString()}\n\n`);
+
 /**
  * Returns a function to generate entry file names with the given extension for Rollup output.
  * For node_modules, places in dependencies folder and logs the mapping.
@@ -126,24 +129,25 @@ export function entryFileNamesWithExt(ext) {
     ext = ext.slice(1);
   }
   return function ({ facadeModuleId }) {
+    facadeModuleId = path.toUnix(facadeModuleId);
     if (!facadeModuleId.includes('node_modules')) {
       return `[name].${ext}`;
     }
-    let rel = path.relative(path.resolve(__dirname, 'tmp/dist'), facadeModuleId);
+    // Find the first occurrence of 'node_modules' and slice from there
+    const nodeModulesIdx = facadeModuleId.indexOf('node_modules');
+    let rel = facadeModuleId.slice(nodeModulesIdx);
     rel = rel.replace('node_modules', 'dependencies');
-    rel = rel.replace(/^(?:\.{2}\/|\.\/)+/, '');
     // Remove extension using upath.extname
     rel = rel.slice(0, -path.extname(rel).length) + `.${ext}`;
-
     // Remove any null bytes (\x00) that may be present (Rollup sometimes injects these)
     rel = rel.replace(/\0/g, '');
+    // Remove any leading slashes
+    rel = rel.replace(/^\/\/+/, '');
 
-    // Rollup does not allow absolute or relative paths in entryFileNames, so ensure rel is not absolute or relative
-    // Remove any drive letter and colon (Windows), and any leading slashes/backslashes
-    rel = rel.replace(/^([a-zA-Z]:[\\\\/])/, ''); // Remove drive letter and colon (e.g., D:/ or D:\)
-    rel = rel.replace(/^([\\\\/])/, ''); // Remove leading slash or backslash
-
-    fs.appendFileSync('tmp/rollup.log', `Processed: ${facadeModuleId} -> ${rel}\n`);
+    fs.appendFileSync(
+      'tmp/rollup.log',
+      `entryFileNamesWithExt:\n  [facadeModuleId] ${facadeModuleId}\n  [rel] ${rel}\n`
+    );
     return rel;
   };
 }
@@ -158,12 +162,15 @@ export function chunkFileNamesWithExt(ext) {
   return function ({ name }) {
     // For node_modules chunks, place in dependencies folder
     if (name && name.includes('node_modules')) {
-      let rel = name.replace('node_modules', 'dependencies');
-      rel = rel.replace(/^(?:\.\/|\.\.\/)+/, '');
+      const nodeModulesIdx = name.indexOf('node_modules');
+      let rel = name.slice(nodeModulesIdx);
+      rel = rel.replace('node_modules', 'dependencies');
       // Remove extension using upath.extname
       rel = rel.slice(0, -path.extname(rel).length);
       // Remove any null bytes (\x00) that may be present
       rel = rel.replace(/\0/g, '');
+      // Remove any leading slashes
+      rel = rel.replace(/^\/\/+/, '');
       return `${rel}-[hash].${ext}`;
     }
     // For local chunks, keep the default pattern
