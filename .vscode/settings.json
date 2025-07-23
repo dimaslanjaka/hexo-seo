@@ -165,9 +165,8 @@
     "db.json": true
   },
   "code-runner.executorMap": {
-    "typescriptreact": "ts-node --expose-gc",
     "javascript": "node --expose-gc --require dotenv/config",
-    "typescript": "ts-node"
+    "typescript": "node --no-warnings=ExperimentalWarning --loader ts-node/esm",
   },
   "code-runner.executorMapByGlob": {
     "*.test.{ts,js,cjs}": "npm test --"

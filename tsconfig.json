@@ -1,5 +1,17 @@
 /* ONLY FOR VSCODE */
 {
+  "ts-node": {
+    // Enable ECMAScript module support in ts-node
+    "esm": true,
+    // Allow experimental resolution of module specifiers
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      // Override module configuration for ts-node
+      // "module": "ESNext",
+      // Disable strict type-checking in ts-node
+      "strict": false
+    }
+  },
   "compilerOptions": {
     "allowJs": true,
     "allowUnusedLabels": true,
