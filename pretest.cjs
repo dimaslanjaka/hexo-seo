@@ -16,37 +16,12 @@ function log(...args) {
   console.log(...args);
 }
 
-const srcDir = path.resolve(__dirname, 'src');
-const currentChecksum = checksum({ patterns: [srcDir, path.resolve(__dirname, 'package.json')] });
-log(`🔑\tChecksum for src: ${currentChecksum}`);
-const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
-let prevChecksum = null;
-if (fs.existsSync(checksumFile)) {
-  prevChecksum = fs.readFileSync(checksumFile, 'utf8').trim();
-  log(prevChecksum === currentChecksum ? '✅\tSource checksum unchanged.' : '⚠️\tSource checksum changed.');
-} else {
-  log('ℹ️\tNo previous checksum found.');
-}
-
 const targetDir = path.resolve(__dirname, 'tmp/site');
 const workspaceDir = path.toUnix(__dirname);
 const repoUrl = 'https://github.com/dimaslanjaka/site.git';
 module.exports.repoUrl = repoUrl;
 module.exports.targetDir = targetDir;
 module.exports.workspaceDir = workspaceDir;
-
-const targetGitDir = path.join(targetDir, '.git');
-if (!fs.existsSync(targetGitDir)) {
-  log(`📦\tCloning repo into ${targetDir}...`);
-  runCmd('git', ['clone', '-b', 'hexo-seo', repoUrl, targetDir]);
-} else {
-  log('🔄\tPulling latest changes...');
-  const pull = runCmd('git', ['pull'], { cwd: targetDir });
-  if (pull.error) {
-    log('❌\tFailed to pull latest changes, resetting to HEAD...');
-    runCmd('git', ['reset', '--hard', 'HEAD'], { cwd: targetDir });
-  }
-}
 
 /**
  * Modify the Hexo config YAML at the global targetDir.
@@ -109,47 +84,83 @@ function modifyHexoConfig(overrides = {}) {
 // Export the helper for use in other modules
 module.exports.modifyHexoConfig = modifyHexoConfig;
 
-// Modify the Hexo config with default settings
-log('🔧\tModifying Hexo config with default settings...');
-modifyHexoConfig({
-  title: 'Hexo SEO Test Site',
-  description: 'A test site for Hexo SEO plugin',
-  permalink: ':title.html'
-});
-
-if (currentChecksum !== prevChecksum) {
-  log('🔨\tBuilding hexo-seo workspace...');
-  runCmd('yarn', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
-  log('🔨\tPacking hexo-seo workspace...');
-  runCmd('yarn', ['run', 'pack'], { cwd: __dirname, stdio: 'ignore' });
-} else {
-  log('ℹ️\tSkipping build and pack due to unchanged source checksum.');
-}
-
-// Install workspace tarball to target directory
-const packageJsonPath = path.join(targetDir, 'package.json');
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-const needsInstall =
-  currentChecksum !== prevChecksum ||
-  !packageJson.dependencies['hexo-seo'] ||
-  !packageJson.dependencies['hexo-seo'].includes('file:');
-if (needsInstall) {
-  log('📦\tInstalling hexo-seo from tarball...');
-  const yarnLockPath = path.join(targetDir, 'yarn.lock');
-  if (!fs.existsSync(yarnLockPath)) {
-    fs.writeFileSync(yarnLockPath, '', 'utf8');
-    log('ℹ️\tCreated empty yarn.lock in target directory.');
+function main() {
+  // Checksum
+  const srcDir = path.resolve(__dirname, 'src');
+  const currentChecksum = checksum({ patterns: [srcDir, path.resolve(__dirname, 'package.json')] });
+  log(`🔑\tChecksum for src: ${currentChecksum}`);
+  const checksumFile = path.resolve(__dirname, 'tmp/.src-checksum');
+  let prevChecksum = null;
+  if (fs.existsSync(checksumFile)) {
+    prevChecksum = fs.readFileSync(checksumFile, 'utf8').trim();
+    log(prevChecksum === currentChecksum ? '✅\tSource checksum unchanged.' : '⚠️\tSource checksum changed.');
+  } else {
+    log('ℹ️\tNo previous checksum found.');
   }
-  const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
-  runCmd('yarn', ['add', `hexo-seo@file:${tarballPath}`], {
-    cwd: targetDir,
-    stdio: 'ignore'
+
+  // Clone or update the target repository
+  const targetGitDir = path.join(targetDir, '.git');
+  if (!fs.existsSync(targetGitDir)) {
+    log(`📦\tCloning repo into ${targetDir}...`);
+    runCmd('git', ['clone', '-b', 'hexo-seo', repoUrl, targetDir]);
+  } else {
+    log('🔄\tPulling latest changes...');
+    const pull = runCmd('git', ['pull'], { cwd: targetDir });
+    if (pull.error) {
+      log('❌\tFailed to pull latest changes, resetting to HEAD...');
+      runCmd('git', ['reset', '--hard', 'HEAD'], { cwd: targetDir });
+    }
+  }
+
+  // Modify the Hexo config with default settings
+  log('🔧\tModifying Hexo config with default settings...');
+  modifyHexoConfig({
+    title: 'Hexo SEO Test Site',
+    description: 'A test site for Hexo SEO plugin',
+    permalink: ':title.html'
   });
-} else {
-  log('ℹ️\tSkipping installation of hexo-seo tarball due to unchanged source checksum.');
+
+  // Build workspace
+  if (currentChecksum !== prevChecksum) {
+    log('🔨\tBuilding hexo-seo workspace...');
+    runCmd('yarn', ['run', 'build'], { cwd: __dirname, stdio: 'ignore' });
+    log('🔨\tPacking hexo-seo workspace...');
+    runCmd('yarn', ['run', 'pack'], { cwd: __dirname, stdio: 'ignore' });
+  } else {
+    log('ℹ️\tSkipping build and pack due to unchanged source checksum.');
+  }
+
+  // Install workspace tarball to target directory
+  const packageJsonPath = path.join(targetDir, 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  const needsInstall =
+    currentChecksum !== prevChecksum ||
+    !packageJson.dependencies['hexo-seo'] ||
+    !packageJson.dependencies['hexo-seo'].includes('file:');
+  if (needsInstall) {
+    log('📦\tInstalling hexo-seo from tarball...');
+    const yarnLockPath = path.join(targetDir, 'yarn.lock');
+    if (!fs.existsSync(yarnLockPath)) {
+      fs.writeFileSync(yarnLockPath, '', 'utf8');
+      log('ℹ️\tCreated empty yarn.lock in target directory.');
+    }
+    const tarballPath = path.resolve(__dirname, 'release/hexo-seo.tgz');
+    runCmd('yarn', ['add', `hexo-seo@file:${tarballPath}`], {
+      cwd: targetDir,
+      stdio: 'ignore'
+    });
+  } else {
+    log('ℹ️\tSkipping installation of hexo-seo tarball due to unchanged source checksum.');
+  }
+
+  // Save the current checksum to the file
+  if (currentChecksum !== prevChecksum) {
+    fs.writeFileSync(checksumFile, currentChecksum, 'utf8');
+    log('✅\tNew checksum saved.');
+  }
 }
 
-if (currentChecksum !== prevChecksum) {
-  fs.writeFileSync(checksumFile, currentChecksum, 'utf8');
-  log('✅\tNew checksum saved.');
+// Run the main function when called directly
+if (require.main === module) {
+  main();
 }
