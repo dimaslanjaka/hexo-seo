@@ -1,4 +1,6 @@
 const { spawn } = require('cross-spawn');
+const fs = require('fs-extra');
+const path = require('upath');
 
 /**
  * Generate a markdown file with front-matter
@@ -83,7 +85,41 @@ function runCommand(command, args = [], options = {}) {
   });
 }
 
+/**
+ * Create multiple random markdown posts with randomized tags and categories
+ * @param {string} dir - Directory to write posts
+ * @param {number} count - Number of posts to generate
+ * @param {string[]} tagsList - List of possible tags
+ * @param {string[]} categoriesList - List of possible categories
+ * @returns {string[]} Array of generated filenames
+ */
+function generateRandomMarkdownPosts(dir, count = 1, tagsList = ['test'], categoriesList = ['default']) {
+  const filenames = [];
+  for (let i = 0; i < count; i++) {
+    const title = `Test Post ${Math.floor(Math.random() * 10000)}`;
+    const date = new Date(Date.now() - Math.floor(Math.random() * 100000000)).toISOString();
+    const tags = tagsList
+      .sort(() => 0.5 - Math.random())
+      .slice(0, Math.max(1, Math.floor(Math.random() * tagsList.length) + 1));
+    const categories = categoriesList
+      .sort(() => 0.5 - Math.random())
+      .slice(0, Math.max(1, Math.floor(Math.random() * categoriesList.length) + 1));
+    const { content, filename } = generateMarkdownPost({
+      title,
+      date,
+      tags,
+      categories,
+      body: 'This is a random test post for Hexo.'
+    });
+    fs.ensureDirSync(dir);
+    fs.writeFileSync(path.join(dir, filename), content, 'utf8');
+    filenames.push(filename);
+  }
+  return filenames;
+}
+
 module.exports = {
   generateMarkdownPost,
-  runCommand
+  runCommand,
+  generateRandomMarkdownPosts
 };
