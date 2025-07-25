@@ -1,12 +1,18 @@
 const fs = require('fs');
 const path = require('upath');
-const { runCommand } = require('../utils.cjs');
+const { runCommand, generateRandomMarkdownPosts } = require('../utils.cjs');
 const { targetDir } = require('../../pretest.cjs');
 const yaml = require('yaml');
 const { deepMerge } = require('hexo-util');
 
 describe('CLI sitemap test', () => {
   let consoleSpy;
+  const generatedMarkdownPosts = generateRandomMarkdownPosts(
+    path.join(targetDir, 'source/_posts'),
+    10,
+    ['js', 'ts'],
+    ['programming', 'web development']
+  );
 
   /**
    * Helper to modify Hexo config YAML file
@@ -68,6 +74,12 @@ describe('CLI sitemap test', () => {
 
   afterAll(() => {
     if (consoleSpy) consoleSpy.mockRestore();
+    generatedMarkdownPosts.forEach((filename) => {
+      const filePath = path.join(targetDir, 'source/_posts', filename);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    });
   });
 
   test('should generate all sitemap files', async () => {

@@ -1,6 +1,9 @@
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { HTMLElement } from 'node-html-parser';
-import { envHexo } from '../env.cjs';
+import path from 'upath';
+import { baseSite, envHexo } from '../env.cjs';
+import { generateRandomMarkdownPosts } from '../utils.cjs';
 
 jest.setTimeout(120000);
 
@@ -17,6 +20,13 @@ const config = {
 };
 
 describe('Sitemap Module Integration (Hexo)', () => {
+  const generatedMarkdownPosts = generateRandomMarkdownPosts(
+    path.join(baseSite, 'source/_posts'),
+    10,
+    ['js', 'ts'],
+    ['programming', 'web development']
+  );
+
   beforeAll(async () => {
     hexo = await envHexo(config);
     (global as any).hexo = hexo;
@@ -31,6 +41,12 @@ describe('Sitemap Module Integration (Hexo)', () => {
 
   afterAll(async () => {
     await hexo.exit();
+    generatedMarkdownPosts.forEach((filename) => {
+      const filePath = path.join(baseSite, 'source/_posts', filename);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    });
   });
 
   describe('sitemap', () => {
