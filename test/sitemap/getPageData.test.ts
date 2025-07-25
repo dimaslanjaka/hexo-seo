@@ -30,8 +30,8 @@ describe('getPageData', () => {
   );
 
   beforeAll(async () => {
-    hexo = new Hexo(baseSite, { silent: true });
     modifyHexoConfig(config);
+    hexo = new Hexo(baseSite, { silent: true });
     await hexo.init();
     await hexo.load();
     await hexo.call('clean');
