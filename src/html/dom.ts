@@ -1,4 +1,5 @@
 import jsdom, { ConstructorOptions, DOMWindow, JSDOM } from 'jsdom';
+export { parse as nodeHtmlParser } from 'node-html-parser';
 
 export class _JSDOM {
   private dom: JSDOM;
