@@ -36,7 +36,7 @@ const config: JestConfigWithTsJest = {
     '^(\\.{1,2}/.*)\\.js$': '$1'
   },
   transform: {
-    '^.+\\.(ts|tsx)$': [
+    '^.+\\.ts$': [
       'ts-jest',
       {
         babelConfig: {
@@ -54,7 +54,7 @@ const config: JestConfigWithTsJest = {
         tsconfig: path.join(__dirname, 'tsconfig.jest.json')
       }
     ],
-    '^.+\\.cjs$': [
+    '^.+\\.(cjs|mjs|js)$': [
       'babel-jest',
       {
         presets: [['@babel/preset-env', { targets: { node: 'current' } }]]
