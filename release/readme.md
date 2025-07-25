@@ -2,24 +2,24 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| 1.1.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.0.tgz |
-| 1.1.2 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.2.tgz |
-| 1.1.3 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.3.tgz |
-| 1.1.5 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.5.tgz |
-| 1.1.6 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.6.tgz |
-| 1.1.9 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.1.9.tgz |
-| 1.2.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.2.0.tgz |
-| 1.2.1 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.2.1.tgz |
-| 1.2.2 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.2.2.tgz |
-| 1.2.3 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.2.3.tgz |
-| 1.3.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.3.0.tgz |
-| 1.4.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.4.0.tgz |
-| 1.4.3 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-1.4.3.tgz |
-| 2.0.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-2.0.0.tgz |
-| 2.0.1 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-2.0.1.tgz |
-| 2.0.2 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-2.0.2.tgz |
-| 3.0.0 | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo-3.0.0.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-seo/raw/20a42b7/release/hexo-seo.tgz |
+| 1.1.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.0.tgz |
+| 1.1.2 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.2.tgz |
+| 1.1.3 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.3.tgz |
+| 1.1.5 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.5.tgz |
+| 1.1.6 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.6.tgz |
+| 1.1.9 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.1.9.tgz |
+| 1.2.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.2.0.tgz |
+| 1.2.1 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.2.1.tgz |
+| 1.2.2 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.2.2.tgz |
+| 1.2.3 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.2.3.tgz |
+| 1.3.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.3.0.tgz |
+| 1.4.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.4.0.tgz |
+| 1.4.3 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-1.4.3.tgz |
+| 2.0.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-2.0.0.tgz |
+| 2.0.1 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-2.0.1.tgz |
+| 2.0.2 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-2.0.2.tgz |
+| 3.0.0 | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo-3.0.0.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-seo/raw/fb25af4/release/hexo-seo.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz |
 
 use this tarball with `resolutions`:
