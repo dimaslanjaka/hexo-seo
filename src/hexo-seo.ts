@@ -3,7 +3,7 @@
 import ansiColors from 'ansi-colors';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d';
+import { StoreFunction } from 'hexo/dist/types';
 import minimist from 'minimist';
 import serveStatic from 'serve-static';
 import { initCLI } from './cli';
