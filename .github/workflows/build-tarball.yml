@@ -2,12 +2,12 @@ name: Build Tarball
 
 on:
   push:
-    paths-ignore:
-      - '**/*.tgz'
-      - '**/*.gz'
-      - '**/release/**'
-      - '**garbage-collector**'
-      - '**codeql**'
+    paths:
+      - '**/src/**'
+      - '**/package.json'
+      - '**/rollup.*'
+      - '**/.github/workflows/**/*.yml'
+      - '**/tsconfig.*'
   pull_request:
     types: [closed]
     paths-ignore:
