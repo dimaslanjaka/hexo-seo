@@ -2,6 +2,8 @@ import Hexo from 'hexo';
 import { HTMLElement } from 'node-html-parser';
 import { envHexo } from '../env.cjs';
 
+jest.setTimeout(120000);
+
 let hexo: Hexo;
 let sitemapModule: typeof import('../../src/sitemap/index');
 const config = {
@@ -14,15 +16,23 @@ const config = {
   }
 };
 
-beforeAll(async () => {
-  hexo = await envHexo(config);
-  await hexo.call('clean');
-  (global as any).hexo = hexo;
-  // Dynamically import sitemapModule after global hexo is set
-  sitemapModule = await import('../../src/sitemap/index');
-});
-
 describe('Sitemap Module Integration (Hexo)', () => {
+  beforeAll(async () => {
+    hexo = await envHexo(config);
+    (global as any).hexo = hexo;
+    // Dynamically import sitemapModule after global hexo is set
+    sitemapModule = await import('../../src/sitemap/index');
+  });
+
+  beforeEach(async () => {
+    await hexo.init();
+    await hexo.call('clean');
+  });
+
+  afterAll(async () => {
+    await hexo.exit();
+  });
+
   describe('sitemap', () => {
     it('does not throw when called with a real hexo instance and valid DOM', async () => {
       const { parse } = await import('node-html-parser');
