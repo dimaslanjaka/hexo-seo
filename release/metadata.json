@@ -154,12 +154,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "676bd3cf670aa69e1a8f4575ddf40f6977e3b048",
-      "sha256": "1abV0RhlQQzKU2BJEKgRIlEhbm35IJ3rCAdpAUUIvvg=",
-      "md5": "643d099c160a1f5cd9062fe247d7c9fe",
-      "sha512": "o7vjzu7wODiRqBGIbWv70U/Mtwajnbhdf7HCRJh3erboodIWhmx+YbovDg8RbAYT74lK0ZiycdLGbt5Hquv4Ng=="
+      "sha1": "d060dc56e202332c2e6671a84b66c475ee6acbc6",
+      "sha256": "dqsyr0Nof/DhWifhLB50Bd1P5jW9YHiM2RT5NdZOfxM=",
+      "md5": "5bfe251654e23c593402b30f4b654d55",
+      "sha512": "dIN/Fxt+g+ojlYh+9MHFhFM/be08fQqXuklCIPI0s1U2CZ7Cddqo1k3Xqln12BpPqJLlJP5OXikmWztvYgxFmg=="
     },
-    "size": "548.54 KB"
+    "size": "503.20 KB"
   },
   "/release/hexo-seo-3.0.0.tgz": {
     "integrity": {
