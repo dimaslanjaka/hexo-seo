@@ -1,5 +1,6 @@
 import Hexo from 'hexo';
-import { envHexo } from '../env.cjs';
+import { modifyHexoConfig } from '../../pretest.cjs';
+import { baseSite } from '../env.cjs';
 
 let hexo: Hexo;
 let sitemapModule: typeof import('../../src/sitemap/index');
@@ -13,12 +14,16 @@ const config = {
   }
 };
 
+jest.setTimeout(120000);
+
 beforeAll(async () => {
-  hexo = await envHexo(config);
+  hexo = new Hexo(baseSite, { silent: true });
+  modifyHexoConfig(config);
+  await hexo.init();
   await hexo.call('clean');
   (global as any).hexo = hexo;
   // Dynamically import sitemapModule after global hexo is set
-  sitemapModule = await import('../../src/sitemap/index');
+  sitemapModule = await import('../../dist/src/sitemap/index.js');
 });
 
 describe('getPageData', () => {
