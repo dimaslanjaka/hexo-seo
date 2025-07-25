@@ -10,11 +10,12 @@ on:
       - '**/tsconfig.*'
   pull_request:
     types: [closed]
-    paths-ignore:
-      - '**/release/**'
-      - '**/*.tgz'
-      - '**/*.gz'
-      - '**/test*/**'
+    paths:
+      - '**/src/**'
+      - '**/package.json'
+      - '**/rollup.*'
+      - '**/.github/workflows/**/*.yml'
+      - '**/tsconfig.*'
   workflow_dispatch:
 
 concurrency:
