@@ -4,11 +4,13 @@ const Hexo = require('hexo');
 const fs = require('fs-extra');
 const path = require('upath');
 
-const base = path.resolve(__dirname, '../tmp/site/');
-const base_node_modules = path.join(base, 'node_modules');
+const baseSite = path.resolve(__dirname, '../tmp/site/');
+module.exports.baseSite = baseSite;
+const base_node_modules = path.join(baseSite, 'node_modules');
+module.exports.base_node_modules = base_node_modules;
 
 // override process.cwd()
-process.cwd = () => base;
+process.cwd = () => baseSite;
 
 /**
  * hexo instance caller
@@ -16,7 +18,8 @@ process.cwd = () => base;
  * @returns
  */
 function envHexo(config) {
-  const hexo = new Hexo(base, Object.assign({ silent: true }, config || {}));
+  const hexo = new Hexo(baseSite, Object.assign({ silent: true }, config || {}));
+  hexo.config = deepmerge(hexo.config, config || {});
   const initialized = hexo
     .init()
     // load hexo plugins
@@ -24,7 +27,7 @@ function envHexo(config) {
       return Bluebird.all(fs.readdir(base_node_modules)).each((pluginName) => {
         if (pluginName.startsWith('hexo-')) {
           try {
-            return hexo.loadPlugin(require.resolve(pluginName, { paths: [base] }));
+            return hexo.loadPlugin(require.resolve(pluginName, { paths: [baseSite] }));
           } catch {
             // ignore if plugin not found
           }
@@ -33,7 +36,7 @@ function envHexo(config) {
     })
     .then(() => hexo.load())
     .then(() => {
-      hexo.config = deepmerge(hexo.config, config);
+      hexo.config = deepmerge(hexo.config, config || {});
       return hexo;
     });
   // bind global hexo instance
@@ -41,5 +44,5 @@ function envHexo(config) {
   return initialized;
 }
 
-module.exports.baseSite = base;
+module.exports.baseSite = baseSite;
 module.exports.envHexo = envHexo;
