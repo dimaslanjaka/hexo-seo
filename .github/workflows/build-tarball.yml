@@ -1,8 +1,7 @@
-name: Build Pre-release
+name: Build Tarball
 
 on:
   push:
-    branches: ['pre-release']
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
