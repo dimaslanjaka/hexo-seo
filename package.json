@@ -154,7 +154,7 @@
     "conventional-changelog": "^7.1.1",
     "conventional-changelog-angular": "^8.0.0",
     "conventional-changelog-core": "^9.0.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/80999ac/release/cross-spawn.tgz",
     "depcheck": "^1.4.7",
     "eslint": "^9.31.0",
