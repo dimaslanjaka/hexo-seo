@@ -140,7 +140,7 @@
     "@types/he": "^1",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/jest": "^30.0.0",
-    "@types/jsdom": "^21.1.7",
+    "@types/jsdom": "^27.0.0",
     "@types/minimist": "^1",
     "@types/node": "^24.1.0",
     "@types/nunjucks": "^3",
