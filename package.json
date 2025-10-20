@@ -99,7 +99,7 @@
     "hexo-log": "^4.1.0",
     "hexo-util": "^3.3.0",
     "html-minifier-terser": "^7.2.0",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.1",
     "minimatch": "^10.0.3",
     "minimist": "^1.2.8",
     "moment": "^2.30.1",
