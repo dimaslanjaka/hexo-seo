@@ -32,7 +32,7 @@
     "build": "node prepare.mjs && npm run build:exports && npm run build:ts && rollup -c && gulp",
     "clean": "npx -y rimraf dist && gulp clean && npm run build",
     "update:project": "curl https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.gitattributes > .gitattributes && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/changelog.js > changelog.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
-    "update:ncu": "npx -y npm-check-updates -u -X jsdom,@types/jsdom",
+    "update:ncu": "npx -y npm-check-updates -u -x jsdom,@types/jsdom",
     "update": "npm run update:project && npm run update:ncu",
     "test:generate": "npm run build && cd site && hexo g",
     "test:index": "run-s test:** && node test/index.cjs",
