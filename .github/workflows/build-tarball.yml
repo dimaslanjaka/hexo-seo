@@ -76,7 +76,7 @@ jobs:
           git checkout-index --force --all
 
       - name: 🟢 Setup Node.js (version 18.x)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18.x # Node.js version
           token: ${{ secrets.ACCESS_TOKEN }}
