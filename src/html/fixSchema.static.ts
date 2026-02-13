@@ -172,7 +172,7 @@ export default function fixSchemaStatic(this: Hexo, dom: HTMLElement, hexoSeoCon
         .format();
       schema.push(article);
     }
-  } else if (is.home && hexoSeoConfig.schema.homepage.enable) {
+  } else if (is.home && hexoSeoConfig.schema.homepage && hexoSeoConfig.schema.homepage.enable) {
     const posts = hexo.locals
       .get('posts')
       .data.map(({ title, keywords, description, subtitle, excerpt, raw, tags, categories, path, author }) => {
