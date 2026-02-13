@@ -1,0 +1,157 @@
+# To run tests for a specific Node.js version, use:
+#   docker compose up node12
+# To build without using the cache, run:
+#   docker compose build --no-cache node12
+# Then start the service:
+#   docker compose up node12
+# Replace 'node12' with the desired service (node12, node14, node16, node18, node20, node22)
+#
+# To run tests for all Node.js versions in parallel, use:
+#   docker compose up
+
+services:
+  # Node.js 12 through 22 test runners
+  node12:
+    build:
+      context: .
+      target: node12
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-12/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
+  node14:
+    build:
+      context: .
+      target: node14
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-14/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
+  node16:
+    build:
+      context: .
+      target: node16
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-16/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
+  node18:
+    build:
+      context: .
+      target: node18
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-18/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
+  node20:
+    build:
+      context: .
+      target: node20
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-20/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
+  node22:
+    build:
+      context: .
+      target: node22
+    working_dir: /workspace
+    volumes:
+      - ./src:/workspace/src
+      - ./bin:/workspace/bin
+      - ./test:/workspace/test
+      - ./package.json:/workspace/package.json
+      - ./tsconfig.json:/workspace/tsconfig.json
+      - ./tsconfig.base.json:/workspace/tsconfig.base.json
+      - ./tsconfig.build.json:/workspace/tsconfig.build.json
+      - ./tsconfig.jest.json:/workspace/tsconfig.jest.json
+      - ./rollup.config.js:/workspace/rollup.config.js
+      - ./gulpfile.js:/workspace/gulpfile.js
+      - ./jest.config.ts:/workspace/jest.config.ts
+      - ./index-builder.js:/workspace/index-builder.js
+      - ./eslint.config.mjs:/workspace/eslint.config.mjs
+      - ./lint-staged.config.js:/workspace/lint-staged.config.js
+      - ./prettierrc.json:/workspace/.prettierrc.json
+      - ./tmp/docker-caches/node-22/logs:/workspace/tmp/logs
+      - ./tmp/.deploy_git:/workspace/.deploy_git
+      - ./tmp/project-test:/workspace/project-test
