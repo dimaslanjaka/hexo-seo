@@ -188,8 +188,8 @@ export const defaultOpt: BaseConfig = {
 };
 
 const getConfig = function (hexo: Hexo, _key = 'config-hexo-seo') {
-  const seo: BaseConfig = hexo.config.seo;
-  if (typeof seo !== 'undefined') {
+  const seo: BaseConfig = (hexo.config || ({} as Record<string, any>)).seo;
+  if (!seo) {
     writefile(path.join(__dirname, '_config_data.json'), JSON.stringify(seo, null, 2));
     return deepmerge(
       defaultOpt,
